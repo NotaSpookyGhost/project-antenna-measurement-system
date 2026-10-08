@@ -1,0 +1,77 @@
+{
+  "device": "SAA-2N",
+  "display_firmware": "DiSlord v1.4.02 FPU",
+  "usb_register_firmware_major": 1,
+  "usb_register_firmware_minor": 4,
+  "device_variant": "0x02",
+  "protocol_version": 1,
+  "hardware_revision": 2,
+  "port": "COM_TEST",
+  "start_hz": 2395000000,
+  "stop_hz": 2405000000,
+  "points": 11,
+  "dut": "THRU SMA cable \u2014 Complex Averaging [1, 2, 4, 8, 16] sweeps",
+  "timestamp": "2026-09-27T17:03:32.477712",
+  "verdict": "PASS",
+  "averaging_factors": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "center_freq_hz": 2400000000,
+  "stage_results": [
+    {
+      "n": 1,
+      "elapsed_s": 0.0002,
+      "sec_per_sweep": 0.0002,
+      "s21_avg_db": -1.2802,
+      "s21_avg_phase_deg": -9.9426,
+      "s21_avg_real": 0.85,
+      "s21_avg_imag": -0.149,
+      "noise_std_db": 0.0
+    },
+    {
+      "n": 2,
+      "elapsed_s": 0.0007,
+      "sec_per_sweep": 0.0004,
+      "s21_avg_db": -1.2704,
+      "s21_avg_phase_deg": -9.9902,
+      "s21_avg_real": 0.850833,
+      "s21_avg_imag": -0.149875,
+      "noise_std_db": 0.0011
+    },
+    {
+      "n": 4,
+      "elapsed_s": 0.0009,
+      "sec_per_sweep": 0.0002,
+      "s21_avg_db": -1.2835,
+      "s21_avg_phase_deg": -10.0167,
+      "s21_avg_real": 0.849479,
+      "s21_avg_imag": -0.150042,
+      "noise_std_db": 0.0055
+    },
+    {
+      "n": 8,
+      "elapsed_s": 0.0022,
+      "sec_per_sweep": 0.0003,
+      "s21_avg_db": -1.2775,
+      "s21_avg_phase_deg": -9.997,
+      "s21_avg_real": 0.850125,
+      "s21_avg_imag": -0.149854,
+      "noise_std_db": 0.0073
+    },
+    {
+      "n": 16,
+      "elapsed_s": 0.0042,
+      "sec_per_sweep": 0.0003,
+      "s21_avg_db": -1.2793,
+      "s21_avg_phase_deg": -10.0143,
+      "s21_avg_real": 0.849896,
+      "s21_avg_imag": -0.150078,
+      "noise_std_db": 0.0074
+    }
+  ],
+  "total_errors": 0
+}

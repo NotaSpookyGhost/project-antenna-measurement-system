@@ -1,0 +1,19 @@
+{
+  "Device": "SAA-2N",
+  "VNAPort": "MOCK_COM",
+  "VNAMode": "Mock",
+  "PositionerMode": "Mock",
+  "PositionerPort": "COM7",
+  "ScanAxis": "AZ",
+  "StartAngleDeg": 0,
+  "StopAngleDeg": 360,
+  "AngleStepDeg": 5,
+  "TotalAngles": 73,
+  "CenterFreqHz": 2.4E+9,
+  "SpanHz": 1.0E+7,
+  "SweepPoints": 11,
+  "SettleTimeSec": 0.02,
+  "TotalTimeSec": 4.6119737,
+  "Firmware": "DiSlord v1.4.02 FPU",
+  "Timestamp": "2026-09-30 14:58:42"
+}

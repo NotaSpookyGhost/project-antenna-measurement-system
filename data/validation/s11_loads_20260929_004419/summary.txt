@@ -1,0 +1,16 @@
+Test B — S11 Loads Validation Summary
+Generated: 2026-09-29T00:44:19.685000
+------------------------------------------------------------
+Device:            SAA-2N (port: COM6)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.2)
+Protocol:          0x01, Hardware Rev: 2
+Sweep:             2395.0 - 2405.0 MHz, 11 points
+DUT:               S11 Calibration Standards on Port 1: OPEN, SHORT, 50-ohm LOAD
+------------------------------------------------------------
+Center Freq:       2400.000 MHz
+OPEN  |S11|:       -13.50 dB (Phase: -45.44°) [Expected > -3.0 dB] -> FAIL
+SHORT |S11|:       -13.52 dB (Phase: -44.81°) [Expected > -3.0 dB] -> FAIL
+Phase Difference:  0.63° [Expected > 90.0°] -> FAIL
+LOAD  |S11|:       -13.51 dB (Phase: -45.24°) [Expected < -15.0 dB] -> FAIL
+------------------------------------------------------------
+VERDICT: [FAIL]

@@ -1,0 +1,20 @@
+============================================================
+  AUTOMATIC ANTENNA MEASUREMENT SYSTEM — SCAN SUMMARY
+============================================================
+Date / Time:        05-Oct-2026 01:59:12
+Device:             SAA-2N (Port: MOCK_COM)
+Firmware:           DiSlord v1.4.02 FPU
+Positioner Mode:    Mock
+Scan Axis:          AZ
+Angle Range:        0.0° to 180.0° (Step: 15.00°, 13 points)
+Center Frequency:   2400.000 MHz
+Sweep Band:         2395.0 to 2405.0 MHz (11 points)
+Settle Time:        0.05 s
+Total Scan Time:    1.58 s (0.122 s/point)
+------------------------------------------------------------
+ANALYSIS METRICS (Center Freq: 2400.000 MHz):
+  Main Lobe Peak:   -14.99 dB at 0.00°
+  HPBW (-3 dB):     NaN° (Left: NaN°, Right: 15.87°)
+  Side-Lobe Level:  -20.69 dB at 60.00°
+  Front-to-Back:    26.27 dB
+============================================================

@@ -1,0 +1,27 @@
+Test E — Repeatability Summary (100 Sweeps)
+Generated: 2026-09-27T16:56:17.118215
+------------------------------------------------------------
+Device:            SAA-2N (port: COM_TEST)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.4)
+Protocol:          0x01, Hardware Rev: 2
+Sweep Config:      2395.0 - 2405.0 MHz, 11 points
+DUT:               Stable DUT (THRU SMA cable) — Repeatability 100 sweeps
+Total Sweeps:      100 (100 valid)
+Execution Time:    0.01 s (0.000 s/sweep)
+------------------------------------------------------------
+Center Freq:       2400.000 MHz
+S21 Magnitude (dB):
+  Mean:             -1.2789 dB
+  Std Dev:           0.0035 dB [Criterion: < 1.0 dB] -> PASS
+  Min / Max:        -1.2838 /  -1.2739 dB (Span: 0.0100 dB)
+S21 Phase (deg):
+  Mean:              -10.01°
+  Std Dev:           0.0231°
+  Min / Max:         -10.04° /    -9.97°
+Error Counters:
+  Timeouts:        0
+  Partial FIFO:    0
+  freq_index Errs: 0
+  Total Errors:    0 -> PASS
+------------------------------------------------------------
+VERDICT: [PASS]
