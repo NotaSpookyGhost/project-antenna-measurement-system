@@ -28,6 +28,8 @@ classdef VNAController < handle
     properties (Access = private)
         PyBridge = []
         MockCurrentAngle double = 0.0
+        MockThetaDeg double = 90.0
+        Mock3D logical = false
     end
 
     methods
@@ -200,6 +202,14 @@ classdef VNAController < handle
         function setMockAngle(obj, angle_deg)
             % SETMOCKANGLE In Mock mode, sets positioner angle to simulate directional beam
             obj.MockCurrentAngle = double(angle_deg);
+            obj.MockThetaDeg = 90;
+            obj.Mock3D = false;
+        end
+
+        function setMockOrientation(obj,phi,theta)
+            obj.MockCurrentAngle = double(phi);
+            obj.MockThetaDeg = double(theta);
+            obj.Mock3D = true;
         end
     end
 
@@ -270,6 +280,10 @@ classdef VNAController < handle
             % Simulate antenna response at MockCurrentAngle
             % 2.4 GHz patch array pattern: peak at 0 deg, HPBW ~ 35 deg, SLL ~ -13.5 dB
             th = obj.MockCurrentAngle;
+            if obj.Mock3D
+                % A beam along +X: all azimuths coincide at the geometric poles.
+                th = acosd(max(-1,min(1,sind(obj.MockThetaDeg)*cosd(th))));
+            end
             rel_level = PatternAnalyzer.generateSyntheticPattern(th, 35.0, -13.5, 0.0, -50.0);
 
             % Base transmission: peak S21 around -15 dB free-space, plus synthetic directivity

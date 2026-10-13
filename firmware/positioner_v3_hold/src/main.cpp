@@ -9,7 +9,7 @@ using SensorBus = TwoWire;
 #endif
 
 // =========================================================================
-//   PTIT ANTENNA POSITIONER V3.2 — CONTINUOUS HOLD + VALIDATED ENCODER
+//   PTIT ANTENNA POSITIONER V4.0 — PAN/TILT SCANS + CONTINUOUS HOLD
 //   Hệ Thống Điều Khiển Bàn Xoay Đo Bức Xạ Ăng-ten 2 Trục (Pan - Tilt)
 //   Động cơ: 2x TMC2209 Standalone (1/8 vi bước, 25.0 bước / 1° góc anten)
 //   Cảm biến: 2x AS5600 12-bit telemetry (dedicated GPIO I2C buses)
@@ -129,7 +129,7 @@ void refreshSensors() {
 
 void printPosition() {
   refreshSensors();
-  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:V3.2_HOLD\n",
+  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180\n",
                 currentPanDeg, currentTiltDeg, cachedPanSensorDeg, cachedPanAGC,
                 cachedTiltSensorDeg, cachedTiltAGC, holdRequested,
                 calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount);
@@ -241,12 +241,10 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
 }
 
 bool gotoPosition(float targetPan, float targetTilt) {
-  if (!isfinite(targetPan) || !isfinite(targetTilt) || abs(targetPan) > 360.0f) {
-    Serial.println("ERR: INVALID_TARGET; PAN RANGE -360..360");
+  if (!isfinite(targetPan) || !isfinite(targetTilt) || abs(targetPan) > 360.0f || abs(targetTilt) > 180.0f) {
+    Serial.println("ERR: ANGLE_RANGE; PAN -360..360 TILT -180..180");
     return false;
   }
-  if (targetTilt < -5.0f) targetTilt = -5.0f;
-  if (targetTilt > 95.0f) targetTilt = 95.0f;
 
   float dPan = targetPan - currentPanDeg;
   float dTilt = targetTilt - currentTiltDeg;
@@ -284,7 +282,7 @@ void setup() {
   delay(300);
 
   Serial.println("\n==================================================================");
-  Serial.println("  POSITIONER V3.2: CONTINUOUS HOLD + VALIDATED AS5600 TELEMETRY");
+  Serial.println("  POSITIONER V4.0: PAN/TILT SCANS + VALIDATED AS5600 TELEMETRY");
   Serial.println("  TMC2209 STEALTHCHOP2 (20V) + PULLEY 16:90 (25.0 BƯỚC/ĐỘ)");
   Serial.println("==================================================================");
 

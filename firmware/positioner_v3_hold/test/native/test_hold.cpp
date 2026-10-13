@@ -42,6 +42,18 @@ int main() {
   assert(disableTransitions[14] == tiltReleases);
   expect(command("POS"), "SENSOR_CACHED:0 ENC_PAN_VALID:1 ENC_TILT_VALID:1");
   assert(readsWithMotorEnabled > 0);
+  expect(command("POS"), "SCAN3D_CAP:1");
+  expect(command("POS"), "TILT_MIN:-180 TILT_MAX:180");
+  const int tiltPulseStart = risingEdges[PIN_TILT_STEP];
+  const float tiltBefore = currentTiltDeg;
+  expect(command("TILT 181"), "ERR: ANGLE_RANGE");
+  assert(currentTiltDeg == tiltBefore);
+  assert(risingEdges[PIN_TILT_STEP] == tiltPulseStart);
+  expect(command("TILT 180"), "DONE PAN:");
+  assert(currentTiltDeg == 180.0f);
+  expect(command("TILT -180"), "DONE PAN:");
+  assert(currentTiltDeg == -180.0f);
+  expect(command("TILT 0"), "DONE PAN:");
   // A successful I2C transfer containing FF/FF is not a valid 12-bit angle.
   const uint16_t savedTilt = sensorRaw[0];
   sensorRaw[0] = 0xffff;

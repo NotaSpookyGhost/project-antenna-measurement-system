@@ -41,6 +41,12 @@ classdef PositionerController < handle
         ManualHomingActive logical = false
         EncoderTelemetrySupported logical = false % Explicit live/invalid flags (v3.1)
         DriverReleaseCount double = NaN % Firmware EN-disable counter; not a torque measurement
+        Scan3DSupported logical = false
+        PanLimitsDeg double = [-360 360]
+        TiltLimitsDeg double = [-5 95]
+        TravelPanDeg double = [0 360]
+        TravelTiltDeg double = [-5 95]
+        TravelConfirmed logical = false
 
         % Motion parameters
         AzimuthDeg double = 0.0        % Current Azimuth / Pan angle (deg)
@@ -106,6 +112,37 @@ classdef PositionerController < handle
             end
         end
 
+        function setTravelLimits(obj,pan,tilt)
+            if obj.IsMoving || ~obj.IsHomed
+                error('PositionerController:InvalidTravel','Calibrate and stop motion before confirming travel.');
+            end
+            pairs={pan,tilt}; capabilities={obj.PanLimitsDeg,obj.TiltLimitsDeg};
+            for k=1:2
+                pair=pairs{k}; cap=capabilities{k};
+                if ~isnumeric(pair) || numel(pair)~=2 || any(~isfinite(pair)) || ...
+                        pair(1)>pair(2) || diff(pair)>360 || pair(1)<cap(1) || pair(2)>cap(2)
+                    error('PositionerController:InvalidTravel','Travel must fit firmware limits and span at most 360 deg.');
+                end
+            end
+            obj.TravelPanDeg=reshape(pan,1,2); obj.TravelTiltDeg=reshape(tilt,1,2);
+            obj.TravelConfirmed=true;
+        end
+
+        function validateTargets(obj,axis,angles)
+            if ismember(upper(char(axis)),{'AZ','PAN'})
+                cap=obj.PanLimitsDeg; travel=obj.TravelPanDeg;
+            elseif ismember(upper(char(axis)),{'EL','TILT'})
+                cap=obj.TiltLimitsDeg; travel=obj.TravelTiltDeg;
+            else
+                error('PositionerController:InvalidTarget','Unknown positioner axis.');
+            end
+            limits=obj.effectiveTravelLimits(axis,cap,travel,obj.TravelConfirmed,strcmpi(obj.Mode,'Hardware'));
+            if isempty(angles) || ~isnumeric(angles) || any(~isfinite(angles(:))) || ...
+                    any(angles(:)<limits(1) | angles(:)>limits(2))
+                error('PositionerController:AngleOutOfRange','Targets must be inside %.1f..%.1f deg.',limits(1),limits(2));
+            end
+        end
+
         function connect(obj, port)
             % CONNECT Open connection to Positioner
             if nargin >= 2 && ~isempty(port)
@@ -113,6 +150,8 @@ classdef PositionerController < handle
             end
 
             if strcmpi(obj.Mode, 'Mock')
+                obj.Scan3DSupported=true; obj.PanLimitsDeg=[-360 360]; obj.TiltLimitsDeg=[-180 180];
+                obj.TravelConfirmed=false;
                 obj.IsConnected = true;
                 obj.HoldingSupported = true;
                 obj.HoldingActive = true;
@@ -163,6 +202,7 @@ classdef PositionerController < handle
         end
 
         function disconnect(obj)
+            obj.TravelConfirmed=false;
             % DISCONNECT Close connection
             obj.stopKeepAlive();
             if strcmpi(obj.Mode, 'Hardware') && ~isempty(obj.SerialObj)
@@ -192,6 +232,7 @@ classdef PositionerController < handle
         end
 
         function releaseForHoming(obj)
+            obj.TravelConfirmed=false;
             % Allow the operator to turn both axes by hand before LOCK ZERO.
             obj.ensureConnected();
             if obj.IsMoving
@@ -224,6 +265,7 @@ classdef PositionerController < handle
         end
 
         function lockAndZero(obj)
+            obj.TravelConfirmed=false;
             % Capture both axes at the manually aligned position, then hold.
             obj.ensureConnected();
             if ~obj.HoldingSupported
@@ -265,6 +307,7 @@ classdef PositionerController < handle
         end
 
         function home(obj, axis)
+            obj.TravelConfirmed=false;
             % HOME Perform reference calibration / homing on specified axis
             % axis: 'AZ' (Pan), 'EL' (Tilt), or 'ALL' (default 'AZ' when Tilt is disabled)
             if nargin < 2 || isempty(axis)
@@ -352,13 +395,7 @@ classdef PositionerController < handle
                 return;
             end
 
-            % V3 clamps Tilt internally; reject unsupported targets before motion.
-            if strcmp(obj.FirmwareProtocol, 'V3') && ...
-                    (strcmp(axis, 'EL') || strcmp(axis, 'TILT')) && ...
-                    (~isscalar(targetDeg) || ~isfinite(targetDeg) || targetDeg < -5 || targetDeg > 95)
-                error('PositionerController:AngleOutOfRange', ...
-                      'Firmware v3 supports Tilt angles from -5 to 95 degrees.');
-            end
+            obj.validateTargets(axis,targetDeg);
 
             notify(obj, 'MotionStarted');
             obj.IsMoving = true;
@@ -549,6 +586,16 @@ classdef PositionerController < handle
     end
 
     methods (Static)
+        function limits=effectiveTravelLimits(axis,capability,travel,confirmed,isHardware)
+            limits=capability;
+            if confirmed
+                limits=[max(limits(1),travel(1)) min(limits(2),travel(2))];
+            elseif isHardware
+                if ismember(upper(char(axis)),{'AZ','PAN'}), safe=[0 360]; else, safe=[-5 95]; end
+                limits=[max(limits(1),safe(1)) min(limits(2),safe(2))];
+            end
+        end
+
         function position = decodePositionResponse(resp)
             % Decode complete POS snapshots; RAW units depend on firmware.
             number = '([-+]?\d+(?:\.\d+)?)';
@@ -575,6 +622,20 @@ classdef PositionerController < handle
             end
             position = struct('PanDeg', values(1), 'TiltDeg', values(2), ...
                 'PanEncoderDeg', values(3), 'TiltEncoderDeg', values(4), 'Protocol', protocol);
+            position.Scan3DSupported=contains(resp,'SCAN3D_CAP:1');
+            position.PanLimitsDeg=[-360 360]; position.TiltLimitsDeg=[-5 95];
+            if position.Scan3DSupported
+                bounds=regexp(resp,['PAN_MIN:' number '\s+PAN_MAX:' number ...
+                    '\s+TILT_MIN:' number '\s+TILT_MAX:' number],'tokens','once');
+                if isempty(bounds)
+                    error('PositionerController:InvalidPositionResponse','Incomplete 3D travel capabilities.');
+                end
+                b=str2double(bounds);
+                if any(~isfinite(b)) || b(1)>b(2) || b(3)>b(4) || b(1)<-360 || b(2)>360 || b(3)<-180 || b(4)>180
+                    error('PositionerController:InvalidPositionResponse','Invalid 3D travel capabilities.');
+                end
+                position.PanLimitsDeg=b(1:2); position.TiltLimitsDeg=b(3:4);
+            end
             position.EncoderTelemetrySupported = contains(resp, 'ENC_PAN_VALID:') && ...
                 contains(resp, 'ENC_TILT_VALID:');
             if position.EncoderTelemetrySupported
@@ -668,11 +729,14 @@ classdef PositionerController < handle
                       'ESP32 did not return a valid POS response with Pan and AS5600 encoder data.');
             end
             position = PositionerController.decodePositionResponse(resp);
+            obj.Scan3DSupported=position.Scan3DSupported;
+            obj.PanLimitsDeg=position.PanLimitsDeg; obj.TiltLimitsDeg=position.TiltLimitsDeg;
             obj.HoldingSupported = contains(resp, 'HOLD_CAP:1');
             if obj.HoldingSupported
                 obj.HoldingActive = contains(resp, 'HOLD:1');
                 obj.ManualHomingActive = contains(resp, 'CAL_REQUIRED:1');
                 obj.IsHomed = obj.HoldingActive && ~obj.ManualHomingActive;
+                if ~obj.IsHomed, obj.TravelConfirmed=false; end
             end
             obj.EncoderTelemetrySupported = position.EncoderTelemetrySupported;
             obj.DriverReleaseCount = position.DriverReleaseCount;

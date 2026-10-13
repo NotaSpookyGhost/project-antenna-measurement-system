@@ -1,6 +1,6 @@
 # Ver2: quét Pan–Tilt và mốc hướng anten tùy chỉnh
 
-Trạng thái: thiết kế đề xuất để người dùng duyệt; chưa triển khai mã điều khiển.
+Trạng thái: người dùng đã duyệt triển khai ngày 13-10-2026; kiểm thử ESP32/VNA thật được hoãn theo yêu cầu vì chưa có thiết bị.
 
 ## Mục đích và yêu cầu người dùng
 

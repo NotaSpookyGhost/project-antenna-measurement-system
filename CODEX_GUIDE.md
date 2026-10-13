@@ -1,5 +1,32 @@
 # Codex setup for antenna-v3
 
+## Ver2 Pan × Tilt 3D — 2026-10-13
+
+Implementation is on `codex/ver2-pan-tilt-3d`; `ver1/` remains the frozen baseline.
+See `docs/ver2-pan-tilt-3d.md` for independent axis grids, geometric ZERO offsets,
+declared travel, sequential/alternating rows, slice selection and dataset export.
+Firmware source now advertises V4.0_HOLD with explicit numerical capabilities;
+it is built but **not uploaded or hardware-tested**. The last physical validation
+below still describes v3.2. User has deferred ESP32/VNA testing until devices are available.
+
+Software-only regression (both new and selected legacy tests; no serial ports):
+
+```powershell
+matlab -batch "addpath('matlab/classes','matlab/app','matlab/tests/fixtures'); set(groot,'DefaultFigureVisible','off'); r=runtests({'matlab/tests/TestScanGeometry.m','matlab/tests/TestPositionerLimits.m','matlab/tests/TestScan3D.m','matlab/tests/TestScan3DData.m','matlab/tests/TestScan3DGUI.m','matlab/tests/TestPositionerResponse.m','matlab/tests/TestManualHoming.m','matlab/tests/TestScanStopGUI.m'}); assertSuccess(r)"
+python -X utf8 -m unittest discover -s python/tests -p 'test_*.py'
+```
+
+Mock preview with a coarse 91-point spherical grid (no COM access):
+
+```matlab
+addpath('matlab/tests');
+create_ver2_mock_demo(fullfile(tempdir,'antenna-ver2-demo'));
+```
+
+The GUI defaults to Mock for both instruments. Geometric offsets are saved without
+motion and never automatically recalibrate the physical ZERO. Real 3D scanning
+requires both valid encoders and travel confirmed for the current ZERO.
+
 ## Current firmware and AS5600 validation — 2026-10-13
 
 COM5 now runs **v3.2** from `firmware/positioner_v3_hold/`. See `docs/as5600-fix-2026-10-13.md`. Pan passed 100/100 stationary feedback reads and the real 0–360° / 10° scan with valid encoder feedback at all 37 points, continuous hold, and a second scan using the same ZERO. Tilt remains intermittent when its driver is enabled; the user reports a 2 m, 3.3 V sensor cable and has not tried adding external pull-ups. Verify existing module pull-ups and the electrical link before claiming Tilt is repaired.
