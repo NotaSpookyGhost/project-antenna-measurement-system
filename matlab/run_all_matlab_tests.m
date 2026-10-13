@@ -18,6 +18,13 @@ fprintf('Execution started at: %s\n\n', char(datetime('now')));
 
 matlab_dir = fileparts(mfilename('fullpath'));
 tests_dir = fullfile(matlab_dir, 'tests');
+addpath(fullfile(matlab_dir, 'classes'));
+protocol_results = runtests(fullfile(tests_dir, 'TestPositionerResponse.m'));
+assertSuccess(protocol_results);
+manual_homing_results = runtests(fullfile(tests_dir, 'TestManualHoming.m'));
+assertSuccess(manual_homing_results);
+gui_stop_results = runtests(fullfile(tests_dir, 'TestScanStopGUI.m'));
+assertSuccess(gui_stop_results);
 
 test_scripts = {
     'test_pattern_analyzer.m',                 'Antenna Pattern Metric Algorithms';

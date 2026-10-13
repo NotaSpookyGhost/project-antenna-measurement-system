@@ -1,0 +1,38 @@
+# ========================================================
+# Git Ignore for Project Antenna Measurement System
+# ========================================================
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# MATLAB temporary files and backups
+*.asv
+*.m~
+*.slxc
+*.autosave
+slprj/
+*.mex*
+*.mat.bak
+data/logs/*.log
+
+# Operating System & IDE configs
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+.obsidian/
+.agents/
+
+# Submodules or separate repositories
+projects/

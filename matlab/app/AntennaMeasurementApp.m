@@ -34,6 +34,7 @@ classdef AntennaMeasurementApp < handle
         PosConnectBtn
         PosLamp
         HomeBtn
+        ReleaseBtn
 
         CenterFreqEdit
         SpanEdit
@@ -157,10 +158,10 @@ classdef AntennaMeasurementApp < handle
             % Auto-connect Positioner if not connected
             if ~obj.Positioner.IsConnected
                 port = strtrim(obj.PosPortEdit.String);
-                if isempty(port), port = 'COM9'; end
+                if isempty(port), port = 'COM5'; end
                 try
                     obj.log(sprintf('⚠️ Positioner chưa kết nối! Đang tự động kết nối tới %s...', port));
-                    obj.Positioner.connect(port);
+                    obj.connectPositioner(port);
                     obj.updateConnectionStatus();
                 catch ME
                     obj.log(sprintf('❌ Lỗi kết nối Positioner: %s', ME.message));
@@ -174,7 +175,7 @@ classdef AntennaMeasurementApp < handle
 
             % Hardware safety lock check: Tilt driver protection
             if strcmp(scan_axis, 'EL') && obj.Positioner.TiltDisabled
-                errMsg = 'Trục Tilt đang bị KHÓA BẢO VỆ do driver TMC bị cháy. Vui lòng chuyển Scan Axis về Azimuth (AZ)!';
+                errMsg = 'Trục Tilt đang bị KHÓA BẢO VỆ vì AS5600 chưa theo kịp lệnh góc. Vui lòng chuyển Scan Axis về Azimuth (AZ)!';
                 obj.log(sprintf('⚠️ %s', errMsg));
                 errordlg(errMsg, 'Hardware Protection');
                 if ~isempty(obj.LogTab) && isvalid(obj.LogTab)
@@ -191,8 +192,12 @@ classdef AntennaMeasurementApp < handle
             % Set up Real-time Step Callback
             obj.LiveAngles = [];
             obj.LiveS21_dB = [];
-            cla(obj.PolarAx);
-            cla(obj.CartAx);
+            % Keep the previous curves until the first new measurement arrives.
+            % A failed/aborted home must not erase the displayed result.
+            if obj.TabGroup.SelectedTab == obj.LogTab || obj.TabGroup.SelectedTab == obj.ThreeDTab
+                obj.TabGroup.SelectedTab = obj.PolarTab;
+            end
+            obj.updateProgress(0.0);
 
             obj.Orchestrator.StepCallback = @(info) obj.handleStepProgress(info);
             obj.Orchestrator.StatusCallback = @(msg) obj.log(msg);
@@ -203,26 +208,33 @@ classdef AntennaMeasurementApp < handle
             obj.PauseBtn.String = 'Pause';
             obj.StopBtn.Enable = 'on';
             obj.StopBtn.String = 'STOP';
+            obj.ReleaseBtn.Enable = 'off';
+            obj.HomeBtn.Enable = 'off';
 
             % Run scan
             try
                 scanData = obj.Orchestrator.startScan();
                 if isempty(scanData)
                     obj.log('⚠️ Quá trình quét đã bị hủy hoặc không đủ dữ liệu (cần >= 2 điểm).');
+                    obj.StatusLabel.String = 'Status: Quét đã dừng, chưa đủ 2 điểm; giữ đồ thị hiện có.';
                 else
                     obj.LastScanData = scanData;
                     obj.updateFinalResults(scanData);
                     if isfield(scanData, 'Metadata') && isfield(scanData.Metadata, 'Aborted') && scanData.Metadata.Aborted
-                        obj.log(sprintf('⚠️ Quét đã dừng bởi người dùng (đã ghi nhận %d/%d điểm). Dữ liệu đã lưu tạm cho phân tích/xuất file.', ...
+                        reason = 'yêu cầu STOP';
+                        if isfield(scanData.Metadata, 'AbortReason') && strcmp(scanData.Metadata.AbortReason, 'EncoderUnavailable')
+                            reason = 'AS5600 mất phản hồi';
+                        end
+                        obj.log(sprintf('⚠️ Quét đã dừng: %s (đã ghi nhận %d/%d điểm). Dữ liệu được giữ để phân tích/xuất file.', reason, ...
                             scanData.Metadata.CompletedPoints, scanData.Metadata.TotalAngles));
+                        obj.StatusLabel.String = sprintf('Status: %s — giữ %d/%d điểm.', reason, ...
+                            scanData.Metadata.CompletedPoints, scanData.Metadata.TotalAngles);
                     end
                 end
             catch ME
                 obj.log(sprintf('❌ Lỗi trong quá trình quét: %s', ME.message));
                 errordlg(sprintf('Lỗi quét: %s', ME.message), 'Scan Error');
-                if ~isempty(obj.LogTab) && isvalid(obj.LogTab)
-                    obj.TabGroup.SelectedTab = obj.LogTab;
-                end
+                obj.StatusLabel.String = sprintf('Status: Lỗi quét — %s', ME.message);
             end
 
             obj.StartScanBtn.Enable = 'on';
@@ -230,7 +242,8 @@ classdef AntennaMeasurementApp < handle
             obj.PauseBtn.String = 'Pause';
             obj.StopBtn.Enable = 'off';
             obj.StopBtn.String = 'STOP';
-            obj.updateProgress(0.0);
+            obj.HomeBtn.Enable = 'on';
+            obj.updateConnectionStatus();
         end
 
         function togglePause(obj)
@@ -304,7 +317,8 @@ classdef AntennaMeasurementApp < handle
                                 'Position', [posX, posY, figW, figH], ...
                                 'NumberTitle', 'off', ...
                                 'MenuBar', 'none', ...
-                                'Color', [0.94 0.95 0.96]);
+                                'Color', [0.94 0.95 0.96], ...
+                                'CloseRequestFcn', @(~,~) delete(obj));
 
             % ── Left Control Panel (x=10, w=360) ─────────────────────────
             ctrlPanel = uipanel(obj.Figure, 'Title', 'Control & Setup', ...
@@ -343,13 +357,17 @@ classdef AntennaMeasurementApp < handle
                       'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
 
             obj.PosModeDropdown = uicontrol(ctrlPanel, 'Style', 'popupmenu', ...
-                                            'String', {'Mock (Simulated L-Frame)', 'Hardware (ESP32)'}, ...
-                                            'Position', [120, 550, 160, 22], ...
+                                            'String', {'Mock (2 trục)', 'ESP32 (thật)'}, ...
+                                            'Position', [120, 550, 135, 22], ...
                                             'Callback', @(~,~) obj.handlePosModeChange());
+
+            obj.ReleaseBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Nhả motor', ...
+                                       'Position', [260, 550, 85, 24], 'Enable', 'off', ...
+                                       'Callback', @(~,~) obj.releaseForManualHoming());
 
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Port:', ...
                       'Position', [10, 520, 35, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
-            obj.PosPortEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', 'COM9', ...
+            obj.PosPortEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', 'COM5', ...
                                         'Position', [45, 520, 50, 22]);
 
             obj.PosConnectBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Connect', ...
@@ -362,7 +380,7 @@ classdef AntennaMeasurementApp < handle
                                     'Position', [180, 522, 75, 20], 'Enable', 'inactive', ...
                                     'BackgroundColor', [0.8 0.8 0.8], 'FontWeight', 'bold');
 
-            obj.HomeBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Zero Pan', ...
+            obj.HomeBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Khóa + ZERO', ...
                                     'Position', [260, 520, 85, 24], ...
                                     'Callback', @(~,~) obj.homePositioner());
 
@@ -548,6 +566,19 @@ classdef AntennaMeasurementApp < handle
             obj.LogListBox = uicontrol(obj.Figure, 'Style', 'listbox', ...
                                        'Position', [10, 5, 1180, 28], ...
                                        'String', {'[SYSTEM] Sẵn sàng. Nhấp sang tab "📋 System & Hardware Logs" để xem nhật ký toàn màn hình.'});
+
+            % MATLAB screen coordinates account for Windows display scaling.
+            % Scale the layout with the figure so its tab strip stays on screen.
+            layout = findall(obj.Figure, '-property', 'Units');
+            for k = 1:numel(layout)
+                if any(strcmp(get(layout(k), 'Type'), {'uipanel', 'uicontrol', 'uitabgroup'}))
+                    set(layout(k), 'Units', 'normalized');
+                end
+            end
+            fitW = min(figW, screen(3) - 40);
+            fitH = min(figH, screen(4) - 80);
+            obj.Figure.Position = [screen(1) + (screen(3) - fitW)/2, ...
+                                   screen(2) + (screen(4) - fitH)/2 - 10, fitW, fitH];
         end
 
         function handleStepProgress(obj, info)
@@ -582,10 +613,10 @@ classdef AntennaMeasurementApp < handle
             % Update Status and Progress
             obj.updateProgress(info.Progress * 100);
             if isfield(info, 'EncoderAngle') && ~isnan(info.EncoderAngle)
-                obj.StatusLabel.String = sprintf('Status: Angle %.1f° (AS5600: %.1f°) | S21: %.2f dB | Elapsed: %.1f s', ...
+                obj.StatusLabel.String = sprintf('Góc lệnh %.1f° (AS5600 đuôi motor: %.1f°) | S21: %.2f dB | %.1f s', ...
                                                  info.CommandedAngle, info.EncoderAngle, info.S21_dB_Center, info.ElapsedSec);
             else
-                obj.StatusLabel.String = sprintf('Status: Angle %.1f° | S21: %.2f dB | Elapsed: %.1f s', ...
+                obj.StatusLabel.String = sprintf('Góc lệnh %.1f° | AS5600 mất tín hiệu — chưa xác minh góc | S21: %.2f dB | %.1f s', ...
                                                  info.CommandedAngle, info.S21_dB_Center, info.ElapsedSec);
             end
             drawnow limitrate;
@@ -699,10 +730,30 @@ classdef AntennaMeasurementApp < handle
             obj.updateConnectionStatus();
         end
 
+        function connectPositioner(obj, port)
+            if strcmp(obj.Positioner.Mode, 'Hardware') && ~obj.Positioner.TiltDisabled
+                obj.Positioner.setTiltDisabled(true);
+            end
+            obj.Positioner.connect(port);
+            if strcmp(obj.Positioner.FirmwareProtocol, 'V3') && ...
+                    obj.Positioner.ElevationEncoderDeg >= 0
+                % Enable Tilt only when a sensor was available at connection.
+                obj.Positioner.setTiltDisabled(false);
+                obj.log('Firmware v3: đã nhận cả hai encoder; cho phép Pan và Tilt.');
+            end
+        end
+
         function handlePosModeChange(obj)
+            if obj.Orchestrator.IsRunning
+                obj.PosModeDropdown.Value = strcmp(obj.Positioner.Mode, 'Hardware') + 1;
+                obj.log('Không thể đổi chế độ motor khi đang quét.');
+                return;
+            end
+            obj.Positioner.disconnect();
+            delete(obj.Positioner);
             val = obj.PosModeDropdown.Value;
             port = strtrim(obj.PosPortEdit.String);
-            if isempty(port), port = 'COM9'; end
+            if isempty(port), port = 'COM5'; end
             if val == 1
                 obj.Positioner = PositionerController('Mode', 'Mock');
                 obj.Orchestrator.Positioner = obj.Positioner;
@@ -710,7 +761,7 @@ classdef AntennaMeasurementApp < handle
             else
                 obj.Positioner = PositionerController('Mode', 'Hardware', 'Port', port, 'TiltDisabled', true);
                 obj.Orchestrator.Positioner = obj.Positioner;
-                obj.log(sprintf('Positioner switched to Hardware (ESP32 on %s) [Khóa an toàn Tilt: BẬT].', port));
+                obj.log(sprintf('Positioner switched to Hardware (ESP32 on %s) [Khóa Tilt: BẬT đến khi kiểm tra đạt].', port));
             end
             obj.updateConnectionStatus();
         end
@@ -741,11 +792,15 @@ classdef AntennaMeasurementApp < handle
                 obj.log('Positioner đã ngắt kết nối.');
             else
                 port = strtrim(obj.PosPortEdit.String);
-                if isempty(port), port = 'COM9'; end
+                if isempty(port), port = 'COM5'; end
                 try
-                    obj.Positioner.connect(port);
-                    obj.log(sprintf('✓ Đã kết nối Positioner trên %s (Góc AS5600: %.1f°, Khóa Tilt: %d).', ...
-                            port, obj.Positioner.AzimuthEncoderDeg, obj.Positioner.TiltDisabled));
+                    obj.connectPositioner(port);
+                    if strcmpi(obj.Positioner.Mode, 'Mock')
+                        obj.log('Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.');
+                    else
+                        obj.log(sprintf('✓ Đã kết nối Positioner trên %s (Góc AS5600: %.1f°, Khóa Tilt: %d).', ...
+                                port, obj.Positioner.AzimuthEncoderDeg, obj.Positioner.TiltDisabled));
+                    end
                 catch ME
                     errordlg(sprintf('Positioner connect error: %s', ME.message), 'Connection Error');
                     obj.log(sprintf('❌ Lỗi kết nối Positioner trên %s: %s', port, ME.message));
@@ -759,18 +814,36 @@ classdef AntennaMeasurementApp < handle
 
         function homePositioner(obj)
             try
+                if obj.Orchestrator.IsRunning
+                    error('AntennaMeasurementApp:ScanRunning', ...
+                        'Không thể thay đổi homing khi đang quét.');
+                end
                 % Auto-connect if not connected yet
                 if ~obj.Positioner.IsConnected
                     port = strtrim(obj.PosPortEdit.String);
-                    if isempty(port), port = 'COM9'; end
+                    if isempty(port), port = 'COM5'; end
                     obj.log(sprintf('⚠️ Positioner chưa kết nối! Đang tự động kết nối tới %s...', port));
-                    obj.Positioner.connect(port);
+                    obj.connectPositioner(port);
                     obj.updateConnectionStatus();
                 end
 
-                obj.Positioner.home('AZ');
-                obj.log(sprintf('✓ Đã ghim vị trí Pan thành công (ZERO 0.00°). Góc AS5600: %.1f°', ...
+                if obj.Positioner.HoldingSupported
+                    obj.Positioner.lockAndZero();
+                    if strcmpi(obj.Positioner.Mode, 'Mock')
+                        obj.log('Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.');
+                    else
+                        obj.log(sprintf('✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan %.1f°, Tilt %.1f°.', ...
+                            obj.Positioner.AzimuthEncoderDeg, obj.Positioner.ElevationEncoderDeg));
+                    end
+                    if ~isfinite(obj.Positioner.AzimuthEncoderDeg) || ~isfinite(obj.Positioner.ElevationEncoderDeg)
+                        obj.log('AS5600 không đọc được khi đang giữ: ZERO theo dấu căn tay; góc quét theo số xung, chưa xác minh góc cơ khí.');
+                    end
+                else
+                    obj.Positioner.home('AZ');
+                    obj.log(sprintf('✓ Đã ZERO Pan (firmware cũ, chưa hỗ trợ khóa motor). AS5600: %.1f°', ...
                         obj.Positioner.AzimuthEncoderDeg));
+                end
+                obj.updateConnectionStatus();
             catch ME
                 obj.log(sprintf('❌ Lỗi Homing / Zero: %s', ME.message));
                 errordlg(sprintf('Lỗi Homing / Zero: %s', ME.message), 'Homing Error');
@@ -780,7 +853,41 @@ classdef AntennaMeasurementApp < handle
             end
         end
 
+        function releaseForManualHoming(obj)
+            try
+                if obj.Orchestrator.IsRunning
+                    error('AntennaMeasurementApp:ScanRunning', ...
+                        'Hãy dừng quét trước khi nhả motor.');
+                end
+                obj.Positioner.releaseForHoming();
+                obj.updateConnectionStatus();
+                if strcmpi(obj.Positioner.Mode, 'Mock')
+                    obj.log('Đã nhả mô phỏng; không thay đổi motor thật.');
+                else
+                    obj.log('Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.');
+                end
+            catch ME
+                obj.log(sprintf('❌ Không thể nhả motor: %s', ME.message));
+                errordlg(ME.message, 'Manual Homing Error');
+            end
+        end
+
         function updateConnectionStatus(obj)
+            if ~isempty(obj.ReleaseBtn) && isvalid(obj.ReleaseBtn)
+                if obj.Positioner.IsConnected && obj.Positioner.HoldingSupported && ...
+                        obj.Positioner.HoldingActive && ~obj.Orchestrator.IsRunning
+                    obj.ReleaseBtn.Enable = 'on';
+                else
+                    obj.ReleaseBtn.Enable = 'off';
+                end
+                if strcmpi(obj.Positioner.Mode, 'Mock')
+                    obj.HomeBtn.String = 'ZERO mô phỏng';
+                elseif obj.Positioner.HoldingSupported
+                    obj.HomeBtn.String = 'Khóa + ZERO';
+                else
+                    obj.HomeBtn.String = 'Zero Pan';
+                end
+            end
             if obj.VNA.IsConnected
                 obj.VNALamp.String = 'ONLINE';
                 obj.VNALamp.BackgroundColor = [0.4 0.9 0.4];
@@ -795,8 +902,22 @@ classdef AntennaMeasurementApp < handle
 
             if ~isempty(obj.PosLamp) && isvalid(obj.PosLamp)
                 if obj.Positioner.IsConnected
-                    obj.PosLamp.String = 'ONLINE';
-                    obj.PosLamp.BackgroundColor = [0.4 0.9 0.4];
+                    if strcmpi(obj.Positioner.Mode, 'Mock')
+                        obj.PosLamp.String = 'MÔ PHỎNG';
+                        obj.PosLamp.BackgroundColor = [0.65 0.8 1.0];
+                    elseif obj.Positioner.HoldingSupported && obj.Positioner.ManualHomingActive
+                        obj.PosLamp.String = 'CẦN ZERO';
+                        obj.PosLamp.BackgroundColor = [1.0 0.75 0.25];
+                    elseif obj.Positioner.HoldingSupported && obj.Positioner.HoldingActive
+                        obj.PosLamp.String = 'ĐANG GIỮ';
+                        obj.PosLamp.BackgroundColor = [0.4 0.9 0.4];
+                    elseif obj.Positioner.HoldingSupported
+                        obj.PosLamp.String = 'ĐÃ NHẢ';
+                        obj.PosLamp.BackgroundColor = [1.0 0.75 0.25];
+                    else
+                        obj.PosLamp.String = 'ONLINE';
+                        obj.PosLamp.BackgroundColor = [0.4 0.9 0.4];
+                    end
                     obj.PosConnectBtn.String = 'Disconnect';
                     obj.PosConnectBtn.BackgroundColor = [0.8 0.3 0.3];
                 else
@@ -811,7 +932,7 @@ classdef AntennaMeasurementApp < handle
         function updateProgress(obj, pct)
             bars = repmat('=', 1, round(pct / 5));
             spaces = repmat(' ', 1, 20 - round(pct / 5));
-            obj.ProgressBar.String = sprintf(' %3d%% [%s%s]', pct, bars, spaces);
+            obj.ProgressBar.String = sprintf(' %3.0f%% [%s%s]', pct, bars, spaces);
         end
 
         function log(obj, msg)
@@ -881,15 +1002,17 @@ classdef AntennaMeasurementApp < handle
         end
 
         function queryESP32Status(obj)
+            if obj.Orchestrator.IsRunning || obj.Positioner.IsMoving
+                obj.log('Trạng thái đang được cập nhật bởi quá trình quét.');
+                return;
+            end
             if ~obj.Positioner.IsConnected
                 obj.log('⚠️ ESP32 chưa kết nối! Đang tự động kết nối...');
                 obj.togglePosConnect();
             end
             if obj.Positioner.IsConnected
-                pan = obj.Positioner.getPosition('AZ');
-                encPan = obj.Positioner.getEncoderPosition('AZ');
-                tilt = obj.Positioner.getPosition('EL');
-                encTilt = obj.Positioner.getEncoderPosition('EL');
+                [pan, encPan] = obj.Positioner.getPositionSnapshot('AZ');
+                [tilt, encTilt] = obj.Positioner.getPositionSnapshot('EL', false);
                 obj.log(sprintf('📡 [ESP32 STATUS] Pan = %.2f° (AS5600 J4: %.2f°) | Tilt = %.2f° (AS5600 J3: %.2f°) | Khóa Tilt: %d', ...
                         pan, encPan, tilt, encTilt, obj.Positioner.TiltDisabled));
             end

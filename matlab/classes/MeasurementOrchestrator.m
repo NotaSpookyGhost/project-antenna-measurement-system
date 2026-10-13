@@ -102,7 +102,7 @@ classdef MeasurementOrchestrator < handle
             obj.CancelRequested = false;
             obj.IsPaused = false;
             obj.IsRunning = true;
-            guard = onCleanup(@() obj.resetRunning()); %#ok<NASGU>
+            guard = onCleanup(@() obj.resetRunning());
             obj.setState('INITIALIZING');
 
             obj.logStatus(sprintf('Starting scan: %.1f° to %.1f° (step %.2f°, %d points)', ...
@@ -111,6 +111,14 @@ classdef MeasurementOrchestrator < handle
             % 1. Ensure connections
             if ~obj.Positioner.IsConnected
                 obj.Positioner.connect();
+            end
+            if obj.Positioner.ManualHomingActive
+                error('MeasurementOrchestrator:ManualHomingRequired', ...
+                    'Motor is released for manual homing. Lock and ZERO both axes before scanning.');
+            end
+            if obj.Positioner.HoldingSupported && ~obj.Positioner.HoldingActive
+                error('MeasurementOrchestrator:HoldLost', ...
+                    'Holding torque is unavailable. Reconnect and calibrate before scanning.');
             end
             if ~obj.VNA.IsConnected
                 obj.VNA.connect();
@@ -124,13 +132,28 @@ classdef MeasurementOrchestrator < handle
             % Check Tilt safety lock
             if (strcmpi(obj.Axis, 'EL') || strcmpi(obj.Axis, 'TILT')) && obj.Positioner.TiltDisabled
                 error('MeasurementOrchestrator:TiltDisabled', ...
-                      'Trục Tilt đang bị khóa bảo vệ (cháy driver TMC). Vui lòng chọn quét trục Azimuth (Pan)!');
+                      'Trục Tilt đang bị khóa bảo vệ vì phản hồi AS5600 chưa đạt. Vui lòng chọn quét trục Azimuth (Pan)!');
             end
 
-            % 2. Home Positioner
-            obj.setState('HOMING');
-            obj.logStatus('Homing positioner (Pan / ZERO)...');
-            obj.Positioner.home(obj.Axis);
+            % ZERO defines a physical reference; never redefine it at scan start.
+            if ~obj.Positioner.IsHomed
+                error('MeasurementOrchestrator:ManualHomingRequired', ...
+                    'Chưa có mốc ZERO hợp lệ. Căn hai trục rồi bấm Khóa + ZERO trước khi quét.');
+            end
+            [~, initialEncoder] = obj.Positioner.getPositionSnapshot(obj.Axis, true);
+            if ~isfinite(initialEncoder) || initialEncoder < 0
+                obj.setState('ABORTED');
+                error('MeasurementOrchestrator:EncoderUnavailable', ...
+                    'AS5600 chưa có phản hồi hợp lệ. Không bắt đầu quét; motor vẫn giữ.');
+            end
+            obj.logStatus('Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.');
+            if obj.CancelRequested
+                obj.setState('ABORTED');
+                obj.logStatus('Scan dừng trong bước homing, chưa đo điểm mới.');
+                notify(obj, 'ScanAborted');
+                scanData = [];
+                return;
+            end
 
             % 3. Pre-allocate storage matrices
             N_angles = length(angles);
@@ -149,81 +172,100 @@ classdef MeasurementOrchestrator < handle
             % 4. Main Synchronized Scan Loop
             nDone = 0;
             aborted = false;
-            for i = 1:N_angles
-                drawnow limitrate;   % let STOP / Pause callbacks run
-                if obj.CancelRequested
+            abortReason = '';
+            try
+                for i = 1:N_angles
+                    drawnow limitrate;   % let STOP / Pause callbacks run
+                    if obj.CancelRequested
+                        aborted = true;
+                        break;
+                    end
+
+                    % Handle Pause
+                    while obj.IsPaused
+                        pause(0.1);
+                        if obj.CancelRequested, break; end
+                    end
+                    if obj.CancelRequested
+                        aborted = true;
+                        break;
+                    end
+
+                    target_th = angles(i);
+                    obj.CurrentIndex = int32(i);
+                    obj.Progress = double(i) / double(N_angles);
+
+                    % Step A: Move Positioner
+                    obj.Positioner.moveTo(obj.Axis, target_th);
+                    if obj.CancelRequested
+                        aborted = true;
+                        break;
+                    end
+
+                    % Logical output angle and motor-shaft telemetry from one snapshot.
+                    [actual_th, actual_enc] = obj.Positioner.getPositionSnapshot(obj.Axis, false);
+                    if ~isfinite(actual_enc) || actual_enc < 0
+                        aborted = true;
+                        abortReason = 'EncoderUnavailable';
+                        obj.logStatus('AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.');
+                        break;
+                    end
+                    measured_angles(i) = actual_th;
+                    encoder_angles(i) = actual_enc;
+
+                    % Update mock VNA target angle if running in mock mode
+                    if strcmpi(obj.VNA.Mode, 'Mock')
+                        obj.VNA.setMockAngle(actual_th);
+                    end
+
+                    % Step C: Mechanical Settle Delay
+                    if obj.SettleTimeSec > 0
+                        pause(obj.SettleTimeSec);
+                    end
+                    if obj.CancelRequested
+                        aborted = true;
+                        break;
+                    end
+
+                    % Step D: Acquire fresh sweep from VNA
+                    sweep = obj.VNA.acquireSingle();
+
+                    % Step E: Store raw complex records
+                    s11_matrix(i, :) = sweep.S11;
+                    s21_matrix(i, :) = sweep.S21;
+                    nDone = i;
+
+                    % Find center frequency index for real-time visualization
+                    [~, center_idx] = min(abs(frequencies_hz - obj.CenterFreqHz));
+                    center_s21_db = sweep.S21_dB(center_idx);
+
+                    % Step F: Trigger progress callback
+                    if ~isempty(obj.StepCallback)
+                        stepInfo = struct(...
+                            'Index', i, ...
+                            'Total', N_angles, ...
+                            'CommandedAngle', target_th, ...
+                            'MeasuredAngle', actual_th, ...
+                            'EncoderAngle', actual_enc, ...
+                            'S21_dB_Center', center_s21_db, ...
+                            'Progress', obj.Progress, ...
+                            'ElapsedSec', toc(scan_tic));
+                        obj.StepCallback(stepInfo);
+                    end
+
+                    notify(obj, 'StepProgress');
+                end
+            catch ME
+                if strcmp(ME.identifier, 'PositionerController:EncoderUnavailable')
                     aborted = true;
-                    break;
-                end
-
-                % Handle Pause
-                while obj.IsPaused
-                    pause(0.1);
-                    if obj.CancelRequested, break; end
-                end
-                if obj.CancelRequested
+                    abortReason = 'EncoderUnavailable';
+                    obj.logStatus('AS5600 mất tín hiệu: dừng quét, giữ motor và các điểm đã đo.');
+                elseif obj.CancelRequested && strcmp(ME.identifier, 'PositionerController:Aborted')
+                    % STOP interrupts serial waits; process the completed rows below.
                     aborted = true;
-                    break;
+                else
+                    rethrow(ME);
                 end
-
-                target_th = angles(i);
-                obj.CurrentIndex = int32(i);
-                obj.Progress = double(i) / double(N_angles);
-
-                % Step A: Move Positioner
-                obj.Positioner.moveTo(obj.Axis, target_th);
-                if obj.CancelRequested
-                    aborted = true;
-                    break;
-                end
-
-                % Step B: AS5600 Position Confirmation
-                actual_th = obj.Positioner.getPosition(obj.Axis);
-                actual_enc = obj.Positioner.getEncoderPosition(obj.Axis);
-                measured_angles(i) = actual_th;
-                encoder_angles(i) = actual_enc;
-
-                % Update mock VNA target angle if running in mock mode
-                if strcmpi(obj.VNA.Mode, 'Mock')
-                    obj.VNA.setMockAngle(actual_th);
-                end
-
-                % Step C: Mechanical Settle Delay
-                if obj.SettleTimeSec > 0
-                    pause(obj.SettleTimeSec);
-                end
-                if obj.CancelRequested
-                    aborted = true;
-                    break;
-                end
-
-                % Step D: Acquire fresh sweep from VNA
-                sweep = obj.VNA.acquireSingle();
-
-                % Step E: Store raw complex records
-                s11_matrix(i, :) = sweep.S11;
-                s21_matrix(i, :) = sweep.S21;
-                nDone = i;
-
-                % Find center frequency index for real-time visualization
-                [~, center_idx] = min(abs(frequencies_hz - obj.CenterFreqHz));
-                center_s21_db = sweep.S21_dB(center_idx);
-
-                % Step F: Trigger progress callback
-                if ~isempty(obj.StepCallback)
-                    stepInfo = struct(...
-                        'Index', i, ...
-                        'Total', N_angles, ...
-                        'CommandedAngle', target_th, ...
-                        'MeasuredAngle', actual_th, ...
-                        'EncoderAngle', actual_enc, ...
-                        'S21_dB_Center', center_s21_db, ...
-                        'Progress', obj.Progress, ...
-                        'ElapsedSec', toc(scan_tic));
-                    obj.StepCallback(stepInfo);
-                end
-
-                notify(obj, 'StepProgress');
             end
 
             total_time_sec = toc(scan_tic);
@@ -277,10 +319,11 @@ classdef MeasurementOrchestrator < handle
                 'SLLAngle_deg', sll_angle, ...
                 'FBR_dB', fbr);
 
+            % On the installed pan wiring, increasing angles turn CCW viewed from above.
             if obj.StopAngleDeg >= obj.StartAngleDeg
-                dirStr = 'CW';
-            else
                 dirStr = 'CCW';
+            else
+                dirStr = 'CW';
             end
 
             metadata = struct(...
@@ -289,6 +332,9 @@ classdef MeasurementOrchestrator < handle
                 'VNAMode', obj.VNA.Mode, ...
                 'PositionerMode', obj.Positioner.Mode, ...
                 'PositionerPort', obj.Positioner.Port, ...
+                'AngleSource', 'Commanded step count; not independently measured antenna angle', ...
+                'EncoderLocation', 'Motor shaft, modulo 360 deg; reduction 90/16', ...
+                'EncoderAvailableAllPoints', all(isfinite(encoder_angles)), ...
                 'ScanAxis', obj.Axis, ...
                 'ScanDirection', dirStr, ...
                 'StartAngleDeg', obj.StartAngleDeg, ...
@@ -297,6 +343,7 @@ classdef MeasurementOrchestrator < handle
                 'TotalAngles', N_angles, ...
                 'CompletedPoints', nDone, ...
                 'Aborted', aborted, ...
+                'AbortReason', abortReason, ...
                 'CenterFreqHz', obj.CenterFreqHz, ...
                 'SpanHz', obj.SpanHz, ...
                 'SweepPoints', obj.SweepPoints, ...
@@ -310,6 +357,7 @@ classdef MeasurementOrchestrator < handle
                 'Angles', angles, ...
                 'MeasuredAngles', measured_angles, ...
                 'EncoderAngles', encoder_angles, ...
+                'EncoderValid', isfinite(encoder_angles), ...
                 'FrequenciesHz', frequencies_hz, ...
                 'SelectedFreqHz', obj.CenterFreqHz, ...
                 'S11', s11_matrix, ...
@@ -360,7 +408,7 @@ classdef MeasurementOrchestrator < handle
 
     methods (Static)
         function angles = buildAngleVector(startDeg, stopDeg, stepDeg)
-            % BUILDANGLEVECTOR Angle list for a scan. Start > Stop => CCW (descending).
+            % BUILDANGLEVECTOR Angle list for a scan. Decreasing pan angles are CW.
             stepDeg = abs(double(stepDeg));
             if isnan(startDeg) || isnan(stopDeg) || isnan(stepDeg) || stepDeg <= 0
                 error('MeasurementOrchestrator:InvalidAngles', ...

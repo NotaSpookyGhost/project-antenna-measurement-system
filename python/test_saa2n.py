@@ -227,7 +227,7 @@ def main():
     if len(sys.argv) > 1:
         if sys.argv[1] in ("--help", "-h"):
             print(__doc__)
-            return
+            return 0
         port = sys.argv[1]
         print(f"[PORT] Using specified port: {port}")
     else:
@@ -242,7 +242,7 @@ def main():
             print("       1. Connect SAA-2N via USB")
             print("       2. Check Device Manager for new COM port")
             print("       3. Run:  python test_saa2n.py COMx")
-            return
+            return 1
         print(f"       → Detected: {port}")
     
     print()
@@ -257,7 +257,7 @@ def main():
         )
     except serial.SerialException as e:
         print(f"[FAIL] Cannot open {port}: {e}")
-        return
+        return 1
     
     time.sleep(0.3)  # let device settle after open
     
@@ -277,7 +277,7 @@ def main():
             rx_hex = resp.hex() if resp else "(no response)"
             print(f"         RX: {rx_hex}")
             print(f"         ✗ FAIL — expected 0x32, device may not be SAA-2N")
-            return
+            return 1
         
         print()
         
@@ -358,7 +358,7 @@ def main():
             print(f"           or a communication issue.")
             if received_records == 0:
                 print(f"         ✗ FAIL — no FIFO data received")
-                return
+                return 1
         
         if remaining_bytes != 0:
             print(f"         ⚠ WARNING — non-aligned data ({remaining_bytes} extra bytes)")
@@ -437,10 +437,14 @@ def main():
                 print(f"  S21 range        = {min(s21_vals):.1f} .. {max(s21_vals):.1f} dB")
         
         print()
-        if received_records == SWEEP_POINTS:
+        indices = [result["freq_index"] for result in results]
+        complete = (device_variant == 0x02 and protocol_version == 0x01
+                    and remaining_bytes == 0 and received_records == SWEEP_POINTS
+                    and sorted(indices) == list(range(SWEEP_POINTS)))
+        if complete:
             print("  ✓ ALL TESTS PASSED — SAA-2N communication verified!")
         else:
-            print(f"  ⚠ PARTIAL — {received_records}/{SWEEP_POINTS} records received")
+            print(f"  ✗ FAIL — FIFO coverage invalid: {received_records}/{SWEEP_POINTS} records, indices={indices}")
         
         print()
         print("  Next steps:")
@@ -448,6 +452,7 @@ def main():
         print("    2. Compare S11/S21 with NanoVNA-QT or NanoVNA-Saver")
         print("    3. If results match → proceed to MATLAB bridge")
         print("=" * 60)
+        return 0 if complete else 1
     
     finally:
         ser.close()
@@ -455,4 +460,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

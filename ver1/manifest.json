@@ -1,0 +1,685 @@
+{
+  "snapshot": "ver1",
+  "createdUtc": "2026-10-13T04:12:44+00:00",
+  "baseGitCommit": "3a1e885064ee4a42ca42c0e86d692ba917aa0101",
+  "notes": "Copies current working-tree files, including local source edits beyond baseGitCommit.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 573,
+      "sha256": "c086538333249871d303eba10d3ce43958236222d9b802789007ec749b541351"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 1515,
+      "sha256": "d7e979bb2967f1f93d184ac5bed24bb2eb1f253d667ec8f46186f0a13cc10ba5"
+    },
+    {
+      "path": "AP/.gitignore",
+      "bytes": 99,
+      "sha256": "d952abf002d5e1ec80c8ab1bfc9f38eb5b62fc310667d501cb2ce9f21c3effb2"
+    },
+    {
+      "path": "AP/include/README",
+      "bytes": 1301,
+      "sha256": "dc6d9be88119a80edf773eb5a659f4470caf81ed5e95dbfd0cd3c7a9686ccd8c"
+    },
+    {
+      "path": "AP/lib/README",
+      "bytes": 1100,
+      "sha256": "9e753e4bef2bb4c7a3784561f50d0c42ceb7bd0c65f183e73209e86ec9892192"
+    },
+    {
+      "path": "AP/platformio.ini",
+      "bytes": 267,
+      "sha256": "751df804b0cec94808170decb1e04933bf6e987bf1c1edf9be2f4fb2ec154939"
+    },
+    {
+      "path": "AP/src/main.cpp",
+      "bytes": 17556,
+      "sha256": "7c99bca4d0867665a0e051cf15f5b85f96c2a766bd18b0098fcb963e9c578dac"
+    },
+    {
+      "path": "AP/test/README",
+      "bytes": 529,
+      "sha256": "95291bce496cd8b6f92ab6f9359119d77f02fc22eec7047cc38cc818a38c2b5d"
+    },
+    {
+      "path": "CODEX_GUIDE.md",
+      "bytes": 10457,
+      "sha256": "690f908e996ba1d977dc8bea80dd4b56fb2bedc1adddb1c5e9bbd544d2b711f6"
+    },
+    {
+      "path": "CODEX_HANDOVER/AGENTS.md",
+      "bytes": 22064,
+      "sha256": "dcfaddcf183ca6fa99314fb1c9659800f04b91b7014cdb7f855e3c2e4875eaff"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/README_AI_MASTER_CONTEXT.md",
+      "bytes": 10667,
+      "sha256": "45ffd8a759d0a02955100cc3eba32fbab86af751964370c469555e38ec57fd40"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/docs/so_do_toan_bo_mach_4jack.html",
+      "bytes": 35943,
+      "sha256": "b3dbddbf8b107c41fe19e11fd1af0ddf2604558b521367bcaa5b33bd549ab7bb"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/docs/walkthrough_v1.md",
+      "bytes": 7277,
+      "sha256": "4da3a6ea61b15e08fc47fbf5e2ca191044ada6173812f810920cd63e7efc32a2"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/docs/walkthrough_v2.md",
+      "bytes": 3102,
+      "sha256": "57433999112358027dd0c405d845c9bf78d9e9b2cf62d389e06166438d67bf95"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/docs/walkthrough_v3.md",
+      "bytes": 6367,
+      "sha256": "e05ac5adfe9fd58e80cf5a475abff6f1ba41d7af43ad22714114cae492cf00d8"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/firmware/firmware_positioner_v3.ino",
+      "bytes": 8398,
+      "sha256": "7502dbaa51a8d6af20f9a5578522feb5811d2929ec54a3bdd5822e43e3abf777"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/firmware/i2c_scanner.ino",
+      "bytes": 2195,
+      "sha256": "cd973cb92aadf70f0c895d6eac95b530080eef1af6ce9417525cb43681058a0e"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/firmware/isolate_i2c_motor.ino",
+      "bytes": 1972,
+      "sha256": "2bc1238763de7b9977df34465bbb4b6cfe4c402f8e72a66f29c05bf461d5d9b1"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/firmware/test_as5600.ino",
+      "bytes": 5991,
+      "sha256": "46345d31fb6940014ed99faea387d37757df05a9cb95b75591eaac340de3fa7e"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/firmware/test_repeatability.ino",
+      "bytes": 4037,
+      "sha256": "5c81b855f8c0e945f1057df3875dae7c63de9cf244561f03897d3affd01c949a"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/matlab/drha_horn_pattern_model.m",
+      "bytes": 4459,
+      "sha256": "2cb88c1aef2ede9b71270812bcd891af82f9bafe6f09051bd5a35994270522ce"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/matlab/measure_pattern_2d_3d.m",
+      "bytes": 6618,
+      "sha256": "0ceab12ea59dcaa4135b8cc81006c45e21800bb410d9e14f3f4f9fed28fad699"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/matlab/patch_antenna_petg_calc.m",
+      "bytes": 5478,
+      "sha256": "b63429b697c644d2b8ea5f8b688a110e8010144f4914e0258b21c3326e2b23c9"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/matlab/positioner_control.m",
+      "bytes": 11413,
+      "sha256": "c65d3cda5ddb4d31092e81eef800dc0633d82fed5b4b015582abcd16b64f9d09"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/matlab/vna_touchstone_analyzer.m",
+      "bytes": 7114,
+      "sha256": "94de9f09b126c46140861021abb3113eea2ff7221946246f93706b04236a1ec1"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/ver3/README.md",
+      "bytes": 1419,
+      "sha256": "ecdf1106d4d1c831ffc18d6de56f2f7bfe8a088ff7845678c390e0cfb6aa9a28"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/ver3/test_positioner.py",
+      "bytes": 1890,
+      "sha256": "907d5e2305f56ae83a92649f280a9a914b13e3262dbc3f540e52367d478798c7"
+    },
+    {
+      "path": "CODEX_HANDOVER/contex ver2/ver3/walkthrough_v3.md",
+      "bytes": 6367,
+      "sha256": "e05ac5adfe9fd58e80cf5a475abff6f1ba41d7af43ad22714114cae492cf00d8"
+    },
+    {
+      "path": "CODEX_HANDOVER/firmware/test_as5600.ino",
+      "bytes": 5991,
+      "sha256": "46345d31fb6940014ed99faea387d37757df05a9cb95b75591eaac340de3fa7e"
+    },
+    {
+      "path": "CODEX_HANDOVER/matlab/measure_pattern_2d_3d.m",
+      "bytes": 6880,
+      "sha256": "70ecbf4a705ca7668579ff4165593394d863a3d8dbe2459937e79451d817c255"
+    },
+    {
+      "path": "CODEX_HANDOVER/matlab/positioner_control.m",
+      "bytes": 11413,
+      "sha256": "c65d3cda5ddb4d31092e81eef800dc0633d82fed5b4b015582abcd16b64f9d09"
+    },
+    {
+      "path": "CODEX_HANDOVER/matlab/vna_touchstone_analyzer.m",
+      "bytes": 6234,
+      "sha256": "a9bc490de6c544a17095b6f224deec7627da3d059731781e1ebd867033baf6ba"
+    },
+    {
+      "path": "INSTRUCTIONS_FOR_CODEX.md",
+      "bytes": 3322,
+      "sha256": "d123f98b2494fce8c507291d0ccee8ee59c925c55a1233786a0c71a916644168"
+    },
+    {
+      "path": "PROJECT_README.md",
+      "bytes": 8969,
+      "sha256": "dbc02d6a752bae9c5b50bf79237a441256a52dc5294ecceb8566dd21c2ee7423",
+      "source": "README.md"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4282,
+      "sha256": "81886bbee7af3089fd34b031c624f4cf645aced3fdbb4ec04a6520a9deb4c787"
+    },
+    {
+      "path": "artifacts/positioner-v3.2.bin",
+      "bytes": 303024,
+      "sha256": "4adfb0a9c90b0cb7d2c330a15a687ecd81d5b347705e0c70aae1377456acb3d5",
+      "source": "firmware/positioner_v3_hold/.pio/build/esp32doit-devkit-v1/firmware.bin"
+    },
+    {
+      "path": "docs/01-system-overview.md",
+      "bytes": 2022,
+      "sha256": "3f03ae67ad1cf56ba4790c1bec4c63757924a9f5b77b8abf8e44a8ecab177f9a"
+    },
+    {
+      "path": "docs/02-lpda-research.md",
+      "bytes": 15468,
+      "sha256": "7729e66a1ebd9d0a2ed8ae498910a6a02b0f328907081343c9caace253f48f3f"
+    },
+    {
+      "path": "docs/03-vivaldi-research.md",
+      "bytes": 17703,
+      "sha256": "8e327e4fb230172a02ae35353c2616b2f86a7a84b5d139cd76d0efc7d80b3a26"
+    },
+    {
+      "path": "docs/04-horn-antenna-guide.md",
+      "bytes": 13745,
+      "sha256": "aa3c6716ef350959cea29d20fbbf7d8e13ac9c904d5e936c448879946d57e27a"
+    },
+    {
+      "path": "docs/05-conductive-coating-vn.md",
+      "bytes": 2724,
+      "sha256": "371d30a0e29fb2dae83bda9531a00fabb92fc82669d082bce7db9689825b1930"
+    },
+    {
+      "path": "docs/06-antenna-comparison.md",
+      "bytes": 3909,
+      "sha256": "34aae3e6b5bf431a4ca0b0f7b0508c7723f8e48ed639bd7aa9edba8b86f08d85"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/NanoVNA_GUI_UG1101.md",
+      "bytes": 35094,
+      "sha256": "75bf0a8340b027ad75f8c653c1b29f7a8150f7ddc553dfdd7a53ceb07d12ea4b"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-1.png",
+      "bytes": 183914,
+      "sha256": "78d2d3a23a2b0d270245ffd64f2b6a3a4ac0cac2ef5d2f258456cf9f214c1b2a"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-10.png",
+      "bytes": 67038,
+      "sha256": "e4c590836048f4255e1aeb7b93a22a773e875670e520a640d5b312641ec406f8"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-11.png",
+      "bytes": 13805,
+      "sha256": "5bb98d368c2af6e79ea2526ee34ceb0a08ee1c256c416221bfe353b599b3d85c"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-12.png",
+      "bytes": 54252,
+      "sha256": "14f0d803c93161257c845e77364ae1a0906f33bbb7fb6f9fab3e77449fb169aa"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-13.png",
+      "bytes": 6236,
+      "sha256": "fb6fec29bfcb3b7f6de440b60def287b215a7fcb69756dbaf647abb8bf96c390"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-14.png",
+      "bytes": 35091,
+      "sha256": "1afd90832fd2a9cbd5c66fe0c58f9bdd97d37af30698a09c2013d2a6745b260a"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-15.png",
+      "bytes": 35017,
+      "sha256": "8b8cd5b798928b322f9915dbba8aba99be286b6c46374801557f4880c51f78c3"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-16.png",
+      "bytes": 35011,
+      "sha256": "7de9b037dd5a410d76deb5a8eb8c73c0d92b0ad86b02db8dc307714963c3891a"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-17.png",
+      "bytes": 40192,
+      "sha256": "4321d4107e81bc5a6208aa3ccf48942fba5c0bf5da6e4215d4c5401479d90fcc"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-18.png",
+      "bytes": 13825,
+      "sha256": "db6eae14d20909207760570b1d0d7c2272e7d5aead06230dcd6206beba697501"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-19.png",
+      "bytes": 221648,
+      "sha256": "a45a69ff3b1846fa87447486880daee4d4ad14552be625312ff42424b50fc726"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-2.png",
+      "bytes": 11790,
+      "sha256": "26e5f03afac65d5734331fedd9172e8cb101b9d644375075a29053dce2cf34c1"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-20.png",
+      "bytes": 47705,
+      "sha256": "f555aff21ea03fc3c99162f4aca6011d204ff2bc6df2eb0ff5072ab35a6d100c"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-21.png",
+      "bytes": 56543,
+      "sha256": "4d6986fb5e1f06850dd725e0111b6a3b4f5d4197569fc7e94b785fc453c545f3"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-22.png",
+      "bytes": 111140,
+      "sha256": "15d8750383477522df956d689461a4854a6e62960014fc2655891b2ceda6f53f"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-3.png",
+      "bytes": 70442,
+      "sha256": "986675259dd3652898fe39ad08ba937ca08f43b941e38537358bcab266f1c2ed"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-4.png",
+      "bytes": 17565,
+      "sha256": "1d9693317f5b97d3d6b271851f2d568f3fed8ec3968cfe2ac282b4ee421121ab"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-5.png",
+      "bytes": 61198,
+      "sha256": "02f60a4f25b8d02363e17724e2072bac831f0bc222a817e20d038985f4660d7c"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-6.png",
+      "bytes": 13786,
+      "sha256": "77587edd320037309fafd8f0966bd95838972084139b951eed7b25bd2f55e9e2"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-7.png",
+      "bytes": 27170,
+      "sha256": "010d1b213ff293a06474ca9bcad180ceab162973366fd863d50b026025b3da19"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-8.png",
+      "bytes": 4639,
+      "sha256": "126a6ed070324d24a13da958808fdb96c344661c8b3b2b4520371701a5c23a65"
+    },
+    {
+      "path": "docs/NanoVNA_GUI_UG1101/images/image-9.png",
+      "bytes": 13974,
+      "sha256": "ca9e475d180c56f452dcff0255e524aa2ae92ceff7039ab7778ff4c2b5b8704e"
+    },
+    {
+      "path": "docs/antenna_measurement_next_step_execution_plan.md",
+      "bytes": 16533,
+      "sha256": "cad09dfaeb9cabedd3ff0ea747e419be897ccc68080cfc6b90cd00699a81a4c6"
+    },
+    {
+      "path": "docs/ap-pan-comparison-2026-10-11.md",
+      "bytes": 6509,
+      "sha256": "df159ad1576151994bcb65b955cce031424027bd1be5e24d275135a0efa92b98"
+    },
+    {
+      "path": "docs/as5600-fix-2026-10-13.md",
+      "bytes": 6632,
+      "sha256": "028d40961b73393991e6e7b9f1edce942c35b73376f5718a8a7f84355547afb0"
+    },
+    {
+      "path": "docs/automatic-antenna-measurement-system-master-v4.md",
+      "bytes": 56944,
+      "sha256": "0ce05f6ee0629e949f314a38e3f80010d24358534376eae3d3895ac369c4f17f"
+    },
+    {
+      "path": "docs/continuous-hold-fix-2026-10-11.md",
+      "bytes": 5884,
+      "sha256": "cd39ee9161ef5cd4a4058a7fec7ff715539b9a2239903bc72cdb885b30c78d1c"
+    },
+    {
+      "path": "docs/hardware-validation-2026-10-11.md",
+      "bytes": 7076,
+      "sha256": "314fd9656e140d03e6509827010431fc2e40c2b79fed68edfd1d395ba23a8d1c"
+    },
+    {
+      "path": "docs/manual-homing-hold-2026-10-11.md",
+      "bytes": 2843,
+      "sha256": "f8d4cde29fc3c0af6413a42797c9e863ce7387a03fdbd1365de25fd1b433e3b7"
+    },
+    {
+      "path": "docs/matlab-stop-plot-fix-2026-10-11.md",
+      "bytes": 2666,
+      "sha256": "62ede6f5da9d3fe6209a16f64f4230874d3f98654ddca0684a2885079198e0b8"
+    },
+    {
+      "path": "docs/positioner-v3-recheck-2026-10-11.md",
+      "bytes": 11298,
+      "sha256": "abe12af7136cb2596b1d9c3c7c11a06fc095e6d12f0ff71173637a8c3fad3ce8"
+    },
+    {
+      "path": "firmware/as5600_diagnostic/platformio.ini",
+      "bytes": 139,
+      "sha256": "ea99322971724a813ec099925aeaf0eeb5166c5d3df324a971957efb42822ffa"
+    },
+    {
+      "path": "firmware/as5600_diagnostic/run_profiles.py",
+      "bytes": 1415,
+      "sha256": "661c0eede60332e698185765dd0d546f78c8b24f36d6e68463dcfafd87591ba6"
+    },
+    {
+      "path": "firmware/as5600_diagnostic/run_qualified.py",
+      "bytes": 1863,
+      "sha256": "b346e0548287daaf6936876922c59a2977e563c3735449d3e83aa1cd2b626334"
+    },
+    {
+      "path": "firmware/as5600_diagnostic/src/main.cpp",
+      "bytes": 6362,
+      "sha256": "9c012568cf3ba862689a64a995fc60cf560e8dbca4ed58f681452af37151d53f"
+    },
+    {
+      "path": "firmware/positioner/.gitignore",
+      "bytes": 7,
+      "sha256": "cf15ce9a02b422c743f57a2efbad580d89f644ae67469a33f43f40247c5dc4de"
+    },
+    {
+      "path": "firmware/positioner/README.md",
+      "bytes": 2832,
+      "sha256": "12e8bf72950cab380ed348931ffc28be735930e9984a0f8c1573d5d5fdcb6d14"
+    },
+    {
+      "path": "firmware/positioner/platformio.ini",
+      "bytes": 140,
+      "sha256": "7ea11f5c12b5a40923f57fd6fea65d24a8f147eefb985da699223634727cbb98"
+    },
+    {
+      "path": "firmware/positioner/src/main.cpp",
+      "bytes": 12180,
+      "sha256": "c8e88f7c21dbcc9ce9b114830ce199179e3ec5193f7f947e9093af1bf1660697"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/platformio.ini",
+      "bytes": 145,
+      "sha256": "170f833101e2ddd5143033ff5416b9bee6ab7b02b97a7609c83382b4af6dc170"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/src/as5600_bus.h",
+      "bytes": 2487,
+      "sha256": "18f3f947a6ab82b7f0104de92ab5fdef1a313ea4fb532145fa76c8e597be9684"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/src/as5600_sample.h",
+      "bytes": 879,
+      "sha256": "74447a899a0e40a4d625343b28be3178ad4950aa64779d8c8099bd12849f54fe"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/src/main.cpp",
+      "bytes": 13334,
+      "sha256": "03435cec4a5cc564b8d1e697d0f92a7f32a98c3a80810bf47c2c9e5b8709bd15"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/hardware_encoder.py",
+      "bytes": 2453,
+      "sha256": "77b6479ebae3a856f12e0fca13ea95dfd9fc48f3dd2ca2e95f6edfb376720be8"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/hardware_smoke.py",
+      "bytes": 1723,
+      "sha256": "bab6b9fbde08b3bd64def964cd91526f53bcaab9d9df87805fd8ad3b2fa9632c"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/hardware_stop.py",
+      "bytes": 1121,
+      "sha256": "8af36c749d4b293f17b48257aab3920224b014f02a24d29dc73c105d77d2f2c0"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/native/stubs/Arduino.h",
+      "bytes": 3535,
+      "sha256": "72117e1ff5a914759da74a3fc4678c30ee903dc023107576cb7e5c41a879ab0a"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/native/stubs/Wire.h",
+      "bytes": 1078,
+      "sha256": "94e46b5e31c54e1e3b8c4cc5f5e387f5ebc38782f4536ce09b86c911ceb84067"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/native/test_as5600.cpp",
+      "bytes": 1189,
+      "sha256": "b776cf68312afa5c8a23d1a9d2c184fbc30deae9cc21c192051ae5a86bc194e3"
+    },
+    {
+      "path": "firmware/positioner_v3_hold/test/native/test_hold.cpp",
+      "bytes": 4690,
+      "sha256": "bd54e7b2fa8f98eb9e8255ee518958d9e55aa735ec0b040c8a1bc327e7c94d80"
+    },
+    {
+      "path": "matlab/README.md",
+      "bytes": 5480,
+      "sha256": "2a33476118a7505054b6b73328a1c30402f65f7ba2c4c70af3e0468855d9712e"
+    },
+    {
+      "path": "matlab/app/AntennaMeasurementApp.m",
+      "bytes": 53328,
+      "sha256": "9056762b1ad2ece944b55cde5369927d81c9767998a142094e1fbff6616e1671"
+    },
+    {
+      "path": "matlab/classes/DataManager.m",
+      "bytes": 8186,
+      "sha256": "2bbf0ccf87caeb2ab4f0bc961cbe3dc5209043503673801810f287f32c3e0cdf"
+    },
+    {
+      "path": "matlab/classes/MeasurementOrchestrator.m",
+      "bytes": 19245,
+      "sha256": "e72234e7ee5bdc70d007ec03703929f54dca85ba08073960f14080e4087ff304"
+    },
+    {
+      "path": "matlab/classes/PatternAnalyzer.m",
+      "bytes": 15969,
+      "sha256": "0c7181b0a2553d80978b96be74df293a7a974f21434299bfa572daade4a186e4"
+    },
+    {
+      "path": "matlab/classes/PositionerController.m",
+      "bytes": 32579,
+      "sha256": "d7b954c9fbb619c2b548cee43be8967e7044c54c293fafdcae91aca668fa30c2"
+    },
+    {
+      "path": "matlab/classes/VNAController.m",
+      "bytes": 11744,
+      "sha256": "391d025f1befb267829f66af8c78e99cab0f7c2fc18d2261ec345c6e124d7372"
+    },
+    {
+      "path": "matlab/run_all_matlab_tests.m",
+      "bytes": 4247,
+      "sha256": "0435aaa1ff37f212a2cc1067c7b83b7cf46fa90f63352a0c5a17e8c6a376b9e6"
+    },
+    {
+      "path": "matlab/test_python_bridge.m",
+      "bytes": 13177,
+      "sha256": "ac4bd289fb22864460a14f54dcf87dd4c29d5a206ec12115be298e54592bf6e8"
+    },
+    {
+      "path": "matlab/tests/TestManualHoming.m",
+      "bytes": 5380,
+      "sha256": "e1692117c69363335ddbac92282cb595a907825fb53c3df200226f37379421e1"
+    },
+    {
+      "path": "matlab/tests/TestPositionerResponse.m",
+      "bytes": 4370,
+      "sha256": "b73319c1296bcdaff2afda4cb3d35ae2ebf0117d43b813dd266cdc94b735e5d2"
+    },
+    {
+      "path": "matlab/tests/TestScanStopGUI.m",
+      "bytes": 5418,
+      "sha256": "a8223f99aa9eddc7339c008a0d4b157662b5161b75c0c2cc394a01db8cf87162"
+    },
+    {
+      "path": "matlab/tests/fixtures/ReferenceTrackingPositioner.m",
+      "bytes": 863,
+      "sha256": "f0d743d944809331109cbf10d858d135ec8be2dd84ff238951a5163c30368568"
+    },
+    {
+      "path": "matlab/tests/fixtures/ScanInterruptPositioner.m",
+      "bytes": 1148,
+      "sha256": "6795640630aea8fa1d55cfdaaff6008475a5b55a2f8dc500f2a0c708299c255e"
+    },
+    {
+      "path": "matlab/tests/test_app_gui.m",
+      "bytes": 3227,
+      "sha256": "9e6e787486c5b4bedb1bff0611255a427b7d2f737ea8a3fa5a98815a0f2d6e0f"
+    },
+    {
+      "path": "matlab/tests/test_orchestrator_mock.m",
+      "bytes": 5871,
+      "sha256": "f00d636efbadeb9acb039efbc6e6696e3b1c9b1b0b742e0f46347b703c765064"
+    },
+    {
+      "path": "matlab/tests/test_orchestrator_real_vna_mock_motor.m",
+      "bytes": 4550,
+      "sha256": "5a2f0349dc5918c509a5e0961796cc2a8375539eb0accf068542371942c6e7d2"
+    },
+    {
+      "path": "matlab/tests/test_pattern_analyzer.m",
+      "bytes": 5862,
+      "sha256": "7c17ac37b427bc9d0b2a4e8df47b3d13da5d469de8485f5daa44fc1c82c8e5e5"
+    },
+    {
+      "path": "matlab/tests/test_real_continuous_hold.m",
+      "bytes": 2893,
+      "sha256": "8b7512d54eedc0b85ea01008b6e0f71f8dc4ca79147c4e219d895a16931b66a2"
+    },
+    {
+      "path": "matlab/tests/test_real_esp32_pan_as5600.m",
+      "bytes": 5720,
+      "sha256": "bfcabe5e2e5bd44e8cbf383ac03a5768b110e40c2cb12c11affc19f7ce53eeb1"
+    },
+    {
+      "path": "matlab/tests/test_real_positioner_v3.m",
+      "bytes": 3910,
+      "sha256": "788851d82e36f43c0750344681124d40685754e62dcb7d525f6b1812400f56c8"
+    },
+    {
+      "path": "matlab/tests/test_real_vna_real_pan_short_scan.m",
+      "bytes": 2274,
+      "sha256": "2e090bc6d50bac5cf84dfdfdf08fb47783c9f99df296e8b8ec2cacfc40ceb0ae"
+    },
+    {
+      "path": "matlab/tests/test_scan_direction_and_abort.m",
+      "bytes": 8071,
+      "sha256": "3901404e78511e2d5c5b979e2d57d6ba8310b910bccdfc8ffb7ac5898916881f"
+    },
+    {
+      "path": "matlab/view_scan_dataset.m",
+      "bytes": 5171,
+      "sha256": "037690be229348e5cfa24535ebfba6e126205eaca328e78bf6fa96959a0d7846"
+    },
+    {
+      "path": "python/__init__.py",
+      "bytes": 45,
+      "sha256": "2d2cc7787e5eb978a5cc28fee1c9e2711a3957e1faa23cc6d29c207991ba1d02"
+    },
+    {
+      "path": "python/hardware_enable_compare.py",
+      "bytes": 1899,
+      "sha256": "76ea867cf8f8ce1630813e65516c38856a0a7f4195e241099a35cf1348fd828e"
+    },
+    {
+      "path": "python/hardware_tilt_probe.py",
+      "bytes": 2659,
+      "sha256": "067ef1eb0a505cfd379e236a918d0f352e902eb44ac44af60b6cab3107021f58"
+    },
+    {
+      "path": "python/hardware_tilt_return.py",
+      "bytes": 1780,
+      "sha256": "4b98a20c28293eeadc87d1d940fc2e20afa2b313ff26175b08546814d008fa02"
+    },
+    {
+      "path": "python/nanovna_bridge.py",
+      "bytes": 10943,
+      "sha256": "abf2911c9daed3390d54914b04e7aba58ab1aca6580d471f52826dcb6da9724f"
+    },
+    {
+      "path": "python/nanovna_v2.py",
+      "bytes": 15409,
+      "sha256": "95d08b34a2548938b33931d05684e0c8b3e9373104ed7639e38b3a857debed14"
+    },
+    {
+      "path": "python/test_saa2n.py",
+      "bytes": 18384,
+      "sha256": "f5f1ebd6e1d6b981c67f5110102c97a0366827bbc9b3a01ddec5325f7f4a68db"
+    },
+    {
+      "path": "python/tests/__init__.py",
+      "bytes": 34,
+      "sha256": "f3409d124af0dc2823c922e9da64a1d2e0536001c425ec43f7bee7f2cc99a95c"
+    },
+    {
+      "path": "python/tests/test_averaging.py",
+      "bytes": 15799,
+      "sha256": "4cbdd0dd9868c9008f745507528020d011f37510661d8d80837cbbe74375ae98"
+    },
+    {
+      "path": "python/tests/test_empirical_challenge.py",
+      "bytes": 27866,
+      "sha256": "138117329accb182522fcaa9c50bb450d5ebebb7d97c7d337bfb3313698840ad"
+    },
+    {
+      "path": "python/tests/test_fifo_freshness.py",
+      "bytes": 17154,
+      "sha256": "fcbe93279a463397bcea7223703dad8f11915d61a145ed6dab88992a565b50bd"
+    },
+    {
+      "path": "python/tests/test_helpers.py",
+      "bytes": 8386,
+      "sha256": "07118c397a252d4a09f593442873d444635f324378719cafda35222d7e9cdc0c"
+    },
+    {
+      "path": "python/tests/test_r2_challenger.py",
+      "bytes": 16211,
+      "sha256": "c6cceb5db97840ec54785145f4cb238502f7756e9499b53ee58d1e53a4a64600"
+    },
+    {
+      "path": "python/tests/test_repeatability.py",
+      "bytes": 17228,
+      "sha256": "c1359d5f0b9d476813794b9807a10076b7cbc6418d088572a79ceea4c071ea42"
+    },
+    {
+      "path": "python/tests/test_s11_loads.py",
+      "bytes": 17987,
+      "sha256": "91b14641bca758ca3b7f575b91f1a4be4106fcac7a124162bc60c4a59d9e930e"
+    },
+    {
+      "path": "python/tests/test_sweep_integrity.py",
+      "bytes": 569,
+      "sha256": "1a4525b16886b623a553631400f83ccda0bc241aee67a390ef832b4af3316c25"
+    },
+    {
+      "path": "python/tests/test_thru.py",
+      "bytes": 9087,
+      "sha256": "05313101ba854122dac5e2c129a1a2bfe13a3a386f2b70cbacf281a444ababd2"
+    },
+    {
+      "path": "python/tests/verify_all_tests.py",
+      "bytes": 11158,
+      "sha256": "e8b16bb6e57fa1b8bdc7f65fce0c972642d62c8810cc65c713837e23d77f20ba"
+    }
+  ]
+}

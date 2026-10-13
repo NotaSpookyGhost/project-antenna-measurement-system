@@ -136,7 +136,9 @@ class SweepResult:
 
     @property
     def complete(self) -> bool:
-        return len(self.records) == self.points and self.points > 0
+        return (self.points > 0
+                and len(self.records) == self.points
+                and {record.freq_index for record in self.records} == set(range(self.points)))
 
     def to_dict(self) -> dict:
         """Convert to dict suitable for MATLAB bridge / JSON export."""

@@ -116,7 +116,7 @@ def save_config(exp_dir: Path, identity: DeviceIdentity,
         config.update(extra)
 
     path = exp_dir / "config.json"
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=2)
     return path
 
@@ -125,7 +125,7 @@ def save_sweep_csv(exp_dir: Path, result: SweepResult,
                    filename: str = "raw.csv") -> Path:
     """Save sweep result as CSV with full complex data."""
     path = exp_dir / filename
-    with open(path, "w", newline="") as f:
+    with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([
             "freq_index", "frequency_hz",
@@ -158,7 +158,7 @@ def save_sweep_csv(exp_dir: Path, result: SweepResult,
 def save_summary(exp_dir: Path, text: str) -> Path:
     """Save summary.txt."""
     path = exp_dir / "summary.txt"
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write(text)
     return path
 

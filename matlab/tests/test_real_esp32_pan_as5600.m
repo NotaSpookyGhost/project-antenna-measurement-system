@@ -7,7 +7,7 @@
 %   3. Execute ZERO reference calibration (Homing).
 %   4. Step Pan (Azimuth) axis through angles [0°, 5°, 10°, 15°, 0°].
 %   5. Verify 16:90 GT2 gear ratio tracking (~5.625 ratio between motor and shaft).
-%   6. Verify TILT PROTECTION: Ensure burned TMC driver is protected against any pulses.
+%   6. Verify TILT PROTECTION: Keep the tilt axis locked while its encoder fault is investigated.
 %   7. Cleanly disconnect.
 %
 % Usage:
@@ -17,7 +17,7 @@ close all;
 clc;
 fprintf('======================================================================\n');
 fprintf('  HARDWARE VALIDATION: ESP32 + TMC2209 + AS5600 (PAN AXIS ONLY)\n');
-fprintf('  Safety Mode: TILT AXIS LOCKED (Burned TMC Driver Protection)\n');
+fprintf('  Safety Mode: TILT AXIS LOCKED (encoder/electrical fault under load)\n');
 fprintf('======================================================================\n\n');
 
 % Set up paths
@@ -44,6 +44,7 @@ try
 catch ME
     error('Failed to connect to ESP32: %s', ME.message);
 end
+cleanup = onCleanup(@() pos.disconnect());
 
 fprintf('  ✓ ESP32 Connected!\n');
 fprintf('    - Commanded Pan:    %.2f°\n', pos.AzimuthDeg);
@@ -88,6 +89,11 @@ for i = 1:length(test_angles)
             t_move, pan_act, enc_act, tilt_act);
 
     assert(abs(pan_act - th_cmd) < 0.1, 'Pan angle error exceeds tolerance!');
+    motor_delta = abs(mod(enc_act - enc_zero + 180.0, 360.0) - 180.0);
+    expected_motor_delta = th_cmd * (90.0 / 16.0);
+    assert(abs(motor_delta - expected_motor_delta) < 10.0, ...
+           'AS5600 Pan encoder did not track motor rotation at %.1f° target (measured %.2f°, expected %.2f°).', ...
+           th_cmd, motor_delta, expected_motor_delta);
     assert(tilt_act == 0.0, 'CRITICAL: Tilt axis moved despite being locked!');
 end
 fprintf('  ✓ Pan stepping sequence completed with 100%% target fidelity.\n\n');
@@ -103,11 +109,12 @@ tilt_after = pos.getPosition('EL');
 fprintf('    - Commanded: 45.0° on EL\n');
 fprintf('    - Actual Tilt: %.2f° (Completely locked, no pulses emitted)\n', tilt_after);
 assert(tilt_after == 0.0, 'Tilt axis must not move when TiltDisabled is true!');
-fprintf('  ✓ Hardware Protection Confirmed: Tilt driver is 100%% safe.\n\n');
+fprintf('  ✓ MATLAB tilt motion lock confirmed.\n\n');
 
 %% 6. Clean Disconnect
 fprintf('[6] Disconnecting from ESP32...\n');
 pos.disconnect();
+clear cleanup;
 fprintf('  ✓ Disconnected cleanly.\n\n');
 
 %% 7. Summary Table

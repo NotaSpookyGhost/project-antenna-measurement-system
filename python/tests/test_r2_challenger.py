@@ -151,8 +151,8 @@ class TestR2_TimeoutArtifactPersistence(unittest.TestCase):
     test_thru.py generates full failure artifacts with VERDICT: [FAIL].
     """
 
-    @patch("python.nanovna_v2.NanoVNA_V2")
-    @patch("python.tests.test_helpers.get_port_from_args_or_detect", return_value="COM_TIMEOUT")
+    @patch("python.tests.test_thru.NanoVNA_V2")
+    @patch("python.tests.test_thru.get_port_from_args_or_detect", return_value="COM_TIMEOUT")
     def test_thru_timeout_artifact_persistence(self, mock_port, mock_vna_cls):
         import python.tests.test_thru as test_thru
 
@@ -171,9 +171,9 @@ class TestR2_TimeoutArtifactPersistence(unittest.TestCase):
         self.assertEqual(len(timeout_sweep.records), 0)
         mock_vna.acquire_sweep.return_value = timeout_sweep
 
-        with patch("sys.exit") as mock_exit:
+        with self.assertRaises(SystemExit) as exit_context:
             test_thru.main()
-            mock_exit.assert_called_with(1)
+        self.assertEqual(exit_context.exception.code, 1)
 
         mock_vna.connect.assert_called_with("COM_TIMEOUT")
         mock_vna.disconnect.assert_called()
@@ -188,8 +188,8 @@ class TestR2_TimeoutArtifactPersistence(unittest.TestCase):
         self.assertTrue(config_path.exists(), f"Missing config.json in {latest_dir}")
         with open(config_path, "r", encoding="utf-8") as f:
             cfg = json.load(f)
-        self.assertEqual(cfg.get("extra", {}).get("verdict"), "FAIL")
-        self.assertIn("timeout", cfg.get("extra", {}).get("error", "").lower())
+        self.assertEqual(cfg.get("verdict"), "FAIL")
+        self.assertIn("timeout", cfg.get("error", "").lower())
 
         # 2. raw.csv verification
         raw_csv_path = latest_dir / "raw.csv"
@@ -219,8 +219,8 @@ class TestR2_IncompleteSweepProtection(unittest.TestCase):
     without IndexError and properly persist failure artifacts.
     """
 
-    @patch("python.nanovna_v2.NanoVNA_V2")
-    @patch("python.tests.test_helpers.get_port_from_args_or_detect", return_value="COM_INCOMPLETE")
+    @patch("python.tests.test_s11_loads.NanoVNA_V2")
+    @patch("python.tests.test_s11_loads.get_port_from_args_or_detect", return_value="COM_INCOMPLETE")
     def test_s11_loads_empty_sweep_no_index_error(self, mock_port, mock_vna_cls):
         import python.tests.test_s11_loads as test_s11_loads
 
@@ -235,9 +235,9 @@ class TestR2_IncompleteSweepProtection(unittest.TestCase):
 
         mock_vna.acquire_sweep.side_effect = [sweep_open, sweep_short, sweep_load]
 
-        with patch("sys.exit") as mock_exit:
+        with self.assertRaises(SystemExit) as exit_context:
             test_s11_loads.main()
-            mock_exit.assert_called_with(1)
+        self.assertEqual(exit_context.exception.code, 1)
 
         val_dirs = sorted(Path(PROJECTS_DIR / "data" / "validation").glob("s11_loads_*"), key=os.path.getmtime)
         latest_dir = val_dirs[-1]
@@ -251,8 +251,8 @@ class TestR2_IncompleteSweepProtection(unittest.TestCase):
         self.assertIn("VERDICT: [FAIL]", summary_txt)
         self.assertIn("OPEN records:      2/11", summary_txt)
 
-    @patch("python.nanovna_v2.NanoVNA_V2")
-    @patch("python.tests.test_helpers.get_port_from_args_or_detect", return_value="COM_INCOMPLETE")
+    @patch("python.tests.test_fifo_freshness.NanoVNA_V2")
+    @patch("python.tests.test_fifo_freshness.get_port_from_args_or_detect", return_value="COM_INCOMPLETE")
     def test_fifo_freshness_empty_sweep_no_index_error(self, mock_port, mock_vna_cls):
         import python.tests.test_fifo_freshness as test_fifo_freshness
 
@@ -267,9 +267,9 @@ class TestR2_IncompleteSweepProtection(unittest.TestCase):
 
         mock_vna.acquire_sweep.side_effect = [s1, s2, s3]
 
-        with patch("sys.exit") as mock_exit:
+        with self.assertRaises(SystemExit) as exit_context:
             test_fifo_freshness.main()
-            mock_exit.assert_called_with(1)
+        self.assertEqual(exit_context.exception.code, 1)
 
         val_dirs = sorted(Path(PROJECTS_DIR / "data" / "validation").glob("fifo_freshness_*"), key=os.path.getmtime)
         latest_dir = val_dirs[-1]
@@ -281,7 +281,7 @@ class TestR2_IncompleteSweepProtection(unittest.TestCase):
         with open(latest_dir / "summary.txt", "r", encoding="utf-8") as f:
             summary_txt = f.read()
         self.assertIn("VERDICT: [FAIL]", summary_txt)
-        self.assertIn("State 2 records:     0/11", summary_txt)
+        self.assertRegex(summary_txt, r"State 2 records:\s+0/11")
 
 
 class TestR2_SchemaIntegrityAndComplexPrecision(unittest.TestCase):
@@ -316,15 +316,15 @@ class TestR2_SchemaIntegrityAndComplexPrecision(unittest.TestCase):
 
             # Check precision of s11_real and s21_real
             # The synthetic sweep used fwd0 = 12345 - 6789j
-            for r in rows:
+            for r, record in zip(rows, sweep.records):
                 s11_re = float(r[2])
                 s11_im = float(r[3])
                 s21_re = float(r[7])
                 s21_im = float(r[8])
-                self.assertAlmostEqual(s11_re, 0.05, places=5)
-                self.assertAlmostEqual(s11_im, 0.02, places=5)
-                self.assertAlmostEqual(s21_re, 0.85, places=5)
-                self.assertAlmostEqual(s21_im, -0.15, places=5)
+                self.assertEqual(s11_re, record.s11.real)
+                self.assertEqual(s11_im, record.s11.imag)
+                self.assertEqual(s21_re, record.s21.real)
+                self.assertEqual(s21_im, record.s21.imag)
 
                 # Check integer fields
                 fwd0_re = int(r[12])

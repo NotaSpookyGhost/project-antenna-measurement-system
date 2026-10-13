@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sơ Đồ Đấu Nối Toàn Bộ Mạch & 4 Cổng Jack 4-Pin — Antenna Positioner v3.0</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    code, .mono { font-family: 'JetBrains+Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 md:p-8">
+
+  <div class="max-w-7xl mx-auto space-y-8">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 border border-blue-500/30 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold mb-3 tracking-wide">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            BẢN VẼ CHUẨN CÔNG NGHIỆP — ĐẦY ĐỦ 4 JACK 4-PIN
+          </div>
+          <h1 class="text-2xl md:text-4xl font-extrabold text-white tracking-tight">Sơ Đồ Đấu Nối Toàn Bộ Mạch Điều Khiển Ăng-Ten 2 Trục</h1>
+          <p class="text-slate-300 text-sm md:text-base mt-2 max-w-3xl">
+            Chi tiết từng chân cắm ESP32, TMC2209 Standalone, Nguồn 20V + USB 5V, đi dây ra <strong>4 Giắc cắm hàng không GX12/GX16 (4 chân)</strong> trên vỏ hộp và nối ra 2 Động cơ NEMA17 + 2 Cảm biến AS5600.
+          </p>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl shadow-inner text-xs space-y-1.5 min-w-[220px]">
+          <div class="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Quy Chuẩn Jack Cắm:</div>
+          <div class="text-emerald-400 font-bold flex items-center gap-2"><i class="fa-solid fa-circle-nodes"></i> J1: Motor Pan (4-Pin)</div>
+          <div class="text-cyan-400 font-bold flex items-center gap-2"><i class="fa-solid fa-circle-nodes"></i> J2: Motor Tilt (4-Pin)</div>
+          <div class="text-amber-400 font-bold flex items-center gap-2"><i class="fa-solid fa-compass"></i> J3: Sensor Tilt (4-Pin)</div>
+          <div class="text-purple-400 font-bold flex items-center gap-2"><i class="fa-solid fa-compass"></i> J4: Sensor Pan (4-Pin)</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BẢNG SƠ ĐỒ CHÂN 4 JACK TRÊN THÀNH HỘP (QUAN TRỌNG NHẤT) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-plug-circle-check text-blue-400"></i>
+          Chi Tiết 4 Cổng Jack 4-Pin Trên Vách Hộp Điều Khiển
+        </h2>
+        <span class="text-xs text-slate-400">Nhìn từ mặt ngoài giắc cắm (Front View)</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- JACK J1 -->
+        <div class="bg-slate-900/90 border-2 border-emerald-500/40 rounded-2xl p-5 shadow-xl space-y-4 hover:border-emerald-400 transition-colors">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs mono">JACK J1</span>
+            <span class="text-[11px] font-semibold text-slate-400">4-PIN MOTOR</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Động Cơ PAN (48mm)</h3>
+            <p class="text-xs text-slate-400">Trục xoay ngang Azimuth</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2 text-xs mono">
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-emerald-400">Pin 1: Cuộn A+</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-200">Dây Đen</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-emerald-400">Pin 2: Cuộn A-</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Dây Xanh Lá</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-emerald-400">Pin 3: Cuộn B+</span>
+              <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">Dây Đỏ</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-emerald-400">Pin 4: Cuộn B-</span>
+              <span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">Dây Xanh Lam</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 bg-slate-800/50 p-2.5 rounded-lg border border-slate-700/50">
+            <strong class="text-slate-200">Bên trong hộp:</strong> Nối trực tiếp vào 4 chân <code>1A, 1B, 2A, 2B</code> của bo TMC2209 #1.
+          </div>
+        </div>
+
+        <!-- JACK J2 -->
+        <div class="bg-slate-900/90 border-2 border-cyan-500/40 rounded-2xl p-5 shadow-xl space-y-4 hover:border-cyan-400 transition-colors">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs mono">JACK J2</span>
+            <span class="text-[11px] font-semibold text-slate-400">4-PIN MOTOR</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Động Cơ TILT (23mm)</h3>
+            <p class="text-xs text-slate-400">Trục ngẩng Elevation (Pancake)</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2 text-xs mono">
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-cyan-400">Pin 1: Cuộn A+</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-200">Dây Đen</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-cyan-400">Pin 2: Cuộn A-</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Dây Xanh Lá</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-cyan-400">Pin 3: Cuộn B+</span>
+              <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">Dây Đỏ</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-cyan-400">Pin 4: Cuộn B-</span>
+              <span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">Dây Xanh Lam</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 bg-slate-800/50 p-2.5 rounded-lg border border-slate-700/50">
+            <strong class="text-slate-200">Bên trong hộp:</strong> Nối trực tiếp vào 4 chân <code>1A, 1B, 2A, 2B</code> của bo TMC2209 #2.
+          </div>
+        </div>
+
+        <!-- JACK J3 -->
+        <div class="bg-slate-900/90 border-2 border-amber-500/40 rounded-2xl p-5 shadow-xl space-y-4 hover:border-amber-400 transition-colors">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs mono">JACK J3</span>
+            <span class="text-[11px] font-semibold text-slate-400">4-PIN SENSOR</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">AS5600 Trục TILT</h3>
+            <p class="text-xs text-slate-400">Gắn đuôi motor 23mm (I2C Bus 0)</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2 text-xs mono">
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-amber-400">Pin 1: VCC</span>
+              <span class="px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800">3.3V (ESP32)</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-amber-400">Pin 2: GND</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Mass Chung</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-amber-400">Pin 3: SCL</span>
+              <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">GPIO 22</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-amber-400">Pin 4: SDA</span>
+              <span class="px-2 py-0.5 rounded bg-yellow-950 text-yellow-300 border border-yellow-800">GPIO 21</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 bg-slate-800/50 p-2.5 rounded-lg border border-slate-700/50">
+            <strong class="text-slate-200">Lưu ý chân DIR:</strong> Trên mạch AS5600, hàn tắt chân DIR xuống chân GND (quay thuận CW).
+          </div>
+        </div>
+
+        <!-- JACK J4 -->
+        <div class="bg-slate-900/90 border-2 border-purple-500/40 rounded-2xl p-5 shadow-xl space-y-4 hover:border-purple-400 transition-colors">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 font-bold text-xs mono">JACK J4</span>
+            <span class="text-[11px] font-semibold text-slate-400">4-PIN SENSOR</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">AS5600 Trục PAN</h3>
+            <p class="text-xs text-slate-400">Gắn đuôi motor 48mm (I2C Bus 1)</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2 text-xs mono">
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-purple-400">Pin 1: VCC</span>
+              <span class="px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800">3.3V (ESP32)</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-purple-400">Pin 2: GND</span>
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Mass Chung</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-purple-400">Pin 3: SCL</span>
+              <span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">GPIO 19</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="font-bold text-purple-400">Pin 4: SDA</span>
+              <span class="px-2 py-0.5 rounded bg-fuchsia-950 text-fuchsia-300 border border-fuchsia-800">GPIO 18</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 bg-slate-800/50 p-2.5 rounded-lg border border-slate-700/50">
+            <strong class="text-slate-200">Lưu ý chân DIR:</strong> Trên mạch AS5600, hàn tắt chân DIR xuống chân GND (quay thuận CW).
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SƠ ĐỒ ĐỒ HỌA TOÀN BỘ MẠCH (FULL SCHEMATIC SVG) -->
+    <section class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-network-wired text-indigo-400"></i>
+          Sơ Đồ Nguyên Lý Mạch Toàn Diện (Full Schematic SVG)
+        </h2>
+        <span class="text-xs text-slate-400 font-mono">Bao gồm Bên Trong Hộp + Jack Vách Hộp + Bên Ngoài Hộp</span>
+      </div>
+
+      <div class="overflow-x-auto bg-slate-950 p-4 rounded-2xl border border-slate-800">
+        <svg viewBox="0 0 1200 760" class="w-full min-w-[1100px] h-auto font-mono select-none">
+          <defs>
+            <filter id="boxShadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.7"/>
+            </filter>
+            <linearGradient id="usbGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#1e3a8a"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+            <linearGradient id="pwr20vGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#7f1d1d"/>
+              <stop offset="100%" stop-color="#dc2626"/>
+            </linearGradient>
+          </defs>
+
+          <!-- KHUNG HỘP ĐIỀU KHIỂN (ENCLOSURE BOX BOUNDARY) -->
+          <rect x="260" y="20" width="560" height="710" rx="20" fill="#090d16" stroke="#334155" stroke-width="2" stroke-dasharray="8,6"/>
+          <rect x="360" y="10" width="360" height="22" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="540" y="25" text-anchor="middle" fill="#94a3b8" font-size="10.5" font-weight="bold" letter-spacing="1">📦 BÊN TRONG HỘP ĐIỀU KHIỂN (CONTROLLER BOX)</text>
+
+          <!-- 1. KHỐI MÁY TÍNH CẤP USB 5V -->
+          <g transform="translate(30, 40)" filter="url(#boxShadow)">
+            <rect width="190" height="95" rx="12" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+            <rect width="190" height="26" rx="12" fill="url(#usbGrad)"/>
+            <text x="95" y="18" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">💻 MÁY TÍNH (PC / LAPTOP)</text>
+            <text x="95" y="50" text-anchor="middle" fill="#93c5fd" font-size="10">Cáp USB Zin</text>
+            <text x="95" y="68" text-anchor="middle" fill="#38bdf8" font-size="9">Cấp 5V sạch (&lt;100mA)</text>
+            <text x="95" y="84" text-anchor="middle" fill="#38bdf8" font-size="9">+ Serial Monitor 115200</text>
+          </g>
+
+          <!-- CÁP USB SANG CỔNG ESP32 -->
+          <path d="M 220 88 L 320 88" stroke="#38bdf8" stroke-width="4" stroke-dasharray="6,4"/>
+          <text x="270" y="80" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="bold">USB 5V</text>
+
+          <!-- 2. KHỐI NGUỒN ĐỘNG CƠ 20V DC -->
+          <g transform="translate(30, 560)" filter="url(#boxShadow)">
+            <rect width="190" height="120" rx="12" fill="#0f172a" stroke="#dc2626" stroke-width="2"/>
+            <rect width="190" height="26" rx="12" fill="url(#pwr20vGrad)"/>
+            <text x="95" y="18" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">⚡ NGUỒN 20V DC (MOTOR)</text>
+            <text x="95" y="46" text-anchor="middle" fill="#fca5a5" font-size="9.5">Sạc Type-C PD 20V / Adapter</text>
+            <rect x="20" y="60" width="150" height="46" rx="8" fill="#1e1b4b"/>
+            <text x="35" y="88" fill="#ef4444" font-size="13" font-weight="bold">+20V</text>
+            <text x="115" y="88" fill="#94a3b8" font-size="13" font-weight="bold">GND</text>
+          </g>
+
+          <!-- DÂY 20V ĐI VÀO HỘP -->
+          <path d="M 65 560 L 65 240 L 590 240" stroke="#ef4444" stroke-width="3.5" fill="none"/>
+          <path d="M 65 470 L 590 470" stroke="#ef4444" stroke-width="3.5" fill="none"/>
+          <text x="80" y="450" fill="#ef4444" font-size="11" font-weight="bold">+20V (Cấp VM TMC2209)</text>
+
+          <!-- DÂY GND 20V NỐI CHUNG GND ESP32 VÀ TMC -->
+          <path d="M 145 680 L 145 715 L 340 715 L 340 160 L 320 160" stroke="#94a3b8" stroke-width="3" fill="none"/>
+          <text x="240" y="708" fill="#cbd5e1" font-size="10" font-weight="bold">HÀN THÔNG MASS CHUNG (Common GND)</text>
+
+          <!-- 3. VI ĐIỀU KHIỂN ESP32 (TRUNG TÂM) -->
+          <g transform="translate(320, 50)" filter="url(#boxShadow)">
+            <rect width="230" height="640" rx="14" fill="#020617" stroke="#3b82f6" stroke-width="2.5"/>
+            <rect width="230" height="34" rx="14" fill="#1d4ed8"/>
+            <text x="115" y="22" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="bold">🧠 ESP32 DEVKIT V1</text>
+
+            <!-- Cổng cắm USB -->
+            <rect x="85" y="34" width="60" height="12" rx="3" fill="#38bdf8"/>
+            <text x="115" y="43" text-anchor="middle" fill="#020617" font-size="8" font-weight="bold">MICRO-USB</text>
+
+            <g font-size="10.5" fill="#f8fafc">
+              <text x="15" y="80" fill="#38bdf8" font-weight="bold">● 3V3 (Ra 3.3V)</text>
+              <text x="15" y="110" fill="#94a3b8" font-weight="bold">● GND (Mass)</text>
+              
+              <text x="15" y="150" fill="#f59e0b">● GPIO 27 (EN Pan)</text>
+              <text x="15" y="180" fill="#3b82f6">● GPIO 26 (DIR Pan)</text>
+              <text x="15" y="210" fill="#60a5fa">● GPIO 25 (STEP Pan)</text>
+
+              <text x="15" y="260" fill="#f43f5e">● GPIO 14 (EN Tilt)</text>
+              <text x="15" y="290" fill="#10b981">● GPIO 33 (DIR Tilt)</text>
+              <text x="15" y="320" fill="#34d399">● GPIO 32 (STEP Tilt)</text>
+
+              <text x="15" y="380" fill="#c084fc" font-weight="bold">● GPIO 18 (Pan SDA)</text>
+              <text x="15" y="410" fill="#c084fc" font-weight="bold">● GPIO 19 (Pan SCL)</text>
+
+              <text x="15" y="460" fill="#fde047" font-weight="bold">● GPIO 21 (Tilt SDA)</text>
+              <text x="15" y="490" fill="#fde047" font-weight="bold">● GPIO 22 (Tilt SCL)</text>
+
+              <rect x="15" y="530" width="200" height="90" rx="8" fill="#0f172a" stroke="#1e293b"/>
+              <text x="115" y="555" text-anchor="middle" fill="#34d399" font-size="9.5" font-weight="bold">✓ CÁC CHÂN TRỐNG DỰ PHÒNG:</text>
+              <text x="25" y="575" fill="#94a3b8" font-size="9">GPIO 16: Dự phòng Endstop Pan</text>
+              <text x="25" y="592" fill="#94a3b8" font-size="9">GPIO 17: Dự phòng Endstop Tilt</text>
+              <text x="25" y="609" fill="#94a3b8" font-size="9">GPIO 4 : Dự phòng nút bấm Zero</text>
+            </g>
+          </g>
+
+          <!-- ĐƯỜNG 3.3V TỪ ESP32 RA CHUNG -->
+          <path d="M 320 80 L 280 80 L 280 30 L 640 30 L 640 70" stroke="#38bdf8" stroke-width="2.5" fill="none"/>
+          <text x="460" y="25" fill="#38bdf8" font-size="9.5" font-weight="bold">ĐƯỜNG NGUỒN 3.3V (Chân 3V3 ESP32)</text>
+
+          <!-- 4. TMC2209 #1 — TRỤC PAN (48MM) -->
+          <g transform="translate(590, 60)" filter="url(#boxShadow)">
+            <rect width="200" height="200" rx="10" fill="#062817" stroke="#10b981" stroke-width="2"/>
+            <rect width="200" height="24" rx="10" fill="#047857"/>
+            <text x="100" y="17" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">🟢 TMC2209 #1 — MOTOR PAN</text>
+
+            <g font-size="9" fill="#cbd5e1">
+              <text x="10" y="45">EN   ◄── GPIO 27</text>
+              <text x="10" y="65">DIR  ◄── GPIO 26</text>
+              <text x="10" y="85">STEP ◄── GPIO 25</text>
+              <text x="10" y="105" fill="#94a3b8">MS1, MS2, PDN ➔ BỎ TRỐNG</text>
+              <text x="10" y="125" fill="#38bdf8">VIO  ◄── 3.3V ESP32</text>
+              <text x="10" y="145" fill="#ef4444">VM   ◄── +20V (Tụ 35V)</text>
+              <text x="10" y="165" fill="#94a3b8">GND  ◄── Mass Chung</text>
+            </g>
+
+            <rect x="110" y="40" width="80" height="145" rx="6" fill="#022c22" stroke="#10b981" stroke-width="1.2"/>
+            <text x="150" y="58" text-anchor="middle" fill="#6ee7b7" font-size="9.5" font-weight="bold">RA JACK J1</text>
+            <text x="120" y="80" fill="#ffffff" font-size="8.5">1A ➔ Pin 1</text>
+            <text x="120" y="102" fill="#86efac" font-size="8.5">1B ➔ Pin 2</text>
+            <text x="120" y="124" fill="#fca5a5" font-size="8.5">2A ➔ Pin 3</text>
+            <text x="120" y="146" fill="#7dd3fc" font-size="8.5">2B ➔ Pin 4</text>
+            <text x="150" y="170" text-anchor="middle" fill="#facc15" font-size="8">Standalone</text>
+          </g>
+
+          <!-- 5. TMC2209 #2 — TRỤC TILT (23MM) -->
+          <g transform="translate(590, 290)" filter="url(#boxShadow)">
+            <rect width="200" height="200" rx="10" fill="#082f49" stroke="#0284c7" stroke-width="2"/>
+            <rect width="200" height="24" rx="10" fill="#0369a1"/>
+            <text x="100" y="17" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">🔵 TMC2209 #2 — MOTOR TILT</text>
+
+            <g font-size="9" fill="#cbd5e1">
+              <text x="10" y="45">EN   ◄── GPIO 14</text>
+              <text x="10" y="65">DIR  ◄── GPIO 33</text>
+              <text x="10" y="85">STEP ◄── GPIO 32</text>
+              <text x="10" y="105" fill="#94a3b8">MS1, MS2, PDN ➔ BỎ TRỐNG</text>
+              <text x="10" y="125" fill="#38bdf8">VIO  ◄── 3.3V ESP32</text>
+              <text x="10" y="145" fill="#ef4444">VM   ◄── +20V (Tụ 35V)</text>
+              <text x="10" y="165" fill="#94a3b8">GND  ◄── Mass Chung</text>
+            </g>
+
+            <rect x="110" y="40" width="80" height="145" rx="6" fill="#0c4a6e" stroke="#0284c7" stroke-width="1.2"/>
+            <text x="150" y="58" text-anchor="middle" fill="#7dd3fc" font-size="9.5" font-weight="bold">RA JACK J2</text>
+            <text x="120" y="80" fill="#ffffff" font-size="8.5">1A ➔ Pin 1</text>
+            <text x="120" y="102" fill="#86efac" font-size="8.5">1B ➔ Pin 2</text>
+            <text x="120" y="124" fill="#fca5a5" font-size="8.5">2A ➔ Pin 3</text>
+            <text x="120" y="146" fill="#7dd3fc" font-size="8.5">2B ➔ Pin 4</text>
+            <text x="150" y="170" text-anchor="middle" fill="#facc15" font-size="8">Standalone</text>
+          </g>
+
+          <!-- ĐƯỜNG DẪN TỪ ESP32 RA CÁC JACK CẢM BIẾN TRÊN VÁCH HỘP -->
+          <g transform="translate(590, 520)" filter="url(#boxShadow)">
+            <rect width="200" height="170" rx="10" fill="#1e1035" stroke="#a855f7" stroke-width="2"/>
+            <rect width="200" height="24" rx="10" fill="#6b21a8"/>
+            <text x="100" y="17" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">🧭 ĐƯỜNG DÂY I2C RA 2 JACK</text>
+            <g font-size="9" fill="#e2e8f0">
+              <text x="10" y="48" fill="#c084fc" font-weight="bold">● RA JACK J4 (PAN):</text>
+              <text x="20" y="66">Pin 1: 3.3V | Pin 2: GND</text>
+              <text x="20" y="82">Pin 3: SCL (19) | Pin 4: SDA (18)</text>
+
+              <text x="10" y="112" fill="#fde047" font-weight="bold">● RA JACK J3 (TILT):</text>
+              <text x="20" y="130">Pin 1: 3.3V | Pin 2: GND</text>
+              <text x="20" y="146">Pin 3: SCL (22) | Pin 4: SDA (21)</text>
+            </g>
+          </g>
+
+          <!-- ================= VÁCH HỘP & 4 JACK CẮM (WALL CONNECTORS) ================= -->
+          <line x1="840" y1="20" x2="840" y2="730" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4,4"/>
+          <text x="830" y="375" fill="#f59e0b" font-size="11" font-weight="bold" transform="rotate(-90 830 375)">VÁCH HỘP (PANEL)</text>
+
+          <!-- JACK J1 TRÊN VÁCH -->
+          <g transform="translate(855, 60)" filter="url(#boxShadow)">
+            <rect width="90" height="135" rx="8" fill="#064e3b" stroke="#34d399" stroke-width="2"/>
+            <text x="45" y="22" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="bold">JACK J1</text>
+            <text x="45" y="36" text-anchor="middle" fill="#6ee7b7" font-size="8">Motor Pan</text>
+            <circle cx="25" cy="55" r="7" fill="#1e293b" stroke="#ffffff"/> <text x="25" y="58" text-anchor="middle" fill="#fff" font-size="8">1</text>
+            <circle cx="65" cy="55" r="7" fill="#1e293b" stroke="#86efac"/> <text x="65" y="58" text-anchor="middle" fill="#86efac" font-size="8">2</text>
+            <circle cx="25" cy="95" r="7" fill="#1e293b" stroke="#fca5a5"/> <text x="25" y="98" text-anchor="middle" fill="#fca5a5" font-size="8">3</text>
+            <circle cx="65" cy="95" r="7" fill="#1e293b" stroke="#7dd3fc"/> <text x="65" y="98" text-anchor="middle" fill="#7dd3fc" font-size="8">4</text>
+            <text x="45" y="125" text-anchor="middle" fill="#cbd5e1" font-size="7.5">4-Pin GX12</text>
+          </g>
+
+          <!-- JACK J2 TRÊN VÁCH -->
+          <g transform="translate(855, 220)" filter="url(#boxShadow)">
+            <rect width="90" height="135" rx="8" fill="#0c4a6e" stroke="#38bdf8" stroke-width="2"/>
+            <text x="45" y="22" text-anchor="middle" fill="#bae6fd" font-size="11" font-weight="bold">JACK J2</text>
+            <text x="45" y="36" text-anchor="middle" fill="#7dd3fc" font-size="8">Motor Tilt</text>
+            <circle cx="25" cy="55" r="7" fill="#1e293b" stroke="#ffffff"/> <text x="25" y="58" text-anchor="middle" fill="#fff" font-size="8">1</text>
+            <circle cx="65" cy="55" r="7" fill="#1e293b" stroke="#86efac"/> <text x="65" y="58" text-anchor="middle" fill="#86efac" font-size="8">2</text>
+            <circle cx="25" cy="95" r="7" fill="#1e293b" stroke="#fca5a5"/> <text x="25" y="98" text-anchor="middle" fill="#fca5a5" font-size="8">3</text>
+            <circle cx="65" cy="95" r="7" fill="#1e293b" stroke="#7dd3fc"/> <text x="65" y="98" text-anchor="middle" fill="#7dd3fc" font-size="8">4</text>
+            <text x="45" y="125" text-anchor="middle" fill="#cbd5e1" font-size="7.5">4-Pin GX12</text>
+          </g>
+
+          <!-- JACK J3 TRÊN VÁCH -->
+          <g transform="translate(855, 380)" filter="url(#boxShadow)">
+            <rect width="90" height="145" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="2"/>
+            <text x="45" y="22" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="bold">JACK J3</text>
+            <text x="45" y="36" text-anchor="middle" fill="#fcd34d" font-size="8">AS5600 Tilt</text>
+            <circle cx="25" cy="55" r="7" fill="#0284c7" stroke="#ffffff"/> <text x="25" y="58" text-anchor="middle" fill="#fff" font-size="8">1</text>
+            <circle cx="65" cy="55" r="7" fill="#475569" stroke="#ffffff"/> <text x="65" y="58" text-anchor="middle" fill="#fff" font-size="8">2</text>
+            <circle cx="25" cy="95" r="7" fill="#d97706" stroke="#ffffff"/> <text x="25" y="98" text-anchor="middle" fill="#fff" font-size="8">3</text>
+            <circle cx="65" cy="95" r="7" fill="#ca8a04" stroke="#ffffff"/> <text x="65" y="98" text-anchor="middle" fill="#fff" font-size="8">4</text>
+            <text x="45" y="120" text-anchor="middle" fill="#e2e8f0" font-size="7.5">1:3V3 | 2:GND</text>
+            <text x="45" y="135" text-anchor="middle" fill="#fde047" font-size="7.5">3:SCL | 4:SDA</text>
+          </g>
+
+          <!-- JACK J4 TRÊN VÁCH -->
+          <g transform="translate(855, 550)" filter="url(#boxShadow)">
+            <rect width="90" height="145" rx="8" fill="#3b0764" stroke="#c084fc" stroke-width="2"/>
+            <text x="45" y="22" text-anchor="middle" fill="#f3e8ff" font-size="11" font-weight="bold">JACK J4</text>
+            <text x="45" y="36" text-anchor="middle" fill="#d8b4fe" font-size="8">AS5600 Pan</text>
+            <circle cx="25" cy="55" r="7" fill="#0284c7" stroke="#ffffff"/> <text x="25" y="58" text-anchor="middle" fill="#fff" font-size="8">1</text>
+            <circle cx="65" cy="55" r="7" fill="#475569" stroke="#ffffff"/> <text x="65" y="58" text-anchor="middle" fill="#fff" font-size="8">2</text>
+            <circle cx="25" cy="95" r="7" fill="#9333ea" stroke="#ffffff"/> <text x="25" y="98" text-anchor="middle" fill="#fff" font-size="8">3</text>
+            <circle cx="65" cy="95" r="7" fill="#c026d3" stroke="#ffffff"/> <text x="65" y="98" text-anchor="middle" fill="#fff" font-size="8">4</text>
+            <text x="45" y="120" text-anchor="middle" fill="#e2e8f0" font-size="7.5">1:3V3 | 2:GND</text>
+            <text x="45" y="135" text-anchor="middle" fill="#c084fc" font-size="7.5">3:SCL | 4:SDA</text>
+          </g>
+
+          <!-- ================= BÊN NGOÀI HỘP (THIẾT BỊ NGOẠI VI) ================= -->
+          <!-- CÁP NỐI RA NGOÀI -->
+          <path d="M 945 125 L 1020 125" stroke="#34d399" stroke-width="3" stroke-dasharray="4,2"/>
+          <path d="M 945 285 L 1020 285" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4,2"/>
+          <path d="M 945 450 L 1020 450" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4,2"/>
+          <path d="M 945 620 L 1020 620" stroke="#c084fc" stroke-width="3" stroke-dasharray="4,2"/>
+
+          <!-- 1. MOTOR PAN NGOÀI KHUNG -->
+          <g transform="translate(1020, 60)" filter="url(#boxShadow)">
+            <rect width="150" height="135" rx="10" fill="#022c22" stroke="#10b981" stroke-width="2"/>
+            <text x="75" y="24" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="bold">⚙️ MOTOR PAN 48mm</text>
+            <text x="75" y="40" text-anchor="middle" fill="#6ee7b7" font-size="8">NEMA 17 (Trục Ngang)</text>
+            <text x="15" y="65" fill="#f8fafc" font-size="8.5">Pin 1: Cuộn A+ (Đen)</text>
+            <text x="15" y="83" fill="#86efac" font-size="8.5">Pin 2: Cuộn A- (Xanh lá)</text>
+            <text x="15" y="101" fill="#fca5a5" font-size="8.5">Pin 3: Cuộn B+ (Đỏ)</text>
+            <text x="15" y="119" fill="#7dd3fc" font-size="8.5">Pin 4: Cuộn B- (Xanh lam)</text>
+          </g>
+
+          <!-- 2. MOTOR TILT NGOÀI KHUNG -->
+          <g transform="translate(1020, 220)" filter="url(#boxShadow)">
+            <rect width="150" height="135" rx="10" fill="#082f49" stroke="#0284c7" stroke-width="2"/>
+            <text x="75" y="24" text-anchor="middle" fill="#bae6fd" font-size="10" font-weight="bold">⚙️ MOTOR TILT 23mm</text>
+            <text x="75" y="40" text-anchor="middle" fill="#7dd3fc" font-size="8">NEMA 17 Pancake</text>
+            <text x="15" y="65" fill="#f8fafc" font-size="8.5">Pin 1: Cuộn A+ (Đen)</text>
+            <text x="15" y="83" fill="#86efac" font-size="8.5">Pin 2: Cuộn A- (Xanh lá)</text>
+            <text x="15" y="101" fill="#fca5a5" font-size="8.5">Pin 3: Cuộn B+ (Đỏ)</text>
+            <text x="15" y="119" fill="#7dd3fc" font-size="8.5">Pin 4: Cuộn B- (Xanh lam)</text>
+          </g>
+
+          <!-- 3. AS5600 TILT NGOÀI KHUNG -->
+          <g transform="translate(1020, 380)" filter="url(#boxShadow)">
+            <rect width="150" height="145" rx="10" fill="#2d1505" stroke="#f59e0b" stroke-width="2"/>
+            <text x="75" y="24" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="bold">🧭 AS5600 TILT</text>
+            <text x="75" y="40" text-anchor="middle" fill="#fcd34d" font-size="8">Gắn Đuôi Motor 23mm</text>
+            <text x="15" y="65" fill="#38bdf8" font-size="8.5">Pin 1: VCC ➔ 3.3V</text>
+            <text x="15" y="83" fill="#94a3b8" font-size="8.5">Pin 2: GND ➔ Mass</text>
+            <text x="15" y="101" fill="#fde047" font-size="8.5">Pin 3: SCL ➔ GPIO 22</text>
+            <text x="15" y="119" fill="#fde047" font-size="8.5">Pin 4: SDA ➔ GPIO 21</text>
+            <text x="75" y="137" text-anchor="middle" fill="#4ade80" font-size="7.5">DIR hàn xuống GND</text>
+          </g>
+
+          <!-- 4. AS5600 PAN NGOÀI KHUNG -->
+          <g transform="translate(1020, 550)" filter="url(#boxShadow)">
+            <rect width="150" height="145" rx="10" fill="#240738" stroke="#c084fc" stroke-width="2"/>
+            <text x="75" y="24" text-anchor="middle" fill="#f3e8ff" font-size="10" font-weight="bold">🧭 AS5600 PAN</text>
+            <text x="75" y="40" text-anchor="middle" fill="#d8b4fe" font-size="8">Gắn Đuôi Motor 48mm</text>
+            <text x="15" y="65" fill="#38bdf8" font-size="8.5">Pin 1: VCC ➔ 3.3V</text>
+            <text x="15" y="83" fill="#94a3b8" font-size="8.5">Pin 2: GND ➔ Mass</text>
+            <text x="15" y="101" fill="#c084fc" font-size="8.5">Pin 3: SCL ➔ GPIO 19</text>
+            <text x="15" y="119" fill="#c084fc" font-size="8.5">Pin 4: SDA ➔ GPIO 18</text>
+            <text x="75" y="137" text-anchor="middle" fill="#4ade80" font-size="7.5">DIR hàn xuống GND</text>
+          </g>
+
+        </svg>
+      </div>
+    </section>
+
+    <!-- HƯỚNG DẪN ĐẤU DÂY VÀ BẤM ĐẦU CỐT (CRIMPING & SOLDERING GUIDE) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-3">
+        <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          1. Cách Nối Dây Jack Motor NEMA 17 (J1 & J2)
+        </h3>
+        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+          <li><strong>Quy ước màu dây chuẩn NEMA17:</strong> 
+            <br>• Cuộn pha A: Dây Đen (A+) và Dây Xanh Lá (A-). Đo VOM ôm $\approx 2\Omega$.
+            <br>• Cuộn pha B: Dây Đỏ (B+) và Dây Xanh Lam (B-). Đo VOM ôm $\approx 2\Omega$.
+          </li>
+          <li>Giữa cuộn A và cuộn B phải <strong>cách điện hoàn toàn ($\infty$)</strong>.</li>
+          <li>Hàn 4 dây này theo đúng thứ tự Pin 1 ➔ 4 của Jack GX12 trên vách hộp.</li>
+          <li>Nếu sau khi quay mà trục bị ngược chiều mong muốn: Không cần đổi dây, chỉ cần đổi trạng thái DIR trong code!</li>
+        </ul>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-3">
+        <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-microchip"></i>
+          2. Cách Nối Dây Jack Cảm Biến AS5600 (J3 & J4)
+        </h3>
+        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+          <li><strong>Pin 1 (3.3V) & Pin 2 (GND):</strong> Dùng dây bẹ cấp nguồn. Tuyệt đối không cắm nhầm chân 3.3V sang chân 20V.</li>
+          <li><strong>Pin 3 (SCL) & Pin 4 (SDA):</strong> Tín hiệu I2C. Nên dùng dây chống nhiễu có bọc giáp (Shielded Cable) nếu khoảng cách cáp dài hơn 50cm.</li>
+          <li><strong>Hàn tắt chân DIR trên bo AS5600:</strong> Chân DIR trên bo mạch cảm biến AS5600 cần lấy một giọt thiếc nhỏ hàn dính xuống chân GND ngay cạnh nó. Việc này cấu hình góc tăng theo chiều kim đồng hồ (CW).</li>
+          <li>Khoảng cách từ nam châm từ tính đến mặt kính chip AS5600 lý tưởng là <strong>$0.5\text{mm} - 1.5\text{mm}$</strong>.</li>
+        </ul>
+      </div>
+
+    </section>
+
+  </div>
+
+</body>
+</html>

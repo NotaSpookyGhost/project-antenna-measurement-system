@@ -33,11 +33,11 @@ from python.tests.test_helpers import (
 )
 
 SCRIPTS = [
-    "projects/python/tests/test_thru.py",
-    "projects/python/tests/test_s11_loads.py",
-    "projects/python/tests/test_fifo_freshness.py",
-    "projects/python/tests/test_repeatability.py",
-    "projects/python/tests/test_averaging.py",
+    "python/tests/test_thru.py",
+    "python/tests/test_s11_loads.py",
+    "python/tests/test_fifo_freshness.py",
+    "python/tests/test_repeatability.py",
+    "python/tests/test_averaging.py",
 ]
 
 
@@ -73,7 +73,7 @@ class TestSuiteValidation(unittest.TestCase):
         """Verify that all 5 scripts compile cleanly without syntax errors."""
         print("\n--- Test 1: Python Compilation (py_compile) ---")
         for script_rel in SCRIPTS:
-            script_path = PROJECTS_DIR.parent / script_rel
+            script_path = PROJECTS_DIR / script_rel
             print(f"Compiling {script_path.name}...", end=" ")
             py_compile.compile(str(script_path), doraise=True)
             print("OK")
@@ -82,7 +82,7 @@ class TestSuiteValidation(unittest.TestCase):
         """Verify structural contracts: PROJECTS_DIR, imports, main guard."""
         print("\n--- Test 2: AST Contract Inspection ---")
         for script_rel in SCRIPTS:
-            script_path = PROJECTS_DIR.parent / script_rel
+            script_path = PROJECTS_DIR / script_rel
             with open(script_path, "r", encoding="utf-8") as f:
                 content = f.read()
 

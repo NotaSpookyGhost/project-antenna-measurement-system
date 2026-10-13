@@ -242,7 +242,10 @@ def main():
         open_ok = open_db > OPEN_MIN_DB
         short_ok = short_db > SHORT_MIN_DB
         phase_diff_ok = phase_diff_deg > PHASE_DIFF_MIN_DEG
-        load_ok = (load_db < LOAD_MAX_DB) or (load_db < open_db - LOAD_DIFF_MIN_DB and load_db < short_db - LOAD_DIFF_MIN_DB)
+        load_absolute_ok = load_db < LOAD_MAX_DB
+        load_relative_ok = (load_db < open_db - LOAD_DIFF_MIN_DB
+                            and load_db < short_db - LOAD_DIFF_MIN_DB)
+        load_ok = load_absolute_ok or load_relative_ok
         all_complete = result_open.complete and result_short.complete and result_load.complete
 
         passed = open_ok and short_ok and phase_diff_ok and load_ok and all_complete
@@ -262,7 +265,9 @@ def main():
         print(f"  OPEN  Magnitude:                 {open_db:.2f} dB (Threshold: > {OPEN_MIN_DB:.1f} dB) -> {'PASS' if open_ok else 'FAIL'}")
         print(f"  SHORT Magnitude:                 {short_db:.2f} dB (Threshold: > {SHORT_MIN_DB:.1f} dB) -> {'PASS' if short_ok else 'FAIL'}")
         print(f"  Phase Difference Check:          {phase_diff_deg:.2f}° -> {'PASS' if phase_diff_ok else 'FAIL'}")
-        print(f"  LOAD Suppression:                {load_db:.2f} dB (Threshold: < {LOAD_MAX_DB:.1f} dB) -> {'PASS' if load_ok else 'FAIL'}")
+        print(f"  LOAD Absolute:                   {load_db:.2f} dB (Threshold: < {LOAD_MAX_DB:.1f} dB) -> {'PASS' if load_absolute_ok else 'FAIL'}")
+        print(f"  LOAD Relative:                   {min(open_db, short_db) - load_db:.2f} dB below OPEN/SHORT (Threshold: > {LOAD_DIFF_MIN_DB:.1f} dB) -> {'PASS' if load_relative_ok else 'FAIL'}")
+        print(f"  LOAD Overall (either criterion): {'PASS' if load_ok else 'FAIL'}")
         print("============================================================")
 
         # ── Save Experiment Artifacts ────────────────────────────────────
@@ -283,6 +288,8 @@ def main():
             "short_ok": short_ok,
             "phase_diff_ok": phase_diff_ok,
             "load_ok": load_ok,
+            "load_absolute_ok": load_absolute_ok,
+            "load_relative_ok": load_relative_ok,
         }
         save_config(exp_dir, identity, DEFAULT_START_HZ, DEFAULT_STOP_HZ, DEFAULT_POINTS,
                     dut=DUT_DESCRIPTION, extra=extra_meta)
@@ -314,7 +321,7 @@ def main():
             f"OPEN  |S11|:       {open_db:.2f} dB (Phase: {open_phase:.2f}°) [Expected > {OPEN_MIN_DB:.1f} dB] -> {'PASS' if open_ok else 'FAIL'}\n"
             f"SHORT |S11|:       {short_db:.2f} dB (Phase: {short_phase:.2f}°) [Expected > {SHORT_MIN_DB:.1f} dB] -> {'PASS' if short_ok else 'FAIL'}\n"
             f"Phase Difference:  {phase_diff_deg:.2f}° [Expected > {PHASE_DIFF_MIN_DEG:.1f}°] -> {'PASS' if phase_diff_ok else 'FAIL'}\n"
-            f"LOAD  |S11|:       {load_db:.2f} dB (Phase: {load_phase:.2f}°) [Expected < {LOAD_MAX_DB:.1f} dB] -> {'PASS' if load_ok else 'FAIL'}\n"
+            f"LOAD  |S11|:       {load_db:.2f} dB (Phase: {load_phase:.2f}°) [Absolute < {LOAD_MAX_DB:.1f} dB: {'PASS' if load_absolute_ok else 'FAIL'}; relative > {LOAD_DIFF_MIN_DB:.1f} dB: {'PASS' if load_relative_ok else 'FAIL'}] -> {'PASS' if load_ok else 'FAIL'}\n"
             f"------------------------------------------------------------\n"
             f"VERDICT: [{verdict}]\n"
         )

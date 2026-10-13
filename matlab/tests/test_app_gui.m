@@ -37,8 +37,8 @@ fprintf('  ✓ HPBW Result   : %s\n', app.HPBWLabel.String);
 fprintf('  ✓ SLL Result    : %s\n', app.SLLLabel.String);
 fprintf('  ✓ FBR Result    : %s\n', app.FBRLabel.String);
 
-% Test Reverse Scan (180° to 0°) from GUI
-fprintf('[3] Executing Reverse Scan (180° -> 0°, CCW) from GUI...\n');
+% Decreasing Pan is clockwise when viewed from above.
+fprintf('[3] Executing Reverse Scan (180° -> 0°, CW) from GUI...\n');
 app.StartAngleEdit.String = '180.0';
 app.StopAngleEdit.String  = '0.0';
 app.StepAngleEdit.String  = '30.0';
@@ -46,7 +46,7 @@ app.startScan();
 
 assert(~isempty(fieldnames(app.LastScanData)), 'LastScanData is empty after reverse scan');
 assert(length(app.LastScanData.Angles) == 7, 'Reverse scan should yield 7 points');
-assert(strcmp(app.LastScanData.Metadata.ScanDirection, 'CCW'), 'ScanDirection must be CCW');
+assert(strcmp(app.LastScanData.Metadata.ScanDirection, 'CW'), 'Decreasing Pan must be CW viewed from above');
 assert(app.LastScanData.Angles(1) == 180 && app.LastScanData.Angles(end) == 0, 'Angles range mismatch');
 fprintf('  ✓ Reverse scan completed! Acquired %d angles: [%s]\n', ...
         length(app.LastScanData.Angles), num2str(app.LastScanData.Angles));
