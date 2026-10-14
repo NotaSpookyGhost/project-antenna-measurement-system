@@ -11,6 +11,12 @@ the user observed return to the physical mark. Idle STOP/restart was reproduced
 and repaired. Tilt currently returns no valid feedback even with released
 drivers, so real 3D remains blocked. See `docs/ver2-hardware-validation-2026-10-14.md`.
 
+Later on 2026-10-14, the user replaced the Tilt AS5600. It now responds:
+40/40 released POS reads and 98/100 holding POS reads in the final check, with
+earlier failures and raw I2C NACKs under driver hold. It is still intermittent,
+so real 3D remains unqualified. Diagnostic firmware was temporary; production
+V4.0_HOLD is restored. See `docs/as5600-tilt-new-sensor-2026-10-14.md`.
+
 Software-only regression (both new and selected legacy tests; no serial ports):
 
 ```powershell

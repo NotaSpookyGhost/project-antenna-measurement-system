@@ -1,5 +1,9 @@
 # Ver2: kiểm thử thiết bị thật và sửa STOP/restart
 
+Cập nhật sau khi thay cảm biến Tilt: đã có phản hồi, nhưng vẫn còn mất mẫu khi
+giữ motor. Xem [bài kiểm tra AS5600 mới](as5600-tilt-new-sensor-2026-10-14.md).
+Các bảng Tilt phía dưới ghi nhận trạng thái trước lần thay cảm biến này.
+
 Kiểm tra ngày 13–14/10/2026 theo yêu cầu của người dùng. ESP32 CH340 ở COM5,
 SAA-2N ở COM6. Firmware `FW:V4.0_HOLD` đã nạp thành công bằng PlatformIO,
 esptool xác nhận hash dữ liệu flash. SHA-256 của firmware.bin:
