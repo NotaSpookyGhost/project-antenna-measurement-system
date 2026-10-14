@@ -6,12 +6,17 @@ static std::string command(const char* line) {
   Serial.output.clear(); Serial.input+=line; Serial.input+='\n'; loop(); return Serial.output;
 }
 int main() {
+  sensorConfig[0][0]=0x0a; sensorConfig[0][1]=0x48;
+  sensorConfig[0][2]=0x0a; sensorConfig[0][3]=0x47;
   setup();
+  for(int i=0;i<6;++i) assert(sensorConfig[0][i]==0);
   auto pos=command("POS");
   assert(pos.find("ENC_TILT_SOURCE:PWM")!=std::string::npos);
   assert(pos.find("ENC_TILT_VALID:0")!=std::string::npos); // wired I2C cannot mask missing PWM
   assert(pos.find("AGC_TILT_AVAILABLE:0")!=std::string::npos);
   int pulses=risingEdges[25]+risingEdges[32];
+  assert(command("TILT PWM REG").find("PWM_REG READ_OK:1")!=std::string::npos);
+  assert(risingEdges[25]+risingEdges[32]==pulses);
   assert(command("TILT PWM CONFIG").find("TILT PWM CONFIG OK")!=std::string::npos);
   assert(risingEdges[25]+risingEdges[32]==pulses);
   // Already captured frames cannot satisfy a later POS request.

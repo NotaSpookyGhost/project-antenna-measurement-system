@@ -11,8 +11,15 @@ there is no OTP/BURN command. PWM POS has fresh angle/validity fields and
 Native timing/configuration/hold tests and MATLAB compatibility tests passed,
 and this environment has been uploaded to COM5. The no-motion loaded probe
 confirmed `FW:V4.1_PWM_HOLD`, `PWM_CONFIG:1`, driver HOLD:0 and GPIO23.
-No OUT edges were present (`PWM_PERIOD_US:0`); actual PWM hardware acceptance
-remains pending OUT wiring. Build/upload/probe evidence:
+The first probe had no OUT edges. After the user wired OUT and retained
+SDA/SCL, a nondefault sensor range was observed (ZPOS0A48/MPOS0A47). The trial
+now normalizes only VOLATILE range registers before CONF, preserving reserved
+bits, OTP and mechanical ZERO. Actual stationary acceptance passed 30/30
+released +100/100 held +30/30 released, and a subsequent COM5 reopen still
+read valid PWM. Pulse period4274..4276 us; within-phase motor-angle span
+0.26/0.27/0.35 degrees. No STEP commands. Physical Tilt travel/accuracy and
+full3D scans remain unverified. See `docs/tilt-pwm-validation-2026-10-14.md`.
+Build/upload/probe evidence:
 `data/validation/tilt_pwm_build_20261014_134043/`.
 
 ```powershell

@@ -5,10 +5,10 @@ Pan vẫn dùng I2C. Tilt chỉ đọc PWM; mất xung sẽ báo encoder không 
 Chế độ này không thay đổi lực giữ, STOP, ZERO thủ công hay watchdog 30 giây.
 GPIO23 chưa được dùng trong source hiện tại; kiểm tra chân trên đúng bo ESP32.
 
-Bản thử đã được nạp trên COM5. Kiểm tra đứng yên sau nạp xác nhận cấu hình
-PWM thành công (`PWM_CONFIG:1`), nhưng chưa có cạnh xung OUT trên GPIO23.
-Chưa xác nhận bài PWM phần cứng đạt; bước tiếp theo là đấu OUT rồi chạy
-bài 30/100/30. Khi ngắt nguồn để đấu, cấu hình tạm sẽ cần được đặt lại.
+Bản thử đã được nạp trên COM5. Sau khi đấu OUT và cập nhật xử lý dải nội bộ
+của cảm biến, bài PWM đứng yên đã đạt 30/30 lúc nhả, 100/100 lúc giữ, 30/30
+sau khi nhả. Xem `docs/tilt-pwm-validation-2026-10-14.md` để biết giới hạn.
+Khi ngắt nguồn cảm biến, cấu hình tạm sẽ cần được đặt lại.
 
 ## Đấu dây
 
@@ -39,9 +39,10 @@ Nguồn 3,3 V và GND phải tới module, kể cả khi chỉ đọc PWM.
 ```
 
 ESP32 thử cấu hình lúc khởi động với driver nhả. CONF dùng OUTS=10,
-PWMF=01 (230 Hz), NOM; giữ nguyên các bit lọc/reserved. Chỉ chấp nhận range
-full-turn ZPOS/MPOS/MANG=0 và đọc lại CONF xác nhận. Không ghi ZERO của chip,
-không gửi lệnh BURN/OTP. Mất nguồn cảm biến sẽ trở lại cấu hình đã lưu trước
+PWMF=01 (230 Hz), NOM; giữ nguyên các bit lọc/reserved. Các mốc ZPOS/MPOS/MANG
+được đưa về 0 **bằng ghi tạm** để xuất góc toàn vòng, sau đó đọc lại cả dải
+và CONF hai lần để xác nhận. Không đổi ZERO cơ khí và không gửi BURN/OTP.
+Mất nguồn cảm biến sẽ trở lại cấu hình đã lưu trước
 đó (thường analog), nên cần cấu hình lại. Sau reset ESP32, kiểm tra PWM_CONFIG.
 
 ## Kiểm tra đứng yên
@@ -63,6 +64,7 @@ Có thể dùng Serial Monitor 115200 baud/LF thay script, từng lệnh:
 HOLD OFF
 TILT PWM CONFIG
 TILT PWM CHECK
+TILT PWM REG
 ```
 
 Kết quả cấu hình đúng: `TILT PWM CONFIG OK TEMPORARY 230HZ`.
@@ -76,6 +78,11 @@ công. Kiểm tra VCC/GND và tạm dùng đoạn SDA/SCL ngắn, vẫn giữ OU
 Chỉ thay dây khi đã ngắt nguồn; cấu hình lại sau khi cấp nguồn. Nếu không thể
 đưa ESP32 và cảm biến gần nhau để cấu hình, cần một bộ cấu hình I2C đặt gần
 cảm biến hoặc phương án khác; bản thử này không bỏ qua lỗi cấu hình.
+
+`TILT PWM REG` chỉ đọc các thanh ghi dải/CONF để khoanh vùng cấu hình, không
+phát xung motor hay ghi vào cảm biến. Ngày 14/10 sau khi nối OUT, cảm biến thực
+trả ZPOS=0x0A48, MPOS=0x0A47; bản đầu từ chối dải này. Bản cập nhật đưa dải
+về toàn vòng bằng ghi tạm trước khi đặt PWM, không sửa OTP của cảm biến.
 
 Nếu `PWM_CONFIG:1` nhưng `ENC_TILT_VALID:0`: kiểm tra OUT/GND, nguồn, nam châm
 và dạng xung. PWM chưa được chứng minh ổn định trên dây 2 m của cơ cấu này.

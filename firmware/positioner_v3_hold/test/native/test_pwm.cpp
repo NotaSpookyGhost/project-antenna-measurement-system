@@ -67,10 +67,14 @@ int main() {
   bus.registers[7]=0x15; bus.registers[8]=0x0c;
   assert(configureAS5600PWM(bus)==AS5600PWMConfigResult::Ok);
   assert(bus.registers[7]==0x15 && bus.registers[8]==0x6c);
-  for(int reg:bus.written) assert(reg==7 || reg==8); // no OTP or ZERO writes
+  for(int reg:bus.written) assert(reg>=1 && reg<=8); // never OTP/BURN
   ConfigBus scaled; scaled.registers[2]=1;
-  assert(configureAS5600PWM(scaled)==AS5600PWMConfigResult::RangeUnsupported);
-  assert(scaled.written.empty());
+  scaled.registers[1]=0xa0; // preserve factory/reserved upper nibble
+  scaled.registers[4]=2; scaled.registers[6]=3;
+  assert(configureAS5600PWM(scaled)==AS5600PWMConfigResult::Ok);
+  assert(scaled.registers[1]==0xa0 && scaled.registers[2]==0);
+  assert(scaled.registers[3]==0 && scaled.registers[4]==0 && scaled.registers[5]==0 && scaled.registers[6]==0);
+  for(int reg:scaled.written) assert(reg>=1 && reg<=8);
   ConfigBus failed; failed.nack=true;
   assert(configureAS5600PWM(failed)==AS5600PWMConfigResult::ReadFailed);
   assert(failed.written.empty());

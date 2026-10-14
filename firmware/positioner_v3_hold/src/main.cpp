@@ -137,7 +137,7 @@ struct TiltConfigRegisters {
     return readSensorRegisters(I2C_Tilt,reg,data,count);
   }
   bool writeRegisters(uint8_t reg,const uint8_t* data,int count) {
-    if (reg!=7 || count!=2) return false;
+    if (!((reg==7 && count==2) || (reg==1 && count==6))) return false;
 #ifdef ARDUINO_ARCH_ESP32
     return I2C_Tilt.writeRegisters(reg,data,count);
 #else
@@ -157,10 +157,17 @@ void configureTiltPWM() {
     Serial.println("TILT PWM CONFIG OK TEMPORARY 230HZ; SENSOR POWER CYCLE REQUIRES CONFIG");
   } else {
     const char* reason=result==AS5600PWMConfigResult::ReadFailed ? "I2C_READ" :
-      result==AS5600PWMConfigResult::RangeUnsupported ? "SCALED_RANGE" :
       result==AS5600PWMConfigResult::WriteFailed ? "I2C_WRITE" : "READBACK";
     Serial.printf("ERR: TILT_PWM_CONFIG_%s; USE SHORT CONFIGURATION WIRES\n",reason);
   }
+}
+void printTiltPWMRegisters() {
+  uint8_t data[8]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff};
+  bool ok=readSensorRegisters(I2C_Tilt,1,data,8);
+  uint8_t conf[2]={0xff,0xff};
+  bool confOk=readSensorRegisters(I2C_Tilt,7,conf,2);
+  Serial.printf("PWM_REG READ_OK:%d ZPOS:%02X%02X MPOS:%02X%02X MANG:%02X%02X CONF:%02X%02X SINGLE_OK:%d SINGLE_CONF:%02X%02X\n",
+    ok,data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],confOk,conf[0],conf[1]);
 }
 #endif
 
@@ -374,7 +381,7 @@ void setup() {
 
 #ifdef TILT_PWM_ENABLED
 #ifdef ARDUINO_ARCH_ESP32
-  pinMode(PIN_TILT_PWM,INPUT_PULLDOWN);
+  pinMode(PIN_TILT_PWM,INPUT); // high impedance even while OUT is still analog
   attachInterrupt(digitalPinToInterrupt(PIN_TILT_PWM),onTiltPWMEdge,CHANGE);
 #endif
   configureTiltPWM(); // drivers are still released; temporary CONF only
@@ -448,6 +455,9 @@ void loop() {
   }
   else if (cmd == "TILT PWM CHECK") {
     printPosition();
+  }
+  else if (cmd == "TILT PWM REG") {
+    printTiltPWMRegisters(); // read-only diagnosis; never changes CONF/OTP
   }
 #endif
   else if (cmd == "ZERO" || cmd == "0") {

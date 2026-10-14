@@ -17,8 +17,10 @@ Missing edges/timeouts produce RAW_TILT=-1 and ENC_TILT_VALID=0. PWM cannot
 report AGC/ML/MH, so availability is explicitly labelled; never claim a healthy
 magnetic field from a PWM angle alone.
 
-`TILT PWM CONFIG` must run only with drivers released, check full-turn sensor
-range and read/modify/write/read-back CONF. `TILT PWM CHECK` reports capture
+`TILT PWM CONFIG` must run only with drivers released, normalize volatile
+ZPOS/MPOS/MANG low12 bits to zero (preserving reserved bits), then
+read/modify/write/read-back CONF and verify the entire configuration twice.
+Mechanical ZERO and OTP are unchanged. `TILT PWM CHECK` reports capture
 health without motion. Default I2C firmware behavior remains supported.
 
 Acceptance: native tests cover timing endpoints, noisy/stale frames, wrap,
@@ -28,3 +30,11 @@ PWM acceptance requires the user to wire OUT, then released/held stationary
 checks before any Tilt movement.
 
 Source: https://www.mouser.com/datasheet/2/588/AS5600_DS000365_5_00-1877365.pdf
+## Actual hardware adjustment
+
+After OUT wiring, stable register reads showed ZPOS0A48/MPOS0A47 instead of
+the assumed default range. The user-approved reversible trial now normalizes
+those angle registers in volatile memory before selecting PWM; this is not
+an OTP burn or a motor ZERO command. The strict range rejection was our
+initial assumption, not a user requirement. Actual stationary160/160 PWM
+acceptance passed afterward; motor travel/physical accuracy remain untested.

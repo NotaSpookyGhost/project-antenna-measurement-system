@@ -51,17 +51,23 @@ class AS5600PWMCapture {
   }
 };
 #undef AS5600_PWM_ISR_ATTR
-enum class AS5600PWMConfigResult { Ok, ReadFailed, RangeUnsupported, WriteFailed, VerifyFailed };
+enum class AS5600PWMConfigResult { Ok, ReadFailed, WriteFailed, VerifyFailed };
 template<class Bus> AS5600PWMConfigResult configureAS5600PWM(Bus& bus) {
   uint8_t before[8], again[8];
   if (!bus.readRegisters(1,before,8) || !bus.readRegisters(1,again,8) ||
       memcmp(before,again,8)) return AS5600PWMConfigResult::ReadFailed;
-  for(int i=0;i<6;i+=2) if ((before[i]&15) || before[i+1])
-    return AS5600PWMConfigResult::RangeUnsupported;
+  uint8_t range[6];
+  bool normalize=false;
+  for(int i=0;i<6;i+=2) {
+    range[i]=before[i]&0xf0; range[i+1]=0;
+    normalize=normalize || (before[i]&15) || before[i+1];
+  }
+  // Volatile full-turn output only: chip OTP and mechanical ZERO are untouched.
+  if (normalize && !bus.writeRegisters(1,range,6)) return AS5600PWMConfigResult::WriteFailed;
   // Preserve factory/reserved/filter bits. NOM, OUTS=10, PWMF=01.
   uint8_t desired[2]={before[6],static_cast<uint8_t>((before[7]&~0xf3)|0x60)};
   if (!bus.writeRegisters(7,desired,2)) return AS5600PWMConfigResult::WriteFailed;
-  if (!bus.readRegisters(1,again,8) || memcmp(before,again,6) ||
+  if (!bus.readRegisters(1,again,8) || memcmp(range,again,6) ||
       again[6]!=desired[0] || again[7]!=desired[1]) return AS5600PWMConfigResult::VerifyFailed;
   uint8_t verified[8];
   if (!bus.readRegisters(1,verified,8) || memcmp(again,verified,8))
