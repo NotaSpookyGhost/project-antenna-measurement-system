@@ -1,5 +1,12 @@
 classdef TestPositionerLimits < matlab.unittest.TestCase
     methods (Test)
+        function hardwareFeedbackFixtureRejectsBothAxes(tc)
+            pos=HardwareFeedbackOnlyPositioner('COM_TEST_NOT_OPENED');
+            cleanup=onCleanup(@() delete(pos));
+            tc.verifyError(@() pos.moveTo('AZ',5),'HardwareFeedbackOnlyPositioner:MotionForbidden');
+            tc.verifyError(@() pos.moveTo('EL',5),'HardwareFeedbackOnlyPositioner:MotionForbidden');
+            tc.verifyFalse(pos.IsConnected);
+        end
         function unconfirmedHardwareUsesConservativeTravel(tc)
             tc.verifyEqual(PositionerController.effectiveTravelLimits('EL',[-180 180],[-90 90],false,true),[-5 95]);
             tc.verifyEqual(PositionerController.effectiveTravelLimits('AZ',[-360 360],[-90 270],false,true),[0 360]);

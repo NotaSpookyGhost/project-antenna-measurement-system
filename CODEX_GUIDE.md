@@ -5,9 +5,11 @@
 Implementation is on `codex/ver2-pan-tilt-3d`; `ver1/` remains the frozen baseline.
 See `docs/ver2-pan-tilt-3d.md` for independent axis grids, geometric ZERO offsets,
 declared travel, sequential/alternating rows, slice selection and dataset export.
-Firmware source now advertises V4.0_HOLD with explicit numerical capabilities;
-it is built but **not uploaded or hardware-tested**. The last physical validation
-below still describes v3.2. User has deferred ESP32/VNA testing until devices are available.
+Firmware V4.0_HOLD has now been uploaded to COM5 and tested with the real
+SAA-2N on COM6. Pan 0..360 / 10 completed 37/37 valid-encoder RF points;
+the user observed return to the physical mark. Idle STOP/restart was reproduced
+and repaired. Tilt currently returns no valid feedback even with released
+drivers, so real 3D remains blocked. See `docs/ver2-hardware-validation-2026-10-14.md`.
 
 Software-only regression (both new and selected legacy tests; no serial ports):
 
@@ -27,7 +29,20 @@ The GUI defaults to Mock for both instruments. Geometric offsets are saved witho
 motion and never automatically recalibrate the physical ZERO. Real 3D scanning
 requires both valid encoders and travel confirmed for the current ZERO.
 
-## Current firmware and AS5600 validation — 2026-10-13
+Explicit hardware regression (captures a test ZERO at the current pose, moves
+Pan 0..10 and returns; no Tilt movement):
+
+```matlab
+addpath('matlab/tests');
+test_real_idle_stop_restart('COM5',fullfile(tempdir,'idle-stop-real'),'Real');
+```
+
+This uses COM6 for real RF. Omit the third argument for Mock RF + real Pan.
+`test_real_3d_encoder_gate` is an explicit hardware negative test: its fixture
+prohibits all motion even if a previously missing encoder recovers. Neither
+hardware test is included in the ordinary mock suite.
+
+## Historical v3.2 firmware and AS5600 validation — 2026-10-13
 
 COM5 now runs **v3.2** from `firmware/positioner_v3_hold/`. See `docs/as5600-fix-2026-10-13.md`. Pan passed 100/100 stationary feedback reads and the real 0–360° / 10° scan with valid encoder feedback at all 37 points, continuous hold, and a second scan using the same ZERO. Tilt remains intermittent when its driver is enabled; the user reports a 2 m, 3.3 V sensor cable and has not tried adding external pull-ups. Verify existing module pull-ups and the electrical link before claiming Tilt is repaired.
 

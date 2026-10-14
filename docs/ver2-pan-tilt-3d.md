@@ -35,7 +35,8 @@ File cấu hình không xác nhận lại ZERO hay hành trình của thiết b�
 ## Khi có thiết bị trở lại
 
 1. Nạp firmware V4.0_HOLD trong `firmware/positioner_v3_hold` bằng PlatformIO,
-   khi COM rảnh và cơ cấu an toàn để reset. Bản này đã build, chưa nạp/thử thật.
+   khi COM rảnh và cơ cấu an toàn để reset. Thiết bị COM5 hiện đã được nạp bản
+   này; Pan + VNA thật đã kiểm tra, Tilt vẫn chưa đạt phản hồi encoder.
 2. Chọn thiết bị thật, kết nối; **Nhả motor** → căn cả hai trục → **Khóa + ZERO**.
 3. Trong **3D / ZERO**, khai báo hành trình cơ khí thực tế và bấm nút lưu kèm
    xác nhận hành trình cho ZERO hiện tại. Giới hạn số của firmware là Pan
@@ -79,7 +80,12 @@ trên nhánh `codex/ver2-pan-tilt-3d`.
 Kết quả kiểm tra phần mềm ngày 13/10/2026: **50/50 test MATLAB**, **39/39 test
 Python** đạt; hai bộ test native cho giữ motor/lease và AS5600 đạt. PlatformIO
 build thành công (RAM 21.592 byte, flash 302.701 byte). Mô phỏng hoàn thành 91/91
-điểm. Chưa nạp firmware hoặc kiểm tra ESP32/VNA thật trong giai đoạn này.
+điểm. Đây là kết quả mô phỏng trước khi nạp và kiểm thử thiết bị thật.
+
+Cập nhật ngày 14/10/2026: V4.0_HOLD đã nạp, Pan 0..360° / 10° với VNA thật đạt
+37/37 điểm; bạn đã quan sát trở về đúng dấu. Lỗi STOP rồi quét lại trên hardware
+đã sửa và kiểm tra lại. Tilt chưa có phản hồi hợp lệ nên quét 3D thật vẫn bị chặn.
+Xem [báo cáo kiểm thử thực tế](ver2-hardware-validation-2026-10-14.md).
 
 ![GUI quét 3D với dữ liệu Mock 91 điểm](images/ver2-mock-gui.png)
 

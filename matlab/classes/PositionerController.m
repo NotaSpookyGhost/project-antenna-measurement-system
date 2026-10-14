@@ -561,13 +561,24 @@ classdef PositionerController < handle
 
         function requestAbort(obj)
             % REQUESTABORT Signals the positioner to cancel current motion wait
-            if strcmpi(obj.Mode, 'Hardware') && obj.IsConnected
-                % Do not flush the in-flight command or mark a new transaction
-                % busy: STOP may be queued while the ESP32 is moving.
-                writeline(obj.SerialObj, "STOP");
-            end
-            obj.AbortRequested = true;
+            waiting = obj.IsMoving || obj.CommandInFlight;
+            obj.AbortRequested = waiting;
             if obj.IsMoving, obj.IsHomed = false; end
+            if strcmpi(obj.Mode, 'Hardware') && obj.IsConnected
+                if waiting
+                    % Preserve the active transaction: its wait consumes STOP.
+                    writeline(obj.SerialObj, "STOP");
+                else
+                    % Idle STOP has its own reply. Consume it before the next
+                    % POS, so neither its prompt nor an abort flag leaks across scans.
+                    obj.sendCommand("STOP");
+                    response = obj.waitForPrompt(3.0);
+                    if ~contains(response, "STOP OK") || ~contains(response, "ESP32-ANTENNA>")
+                        error('PositionerController:AbortUnconfirmed', ...
+                            'ESP32 did not confirm idle STOP: %s', strtrim(response));
+                    end
+                end
+            end
             if strcmpi(obj.Mode, 'Mock')
                 obj.IsMoving = false;
                 notify(obj, 'MotionCompleted');
