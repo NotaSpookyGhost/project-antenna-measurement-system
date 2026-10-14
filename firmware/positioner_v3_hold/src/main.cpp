@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include "as5600_sample.h"
+#ifdef TILT_PWM_ENABLED
+#include "as5600_pwm.h"
+#endif
 #ifdef ARDUINO_ARCH_ESP32
 #include "as5600_bus.h"
 using SensorBus = AS5600Bus;
@@ -32,6 +35,51 @@ const int PIN_TILT_EN   = 14; // Active LOW
 SensorBus I2C_Tilt(0);
 const int PIN_TILT_SDA = 21;
 const int PIN_TILT_SCL = 22;
+
+#ifdef TILT_PWM_ENABLED
+const int PIN_TILT_PWM = 23;
+const char* FW_VERSION = "V4.1_PWM_HOLD";
+AS5600PWMCapture tiltPWMCapture;
+bool tiltPWMConfigured = false;
+#ifdef ARDUINO_ARCH_ESP32
+portMUX_TYPE tiltPWMMux = portMUX_INITIALIZER_UNLOCKED;
+void IRAM_ATTR onTiltPWMEdge() {
+  uint32_t now=micros();
+  bool high=digitalRead(PIN_TILT_PWM)==HIGH;
+  portENTER_CRITICAL_ISR(&tiltPWMMux);
+  tiltPWMCapture.edge(high,now);
+  portEXIT_CRITICAL_ISR(&tiltPWMMux);
+}
+#endif
+AS5600PWMFrame getTiltPWMFrame() {
+#ifdef ARDUINO_ARCH_ESP32
+  portENTER_CRITICAL(&tiltPWMMux);
+#endif
+  AS5600PWMFrame frame=tiltPWMCapture.snapshot();
+#ifdef ARDUINO_ARCH_ESP32
+  portEXIT_CRITICAL(&tiltPWMMux);
+#endif
+  return frame;
+}
+float readTiltPWM() {
+  if (!tiltPWMConfigured) return -1;
+  uint32_t sequence=getTiltPWMFrame().sequence;
+  uint32_t started=micros();
+  AS5600PWMSamples samples; // only frames arriving AFTER this request count
+  while (micros()-started<35000) {
+    AS5600PWMFrame frame=getTiltPWMFrame();
+    if (frame.sequence!=sequence) {
+      if (frame.sequence-sequence!=1) samples.add(0,0,0,0);
+      sequence=frame.sequence;
+      if (samples.add(frame.periodUs,frame.highUs,frame.stampUs,micros())) return samples.angleDeg();
+    }
+    delay(1);
+  }
+  return -1;
+}
+#else
+const char* FW_VERSION = "V4.0_HOLD";
+#endif
 
 SensorBus I2C_Pan(1);
 const int PIN_PAN_SDA  = 18;
@@ -83,6 +131,39 @@ bool readSensorRegisters(SensorBus &bus, uint8_t reg, uint8_t* data, int count) 
 #endif
 }
 
+#ifdef TILT_PWM_ENABLED
+struct TiltConfigRegisters {
+  bool readRegisters(uint8_t reg,uint8_t* data,int count) {
+    return readSensorRegisters(I2C_Tilt,reg,data,count);
+  }
+  bool writeRegisters(uint8_t reg,const uint8_t* data,int count) {
+    if (reg!=7 || count!=2) return false;
+#ifdef ARDUINO_ARCH_ESP32
+    return I2C_Tilt.writeRegisters(reg,data,count);
+#else
+    I2C_Tilt.beginTransmission(AS5600_ADDR); I2C_Tilt.write(reg);
+    for(int i=0;i<count;++i) I2C_Tilt.write(data[i]);
+    return I2C_Tilt.endTransmission(true)==0;
+#endif
+  }
+};
+void configureTiltPWM() {
+  tiltPWMConfigured=false;
+  TiltConfigRegisters registers;
+  AS5600PWMConfigResult result=configureAS5600PWM(registers);
+  if (result==AS5600PWMConfigResult::Ok) {
+    tiltPWMConfigured=true;
+    calibrationRequired=true;
+    Serial.println("TILT PWM CONFIG OK TEMPORARY 230HZ; SENSOR POWER CYCLE REQUIRES CONFIG");
+  } else {
+    const char* reason=result==AS5600PWMConfigResult::ReadFailed ? "I2C_READ" :
+      result==AS5600PWMConfigResult::RangeUnsupported ? "SCALED_RANGE" :
+      result==AS5600PWMConfigResult::WriteFailed ? "I2C_WRITE" : "READBACK";
+    Serial.printf("ERR: TILT_PWM_CONFIG_%s; USE SHORT CONFIGURATION WIRES\n",reason);
+  }
+}
+#endif
+
 float readSensorDeg(SensorBus &bus) {
   AS5600Samples samples;
   for (int attempt=0; attempt<16; ++attempt) {
@@ -111,9 +192,15 @@ SensorSnapshot readSensors(uint32_t requestId) {
   SensorSnapshot result;
   result.requestId = requestId;
   result.pan = readSensorDeg(I2C_Pan);
+#ifdef TILT_PWM_ENABLED
+  result.tilt = readTiltPWM();
+#else
   result.tilt = readSensorDeg(I2C_Tilt);
+#endif
   result.panAGC = result.pan >= 0 ? readSensorAGC(I2C_Pan) : 255;
+#ifndef TILT_PWM_ENABLED
   result.tiltAGC = result.tilt >= 0 ? readSensorAGC(I2C_Tilt) : 255;
+#endif
   return result;
 }
 
@@ -129,10 +216,16 @@ void refreshSensors() {
 
 void printPosition() {
   refreshSensors();
-  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180\n",
+  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:%s SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180\n",
                 currentPanDeg, currentTiltDeg, cachedPanSensorDeg, cachedPanAGC,
                 cachedTiltSensorDeg, cachedTiltAGC, holdRequested,
-                calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount);
+                calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount,FW_VERSION);
+#ifdef TILT_PWM_ENABLED
+  AS5600PWMFrame frame=getTiltPWMFrame();
+  Serial.printf("ENC_TILT_SOURCE:PWM AGC_TILT_AVAILABLE:0 PWM_CONFIG:%d PWM_PIN:%d PWM_PERIOD_US:%lu PWM_AGE_US:%lu\n",
+                tiltPWMConfigured,PIN_TILT_PWM,(unsigned long)frame.periodUs,
+                (unsigned long)(frame.sequence ? micros()-frame.stampUs : 0xffffffffU));
+#endif
 }
 
 // Accumulate complete lines without Stream's blocking timeout in the pulse loop.
@@ -279,6 +372,14 @@ void setup() {
   I2C_Tilt.setTimeOut(25);
   I2C_Pan.setTimeOut(25);
 
+#ifdef TILT_PWM_ENABLED
+#ifdef ARDUINO_ARCH_ESP32
+  pinMode(PIN_TILT_PWM,INPUT_PULLDOWN);
+  attachInterrupt(digitalPinToInterrupt(PIN_TILT_PWM),onTiltPWMEdge,CHANGE);
+#endif
+  configureTiltPWM(); // drivers are still released; temporary CONF only
+#endif
+
   delay(300);
 
   Serial.println("\n==================================================================");
@@ -340,6 +441,15 @@ void loop() {
   else if (cmd == "POS") {
     printPosition();
   }
+#ifdef TILT_PWM_ENABLED
+  else if (cmd == "TILT PWM CONFIG") {
+    if (driversEnabled) Serial.println("ERR: RELEASE_FIRST; USE HOLD OFF");
+    else configureTiltPWM();
+  }
+  else if (cmd == "TILT PWM CHECK") {
+    printPosition();
+  }
+#endif
   else if (cmd == "ZERO" || cmd == "0") {
     if (calibrationRequired) {
       Serial.println("ERR: CAL_REQUIRED; USE LOCK ZERO");

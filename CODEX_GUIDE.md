@@ -1,5 +1,27 @@
 # Codex setup for antenna-v3
 
+## Tilt PWM trial — 2026-10-14
+
+An explicit `tilt-pwm` PlatformIO environment uses GPIO23 / AS5600 OUT at
+230 Hz for Tilt (`FW:V4.1_PWM_HOLD`). The default environment retains I2C.
+Read `docs/tilt-pwm-setup.md` before wiring/uploading. Temporary CONF setup
+still requires reliable SDA21/SCL22 at boot/after sensor power cycling;
+there is no OTP/BURN command. PWM POS has fresh angle/validity fields and
+`AGC_TILT_AVAILABLE:0`; the AGC=255 placeholder is not a magnetic measurement.
+Native timing/configuration/hold tests and MATLAB compatibility tests passed,
+and this environment has been uploaded to COM5. The no-motion loaded probe
+confirmed `FW:V4.1_PWM_HOLD`, `PWM_CONFIG:1`, driver HOLD:0 and GPIO23.
+No OUT edges were present (`PWM_PERIOD_US:0`); actual PWM hardware acceptance
+remains pending OUT wiring. Build/upload/probe evidence:
+`data/validation/tilt_pwm_build_20261014_134043/`.
+
+```powershell
+python -X utf8 firmware/positioner_v3_hold/test/hardware_pwm.py --port COM5 --configure
+```
+
+This is hardware-capable: holds/releases drivers, reads 30/100/30 samples,
+but never issues STEP/GOTO/ZERO or accesses the VNA.
+
 ## Ver2 Pan × Tilt 3D — 2026-10-13
 
 Implementation is on `codex/ver2-pan-tilt-3d`; `ver1/` remains the frozen baseline.

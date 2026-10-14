@@ -13,6 +13,14 @@ class AS5600Bus {
     releaseData(); digitalWrite(scl_, HIGH); pinMode(scl_, OUTPUT);
   }
   void setTimeOut(int) {} // Every GPIO transaction has a fixed, bounded length.
+  // Only temporary CONF writes are supported. Never expose BURN/OTP here.
+  bool writeRegisters(uint8_t reg,const uint8_t* data,int count) {
+    if (reg!=7 || count!=2) return false;
+    stop();
+    bool ok=start() && writeByte(0x6c) && writeByte(reg);
+    for(int i=0;ok && i<count;++i) ok=writeByte(data[i]);
+    stop(); return ok;
+  }
   bool readRegisters(uint8_t reg, uint8_t* data, int count) {
     releaseData();
     for (int i = 0; i < 9 && !sampleData(); ++i) {
