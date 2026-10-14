@@ -63,6 +63,30 @@ khi driver bật và vị trí/tâm/khoảng cách nam châm để giải quyế
 đường SDA/SCL 2 m cũng cần đo bằng thiết bị đo nếu các bước này không giải quyết
 được lỗi giao tiếp.
 
+### Sau khi người dùng gỡ thêm dây và cắm lại thiết bị
+
+COM5 biến mất tạm thời khi người dùng thao tác dây; sau khi cắm lại, COM5 trở
+lại với USB CH340, và cùng bài kiểm tra `POS`/`PING`/`HOLD ON/OFF` trên
+`V4.0_HOLD` đã chạy hết. Không gửi STEP, GOTO, ZERO hoặc lệnh VNA.
+
+| Trạng thái | Pan | Tilt |
+|---|---:|---:|
+| Nhả trước khi giữ | 30/30 | **0/30** |
+| Giữ cả hai driver | 300/300 | **95/300** |
+| Nhả sau khi giữ | 30/30 | **0/30** |
+
+Khi đọc Tilt thất bại, POS trả `RAW_TILT:-1.00 (AGC:255)`. Trong 95 mẫu được
+chấp nhận lúc giữ, góc thô Tilt trải từ 0,00° đến 354,64° dù không phát lệnh
+quay; không xem những mẫu này là bằng chứng góc vật lý đúng. So với bài sau
+kéo lên SDA 2,5 kΩ (Tilt 30/30, 218/300, 30/30), phản hồi Tilt hiện tệ hơn;
+chưa biết chính xác những dây nào đã được gỡ, nên chưa gán nguyên nhân cho
+thao tác đó. Kết thúc đã nhả driver và đóng COM5. Raw log và summary:
+`data/validation/tilt_extra_wires_removed_20261014/`.
+
+Trước khi thử lại, kiểm tra đúng bốn đường J3 Tilt (3,3 V, GND, SDA GPIO21,
+SCL GPIO22), đo 3,3 V tại module, sau đó mới kiểm tra căn tâm/khe nam châm.
+Không quét Tilt/3D khi tín hiệu còn mất ở trạng thái nhả.
+
 Cảm biến mới có hoạt động và đã nhận diện nam châm, nhưng chưa đạt mức 100/100
 khi driver giữ. Có bằng chứng lỗi giao tiếp I²C và từ trường yếu; chưa có phép
 đo điện áp hoặc dạng sóng để xác định chính xác dây, nguồn hay nhiễu nào gây lỗi.
