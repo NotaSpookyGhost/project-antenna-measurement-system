@@ -1,5 +1,9 @@
 # Tilt AS5600 PWM — kiểm tra phần cứng ngày 14/10/2026
 
+> **Historical PWM trial:** retired after the 1 m / no external pull-up
+> I2C stationary and MATLAB Tilt motion tests passed. Current production
+> uses I2C only; see [current validation](tilt-i2c-validation-2026-10-14.md).
+
 Người dùng đã nối OUT Tilt vào GPIO23, xác nhận giữ SDA21/SCL22.
 Thử riêng cảm biến, không VNA, không STEP/GOTO/ZERO motor. Firmware trên
 COM5 là V4.1_PWM_HOLD, không dùng I2C để đọc góc Tilt trong POS.

@@ -1,5 +1,10 @@
 # Thử AS5600 Tilt bằng PWM — 14/10/2026
 
+> **Bản thử đã ngừng dùng.** Sau khi dây Tilt rút xuống 1 m và tháo trở
+> ngoài, I²C đạt bài đứng yên và quét góc −90..+90 bằng MATLAB. Mã PWM và
+> environment bên dưới đã gỡ khỏi firmware chính; chỉ áp dụng cho bản lưu
+> commit `799e252`. Xem [báo cáo I²C hiện tại](tilt-i2c-validation-2026-10-14.md).
+
 Firmware thử: PlatformIO environment `tilt-pwm`, `FW:V4.1_PWM_HOLD`.
 Pan vẫn dùng I2C. Tilt chỉ đọc PWM; mất xung sẽ báo encoder không hợp lệ.
 Chế độ này không thay đổi lực giữ, STOP, ZERO thủ công hay watchdog 30 giây.

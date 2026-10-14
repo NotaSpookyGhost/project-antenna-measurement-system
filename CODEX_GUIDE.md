@@ -1,6 +1,27 @@
 # Codex setup for antenna-v3
 
-## Tilt PWM trial — 2026-10-14
+## Current Tilt transport: I2C only — 2026-10-14
+
+After the user shortened the Tilt cable to 1 m and removed the external
+2.5 kohm SDA pull-up, I2C and PWM both passed stationary 30/100/30 reads.
+Real MATLAB Tilt then passed 33 positions through 0..+90..0..-90..0,
+330/330 fresh snapshots, continuous hold, motor-tail closure -0.17 deg.
+The user declared this travel safe from the present test pose. Physical
+output angle and RF/3D accuracy were not independently measured.
+
+The main firmware now uses I2C for both axes (`FW:V4.0_HOLD`); the optional
+PWM implementation/environment/scripts have been removed after these tests.
+Build/upload the default `esp32doit-devkit-v1` environment. GPIO23/OUT is
+unneeded. Retired `TILT PWM ...` commands are rejected without movement.
+Read `docs/tilt-i2c-validation-2026-10-14.md` for raw evidence, wiring and
+the archived PWM trial. Recalibrate manually after reset/release and confirm
+travel again if the physical ZERO changes. `ver1/` remains frozen.
+
+## Historical Tilt PWM trial — 2026-10-14 (retired)
+
+The following describes the archived trial at commit `799e252`; its
+`tilt-pwm` environment and hardware script do not exist in the current
+production firmware. See the current I2C section above.
 
 An explicit `tilt-pwm` PlatformIO environment uses GPIO23 / AS5600 OUT at
 230 Hz for Tilt (`FW:V4.1_PWM_HOLD`). The default environment retains I2C.
