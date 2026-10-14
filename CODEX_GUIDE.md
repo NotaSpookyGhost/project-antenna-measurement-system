@@ -8,14 +8,21 @@ declared travel, sequential/alternating rows, slice selection and dataset export
 Firmware V4.0_HOLD has now been uploaded to COM5 and tested with the real
 SAA-2N on COM6. Pan 0..360 / 10 completed 37/37 valid-encoder RF points;
 the user observed return to the physical mark. Idle STOP/restart was reproduced
-and repaired. Tilt currently returns no valid feedback even with released
-drivers, so real 3D remains blocked. See `docs/ver2-hardware-validation-2026-10-14.md`.
+and repaired. The original Tilt check failed; subsequent sensor and wiring
+changes are recorded below. See `docs/ver2-hardware-validation-2026-10-14.md`.
 
 Later on 2026-10-14, the user replaced the Tilt AS5600. It now responds:
 40/40 released POS reads and 98/100 holding POS reads in the final check, with
 earlier failures and raw I2C NACKs under driver hold. It is still intermittent,
 so real 3D remains unqualified. Diagnostic firmware was temporary; production
 V4.0_HOLD is restored. See `docs/as5600-tilt-new-sensor-2026-10-14.md`.
+
+After separating motor and sensor cables, the user added a 2.5 kΩ pull-up to
+Tilt SDA. A no-motion COM5 retest read Tilt 30/30 with drivers released,
+218/300 while holding, and 30/30 after release (Pan 360/360). Tilt AGC
+remained at 128 for valid samples. Real 3D is still unqualified; investigate
+magnet alignment and sensor-side 3.3 V/GND under hold. Raw log and summary:
+`data/validation/tilt_pullup_20261014/`.
 
 Software-only regression (both new and selected legacy tests; no serial ports):
 
@@ -50,7 +57,7 @@ hardware test is included in the ordinary mock suite.
 
 ## Historical v3.2 firmware and AS5600 validation — 2026-10-13
 
-COM5 now runs **v3.2** from `firmware/positioner_v3_hold/`. See `docs/as5600-fix-2026-10-13.md`. Pan passed 100/100 stationary feedback reads and the real 0–360° / 10° scan with valid encoder feedback at all 37 points, continuous hold, and a second scan using the same ZERO. Tilt remains intermittent when its driver is enabled; the user reports a 2 m, 3.3 V sensor cable and has not tried adding external pull-ups. Verify existing module pull-ups and the electrical link before claiming Tilt is repaired.
+COM5 ran **v3.2** from `firmware/positioner_v3_hold/` during these historical tests; it now runs V4.0_HOLD. See `docs/as5600-fix-2026-10-13.md`. Pan passed 100/100 stationary feedback reads and the real 0–360° / 10° scan with valid encoder feedback at all 37 points, continuous hold, and a second scan using the same ZERO. Tilt remained intermittent with its driver enabled; the later 2.5 kΩ pull-up test is recorded above. Verify the electrical link before claiming Tilt is repaired.
 
 Firmware uses bounded GPIO I2C transactions on dedicated AS5600 buses, three fresh agreeing samples, packet/magnet checks and bus recovery. SDA stays open drain; driven SCL is specific to AS5600's input-only, non-stretching clock. Readings never reuse a previous POS cache. MATLAB now blocks a scan without valid feedback from the selected axis and stops on feedback loss, preserving completed points and holding torque. It does not continue a successful scan on step counts alone. The v3.1 worker described below is superseded.
 

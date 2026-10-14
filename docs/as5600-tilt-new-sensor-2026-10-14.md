@@ -45,6 +45,24 @@ làm lỗi nặng hơn từ một lượt thử, vì cảm biến đã biến đ
 Không chạy thử chuyển động Tilt hoặc quét 3D trong lượt này. Log và summary:
 `data/validation/cable_separated_20261014_120439/`.
 
+### Sau khi thêm điện trở kéo lên SDA Tilt 2,5 kΩ
+
+Người dùng đã lắp thêm điện trở 2,5 kΩ. Chạy lại firmware production
+`V4.0_HOLD` trên COM5, chỉ dùng `POS`, `PING` và `HOLD ON/OFF`, không phát xung
+STEP, không nạp firmware và không dùng VNA. Kết quả: khi nhả trước giữ,
+Pan/Tilt **30/30**; khi giữ cả hai driver, Pan **300/300**, Tilt **218/300**;
+sau khi nhả, Pan/Tilt **30/30**. Bộ đếm nhả không thay đổi trong pha giữ;
+khi kết thúc, cả hai driver đã nhả và COM5 đóng. Trong các mẫu Tilt hợp lệ,
+AGC luôn bằng **128**; mẫu lỗi ghi AGC=255 là giá trị báo đọc thất bại.
+Log và script kiểm tra: `data/validation/tilt_pullup_20261014/`.
+
+So với lượt sau tách dây (Tilt 248/300 lúc giữ), kết quả không chứng minh
+điện trở đã sửa được lỗi; mức lỗi có thể biến động giữa các lượt. Chưa đạt
+điều kiện quét 3D thật. Cần kiểm tra điện áp 3,3 V/GND ngay tại module Tilt
+khi driver bật và vị trí/tâm/khoảng cách nam châm để giải quyết AGC tối đa;
+đường SDA/SCL 2 m cũng cần đo bằng thiết bị đo nếu các bước này không giải quyết
+được lỗi giao tiếp.
+
 Cảm biến mới có hoạt động và đã nhận diện nam châm, nhưng chưa đạt mức 100/100
 khi driver giữ. Có bằng chứng lỗi giao tiếp I²C và từ trường yếu; chưa có phép
 đo điện áp hoặc dạng sóng để xác định chính xác dây, nguồn hay nhiễu nào gây lỗi.
