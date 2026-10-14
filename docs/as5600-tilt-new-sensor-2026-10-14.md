@@ -63,7 +63,7 @@ khi driver bật và vị trí/tâm/khoảng cách nam châm để giải quyế
 đường SDA/SCL 2 m cũng cần đo bằng thiết bị đo nếu các bước này không giải quyết
 được lỗi giao tiếp.
 
-### Sau khi người dùng gỡ thêm dây và cắm lại thiết bị
+### Sau khi người dùng tiếp tục tách bó dây và cắm lại thiết bị
 
 COM5 biến mất tạm thời khi người dùng thao tác dây; sau khi cắm lại, COM5 trở
 lại với USB CH340, và cùng bài kiểm tra `POS`/`PING`/`HOLD ON/OFF` trên
@@ -75,12 +75,14 @@ lại với USB CH340, và cùng bài kiểm tra `POS`/`PING`/`HOLD ON/OFF` trê
 | Giữ cả hai driver | 300/300 | **95/300** |
 | Nhả sau khi giữ | 30/30 | **0/30** |
 
+Người dùng xác nhận chỉ tách bó dây, không rút hoặc đổi các đường điện ở J3.
 Khi đọc Tilt thất bại, POS trả `RAW_TILT:-1.00 (AGC:255)`. Trong 95 mẫu được
 chấp nhận lúc giữ, góc thô Tilt trải từ 0,00° đến 354,64° dù không phát lệnh
 quay; không xem những mẫu này là bằng chứng góc vật lý đúng. So với bài sau
-kéo lên SDA 2,5 kΩ (Tilt 30/30, 218/300, 30/30), phản hồi Tilt hiện tệ hơn;
-chưa biết chính xác những dây nào đã được gỡ, nên chưa gán nguyên nhân cho
-thao tác đó. Kết thúc đã nhả driver và đóng COM5. Raw log và summary:
+kéo lên SDA 2,5 kΩ (Tilt 30/30, 218/300, 30/30), phản hồi Tilt hiện tệ hơn.
+Không thể quy nguyên nhân cho việc tách bó từ một lượt thử; việc thao tác dây
+cũng có thể làm lộ tiếp xúc lỏng ở đầu nối hoặc thay đổi vị trí cáp.
+Kết thúc đã nhả driver và đóng COM5. Raw log và summary:
 `data/validation/tilt_extra_wires_removed_20261014/`.
 
 Trước khi thử lại, kiểm tra đúng bốn đường J3 Tilt (3,3 V, GND, SDA GPIO21,

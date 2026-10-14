@@ -24,7 +24,8 @@ remained at 128 for valid samples. Real 3D is still unqualified; investigate
 magnet alignment and sensor-side 3.3 V/GND under hold. Raw log and summary:
 `data/validation/tilt_pullup_20261014/`.
 
-After the user removed more wiring and reconnected COM5, a final no-motion
+After the user further separated cable bundles and reconnected COM5 (without
+changing J3 electrical connections), a final no-motion
 retest returned Tilt 0/30 released, 95/300 holding, 0/30 released; Pan stayed
 360/360. Raw Tilt values during hold also spanned almost the full 0..360°.
 Real Tilt/3D remains unqualified until J3 wiring and sensor-side power are
