@@ -60,6 +60,19 @@ của AS5600 Tilt để phân biệt nguyên nhân cụ thể; dữ liệu hiệ
 dựng đứng, mặt hướng về người dùng → **theta tại ZERO = 90°, phi tại ZERO = 0°**.
 Góc lệnh motor tương đối vẫn là 0° cho cả hai trục.
 
+### Kiểm tra lại sau khi người dùng cắm lại dây motor Tilt
+
+Ngày 14/10, người dùng phát hiện đã rút nhầm dây motor Tilt và cắm lại, rồi yêu
+cầu kiểm tra lại. Kết quả mới: khi giữ cả hai motor, Pan **100/100**, Tilt
+**0/100** phản hồi hợp lệ. Đối chiếu thêm ba trạng thái nhả/giữ/nhả, mỗi trạng
+thái 20 lần: Pan **60/60**, Tilt **0/60**. Raw POS vẫn báo `RAW_TILT:-1.00`,
+`ENC_TILT_VALID:0` cả khi nhả và giữ. Không phát xung STEP cho Tilt; kết thúc
+bài kiểm tra đã nhả driver và đóng cổng. Việc cắm lại dây motor chưa khôi phục
+phản hồi AS5600; vẫn cần kiểm tra đường cảm biến và nam châm riêng.
+
+Log mới: `data/validation/as5600_v32_20261014_104550/stationary.log` và
+`data/validation/tilt_replug_20261014_104652/raw_pos.log` / `summary.json`.
+
 ## Dữ liệu và kiểm tra phần mềm
 
 Sau bản sửa: **51/51 test MATLAB** (hình học, giới hạn, engine/data/GUI 3D,
