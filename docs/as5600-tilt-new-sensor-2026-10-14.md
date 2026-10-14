@@ -34,6 +34,17 @@ AGC tối đa trong chế độ 3,3 V là 128. Nguồn: [ams OSRAM AS5600 datash
 
 ## Kết luận và bước tiếp theo
 
+### Sau khi tách riêng các bó dây
+
+Người dùng tách tuyến dây motor và dây cảm biến rồi yêu cầu kiểm tra tiếp.
+Trên firmware production V4.0_HOLD, không xung STEP: Pan hợp lệ **360/360**;
+Tilt lần lượt **30/30** khi nhả trước bật, **248/300** khi giữ cả hai driver và
+**0/30** sau khi nhả. Trong 300 POS khi giữ, bộ đếm nhả driver không thay đổi.
+Tách tuyến dây chưa đủ để đạt acceptance; không kết luận rằng việc tách dây
+làm lỗi nặng hơn từ một lượt thử, vì cảm biến đã biến động giữa các lượt trước.
+Không chạy thử chuyển động Tilt hoặc quét 3D trong lượt này. Log và summary:
+`data/validation/cable_separated_20261014_120439/`.
+
 Cảm biến mới có hoạt động và đã nhận diện nam châm, nhưng chưa đạt mức 100/100
 khi driver giữ. Có bằng chứng lỗi giao tiếp I²C và từ trường yếu; chưa có phép
 đo điện áp hoặc dạng sóng để xác định chính xác dây, nguồn hay nhiễu nào gây lỗi.
