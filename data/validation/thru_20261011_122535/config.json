@@ -1,0 +1,18 @@
+{
+  "device": "SAA-2N",
+  "display_firmware": "DiSlord v1.4.02 FPU",
+  "usb_register_firmware_major": 1,
+  "usb_register_firmware_minor": 4,
+  "device_variant": "0x02",
+  "protocol_version": 1,
+  "hardware_revision": 2,
+  "port": "COM_TIMEOUT",
+  "start_hz": 2395000000,
+  "stop_hz": 2405000000,
+  "points": 11,
+  "dut": "THRU SMA cable Port 1 <-> Port 2",
+  "timestamp": "2026-10-11T12:25:35.027520",
+  "verdict": "FAIL",
+  "error": "No FIFO records received from device (timeout)",
+  "threshold_db": -10.0
+}

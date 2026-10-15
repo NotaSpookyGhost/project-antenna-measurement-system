@@ -1,0 +1,74 @@
+============================================================
+  SAA-2N / NanoVNA V2 — Proof of Communication Test
+  Protocol: USB CDC + binary register/FIFO (UG1101)
+============================================================
+
+[PORT] Using specified port: COM6
+
+[TEST 1] INDICATE handshake
+         TX: 0x0D
+         RX: 0x32 (ASCII '2')
+         ✓ PASS
+
+[TEST 2] Identity registers (0xF0..0xF4)
+         deviceVariant    = 0x02 ← V2 ✓
+         protocolVersion  = 0x01 ← V2 wire ✓
+         hardwareRevision = 0x02 (2)
+         firmwareMajor    = 0x01 (1)
+         firmwareMinor    = 0x02 (2)
+         ✓ PASS — confirmed NanoVNA V2
+
+[TEST 3] Configure sweep
+         center = 2400.0 MHz
+         start  = 2395.0 MHz
+         stop   = 2405.0 MHz
+         step   = 1000.0 kHz
+         points = 11
+         ✓ Sweep configured
+
+[TEST 4] Read FIFO records
+         Waiting for 11 × 32-byte records...
+         expected_records = 11
+         received_bytes   = 352
+         received_records = 11
+         remainder_bytes  = 0
+         ✓ FIFO read complete (11 records)
+
+[TEST 5] Parse FIFO → compute S11/S21
+
+    #  freq_idx   Freq (MHz)   |S11| dB   |S21| dB            FWD0            REV0            REV1
+  ───  ────────  ───────────  ─────────  ─────────  ──────────────  ──────────────  ──────────────
+    0         0     2395.000      -0.47     -72.60      1073741824      1017254771          251737
+    1         1     2396.000      -0.49     -74.00      1073741824      1014864573          214298
+    2         2     2397.000      -0.45     -71.01      1073741824      1019883034          302320
+    3         3     2398.000      -0.48     -71.21      1073741824      1016159366          295409
+    4         4     2399.000      -0.49     -74.63      1073741824      1014714796          199216
+    5         5     2400.000      -0.44     -76.18      1073741824      1020116777          166634
+    6         6     2401.000      -0.46     -69.26      1073741824      1018693593          369861
+    7         7     2402.000      -0.46     -71.70      1073741824      1017812061          279050
+    8         8     2403.000      -0.49     -72.28      1073741824      1015187104          261088
+    9         9     2404.000      -0.46     -67.57      1073741824      1018389839          448904
+   10        10     2405.000      -0.45     -70.75      1073741824      1019108926          311468
+
+============================================================
+  SUMMARY
+============================================================
+  PORT             = COM6
+  deviceVariant    = 0x02
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.2
+  sweep            = 2395.0–2405.0 MHz, 11 pts
+  FIFO records     = 11/11
+  S11 range        = -0.5 .. -0.4 dB
+  S21 range        = -76.2 .. -67.6 dB
+
+  ✓ ALL TESTS PASSED — SAA-2N communication verified!
+
+  Next steps:
+    1. Connect a known DUT (antenna/cable/thru)
+    2. Compare S11/S21 with NanoVNA-QT or NanoVNA-Saver
+    3. If results match → proceed to MATLAB bridge
+============================================================
+
+[PORT] COM6 closed.

@@ -1,0 +1,1 @@
+Assertion failed: response.find("ERR: UNSUPPORTED_COMMAND") != std::string::npos, file firmware/positioner_v3_hold/test/native/test_i2c_firmware.cpp, line 24

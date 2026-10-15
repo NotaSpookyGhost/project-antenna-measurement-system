@@ -1,0 +1,15 @@
+FAIL: Configuration failed; check sensor-side 3.3 V and use short SDA/SCL wires
+FAIL Tilt PWM stationary acceptance; C:\Users\Spooky Laptop\AppData\Local\Temp\tmp8i6s77nh\data\validation\tilt_pwm_20261014_134949
+{"state": "released before", "reads": 30, "tilt_valid": 0, "circular_span_deg": null, "release_count_start": 1, "release_count_end": 1, "period_us_range": [null, null]}
+{"state": "held", "reads": 100, "tilt_valid": 0, "circular_span_deg": null, "release_count_start": 1, "release_count_end": 1, "period_us_range": [null, null]}
+{"state": "released after", "reads": 30, "tilt_valid": 0, "circular_span_deg": null, "release_count_start": 1, "release_count_end": 1, "period_us_range": [null, null]}
+FAIL Tilt PWM stationary acceptance; C:\Users\Spooky Laptop\AppData\Local\Temp\tmp_d1y0q93\data\validation\tilt_pwm_20261014_134949
+{"state": "released before", "reads": 30, "tilt_valid": 30, "circular_span_deg": 0.0, "release_count_start": 1, "release_count_end": 1, "period_us_range": [4351, 4351]}
+{"state": "held", "reads": 100, "tilt_valid": 100, "circular_span_deg": 0.0, "release_count_start": 1, "release_count_end": 1, "period_us_range": [4351, 4351]}
+{"state": "released after", "reads": 30, "tilt_valid": 30, "circular_span_deg": 0.0, "release_count_start": 1, "release_count_end": 1, "period_us_range": [4351, 4351]}
+PASS Tilt PWM stationary acceptance; C:\Users\Spooky Laptop\AppData\Local\Temp\tmpzpuxmorh\data\validation\tilt_pwm_20261014_134949
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.042s
+
+OK

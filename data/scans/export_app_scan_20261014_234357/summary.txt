@@ -1,0 +1,10 @@
+3D Pan x Tilt — measured scan
+Timestamp: 2026-10-14 23:41:24
+Completed: 52/52; aborted=0; reason=
+Pan motor: 0.000..360.000 step 30.000 deg; Tilt motor: 0.000..90.000 step 30.000 deg
+ZERO frame: theta=0.000 + (1)*Tilt; phi=0.000 + (1)*Pan
+Relative travel: Pan 0.000..360.000; Tilt 0.000..90.000 deg
+Global peak: -14.984 dB at motor Pan 0.000 Tilt 90.000; theta 90.000 phi 0.000 deg
+Frequency: 2400.000 MHz; 11 sweep points; duration 302.886 s
+Position angles are reported step counts; encoders measure the motor shafts.
+Normalization uses the peak of all completed points, not individual rows.

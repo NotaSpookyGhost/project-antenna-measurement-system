@@ -1,0 +1,24 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 242.0° | Tilt = 0.0° (TiltDisabled=0)
+Tilt stage 1/21: target 0.0, encoder 246.80, tracking error 0.000 deg, 10/10 valid
+Tilt stage 2/21: target 5.0, encoder 274.79, tracking error -0.024 deg, 10/10 valid
+Tilt stage 3/21: target 10.0, encoder 302.78, tracking error -0.048 deg, 10/10 valid
+Tilt stage 4/21: target 20.0, encoder 358.68, tracking error -0.110 deg, 10/10 valid
+Tilt stage 5/21: target 30.0, encoder 55.28, tracking error -0.048 deg, 10/10 valid
+Tilt stage 6/21: target 40.0, encoder 112.24, tracking error 0.078 deg, 10/10 valid
+Tilt stage 7/21: target 50.0, encoder 168.40, tracking error 0.062 deg, 10/10 valid
+Tilt stage 8/21: target 60.0, encoder 224.38, tracking error 0.014 deg, 10/10 valid
+Tilt stage 9/21: target 70.0, encoder 280.37, tracking error -0.032 deg, 10/10 valid
+Tilt stage 10/21: target 80.0, encoder 336.18, tracking error -0.110 deg, 10/10 valid
+Tilt stage 11/21: target 90.0, encoder 32.52, tracking error -0.094 deg, 10/10 valid
+Tilt stage 12/21: target 80.0, encoder 336.45, tracking error -0.062 deg, 10/10 valid
+Tilt stage 13/21: target 70.0, encoder 280.63, tracking error 0.014 deg, 10/10 valid
+Tilt stage 14/21: target 60.0, encoder 224.56, tracking error 0.046 deg, 10/10 valid
+Tilt stage 15/21: target 50.0, encoder 168.66, tracking error 0.108 deg, 10/10 valid
+Tilt stage 16/21: target 40.0, encoder 112.50, tracking error 0.124 deg, 10/10 valid
+Tilt stage 17/21: target 30.0, encoder 55.46, tracking error -0.016 deg, 10/10 valid
+Tilt stage 18/21: target 20.0, encoder 358.95, tracking error -0.062 deg, 10/10 valid
+Tilt stage 19/21: target 10.0, encoder 303.05, tracking error 0.000 deg, 10/10 valid
+Tilt stage 20/21: target 5.0, encoder 275.01, tracking error 0.015 deg, 10/10 valid
+Tilt stage 21/21: target 0.0, encoder 246.97, tracking error 0.030 deg, 10/10 valid
+PASS: 21/21 stages, 210 fresh Tilt snapshots, motor closure 0.170 deg (output estimate 0.030 deg).

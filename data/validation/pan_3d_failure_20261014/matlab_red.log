@@ -1,0 +1,148 @@
+Running TestPatternPartialPlot
+
+================================================================================
+Error occurred in TestPatternPartialPlot/singleAngleHasVisibleMarkerAndIncreasingLimits and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:rulerFunctions:InvalidNumericLimits'
+    --------------
+    Error Details:
+    --------------
+    Error using xlim (line 37)
+    Limits must be a 2-element vector of increasing numeric values.
+    
+    Error in PatternAnalyzer.plotCartesian (line 382)
+                xlim(ax, [min(angles_deg), max(angles_deg)]);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    Error in TestPatternPartialPlot/singleAngleHasVisibleMarkerAndIncreasingLimits (line 6)
+                h=PatternAnalyzer.plotCartesian(ax,0,-15.01);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestPatternPartialPlot/repeatedAngleHasIncreasingLimits and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:rulerFunctions:InvalidNumericLimits'
+    --------------
+    Error Details:
+    --------------
+    Error using xlim (line 37)
+    Limits must be a 2-element vector of increasing numeric values.
+    
+    Error in PatternAnalyzer.plotCartesian (line 382)
+                xlim(ax, [min(angles_deg), max(angles_deg)]);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    Error in TestPatternPartialPlot/repeatedAngleHasIncreasingLimits (line 16)
+                PatternAnalyzer.plotCartesian(ax,[20 20],[-15 -16]);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+..
+Done TestPatternPartialPlot
+__________
+
+Running TestScan3DGUI
+[18:21:08] Antenna Measurement App initialized.
+[18:21:09] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[18:21:11] 3D scan: 10 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[18:21:11] Tilt row 1/10: motor 0.0°, theta 90.0°.
+[18:21:13] 3D scan stopped: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[18:21:13] 3D ABORTED: 1/100 points retained.
+[18:21:13] ❌ Lỗi trong quá trình quét: Limits must be a 2-element vector of increasing numeric values.
+
+================================================================================
+Verification failed in TestScan3DGUI/encoderMismatchAfterOnePointPreservesCauseAndPlot.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyTrue failed.
+    --> The value must evaluate to "true".
+    
+    Actual Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScan3DGUI.m (TestScan3DGUI.encoderMismatchAfterOnePointPreservesCauseAndPlot) at 28
+================================================================================
+
+================================================================================
+Verification failed in TestScan3DGUI/encoderMismatchAfterOnePointPreservesCauseAndPlot.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEmpty failed.
+    --> The value must be empty.
+    --> The value has a size of [1  1].
+    
+    Actual Value:
+      Figure (Msgbox_Scan Error) with properties:
+    
+          Number: []
+            Name: 'Scan Error'
+           Color: [0.960784313725490 0.960784313725490 0.960784313725490]
+        Position: [327 3.185000000000000e+02 306 62]
+           Units: 'points'
+    
+      Use GET to show all properties
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScan3DGUI.m (TestScan3DGUI.encoderMismatchAfterOnePointPreservesCauseAndPlot) at 30
+================================================================================
+[18:21:22] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tp3a943f21_a513_4868_91fd_f6fe7c4f33d1\export_app_scan_20261014_182116
+.[18:21:23] Antenna Measurement App initialized.
+[18:21:23] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[18:21:24] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[18:21:24] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[18:21:25] 3D COMPLETED: 3/3 points retained.
+[18:21:29] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpdb526177_bff2_47ee_bb85_6876f9d3f3c8\export_app_scan_20261014_182126
+.[18:21:30] Antenna Measurement App initialized.
+[18:21:30] Antenna Measurement App initialized.
+.[18:21:31] Antenna Measurement App initialized.
+[18:21:31] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[18:21:32] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[18:21:32] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[18:21:32] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[18:21:34] 3D COMPLETED: 6/6 points retained.
+.[18:21:35] Antenna Measurement App initialized.
+[18:21:35] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[18:21:36] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[18:21:36] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[18:21:37] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[18:21:37] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[18:21:38] Đang dừng quét sau bước hiện tại...
+[18:21:38] 3D ABORTED: 3/6 points retained.
+[18:21:38] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 3/6 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[18:21:38] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[18:21:38] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[18:21:39] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[18:21:40] 3D COMPLETED: 6/6 points retained.
+.[18:21:41] Antenna Measurement App initialized.
+[ORCHESTRATOR] 3D scan: 1 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 2/2 points retained.
+.
+Done TestScan3DGUI
+__________
+
+Failure Summary:
+
+     Name                                                                   Failed  Incomplete  Reason(s)
+    ====================================================================================================================
+     TestPatternPartialPlot/singleAngleHasVisibleMarkerAndIncreasingLimits    X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------------
+     TestPatternPartialPlot/repeatedAngleHasIncreasingLimits                  X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------------
+     TestScan3DGUI/encoderMismatchAfterOnePointPreservesCauseAndPlot          X                 Failed by verification.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

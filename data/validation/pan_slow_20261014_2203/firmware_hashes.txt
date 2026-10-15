@@ -1,0 +1,9 @@
+
+Algorithm : SHA256
+Hash      : 2A3436D69F148F8FF120A0BC63D2586156EEBC30425E594FA7CFDED31B90F570
+Path      : C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\pan_slow_20261014_2203\pre_slow_flash.bin
+
+Algorithm : SHA256
+Hash      : E8D86A2795CC770E56C8639C4B3612894FF23445F59EE5C8D0BCB7CA55E5F90E
+Path      : C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\firmware\positioner_v3_hold\.pio\build\esp32doit-devkit-v1\firmware.bin
+

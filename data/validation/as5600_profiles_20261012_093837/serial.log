@@ -1,0 +1,366 @@
+POS
+ERR
+DIAG> 
+H 0
+HOLD MASK 0
+DIAG> 
+D 0 100000
+SAMPLE mask=0 mode=0 hz=100000 axis=0 n=0 err=0 bytes=67,0e,b5 raw=3765 us=1236 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=1 n=0 err=0 bytes=33,03,74 raw=884 us=739 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=0 n=1 err=0 bytes=67,0e,b5 raw=3765 us=760 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=1 n=1 err=0 bytes=33,03,74 raw=884 us=735 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=0 n=2 err=0 bytes=67,0e,b5 raw=3765 us=756 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=1 n=2 err=0 bytes=33,03,74 raw=884 us=735 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=0 n=3 err=0 bytes=67,0e,b5 raw=3765 us=756 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=1 n=3 err=0 bytes=33,03,73 raw=883 us=734 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=0 n=4 err=0 bytes=67,0e,b5 raw=3765 us=756 idle=100,100
+SAMPLE mask=0 mode=0 hz=100000 axis=1 n=4 err=0 bytes=33,03,74 raw=884 us=735 idle=100,100
+SUMMARY mask=0 mode=0 hz=100000 good=5,5/5
+DIAG> 
+D 1 100000
+SAMPLE mask=0 mode=1 hz=100000 axis=0 n=0 err=0 bytes=67,0e,b5 raw=3765 us=853 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=1 n=0 err=0 bytes=33,03,74 raw=884 us=730 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=0 n=1 err=0 bytes=67,0e,b5 raw=3765 us=723 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=1 n=1 err=0 bytes=33,03,73 raw=883 us=695 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=0 n=2 err=0 bytes=67,0e,b4 raw=3764 us=724 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=1 n=2 err=0 bytes=33,03,74 raw=884 us=694 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=0 n=3 err=0 bytes=67,0e,b4 raw=3764 us=724 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=1 n=3 err=0 bytes=33,03,73 raw=883 us=695 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=0 n=4 err=0 bytes=67,0e,b4 raw=3764 us=724 idle=100,100
+SAMPLE mask=0 mode=1 hz=100000 axis=1 n=4 err=0 bytes=33,03,73 raw=883 us=695 idle=100,100
+SUMMARY mask=0 mode=1 hz=100000 good=5,5/5
+DIAG> 
+D 2 100000
+SAMPLE mask=0 mode=2 hz=100000 axis=0 n=0 err=0 bytes=0e,b4,ff raw=3764 us=773 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=1 n=0 err=0 bytes=03,74,ff raw=884 us=686 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=0 n=1 err=0 bytes=0e,b5,ff raw=3765 us=657 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=1 n=1 err=0 bytes=03,73,ff raw=883 us=636 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=0 n=2 err=0 bytes=0e,b4,ff raw=3764 us=658 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=1 n=2 err=0 bytes=03,73,ff raw=883 us=636 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=0 n=3 err=0 bytes=0e,b5,ff raw=3765 us=664 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=1 n=3 err=0 bytes=03,73,ff raw=883 us=636 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=0 n=4 err=0 bytes=0e,b5,ff raw=3765 us=658 idle=100,100
+SAMPLE mask=0 mode=2 hz=100000 axis=1 n=4 err=0 bytes=03,74,ff raw=884 us=636 idle=100,100
+SUMMARY mask=0 mode=2 hz=100000 good=5,5/5
+DIAG> 
+D 0 50000
+SAMPLE mask=0 mode=0 hz=50000 axis=0 n=0 err=0 bytes=67,0e,b5 raw=3765 us=1413 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=1 n=0 err=0 bytes=33,03,74 raw=884 us=1326 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=0 n=1 err=0 bytes=67,0e,b4 raw=3764 us=1309 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=1 n=1 err=0 bytes=33,03,74 raw=884 us=1291 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=0 n=2 err=0 bytes=67,0e,b5 raw=3765 us=1309 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=1 n=2 err=0 bytes=33,03,73 raw=883 us=1291 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=0 n=3 err=0 bytes=67,0e,b5 raw=3765 us=1309 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=1 n=3 err=0 bytes=33,03,74 raw=884 us=1291 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=0 n=4 err=0 bytes=67,0e,b4 raw=3764 us=1309 idle=100,100
+SAMPLE mask=0 mode=0 hz=50000 axis=1 n=4 err=0 bytes=33,03,73 raw=883 us=1291 idle=100,100
+SUMMARY mask=0 mode=0 hz=50000 good=5,5/5
+DIAG> 
+D 0 10000
+SAMPLE mask=0 mode=0 hz=10000 axis=0 n=0 err=0 bytes=67,0e,b5 raw=3765 us=5789 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=1 n=0 err=0 bytes=33,03,74 raw=884 us=5701 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=0 n=1 err=0 bytes=67,0e,b5 raw=3765 us=5657 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=1 n=1 err=0 bytes=33,03,74 raw=884 us=5660 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=0 n=2 err=0 bytes=67,0e,b4 raw=3764 us=5657 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=1 n=2 err=0 bytes=33,03,73 raw=883 us=5661 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=0 n=3 err=0 bytes=67,0e,b5 raw=3765 us=5657 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=1 n=3 err=0 bytes=33,03,74 raw=884 us=5661 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=0 n=4 err=0 bytes=67,0e,b4 raw=3764 us=5657 idle=100,100
+SAMPLE mask=0 mode=0 hz=10000 axis=1 n=4 err=0 bytes=33,03,74 raw=884 us=5661 idle=100,100
+SUMMARY mask=0 mode=0 hz=10000 good=5,5/5
+DIAG> 
+D 3 10000
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=0 err=0 bytes=67,0e,b5 raw=3765 us=4977 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=0 err=0 bytes=33,03,73 raw=883 us=4895 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=1 err=0 bytes=67,0e,b5 raw=3765 us=4896 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=1 err=0 bytes=33,03,73 raw=883 us=4887 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=2 err=0 bytes=67,0e,b4 raw=3764 us=4903 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=2 err=0 bytes=33,03,73 raw=883 us=4884 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=3 err=0 bytes=67,0e,b5 raw=3765 us=4903 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=3 err=0 bytes=33,03,73 raw=883 us=4884 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=4 err=0 bytes=67,0e,b4 raw=3764 us=4903 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=4 err=0 bytes=33,03,73 raw=883 us=4884 idle=100,100
+SUMMARY mask=0 mode=3 hz=10000 good=5,5/5
+DIAG> 
+H 3
+HOLD MASK 3
+DIAG> 
+D 0 100000
+SAMPLE mask=3 mode=0 hz=100000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=228 idle=100,100
+SAMPLE mask=3 mode=0 hz=100000 axis=1 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=232 idle=97,100
+SAMPLE mask=3 mode=0 hz=100000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=18118 idle=100,0
+SAMPLE mask=3 mode=0 hz=100000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=431 idle=98,0
+SAMPLE mask=3 mode=0 hz=100000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=328 idle=100,97
+SAMPLE mask=3 mode=0 hz=100000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=290 idle=99,99
+SAMPLE mask=3 mode=0 hz=100000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=281 idle=0,96
+SAMPLE mask=3 mode=0 hz=100000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=169 idle=99,98
+SAMPLE mask=3 mode=0 hz=100000 axis=0 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=254 idle=100,0
+SAMPLE mask=3 mode=0 hz=100000 axis=1 n=4 err=0 bytes=ff,ff,ff raw=4095 us=782 idle=100,100
+SUMMARY mask=3 mode=0 hz=100000 good=0,1/5
+DIAG> 
+D 1 100000
+[270239][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=0 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=7570 idle=100,99
+[270247][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=3 mode=1 hz=100000 axis=1 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=14893 idle=100,99
+[270312][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=0 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=7440 idle=100,100
+[270320][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=3 mode=1 hz=100000 axis=1 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=14977 idle=98,99
+[270386][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=0 n=2 err=-20 bytes=ff,ff,ff raw=4095 us=7162 idle=100,0
+[270393][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=1 n=2 err=-20 bytes=ff,ff,ff raw=4095 us=14701 idle=97,97
+[270472][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=0 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=20370 idle=0,97
+[270480][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=1 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=14693 idle=100,100
+[270545][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=0 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=7287 idle=100,0
+[270553][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=3 mode=1 hz=100000 axis=1 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=14693 idle=100,0
+SUMMARY mask=3 mode=1 hz=100000 good=0,0/5
+DIAG> 
+D 2 100000
+SAMPLE mask=3 mode=2 hz=100000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=211 idle=100,99
+SAMPLE mask=3 mode=2 hz=100000 axis=1 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=2025 idle=0,100
+SAMPLE mask=3 mode=2 hz=100000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=39102 idle=0,99
+SAMPLE mask=3 mode=2 hz=100000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=257 idle=97,98
+SAMPLE mask=3 mode=2 hz=100000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=216 idle=100,99
+SAMPLE mask=3 mode=2 hz=100000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=160 idle=96,98
+SAMPLE mask=3 mode=2 hz=100000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=322 idle=100,98
+SAMPLE mask=3 mode=2 hz=100000 axis=1 n=3 err=0 bytes=03,8f,ff raw=911 us=709 idle=100,100
+SAMPLE mask=3 mode=2 hz=100000 axis=0 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=161 idle=100,0
+SAMPLE mask=3 mode=2 hz=100000 axis=1 n=4 err=0 bytes=03,c7,ff raw=967 us=2263 idle=100,100
+SUMMARY mask=3 mode=2 hz=100000 good=0,2/5
+DIAG> 
+D 0 50000
+SAMPLE mask=3 mode=0 hz=50000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=465 idle=97,97
+SAMPLE mask=3 mode=0 hz=50000 axis=1 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=358 idle=96,98
+SAMPLE mask=3 mode=0 hz=50000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=277 idle=100,0
+SAMPLE mask=3 mode=0 hz=50000 axis=1 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=330 idle=100,99
+SAMPLE mask=3 mode=0 hz=50000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=19268 idle=0,97
+SAMPLE mask=3 mode=0 hz=50000 axis=1 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=204 idle=98,97
+SAMPLE mask=3 mode=0 hz=50000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=274 idle=100,100
+[272195][E][Wire.cpp:513] requestFrom(): i2cRead returned Error 263
+SAMPLE mask=3 mode=0 hz=50000 axis=1 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=1007155 idle=0,100
+SAMPLE mask=3 mode=0 hz=50000 axis=0 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=1440 idle=0,99
+SAMPLE mask=3 mode=0 hz=50000 axis=1 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=247 idle=99,98
+SUMMARY mask=3 mode=0 hz=50000 good=0,0/5
+DIAG> 
+D 0 10000
+SAMPLE mask=3 mode=0 hz=10000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=516 idle=100,98
+SAMPLE mask=3 mode=0 hz=10000 axis=1 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=445 idle=98,99
+SAMPLE mask=3 mode=0 hz=10000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=10536 idle=0,100
+SAMPLE mask=3 mode=0 hz=10000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=535 idle=99,99
+SAMPLE mask=3 mode=0 hz=10000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=394 idle=100,49
+SAMPLE mask=3 mode=0 hz=10000 axis=1 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=364 idle=98,100
+SAMPLE mask=3 mode=0 hz=10000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=20487 idle=0,100
+SAMPLE mask=3 mode=0 hz=10000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=250 idle=0,99
+SAMPLE mask=3 mode=0 hz=10000 axis=0 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=460 idle=100,50
+SAMPLE mask=3 mode=0 hz=10000 axis=1 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=449 idle=100,97
+SUMMARY mask=3 mode=0 hz=10000 good=0,0/5
+DIAG> 
+D 3 10000
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1050 idle=100,100
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1015 idle=99,100
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,97
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=100,99
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=996 idle=100,98
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=99,99
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=996 idle=100,98
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=97,99
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,100
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=99,99
+SUMMARY mask=3 mode=3 hz=10000 good=0,0/5
+DIAG> 
+H 1
+HOLD MASK 1
+DIAG> 
+D 0 100000
+SAMPLE mask=1 mode=0 hz=100000 axis=0 n=0 err=0 bytes=a7,0e,b2 raw=3762 us=1051 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=1 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=13321 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=0 n=1 err=0 bytes=a7,87,ff raw=2047 us=766 idle=100,100
+[273069][E][Wire.cpp:513] requestFrom(): i2cRead returned Error 263
+SAMPLE mask=1 mode=0 hz=100000 axis=1 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=13672 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=254 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=411 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=0 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=1000791 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=210 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=0 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=260 idle=100,100
+SAMPLE mask=1 mode=0 hz=100000 axis=1 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=13269 idle=100,100
+SUMMARY mask=1 mode=0 hz=100000 good=2,0/5
+DIAG> 
+D 1 100000
+[274344][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=0 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=20752 idle=0,100
+[274365][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=1 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=20544 idle=99,100
+[274424][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=1 mode=1 hz=100000 axis=0 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=7315 idle=100,100
+[274432][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=1 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=14979 idle=100,100
+[274497][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=1 mode=1 hz=100000 axis=0 n=2 err=-20 bytes=ff,ff,ff raw=4095 us=7472 idle=100,46
+[274505][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=1 n=2 err=-20 bytes=ff,ff,ff raw=4095 us=14886 idle=100,100
+[275571][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=0 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=1007985 idle=100,100
+[275580][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=1 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=15242 idle=100,100
+[276645][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=0 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=1007985 idle=100,100
+[276654][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=1 mode=1 hz=100000 axis=1 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=15242 idle=100,100
+SUMMARY mask=1 mode=1 hz=100000 good=0,0/5
+DIAG> 
+D 2 100000
+SAMPLE mask=1 mode=2 hz=100000 axis=0 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=13370 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=1 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=13322 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=154 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=352 idle=99,100
+SAMPLE mask=1 mode=2 hz=100000 axis=0 n=2 err=0 bytes=0e,b1,ff raw=3761 us=725 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=369 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=0 n=3 err=0 bytes=0e,58,ff raw=3672 us=687 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=13288 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=0 n=4 err=0 bytes=87,ff,ff raw=2047 us=666 idle=100,100
+SAMPLE mask=1 mode=2 hz=100000 axis=1 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=256 idle=99,100
+SUMMARY mask=1 mode=2 hz=100000 good=3,0/5
+DIAG> 
+D 0 50000
+SAMPLE mask=1 mode=0 hz=50000 axis=0 n=0 err=0 bytes=a7,0e,b1 raw=3761 us=1437 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=1 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=344 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=0 n=1 err=0 bytes=a7,0e,58 raw=3672 us=1420 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=254 idle=99,100
+SAMPLE mask=1 mode=0 hz=50000 axis=0 n=2 err=0 bytes=a7,a7,ff raw=2047 us=1030 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=533 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=253 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=278 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=0 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=13288 idle=100,100
+SAMPLE mask=1 mode=0 hz=50000 axis=1 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=13278 idle=100,100
+SUMMARY mask=1 mode=0 hz=50000 good=3,0/5
+DIAG> 
+D 0 10000
+SAMPLE mask=1 mode=0 hz=10000 axis=0 n=0 err=0 bytes=a7,c3,df raw=991 us=5485 idle=100,100
+SAMPLE mask=1 mode=0 hz=10000 axis=1 n=0 err=-5 bytes=ff,ff,ff raw=4095 us=443 idle=100,100
+[278473][E][Wire.cpp:513] requestFrom(): i2cRead returned Error 263
+SAMPLE mask=1 mode=0 hz=10000 axis=0 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=1008975 idle=100,100
+SAMPLE mask=1 mode=0 hz=10000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=13327 idle=100,100
+SAMPLE mask=1 mode=0 hz=10000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=1737 idle=100,100
+SAMPLE mask=1 mode=0 hz=10000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=13279 idle=100,100
+SAMPLE mask=1 mode=0 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,b2 raw=3762 us=5789 idle=0,100
+SAMPLE mask=1 mode=0 hz=10000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=367 idle=100,100
+[279680][E][Wire.cpp:513] requestFrom(): i2cRead returned Error 263
+SAMPLE mask=1 mode=0 hz=10000 axis=0 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=1008933 idle=100,100
+SAMPLE mask=1 mode=0 hz=10000 axis=1 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=821 idle=99,100
+SUMMARY mask=1 mode=0 hz=10000 good=2,0/5
+DIAG> 
+D 3 10000
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,b1 raw=3761 us=4963 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=0 err=0 bytes=b3,03,8f raw=911 us=4907 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,b1 raw=3761 us=4896 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=1 err=0 bytes=b3,03,8f raw=911 us=4887 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,b2 raw=3762 us=4903 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=2 err=0 bytes=b3,03,8f raw=911 us=4884 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,b2 raw=3762 us=4903 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=3 err=0 bytes=b3,03,8f raw=911 us=4884 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,b1 raw=3761 us=4903 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=4 err=0 bytes=b3,03,8f raw=911 us=4884 idle=100,100
+SUMMARY mask=1 mode=3 hz=10000 good=5,5/5
+DIAG> 
+H 2
+HOLD MASK 2
+DIAG> 
+D 0 100000
+SAMPLE mask=2 mode=0 hz=100000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=368 idle=100,99
+SAMPLE mask=2 mode=0 hz=100000 axis=1 n=0 err=0 bytes=b3,83,ff raw=1023 us=799 idle=99,99
+SAMPLE mask=2 mode=0 hz=100000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=246 idle=100,0
+SAMPLE mask=2 mode=0 hz=100000 axis=1 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=154 idle=99,99
+SAMPLE mask=2 mode=0 hz=100000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=251 idle=100,99
+SAMPLE mask=2 mode=0 hz=100000 axis=1 n=2 err=0 bytes=b3,03,8f raw=911 us=755 idle=100,99
+SAMPLE mask=2 mode=0 hz=100000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=262 idle=100,0
+SAMPLE mask=2 mode=0 hz=100000 axis=1 n=3 err=-5 bytes=ff,ff,ff raw=4095 us=1000165 idle=100,99
+SAMPLE mask=2 mode=0 hz=100000 axis=0 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=246 idle=100,0
+SAMPLE mask=2 mode=0 hz=100000 axis=1 n=4 err=0 bytes=b3,03,ff raw=1023 us=789 idle=100,98
+SUMMARY mask=2 mode=0 hz=100000 good=0,3/5
+DIAG> 
+D 1 100000
+[282384][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=2 mode=1 hz=100000 axis=0 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=1007692 idle=100,97
+[282392][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=2 mode=1 hz=100000 axis=1 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=15040 idle=100,98
+[282457][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=2 mode=1 hz=100000 axis=0 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=7274 idle=100,99
+[282465][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=2 mode=1 hz=100000 axis=1 n=1 err=-20 bytes=ff,ff,ff raw=4095 us=14892 idle=99,44
+[282530][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=2 mode=1 hz=100000 axis=0 n=2 err=-20 bytes=ff,ff,ff raw=4095 us=7237 idle=100,0
+[283539][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=2 mode=1 hz=100000 axis=1 n=2 err=-20 bytes=ff,ff,ff raw=4095 us=1008267 idle=98,98
+[283603][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=2 mode=1 hz=100000 axis=0 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=13220 idle=0,98
+[284612][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=2 mode=1 hz=100000 axis=1 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=1008240 idle=99,97
+[284670][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+SAMPLE mask=2 mode=1 hz=100000 axis=0 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=7311 idle=100,99
+[285679][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error 263
+SAMPLE mask=2 mode=1 hz=100000 axis=1 n=4 err=-20 bytes=ff,ff,ff raw=4095 us=1008189 idle=94,96
+SUMMARY mask=2 mode=1 hz=100000 good=0,0/5
+DIAG> 
+D 2 100000
+[286747][E][Wire.cpp:513] requestFrom(): i2cRead returned Error 263
+SAMPLE mask=2 mode=2 hz=100000 axis=0 n=0 err=-20 bytes=ff,ff,ff raw=4095 us=1007516 idle=100,99
+SAMPLE mask=2 mode=2 hz=100000 axis=1 n=0 err=0 bytes=03,8f,ff raw=911 us=697 idle=98,99
+SAMPLE mask=2 mode=2 hz=100000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=136 idle=100,97
+SAMPLE mask=2 mode=2 hz=100000 axis=1 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=129 idle=98,97
+SAMPLE mask=2 mode=2 hz=100000 axis=0 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=1000890 idle=100,99
+SAMPLE mask=2 mode=2 hz=100000 axis=1 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=140 idle=98,97
+SAMPLE mask=2 mode=2 hz=100000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=226 idle=100,99
+[288944][E][Wire.cpp:513] requestFrom(): i2cRead returned Error 263
+SAMPLE mask=2 mode=2 hz=100000 axis=1 n=3 err=-20 bytes=ff,ff,ff raw=4095 us=1011230 idle=97,99
+SAMPLE mask=2 mode=2 hz=100000 axis=0 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=1000835 idle=100,99
+SAMPLE mask=2 mode=2 hz=100000 axis=1 n=4 err=0 bytes=03,8f,ff raw=911 us=683 idle=99,100
+SUMMARY mask=2 mode=2 hz=100000 good=0,2/5
+DIAG> 
+D 0 50000
+SAMPLE mask=2 mode=0 hz=50000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=292 idle=100,99
+SAMPLE mask=2 mode=0 hz=50000 axis=1 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=208 idle=99,99
+SAMPLE mask=2 mode=0 hz=50000 axis=0 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=169 idle=100,98
+SAMPLE mask=2 mode=0 hz=50000 axis=1 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=434 idle=0,99
+SAMPLE mask=2 mode=0 hz=50000 axis=0 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=1000791 idle=0,99
+SAMPLE mask=2 mode=0 hz=50000 axis=1 n=2 err=-5 bytes=ff,ff,ff raw=4095 us=207 idle=97,96
+SAMPLE mask=2 mode=0 hz=50000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=348 idle=100,99
+SAMPLE mask=2 mode=0 hz=50000 axis=1 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=213 idle=100,98
+SAMPLE mask=2 mode=0 hz=50000 axis=0 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=213 idle=100,99
+SAMPLE mask=2 mode=0 hz=50000 axis=1 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=278 idle=0,99
+SUMMARY mask=2 mode=0 hz=50000 good=0,0/5
+DIAG> 
+D 0 10000
+SAMPLE mask=2 mode=0 hz=10000 axis=0 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=432 idle=100,99
+SAMPLE mask=2 mode=0 hz=10000 axis=1 n=0 err=-2 bytes=ff,ff,ff raw=4095 us=380 idle=99,96
+SAMPLE mask=2 mode=0 hz=10000 axis=0 n=1 err=-5 bytes=ff,ff,ff raw=4095 us=1000881 idle=0,99
+SAMPLE mask=2 mode=0 hz=10000 axis=1 n=1 err=-2 bytes=ff,ff,ff raw=4095 us=468 idle=0,100
+SAMPLE mask=2 mode=0 hz=10000 axis=0 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=701 idle=99,99
+SAMPLE mask=2 mode=0 hz=10000 axis=1 n=2 err=-2 bytes=ff,ff,ff raw=4095 us=433 idle=0,99
+SAMPLE mask=2 mode=0 hz=10000 axis=0 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=361 idle=100,96
+SAMPLE mask=2 mode=0 hz=10000 axis=1 n=3 err=-2 bytes=ff,ff,ff raw=4095 us=431 idle=0,98
+SAMPLE mask=2 mode=0 hz=10000 axis=0 n=4 err=-5 bytes=ff,ff,ff raw=4095 us=1000799 idle=0,99
+SAMPLE mask=2 mode=0 hz=10000 axis=1 n=4 err=-2 bytes=ff,ff,ff raw=4095 us=764 idle=0,98
+SUMMARY mask=2 mode=0 hz=10000 good=0,0/5
+DIAG> 
+D 3 10000
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1059 idle=100,99
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1025 idle=99,99
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,98
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=98,98
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=996 idle=100,99
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=99,100
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,98
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=100,97
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=996 idle=100,98
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=997 idle=98,100
+SUMMARY mask=2 mode=3 hz=10000 good=0,0/5
+DIAG> 
+H 0
+HOLD MASK 0
+DIAG> 

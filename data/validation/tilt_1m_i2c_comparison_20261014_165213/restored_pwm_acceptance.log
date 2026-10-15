@@ -1,0 +1,4 @@
+{"state": "released before", "reads": 30, "tilt_valid": 30, "circular_span_deg": 0.1699999999999875, "release_count_start": 0, "release_count_end": 0, "period_us_range": [4274, 4275]}
+{"state": "held", "reads": 100, "tilt_valid": 100, "circular_span_deg": 0.27000000000001023, "release_count_start": 0, "release_count_end": 0, "period_us_range": [4274, 4276]}
+{"state": "released after", "reads": 30, "tilt_valid": 30, "circular_span_deg": 0.3499999999999943, "release_count_start": 1, "release_count_end": 1, "period_us_range": [4274, 4275]}
+PASS Tilt PWM stationary acceptance; C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\tilt_pwm_20261014_165345

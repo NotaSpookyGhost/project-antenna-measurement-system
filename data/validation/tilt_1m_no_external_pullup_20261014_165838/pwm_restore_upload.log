@@ -1,0 +1,86 @@
+Processing tilt-pwm (platform: espressif32; board: esp32doit-devkit-v1; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32doit-devkit-v1.html
+PLATFORM: Espressif 32 (7.1.3) > DOIT ESP32 DEVKIT V1
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 4.20017.260907+sha.dcc1105b 
+ - tool-esptoolpy @ 2.41100.260830 (4.11.0) 
+ - tool-mkfatfs @ 2.0.1 
+ - tool-mklittlefs @ 1.203.210628 (2.3) 
+ - tool-mkspiffs @ 2.230.0 (2.30) 
+ - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 33 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- Wire @ 2.0.0
+Building in release mode
+Retrieving maximum program size .pio\build\tilt-pwm\firmware.elf
+Checking size .pio\build\tilt-pwm\firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [=         ]   6.7% (used 22104 bytes from 327680 bytes)
+Flash: [==        ]  23.4% (used 307161 bytes from 1310720 bytes)
+Configuring upload protocol...
+AVAILABLE: cmsis-dap, esp-bridge, esp-prog, espota, esptool, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa
+CURRENT: upload_protocol = esptool
+Looking for upload port...
+Using manually specified: COM5
+Uploading .pio\build\tilt-pwm\firmware.bin
+esptool.py v4.11.0
+Serial port COM5
+Connecting..........
+Chip is ESP32-D0WD-V3 (revision v3.1)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+WARNING: Detected crystal freq 41.01MHz is quite different to normalized freq 40MHz. Unsupported crystal in use?
+Crystal is 40MHz
+MAC: 70:4b:ca:6e:cd:28
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00005fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Flash will be erased from 0x0000e000 to 0x0000ffff...
+Flash will be erased from 0x00010000 to 0x0005bfff...
+SHA digest in image updated
+Compressed 17536 bytes to 12202...
+Writing at 0x00001000... (100 %)
+Wrote 17536 bytes (12202 compressed) at 0x00001000 in 0.6 seconds (effective 221.4 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 146...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (146 compressed) at 0x00008000 in 0.1 seconds (effective 292.6 kbit/s)...
+Hash of data verified.
+Compressed 8192 bytes to 47...
+Writing at 0x0000e000... (100 %)
+Wrote 8192 bytes (47 compressed) at 0x0000e000 in 0.2 seconds (effective 428.5 kbit/s)...
+Hash of data verified.
+Compressed 307520 bytes to 174828...
+Writing at 0x00010000... (9 %)
+Writing at 0x0001b958... (18 %)
+Writing at 0x0002440d... (27 %)
+Writing at 0x00029a0f... (36 %)
+Writing at 0x0002ee3b... (45 %)
+Writing at 0x000342e8... (54 %)
+Writing at 0x0003a3d1... (63 %)
+Writing at 0x00042710... (72 %)
+Writing at 0x0004c5ac... (81 %)
+Writing at 0x00051f40... (90 %)
+Writing at 0x000573fe... (100 %)
+Wrote 307520 bytes (174828 compressed) at 0x00010000 in 4.2 seconds (effective 580.7 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...
+========================= [SUCCESS] Took 12.84 seconds =========================
+
+Environment    Status    Duration
+-------------  --------  ------------
+tilt-pwm       SUCCESS   00:00:12.845
+========================= 1 succeeded in 00:00:12.845 =========================

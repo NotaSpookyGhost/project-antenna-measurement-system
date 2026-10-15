@@ -1,0 +1,3 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 221.7° | Tilt = 0.0° (TiltDisabled=0)
+FAIL: Subscripted assignment between dissimilar structures.; stopped further motion.

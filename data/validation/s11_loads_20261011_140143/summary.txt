@@ -1,0 +1,15 @@
+Test B — S11 Loads Validation Summary
+Generated: 2026-10-11T14:01:43.063324
+------------------------------------------------------------
+Device:            SAA-2N (port: COM_INCOMPLETE)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.4)
+Protocol:          0x01, Hardware Rev: 2
+Sweep:             2395.0 - 2405.0 MHz, 11 points
+DUT:               S11 Calibration Standards on Port 1: OPEN, SHORT, 50-ohm LOAD
+------------------------------------------------------------
+[ERROR] Sweep acquisition incomplete or timed out.
+  OPEN records:      2/11 (complete: False)
+  SHORT records:     11/11 (complete: True)
+  LOAD records:      11/11 (complete: True)
+------------------------------------------------------------
+VERDICT: [FAIL]

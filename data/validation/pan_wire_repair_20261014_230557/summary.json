@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "stages": 21,
+  "pairedSnapshots": 210,
+  "maxAbsPanOutputErrorDeg": 0.2186666666666639,
+  "panMotorClosureDeg": -0.09000000000000341,
+  "panOutputClosureEstimateDeg": 0.016000000000000607,
+  "holdAllSamples": true,
+  "releaseCountDuringMotion": 0.0,
+  "userObservation": "Quay deu va ve dung moc; user confirmed smooth movement and return to physical mark.",
+  "repair": "User replaced/repaired broken Pan motor conductor in the A1/A2 pair.",
+  "firmwareChangedForRetest": false,
+  "tiltMotionTested": false,
+  "full3DScanTested": false
+}

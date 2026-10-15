@@ -1,0 +1,15 @@
+Test D — FIFO Freshness Validation Summary
+Generated: 2026-10-11T11:48:00.293966
+------------------------------------------------------------
+Device:            SAA-2N (port: COM_INCOMPLETE)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.4)
+Protocol:          0x01, Hardware Rev: 2
+Sweep:             2395.0 - 2405.0 MHz, 11 points
+DUT:               FIFO Freshness: Disconnected -> THRU Connected -> Disconnected
+------------------------------------------------------------
+[ERROR] Sweep acquisition incomplete or timed out.
+  State 1 records:   11/11 (complete: True)
+  State 2 records:   0/11 (complete: False)
+  State 3 records:   11/11 (complete: True)
+------------------------------------------------------------
+VERDICT: [FAIL]

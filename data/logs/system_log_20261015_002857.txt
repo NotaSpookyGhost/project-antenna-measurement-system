@@ -1,0 +1,51 @@
+[SYSTEM] Log console initialized. Ready.
+[23:44:23] Antenna Measurement App initialized.
+[23:44:49] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[23:45:03] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[23:45:03] ✓ Đã kết nối Positioner trên COM5 (Góc AS5600: 243.4°, Khóa Tilt: 0).
+[23:45:05] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 245.0°, Tilt 244.0°.
+[23:46:17] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[23:46:17] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[23:46:42] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[23:46:42] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[23:49:43] Scan loop finished (181/181 points, 181.07 s). Processing data...
+[23:49:43] Scan successfully completed! HPBW = 32.78°, SLL = -20.67 dB, Peak = 360.00°
+[23:51:14] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[23:51:22] 3D scan: 4 Tilt rows × 13 Pan points; preserve mechanical ZERO.
+[23:51:22] Tilt row 1/4: motor 0.0°, theta 0.0°.
+[23:53:12] Tilt row 2/4: motor 30.0°, theta 30.0°.
+[23:54:18] Tilt row 3/4: motor 60.0°, theta 60.0°.
+[23:55:24] Tilt row 4/4: motor 90.0°, theta 90.0°.
+[23:56:30] 3D COMPLETED: 52/52 points retained.
+[00:22:24] Exported 3D dataset to: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\scans\export_app_scan_20261015_002221
+[00:22:53] VNA switched to Real hardware mode.
+[00:24:05] Connected to VNA on COM6 (Variant: 0x02)
+[00:24:10] 3D scan: 4 Tilt rows × 13 Pan points; preserve mechanical ZERO.
+[00:24:10] Tilt row 1/4: motor 0.0°, theta 0.0°.
+[00:24:25] 3D scan stopped: VNA frequency grid changed during the scan.; preserving 1 points.
+[00:24:25] 3D ABORTED: 1/52 points retained.
+[00:24:25] ⚠️ Quét đã dừng: VNA frequency grid changed during the scan. (đã ghi nhận 1/52 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:24:54] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:25:16] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 242.1°, Tilt 222.6°.
+[00:25:25] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:25:25] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[00:25:26] 3D scan: 4 Tilt rows × 13 Pan points; preserve mechanical ZERO.
+[00:25:26] Tilt row 1/4: motor 0.0°, theta 0.0°.
+[00:25:35] 3D scan stopped: VNA frequency grid changed during the scan.; preserving 1 points.
+[00:25:35] 3D ABORTED: 1/52 points retained.
+[00:25:35] ⚠️ Quét đã dừng: VNA frequency grid changed during the scan. (đã ghi nhận 1/52 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:26:08] 3D scan: 4 Tilt rows × 13 Pan points; preserve mechanical ZERO.
+[00:26:08] Tilt row 1/4: motor 0.0°, theta 0.0°.
+[00:26:40] 3D scan stopped: VNA frequency grid changed during the scan.; preserving 4 points.
+[00:26:40] 3D ABORTED: 4/52 points retained.
+[00:26:40] ⚠️ Quét đã dừng: VNA frequency grid changed during the scan. (đã ghi nhận 4/52 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:27:03] 3D scan: 4 Tilt rows × 13 Pan points; preserve mechanical ZERO.
+[00:27:03] Tilt row 1/4: motor 0.0°, theta 0.0°.
+[00:27:27] 3D scan stopped: VNA frequency grid changed during the scan.; preserving 1 points.
+[00:27:27] 3D ABORTED: 1/52 points retained.
+[00:27:27] ⚠️ Quét đã dừng: VNA frequency grid changed during the scan. (đã ghi nhận 1/52 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:27:42] 3D scan: 4 Tilt rows × 13 Pan points; preserve mechanical ZERO.
+[00:27:42] Tilt row 1/4: motor 0.0°, theta 0.0°.
+[00:28:45] 3D scan stopped: VNA frequency grid changed during the scan.; preserving 9 points.
+[00:28:45] 3D ABORTED: 9/52 points retained.
+[00:28:45] ⚠️ Quét đã dừng: VNA frequency grid changed during the scan. (đã ghi nhận 9/52 điểm). Dữ liệu được giữ để phân tích/xuất file.

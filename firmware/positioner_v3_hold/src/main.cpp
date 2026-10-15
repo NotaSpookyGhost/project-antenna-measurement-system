@@ -9,7 +9,7 @@ using SensorBus = TwoWire;
 #endif
 
 // =========================================================================
-//   PTIT ANTENNA POSITIONER V3.2 — CONTINUOUS HOLD + VALIDATED ENCODER
+//   PTIT ANTENNA POSITIONER V4.0 — PAN/TILT SCANS + CONTINUOUS HOLD
 //   Hệ Thống Điều Khiển Bàn Xoay Đo Bức Xạ Ăng-ten 2 Trục (Pan - Tilt)
 //   Động cơ: 2x TMC2209 Standalone (1/8 vi bước, 25.0 bước / 1° góc anten)
 //   Cảm biến: 2x AS5600 12-bit telemetry (dedicated GPIO I2C buses)
@@ -33,6 +33,8 @@ SensorBus I2C_Tilt(0);
 const int PIN_TILT_SDA = 21;
 const int PIN_TILT_SCL = 22;
 
+const char* FW_VERSION = "V4.0_HOLD";
+
 SensorBus I2C_Pan(1);
 const int PIN_PAN_SDA  = 18;
 const int PIN_PAN_SCL  = 19;
@@ -40,9 +42,16 @@ const int PIN_PAN_SCL  = 19;
 // --- HẰNG SỐ ĐỘNG HỌC ---
 // Puly 16T:90T (5.625:1) | 1/8 vi bước (1600 xung/vòng) -> 25.0 bước / 1° anten
 const float STEPS_PER_DEG = 25.0f;
-const unsigned long CRUISE_DELAY_US = 2200; // ~18.18 deg/s
-const unsigned long START_DELAY_US  = 5000;
-const long RAMP_STEPS = 100;
+const unsigned long PAN_CRUISE_DELAY_US = 5000; // 8 deg/s
+const unsigned long PAN_START_DELAY_US = 9000; // ~4.44 deg/s
+const long PAN_RAMP_STEPS = 150;
+const unsigned long TILT_CRUISE_DELAY_US = 2200; // ~18.18 deg/s
+const unsigned long TILT_START_DELAY_US = 5000;
+const long TILT_RAMP_STEPS = 100;
+const long PAN_RAMP_MIN = 100, PAN_RAMP_MAX = 600;
+const long TILT_RAMP_MIN = 75, TILT_RAMP_MAX = 300;
+long panRampSteps = PAN_RAMP_STEPS;
+long tiltRampSteps = TILT_RAMP_STEPS;
 
 // Góc anten logic hiện tại
 float currentPanDeg = 0.0f;
@@ -82,6 +91,7 @@ bool readSensorRegisters(SensorBus &bus, uint8_t reg, uint8_t* data, int count) 
   return false;
 #endif
 }
+
 
 float readSensorDeg(SensorBus &bus) {
   AS5600Samples samples;
@@ -129,10 +139,11 @@ void refreshSensors() {
 
 void printPosition() {
   refreshSensors();
-  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:V3.2_HOLD\n",
+  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:%s SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:%ld RAMP_TILT:%ld\n",
                 currentPanDeg, currentTiltDeg, cachedPanSensorDeg, cachedPanAGC,
                 cachedTiltSensorDeg, cachedTiltAGC, holdRequested,
-                calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount);
+                calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount,FW_VERSION,
+                panRampSteps, tiltRampSteps);
 }
 
 // Accumulate complete lines without Stream's blocking timeout in the pulse loop.
@@ -189,17 +200,17 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
   long completedPan = 0;
   long completedTilt = 0;
   bool interrupted = false;
-  const long ramp = min(maxSteps / 4, RAMP_STEPS);
+  // Any Pan pulses select the slower shared clock, including dual-axis GOTO.
+  const unsigned long cruiseDelay = stepsPan != 0 ? PAN_CRUISE_DELAY_US : TILT_CRUISE_DELAY_US;
+  const unsigned long startDelay = stepsPan != 0 ? PAN_START_DELAY_US : TILT_START_DELAY_US;
+  const long rampLimit = stepsPan != 0 ? panRampSteps : tiltRampSteps;
   unsigned long nextStepTime = micros();
 
   for (long i = 0; i < maxSteps; i++) {
     if (pollMotionStop()) { interrupted = true; break; }
-    unsigned long pulseDelay = CRUISE_DELAY_US;
-    if (ramp > 0 && i < ramp) {
-      pulseDelay = START_DELAY_US - (START_DELAY_US - CRUISE_DELAY_US) * i / ramp;
-    } else if (ramp > 0 && i > maxSteps - ramp) {
-      pulseDelay = START_DELAY_US - (START_DELAY_US - CRUISE_DELAY_US) * (maxSteps - i) / ramp;
-    }
+    // Short moves never compress the acceleration slope below its configured limit.
+    const long rampProgress = min(min(i, maxSteps - 1 - i), rampLimit);
+    const unsigned long pulseDelay = startDelay - (startDelay - cruiseDelay) * rampProgress / rampLimit;
 
     bool stepP = false;
     bool stepT = false;
@@ -241,12 +252,10 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
 }
 
 bool gotoPosition(float targetPan, float targetTilt) {
-  if (!isfinite(targetPan) || !isfinite(targetTilt) || abs(targetPan) > 360.0f) {
-    Serial.println("ERR: INVALID_TARGET; PAN RANGE -360..360");
+  if (!isfinite(targetPan) || !isfinite(targetTilt) || abs(targetPan) > 360.0f || abs(targetTilt) > 180.0f) {
+    Serial.println("ERR: ANGLE_RANGE; PAN -360..360 TILT -180..180");
     return false;
   }
-  if (targetTilt < -5.0f) targetTilt = -5.0f;
-  if (targetTilt > 95.0f) targetTilt = 95.0f;
 
   float dPan = targetPan - currentPanDeg;
   float dTilt = targetTilt - currentTiltDeg;
@@ -281,10 +290,11 @@ void setup() {
   I2C_Tilt.setTimeOut(25);
   I2C_Pan.setTimeOut(25);
 
+
   delay(300);
 
   Serial.println("\n==================================================================");
-  Serial.println("  POSITIONER V3.2: CONTINUOUS HOLD + VALIDATED AS5600 TELEMETRY");
+  Serial.println("  POSITIONER V4.0: PAN/TILT SCANS + VALIDATED AS5600 TELEMETRY");
   Serial.println("  TMC2209 STEALTHCHOP2 (20V) + PULLEY 16:90 (25.0 BƯỚC/ĐỘ)");
   Serial.println("==================================================================");
 
@@ -341,6 +351,23 @@ void loop() {
   }
   else if (cmd == "POS") {
     printPosition();
+  }
+  else if (cmd.startsWith("RAMP")) {
+    long pan, tilt;
+    char extra;
+    if (sscanf(cmd.c_str(), "RAMP %ld %ld %c", &pan, &tilt, &extra) != 2 ||
+        pan < PAN_RAMP_MIN || pan > PAN_RAMP_MAX ||
+        tilt < TILT_RAMP_MIN || tilt > TILT_RAMP_MAX) {
+      Serial.println("ERR: RAMP_RANGE; PAN 100..600 TILT 75..300");
+    } else {
+      panRampSteps = pan;
+      tiltRampSteps = tilt;
+      Serial.printf("RAMP OK PAN:%ld TILT:%ld\n", panRampSteps, tiltRampSteps);
+    }
+  }
+  // Retired commands must not fall through to TILT <angle> parsing.
+  else if (cmd.startsWith("TILT PWM")) {
+    Serial.println("ERR: UNSUPPORTED_COMMAND; TILT USES I2C");
   }
   else if (cmd == "ZERO" || cmd == "0") {
     if (calibrationRequired) {

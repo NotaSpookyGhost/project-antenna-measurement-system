@@ -41,6 +41,11 @@ classdef DataManager
             %       .Analysis: Struct of calculated metrics (HPBW, SLL, Peak, FBR)
             %   figHandle: (Optional) Handle to MATLAB Figure to export as PNG
 
+            if isfield(scanData.Metadata,'ScanAxis') && strcmpi(scanData.Metadata.ScanAxis,'3D')
+                if nargin<3, figHandle = []; end
+                files = DataManager.saveScan3DDataset(exp_dir,scanData,figHandle);
+                return;
+            end
             if ~exist(exp_dir, 'dir')
                 mkdir(exp_dir);
             end
@@ -149,6 +154,56 @@ classdef DataManager
 
             loaded = load(filePath, 'scanData');
             scanData = loaded.scanData;
+        end
+
+        function files = saveScan3DDataset(exp_dir,scanData,figHandle)
+            if nargin<3, figHandle = []; end
+            if ~exist(exp_dir,'dir'), mkdir(exp_dir); end
+            files = struct('mat',fullfile(exp_dir,'scan_data.mat'), ...
+                'csv',fullfile(exp_dir,'scan_pattern.csv'), ...
+                'json',fullfile(exp_dir,'metadata.json'),'summary',fullfile(exp_dir,'summary.txt'));
+            save(files.mat,'scanData','-v7.3');
+            [~,f] = min(abs(scanData.FrequenciesHz-scanData.SelectedFreqHz));
+            a = scanData.S11(:,f); b = scanData.S21(:,f);
+            n = numel(scanData.PanAngles);
+            values = [(1:n).',scanData.RowIndex.',scanData.ColumnIndex.', ...
+                scanData.PanAngles.',scanData.TiltAngles.',scanData.ThetaDeg.',scanData.PhiDeg.', ...
+                scanData.MeasuredPanAngles.',scanData.MeasuredTiltAngles.', ...
+                scanData.PanEncoderAngles.',scanData.TiltEncoderAngles.', ...
+                isfinite(scanData.PanEncoderAngles).',isfinite(scanData.TiltEncoderAngles).', ...
+                scanData.ElapsedSec.',repmat(scanData.FrequenciesHz(f),n,1), ...
+                real(a),imag(a),abs(a),20*log10(max(abs(a),1e-12)),rad2deg(angle(a)), ...
+                real(b),imag(b),abs(b),scanData.SelectedS21_dB.', ...
+                scanData.NormalizedS21_dB.',scanData.SelectedS21_PhaseDeg.'];
+            names = {'point_idx','tilt_row','pan_column','pan_motor_deg','tilt_motor_deg', ...
+                'theta_deg','phi_deg','pan_reported_deg','tilt_reported_deg', ...
+                'pan_encoder_deg','tilt_encoder_deg','pan_encoder_valid','tilt_encoder_valid', ...
+                'elapsed_s','freq_hz','s11_real','s11_imag','s11_mag','s11_db','s11_phase_deg', ...
+                's21_real','s21_imag','s21_mag','s21_db','s21_rel_db','s21_phase_deg'};
+            writetable(array2table(values,'VariableNames',names),files.csv);
+            fid = fopen(files.json,'w');
+            if fid<0, error('DataManager:FileOpen','Cannot open metadata output.'); end
+            cleanup = onCleanup(@() fclose(fid));
+            fprintf(fid,'%s',jsonencode(scanData.Metadata,PrettyPrint=true));
+            clear cleanup;
+            fid = fopen(files.summary,'w');
+            if fid<0, error('DataManager:FileOpen','Cannot open summary output.'); end
+            cleanup = onCleanup(@() fclose(fid));
+            c = scanData.Metadata.Scan3DConfig; an = scanData.Analysis;
+            fprintf(fid,'3D Pan x Tilt — measured scan\n');
+            fprintf(fid,'Timestamp: %s\n',scanData.Metadata.Timestamp);
+            fprintf(fid,'Completed: %d/%d; aborted=%d; reason=%s\n',n,scanData.Metadata.TotalAngles,scanData.Metadata.Aborted,scanData.Metadata.AbortReason);
+            fprintf(fid,'Pan motor: %.3f..%.3f step %.3f deg; Tilt motor: %.3f..%.3f step %.3f deg\n',c.PanStartDeg,c.PanStopDeg,c.PanStepDeg,c.TiltStartDeg,c.TiltStopDeg,c.TiltStepDeg);
+            fprintf(fid,'ZERO frame: theta=%.3f + (%d)*Tilt; phi=%.3f + (%d)*Pan\n',c.TiltAtZeroDeg,c.TiltSign,c.PanAtZeroDeg,c.PanSign);
+            fprintf(fid,'Relative travel: Pan %.3f..%.3f; Tilt %.3f..%.3f deg\n',c.TravelPanDeg(1),c.TravelPanDeg(2),c.TravelTiltDeg(1),c.TravelTiltDeg(2));
+            fprintf(fid,'Global peak: %.3f dB at motor Pan %.3f Tilt %.3f; theta %.3f phi %.3f deg\n',an.PeakVal_dB,an.PeakPan_deg,an.PeakTilt_deg,an.PeakTheta_deg,an.PeakPhi_deg);
+            fprintf(fid,'Frequency: %.3f MHz; %d sweep points; duration %.3f s\n',scanData.SelectedFreqHz/1e6,numel(scanData.FrequenciesHz),scanData.Metadata.TotalTimeSec);
+            fprintf(fid,'Position angles are reported step counts; encoders measure the motor shafts.\nNormalization uses the peak of all completed points, not individual rows.\n');
+            clear cleanup;
+            if ~isempty(figHandle) && isgraphics(figHandle)
+                files.plot = fullfile(exp_dir,'radiation_pattern.png');
+                exportgraphics(figHandle,files.plot,'Resolution',150);
+            end
         end
     end
 end

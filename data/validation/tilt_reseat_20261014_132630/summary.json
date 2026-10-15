@@ -1,0 +1,48 @@
+[
+  {
+    "state": "HOLD OFF before",
+    "reads": 30,
+    "pan_valid": 30,
+    "tilt_valid": 0,
+    "tilt_agc_unique": [
+      255
+    ],
+    "tilt_raw_valid_range": [
+      null,
+      null
+    ],
+    "release_counter_start": 1,
+    "release_counter_end": 1
+  },
+  {
+    "state": "HOLD ON",
+    "reads": 100,
+    "pan_valid": 100,
+    "tilt_valid": 68,
+    "tilt_agc_unique": [
+      128,
+      255
+    ],
+    "tilt_raw_valid_range": [
+      180.0,
+      180.0
+    ],
+    "release_counter_start": 1,
+    "release_counter_end": 1
+  },
+  {
+    "state": "HOLD OFF after",
+    "reads": 30,
+    "pan_valid": 30,
+    "tilt_valid": 0,
+    "tilt_agc_unique": [
+      255
+    ],
+    "tilt_raw_valid_range": [
+      null,
+      null
+    ],
+    "release_counter_start": 2,
+    "release_counter_end": 2
+  }
+]

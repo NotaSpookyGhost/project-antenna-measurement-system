@@ -1,0 +1,21 @@
+{
+  "targetPanDeg": 30,
+  "passed": false,
+  "error": "AS5600 AZ moved 7.03 deg; expected about 168.75 deg for PAN 30.00.",
+  "authorization": "User requested a 30 or 45 degree visible trial after failed 5 degree move. Chose 30 degrees; unchanged encoder guard.",
+  "moveSeconds": 4.6057392,
+  "errorIdentifier": "PositionerController:EncoderMismatch",
+  "logicalAtFailure": [
+    30,
+    0
+  ],
+  "encoderAtFailure": [
+    252.51,
+    250.84
+  ],
+  "rawMotorDeltaDeg": [
+    7.210000000000008,
+    0
+  ],
+  "expectedPanMotorDeltaMagnitudeDeg": 168.75
+}

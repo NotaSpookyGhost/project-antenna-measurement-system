@@ -1,0 +1,10 @@
+[Positioner]  kt ni th�nh c�ng ESP32 tr�n cng COM5 (115200 baud).
+[Positioner] Trng th�i: Pan = 0.0�, AS5600 Pan = 221.7� | Tilt = 0.0� (TiltDisabled=0)
+FAIL: Subscripted assignment between dissimilar structures.; stopped further motion.
+{Subscripted assignment between dissimilar structures.
+
+Error in test_tilt_i2c_motion (line 57)
+        stages(end+1)=entry; %#ok<AGROW>
+        ^^^^^^^^^^^^^
+} 
+ERROR: MATLAB error Exit Status: 0x00000001

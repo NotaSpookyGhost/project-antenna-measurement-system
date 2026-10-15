@@ -1,0 +1,13 @@
+{
+  "samples": 24,
+  "held_sample_last_s": 116.59950229999959,
+  "all_hold_on": true,
+  "all_pan_valid": true,
+  "all_tilt_valid": true,
+  "release_counts_while_held": [
+    0
+  ],
+  "release_confirmed": true,
+  "user_observation": "Both motors remain soft during commanded HOLD. MS1/MS2 unconnected.",
+  "physical_voltage_measurements": null
+}

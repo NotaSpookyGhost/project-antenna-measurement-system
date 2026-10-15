@@ -1,0 +1,59 @@
+{
+  "passed": false,
+  "error": "AS5600 AZ moved 3.60 deg; expected about 28.12 deg for PAN 5.00.",
+  "gearRatio": 5.625,
+  "userTravelDeg": [
+    0,
+    90
+  ],
+  "physicalAngleIndependentlyMeasured": false,
+  "stages": {
+    "movedAxis": "ZERO",
+    "targetDeg": [
+      0,
+      0
+    ],
+    "motorEncoderDeg": [
+      245.39,
+      246.01
+    ],
+    "motorSpanDeg": [
+      0,
+      0.0800000000000125
+    ],
+    "encoderBasedOutputDeg": [
+      0,
+      0
+    ],
+    "outputTrackingErrorDeg": [
+      0,
+      0
+    ]
+  },
+  "pairedSnapshots": 10,
+  "sampleColumns": [
+    "stage",
+    "targetPan",
+    "targetTilt",
+    "logicalPan",
+    "logicalTilt",
+    "encoderPan",
+    "encoderTilt",
+    "releaseCount",
+    "hold",
+    "elapsedSeconds"
+  ],
+  "errorIdentifier": "PositionerController:EncoderMismatch",
+  "failedTarget": [
+    5,
+    0
+  ],
+  "logicalAtFailure": [
+    5,
+    0
+  ],
+  "encoderAtFailure": [
+    241.79,
+    246.09
+  ]
+}

@@ -1,0 +1,63 @@
+PASS: 20 real VNA sweeps with complete finite complex samples.
+PASS: MATLAB/Python VNA disconnect and reconnect.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 106.9° | Tilt = 0.0° (TiltDisabled=1)
+TEST ZERO captured at current physical pose, not an independently aligned antenna reference.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 5.00°, 3 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+Point 1/3 command 0.0 motor encoder 106.79 RF -72.39 dB
+Point 2/3 command 5.0 motor encoder 134.47 RF -70.92 dB
+Point 3/3 command 10.0 motor encoder 162.42 RF -70.67 dB
+[ORCHESTRATOR] Scan loop finished (3/3 points, 5.67 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+PASS: real VNA + real Pan 0/5/10 synchronized.
+[ORCHESTRATOR] Starting scan: 0.0° to 360.0° (step 10.00°, 37 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+Point 1/37 command 0.0 motor encoder 106.61 RF -71.14 dB
+Point 2/37 command 10.0 motor encoder 162.51 RF -70.53 dB
+Point 3/37 command 20.0 motor encoder 218.23 RF -71.14 dB
+Point 4/37 command 30.0 motor encoder 275.36 RF -75.80 dB
+Point 5/37 command 40.0 motor encoder 332.40 RF -69.94 dB
+Point 6/37 command 50.0 motor encoder 28.21 RF -71.62 dB
+Point 7/37 command 60.0 motor encoder 83.85 RF -69.29 dB
+Point 8/37 command 70.0 motor encoder 139.83 RF -72.53 dB
+Point 9/37 command 80.0 motor encoder 195.91 RF -71.73 dB
+Point 10/37 command 90.0 motor encoder 252.42 RF -70.62 dB
+Point 11/37 command 100.0 motor encoder 309.55 RF -69.34 dB
+Point 12/37 command 110.0 motor encoder 6.24 RF -73.46 dB
+Point 13/37 command 120.0 motor encoder 61.79 RF -71.08 dB
+Point 14/37 command 130.0 motor encoder 117.60 RF -70.35 dB
+Point 15/37 command 140.0 motor encoder 173.58 RF -71.42 dB
+Point 16/37 command 150.0 motor encoder 229.48 RF -74.47 dB
+Point 17/37 command 160.0 motor encoder 286.79 RF -69.16 dB
+Point 18/37 command 170.0 motor encoder 343.74 RF -69.43 dB
+Point 19/37 command 180.0 motor encoder 39.20 RF -70.06 dB
+Point 20/37 command 190.0 motor encoder 95.10 RF -72.99 dB
+Point 21/37 command 200.0 motor encoder 151.17 RF -74.16 dB
+Point 22/37 command 210.0 motor encoder 206.98 RF -71.88 dB
+Point 23/37 command 220.0 motor encoder 263.85 RF -70.73 dB
+Point 24/37 command 230.0 motor encoder 320.98 RF -74.26 dB
+Point 25/37 command 240.0 motor encoder 17.31 RF -68.93 dB
+Point 26/37 command 250.0 motor encoder 72.60 RF -70.29 dB
+Point 27/37 command 260.0 motor encoder 128.76 RF -70.29 dB
+Point 28/37 command 270.0 motor encoder 184.75 RF -73.37 dB
+Point 29/37 command 280.0 motor encoder 241.00 RF -72.85 dB
+Point 30/37 command 290.0 motor encoder 298.12 RF -69.09 dB
+Point 31/37 command 300.0 motor encoder 354.99 RF -71.72 dB
+Point 32/37 command 310.0 motor encoder 50.36 RF -76.14 dB
+Point 33/37 command 320.0 motor encoder 106.44 RF -70.63 dB
+Point 34/37 command 330.0 motor encoder 162.51 RF -72.94 dB
+Point 35/37 command 340.0 motor encoder 218.23 RF -72.40 dB
+Point 36/37 command 350.0 motor encoder 275.36 RF -72.78 dB
+Point 37/37 command 360.0 motor encoder 332.49 RF -72.77 dB
+[ORCHESTRATOR] Scan loop finished (37/37 points, 86.93 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = 30.98°, SLL = -0.16 dB, Peak = 240.00°
+PASS: real 0..360 / 10 scan, 37 valid-encoder points with real RF.
+PASS: commanded return to test ZERO. Physical antenna zero NOT measured independently.
+[ORCHESTRATOR] Starting scan: 0.0° to 20.0° (step 5.00°, 5 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Đang dừng quét sau bước hiện tại...
+[ORCHESTRATOR] Scan loop finished (2/5 points, 3.56 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/5 điểm, dữ liệu một phần được giữ lại.
+PASS: real STOP retains two acquired points and hold.
+[ORCHESTRATOR] Starting scan: 0.0° to 20.0° (step 5.00°, 5 points)

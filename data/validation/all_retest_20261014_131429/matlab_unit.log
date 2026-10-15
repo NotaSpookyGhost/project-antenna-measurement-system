@@ -1,0 +1,163 @@
+Running TestScanGeometry
+.....
+Done TestScanGeometry
+__________
+
+Running TestPositionerLimits
+....
+Done TestPositionerLimits
+__________
+
+Running TestScan3D
+..........
+Done TestScan3D
+__________
+
+Running TestScan3DData
+...
+Done TestScan3DData
+__________
+
+Running TestScan3DGUI
+[13:15:17] Antenna Measurement App initialized.
+[13:15:17] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:20] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[13:15:20] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[13:15:23] 3D COMPLETED: 3/3 points retained.
+[13:15:29] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tp3f7ab6fa_d5cc_42f2_99fa_e33916b09fc0\export_app_scan_20261014_131524
+.[13:15:30] Antenna Measurement App initialized.
+[13:15:30] Antenna Measurement App initialized.
+.[13:15:31] Antenna Measurement App initialized.
+[13:15:31] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:32] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[13:15:32] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[13:15:33] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[13:15:35] 3D COMPLETED: 6/6 points retained.
+.[13:15:37] Antenna Measurement App initialized.
+[13:15:37] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:38] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[13:15:38] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[13:15:39] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[13:15:39] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[13:15:39] Đang dừng quét sau bước hiện tại...
+[13:15:39] 3D ABORTED: 3/6 points retained.
+[13:15:40] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 3/6 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[13:15:40] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[13:15:40] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[13:15:41] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[13:15:42] 3D COMPLETED: 6/6 points retained.
+.[13:15:42] Antenna Measurement App initialized.
+[ORCHESTRATOR] 3D scan: 1 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 2/2 points retained.
+.
+Done TestScan3DGUI
+__________
+
+Running TestPositionerResponse
+..........
+Done TestPositionerResponse
+__________
+
+Running TestManualHoming
+[13:15:44] Antenna Measurement App initialized.
+[13:15:44] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[13:15:44] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.09 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+.[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.
+[ORCHESTRATOR] Scan loop finished (2/4 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+...[13:15:46] Antenna Measurement App initialized.
+[13:15:46] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[13:15:46] Đã nhả mô phỏng; không thay đổi motor thật.
+[13:15:46] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[13:15:46] Antenna Measurement App initialized.
+[13:15:46] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 10.00°, 2 points)
+.
+Done TestManualHoming
+__________
+
+Running TestScanStopGUI
+[13:15:47] Antenna Measurement App initialized.
+[13:15:47] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:47] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:15:47] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:15:48] AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.
+[13:15:48] Scan loop finished (2/4 points, 0.82 s). Processing data...
+[13:15:48] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+[13:15:49] ⚠️ Quét đã dừng: AS5600 mất phản hồi (đã ghi nhận 2/4 điểm). Dữ liệu được giữ để phân tích/xuất file.
+.[13:15:51] Antenna Measurement App initialized.
+[13:15:51] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:51] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:15:51] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:15:52] Scan loop finished (4/4 points, 0.98 s). Processing data...
+[13:15:52] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[13:15:54] Antenna Measurement App initialized.
+[13:15:54] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:55] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:15:55] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:15:55] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[13:15:56] Đang dừng quét sau bước hiện tại...
+[13:15:56] Scan loop finished (2/4 points, 1.88 s). Processing data...
+[13:15:56] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+[13:15:57] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 2/4 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[13:15:57] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:15:57] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:15:57] Scan loop finished (4/4 points, 0.33 s). Processing data...
+[13:15:57] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[13:15:59] Antenna Measurement App initialized.
+[13:15:59] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:15:59] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:15:59] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:16:00] Scan loop finished (4/4 points, 1.05 s). Processing data...
+[13:16:00] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[13:16:01] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:16:01] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:16:01] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:16:01] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[13:16:01] Đang dừng quét sau bước hiện tại...
+[13:16:01] Scan dừng, chưa đủ dữ liệu (cần >= 2 điểm).
+[13:16:01] ⚠️ Quá trình quét đã bị hủy hoặc không đủ dữ liệu (cần >= 2 điểm).
+.[13:16:03] Antenna Measurement App initialized.
+[13:16:03] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:16:03] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:16:03] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:16:04] ❌ Lỗi trong quá trình quét: Injected positioner command interruption.
+.[13:16:07] Antenna Measurement App initialized.
+[13:16:07] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[13:16:07] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[13:16:07] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:16:08] Scan loop finished (4/4 points, 1.08 s). Processing data...
+[13:16:08] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[13:16:11] Antenna Measurement App initialized.
+.
+Done TestScanStopGUI
+__________
+
+
+ans = 
+
+  1×51 TestResult array with properties:
+
+    Name
+    Passed
+    Failed
+    Incomplete
+    Duration
+    Details
+
+Totals:
+   51 Passed, 0 Failed, 0 Incomplete.
+   61.9673 seconds testing time.
+

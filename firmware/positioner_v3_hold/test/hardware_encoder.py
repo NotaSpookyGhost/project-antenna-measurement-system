@@ -28,7 +28,7 @@ with (folder / 'stationary.log').open('w', encoding='utf-8') as log, serial.Seri
         return text, elapsed
     time.sleep(2); port.reset_input_buffer()
     initial = send('POS')[0]
-    assert 'FW:V3.2_HOLD' in initial
+    assert any(version in initial for version in ('FW:V3.2_HOLD', 'FW:V4.0_HOLD'))
     baseline_releases = int(re.search(r'RELEASES:(\d+)', initial)[1])
     try:
         send('HOLD ON')

@@ -1,0 +1,107 @@
+[
+  {
+    "time": "2026-10-11T14:02:30.842666",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.60 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:30.967724",
+    "command": "ZERO",
+    "response": "ZERO SET OK\r\nPAN:  0.00 TILT:  0.00 RAW_PAN: 72.60 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:31.092986",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.60 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:31.217527",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.60 (AGC: 48) RAW_TILT: 48.34 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:32.275801",
+    "command": "GOTO 10 5",
+    "response": "DONE PAN: 10.00 TILT:  5.00\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:32.400583",
+    "command": "POS",
+    "response": "PAN: 10.00 TILT:  5.00 RAW_PAN:128.58 (AGC: 48) RAW_TILT: 72.60 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:33.465774",
+    "command": "GOTO 0 0",
+    "response": "DONE PAN:  0.00 TILT:  0.00\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:33.591538",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.42 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:34.011961",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.42 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:34.136808",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.42 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:35.197295",
+    "command": "GOTO 10 5",
+    "response": "DONE PAN: 10.00 TILT:  5.00\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:35.320853",
+    "command": "POS",
+    "response": "PAN: 10.00 TILT:  5.00 RAW_PAN:128.58 (AGC: 48) RAW_TILT: 72.69 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:36.381158",
+    "command": "GOTO 0 0",
+    "response": "DONE PAN:  0.00 TILT:  0.00\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:36.508231",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.42 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:36.931049",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.51 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:37.055371",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.42 (AGC: 48) RAW_TILT: 48.43 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:38.110865",
+    "command": "GOTO 10 5",
+    "response": "DONE PAN: 10.00 TILT:  5.00\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:38.234447",
+    "command": "POS",
+    "response": "PAN: 10.00 TILT:  5.00 RAW_PAN:128.58 (AGC: 48) RAW_TILT: 72.69 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:39.289203",
+    "command": "GOTO 0 0",
+    "response": "DONE PAN:  0.00 TILT:  0.00\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:39.413597",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.42 (AGC: 48) RAW_TILT: 48.52 (AGC:128)\nESP32-ANTENNA> "
+  },
+  {
+    "time": "2026-10-11T14:02:39.835387",
+    "command": "POS",
+    "response": "PAN:  0.00 TILT:  0.00 RAW_PAN: 72.51 (AGC: 48) RAW_TILT: 48.52 (AGC:128)\nESP32-ANTENNA> "
+  }
+]

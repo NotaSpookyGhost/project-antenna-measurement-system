@@ -1,0 +1,44 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 236.5° | Tilt = 0.0° (TiltDisabled=0)
+STAGE 1: Pan 0.0 Tilt 0.0; raw 236.43 217.00; error 0.000 0.000; 10/10 valid both
+MOVE AZ 5.0 deg
+STAGE 2: Pan 5.0 Tilt 0.0; raw 208.12 217.00; error 0.033 0.000; 10/10 valid both
+MOVE AZ 10.0 deg
+STAGE 3: Pan 10.0 Tilt 0.0; raw 180.22 217.00; error -0.007 0.000; 10/10 valid both
+MOVE AZ 20.0 deg
+STAGE 4: Pan 20.0 Tilt 0.0; raw 124.37 217.00; error -0.078 0.000; 10/10 valid both
+MOVE AZ 30.0 deg
+STAGE 5: Pan 30.0 Tilt 0.0; raw 68.03 217.00; error -0.062 0.000; 10/10 valid both
+MOVE AZ 40.0 deg
+STAGE 6: Pan 40.0 Tilt 0.0; raw 12.66 217.00; error -0.219 0.000; 10/10 valid both
+MOVE AZ 50.0 deg
+STAGE 7: Pan 50.0 Tilt 0.0; raw 316.23 217.00; error -0.187 0.000; 10/10 valid both
+MOVE AZ 60.0 deg
+STAGE 8: Pan 60.0 Tilt 0.0; raw 259.45 217.00; error -0.092 0.000; 10/10 valid both
+MOVE AZ 70.0 deg
+STAGE 9: Pan 70.0 Tilt 0.0; raw 202.59 217.00; error 0.016 0.000; 10/10 valid both
+MOVE AZ 80.0 deg
+STAGE 10: Pan 80.0 Tilt 0.0; raw 146.60 217.00; error -0.030 0.000; 10/10 valid both
+MOVE AZ 90.0 deg
+STAGE 11: Pan 90.0 Tilt 0.0; raw 90.53 217.00; error -0.062 0.000; 10/10 valid both
+MOVE AZ 80.0 deg
+STAGE 12: Pan 80.0 Tilt 0.0; raw 146.43 217.00; error 0.000 0.000; 10/10 valid both
+MOVE AZ 70.0 deg
+STAGE 13: Pan 70.0 Tilt 0.0; raw 202.32 217.05; error 0.064 0.008; 10/10 valid both
+MOVE AZ 60.0 deg
+STAGE 14: Pan 60.0 Tilt 0.0; raw 259.10 217.00; error -0.030 0.000; 10/10 valid both
+MOVE AZ 50.0 deg
+STAGE 15: Pan 50.0 Tilt 0.0; raw 315.97 217.00; error -0.140 0.000; 10/10 valid both
+MOVE AZ 40.0 deg
+STAGE 16: Pan 40.0 Tilt 0.0; raw 12.48 217.00; error -0.187 0.000; 10/10 valid both
+MOVE AZ 30.0 deg
+STAGE 17: Pan 30.0 Tilt 0.0; raw 67.76 217.09; error -0.014 0.016; 10/10 valid both
+MOVE AZ 20.0 deg
+STAGE 18: Pan 20.0 Tilt 0.0; raw 124.19 217.00; error -0.046 0.000; 10/10 valid both
+MOVE AZ 10.0 deg
+STAGE 19: Pan 10.0 Tilt 0.0; raw 180.09 217.00; error 0.016 0.000; 10/10 valid both
+MOVE AZ 5.0 deg
+STAGE 20: Pan 5.0 Tilt 0.0; raw 207.95 217.09; error 0.063 0.016; 10/10 valid both
+MOVE AZ 0.0 deg
+STAGE 21: Pan 0.0 Tilt 0.0; raw 236.34 217.09; error 0.016 0.016; 10/10 valid both
+PASS: 21 stages, 210 paired snapshots. Motor closure Pan -0.090 Tilt 0.090 deg.

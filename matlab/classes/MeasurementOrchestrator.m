@@ -25,6 +25,7 @@ classdef MeasurementOrchestrator < handle
         StopAngleDeg double = 360.0
         StepAngleDeg double = 2.0
         Axis char = 'AZ'                   % 'AZ' or 'EL'
+        Scan3DConfig struct = ScanGeometry.defaults()
 
         CenterFreqHz double = 2.4e9
         SpanHz double = 10e6
@@ -88,6 +89,10 @@ classdef MeasurementOrchestrator < handle
 
         function scanData = startScan(obj)
             % STARTSCAN Execute the automated scan sequence
+            if strcmpi(obj.Axis,'3D')
+                scanData = obj.startScan3D();
+                return;
+            end
             if obj.IsRunning
                 error('MeasurementOrchestrator:AlreadyRunning', 'A scan is already in progress.');
             end
@@ -431,6 +436,195 @@ classdef MeasurementOrchestrator < handle
     end
 
     methods (Access = private)
+        function data = startScan3D(obj)
+            if obj.IsRunning
+                error('MeasurementOrchestrator:AlreadyRunning','A scan is already in progress.');
+            end
+            % Validate the entire plan BEFORE moving either motor.
+            cfg = obj.Scan3DConfig;
+            plan = ScanGeometry.buildPlan(cfg);
+            obj.CancelRequested = false; obj.IsPaused = false; obj.IsRunning = true;
+            obj.TotalSteps = int32(numel(plan.PanMotorDeg)); obj.CurrentIndex=0; obj.Progress=0;
+            cleanup = onCleanup(@() obj.resetRunning());
+            obj.setState('INITIALIZING');
+            try
+            if ~obj.Positioner.IsConnected, obj.Positioner.connect(); end
+            if obj.Positioner.TiltDisabled
+                error('MeasurementOrchestrator:TiltDisabled','Enable verified Tilt feedback before a 3D scan.');
+            end
+            if ~obj.Positioner.IsHomed || obj.Positioner.ManualHomingActive
+                error('MeasurementOrchestrator:ManualHomingRequired','Lock and ZERO both axes before scanning.');
+            end
+            if obj.Positioner.HoldingSupported && ~obj.Positioner.HoldingActive
+                error('MeasurementOrchestrator:HoldLost','Holding torque is unavailable.');
+            end
+            if strcmpi(obj.Positioner.Mode,'Mock')
+                obj.Positioner.setTravelLimits(cfg.TravelPanDeg,cfg.TravelTiltDeg);
+            elseif ~obj.Positioner.TravelConfirmed || ...
+                    ~isequal(cfg.TravelPanDeg,obj.Positioner.TravelPanDeg) || ...
+                    ~isequal(cfg.TravelTiltDeg,obj.Positioner.TravelTiltDeg)
+                error('MeasurementOrchestrator:TravelUnconfirmed','Confirm reachable travel for this mechanical ZERO before a 3D scan.');
+            end
+            obj.Positioner.validateTargets('AZ',plan.PanVector);
+            obj.Positioner.validateTargets('EL',plan.TiltVector);
+            obj.readBothAxes();
+            if obj.CancelRequested
+                data=[]; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
+            end
+            if ~isfinite(obj.CenterFreqHz) || ~isfinite(obj.SpanHz) || obj.SpanHz<=0 || ...
+                    obj.CenterFreqHz-obj.SpanHz/2<=0 || obj.SweepPoints<2 || ...
+                    ~isfinite(obj.SettleTimeSec) || obj.SettleTimeSec<0
+                error('MeasurementOrchestrator:InvalidSweep','Use a positive frequency band, at least two VNA points and nonnegative settling.');
+            end
+            if ~obj.VNA.IsConnected, obj.VNA.connect(); end
+            startHz = obj.CenterFreqHz-obj.SpanHz/2; stopHz = obj.CenterFreqHz+obj.SpanHz/2;
+            obj.VNA.configureSweep(startHz,stopHz,obj.SweepPoints);
+            catch ME
+                if obj.CancelRequested
+                    data=[]; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
+                end
+                obj.setState('ERROR'); rethrow(ME);
+            end
+            if ~obj.awaitScan3D()
+                data=[]; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
+            end
+            n = numel(plan.PanMotorDeg); nf = double(obj.SweepPoints);
+            s11 = complex(nan(n,nf)); s21 = s11;
+            panMeasured = nan(1,n); tiltMeasured = panMeasured;
+            panEncoder = panMeasured; tiltEncoder = panMeasured; elapsed = panMeasured;
+            frequencies = linspace(startHz,stopHz,nf);
+            [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
+            obj.TotalSteps = int32(n); obj.CurrentIndex = 0; obj.Progress = 0;
+            obj.setState('SCANNING'); notify(obj,'ScanStarted');
+            obj.logStatus(sprintf('3D scan: %d Tilt rows × %d Pan points; preserve mechanical ZERO.',numel(plan.TiltVector),numel(plan.PanVector)));
+            done = 0; aborted = false; reason = ''; abortMessage = ''; scanClock = tic;
+            try
+                previousRow = 0;
+                for i = 1:n
+                    if ~obj.awaitScan3D(), aborted = true; break; end
+                    if plan.RowIndex(i)~=previousRow
+                        obj.logStatus(sprintf('Tilt row %d/%d: motor %.1f°, theta %.1f°.',plan.RowIndex(i),numel(plan.TiltVector),plan.TiltMotorDeg(i),plan.ThetaDeg(i)));
+                        obj.Positioner.moveTo('EL',plan.TiltMotorDeg(i));
+                        if ~obj.awaitScan3D(), aborted = true; break; end
+                        obj.readBothAxes();
+                        previousRow = plan.RowIndex(i);
+                    end
+                    obj.Positioner.moveTo('AZ',plan.PanMotorDeg(i));
+                    if ~obj.awaitScan3D(), aborted = true; break; end
+                    settling = tic;
+                    while toc(settling)<obj.SettleTimeSec
+                        if ~obj.awaitScan3D(), break; end
+                        pause(min(0.05,max(0,obj.SettleTimeSec-toc(settling))));
+                    end
+                    if ~obj.awaitScan3D(), aborted = true; break; end
+                    [panMeasured(i),tiltMeasured(i),panEncoder(i),tiltEncoder(i)] = obj.readBothAxes();
+                    if strcmpi(obj.VNA.Mode,'Mock')
+                        obj.VNA.setMockOrientation(plan.PhiDeg(i),plan.ThetaDeg(i));
+                    end
+                    sweep = obj.VNA.acquireSingle();
+                    % STOP while acquiring may discard this uncommitted point.
+                    if obj.CancelRequested, aborted = true; break; end
+                    if numel(sweep.S11)~=nf || numel(sweep.S21)~=nf || ...
+                            any(~isfinite(sweep.S11)) || any(~isfinite(sweep.S21)) || ...
+                            numel(sweep.FrequencyHz)~=nf || any(~isfinite(sweep.FrequencyHz))
+                        error('MeasurementOrchestrator:InvalidSweep','VNA returned an incomplete or invalid sweep.');
+                    end
+                    if done>0 && ~isequal(reshape(sweep.FrequencyHz,1,[]),frequencies)
+                        error('MeasurementOrchestrator:InvalidSweep','VNA frequency grid changed during the scan.');
+                    end
+                    frequencies = reshape(sweep.FrequencyHz,1,[]);
+                    [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
+                    s11(i,:) = sweep.S11; s21(i,:) = sweep.S21;
+                    done = i; elapsed(i) = toc(scanClock);
+                    obj.CurrentIndex = int32(i); obj.Progress = i/n;
+                    if ~isempty(obj.StepCallback)
+                        info = struct('Index',i,'Total',n,'CommandedAngle',plan.PanMotorDeg(i), ...
+                            'MeasuredAngle',panMeasured(i),'EncoderAngle',panEncoder(i), ...
+                            'PanAngle',plan.PanMotorDeg(i),'TiltAngle',plan.TiltMotorDeg(i), ...
+                            'MeasuredPanAngle',panMeasured(i),'MeasuredTiltAngle',tiltMeasured(i), ...
+                            'TiltEncoderAngle',tiltEncoder(i),'ThetaDeg',plan.ThetaDeg(i), ...
+                            'PhiDeg',plan.PhiDeg(i),'RowIndex',plan.RowIndex(i), ...
+                            'ColumnIndex',plan.ColumnIndex(i),'TotalRows',numel(plan.TiltVector), ...
+                            'S21_dB_Center',20*log10(max(abs(sweep.S21(centerIndex)),1e-12)), ...
+                            'Progress',obj.Progress,'ElapsedSec',elapsed(i));
+                        obj.StepCallback(info);
+                    end
+                    notify(obj,'StepProgress');
+                end
+            catch ME
+                aborted = true;
+                abortMessage = ME.message;
+                if contains(ME.identifier,'EncoderUnavailable')
+                    reason = 'EncoderUnavailable';
+                else
+                    reason = ME.identifier;
+                end
+                obj.logStatus(sprintf('3D scan stopped: %s; preserving %d points.',ME.message,done));
+            end
+            if obj.CancelRequested, aborted = true; if isempty(reason), reason = 'UserStop'; end; end
+            if done==0
+                data = []; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
+            end
+            keep = 1:done; s11 = s11(keep,:); s21 = s21(keep,:);
+            rawDB = 20*log10(max(abs(s21(:,centerIndex)),1e-12)).';
+            [peakDB,peakIndex] = max(rawDB);
+            metadata = struct('SchemaVersion',2,'ScanAxis','3D','Scan3DConfig',cfg, ...
+                'Device','SAA-2N','VNAMode',obj.VNA.Mode,'VNAPort',obj.VNA.Port, ...
+                'PositionerMode',obj.Positioner.Mode,'PositionerPort',obj.Positioner.Port, ...
+                'AngleSource','Commanded positioner angles; encoder on motor shaft', ...
+                'EncoderLocation','Motor shaft, modulo 360 deg; reduction 90/16', ...
+                'CoordinateFrame','Declared theta/phi frame relative to manual ZERO', ...
+                'TotalAngles',n,'CompletedPoints',done,'Aborted',aborted,'AbortReason',reason, ...
+                'AbortMessage',abortMessage, ...
+                'CenterFreqHz',obj.CenterFreqHz,'SpanHz',obj.SpanHz,'SweepPoints',nf, ...
+                'SettleTimeSec',obj.SettleTimeSec,'TotalTimeSec',toc(scanClock), ...
+                'AngleStepDeg',cfg.PanStepDeg,'Firmware','Positioner capability reported over POS', ...
+                'Timestamp',char(datetime('now','Format','yyyy-MM-dd HH:mm:ss')));
+            analysis = struct('PeakVal_dB',peakDB,'PeakPan_deg',plan.PanMotorDeg(peakIndex), ...
+                'PeakTilt_deg',plan.TiltMotorDeg(peakIndex),'PeakTheta_deg',plan.ThetaDeg(peakIndex), ...
+                'PeakPhi_deg',mod(plan.PhiDeg(peakIndex),360));
+            data = struct('Metadata',metadata,'Analysis',analysis,'Angles',plan.PanMotorDeg(keep), ...
+                'PanAngles',plan.PanMotorDeg(keep),'TiltAngles',plan.TiltMotorDeg(keep), ...
+                'ThetaDeg',plan.ThetaDeg(keep),'PhiDeg',plan.PhiDeg(keep), ...
+                'PhiWrappedDeg',mod(plan.PhiDeg(keep),360), ...
+                'MeasuredAngles',panMeasured(keep),'MeasuredPanAngles',panMeasured(keep), ...
+                'MeasuredTiltAngles',tiltMeasured(keep),'EncoderAngles',panEncoder(keep), ...
+                'PanEncoderAngles',panEncoder(keep),'TiltEncoderAngles',tiltEncoder(keep), ...
+                'EncoderValid',isfinite(panEncoder(keep)) & isfinite(tiltEncoder(keep)), ...
+                'RowIndex',plan.RowIndex(keep),'ColumnIndex',plan.ColumnIndex(keep), ...
+                'ElapsedSec',elapsed(keep),'FrequenciesHz',frequencies,'SelectedFreqHz',obj.CenterFreqHz, ...
+                'S11',s11,'S21',s21,'SelectedS21_dB',rawDB, ...
+                'SelectedS21_PhaseDeg',rad2deg(angle(s21(:,centerIndex))).', ...
+                'NormalizedS21_dB',PatternAnalyzer.normalize(rawDB));
+            obj.LastScanData = data;
+            if aborted
+                obj.setState('ABORTED'); notify(obj,'ScanAborted');
+            else
+                obj.setState('COMPLETED'); notify(obj,'ScanCompleted');
+            end
+            obj.logStatus(sprintf('3D %s: %d/%d points retained.',obj.State,done,n));
+        end
+
+        function ready = awaitScan3D(obj)
+            drawnow limitrate;
+            while obj.IsPaused && ~obj.CancelRequested, pause(0.05); end
+            ready = ~obj.CancelRequested;
+        end
+
+        function [pan,tilt,panEncoder,tiltEncoder] = readBothAxes(obj)
+            [pan,panEncoder] = obj.Positioner.getPositionSnapshot('AZ',true);
+            [tilt,tiltEncoder] = obj.Positioner.getPositionSnapshot('EL',false);
+            if ~obj.Positioner.IsHomed || obj.Positioner.ManualHomingActive
+                error('MeasurementOrchestrator:ManualHomingRequired','Mechanical ZERO was lost; recalibrate both axes.');
+            end
+            if obj.Positioner.HoldingSupported && ~obj.Positioner.HoldingActive
+                error('MeasurementOrchestrator:HoldLost','Holding torque was lost during the scan.');
+            end
+            if ~isfinite(panEncoder) || ~isfinite(tiltEncoder) || panEncoder<0 || tiltEncoder<0
+                error('PositionerController:EncoderUnavailable','Both AS5600 encoders must be valid for 3D acquisition.');
+            end
+        end
+
         function resetRunning(obj)
             if isvalid(obj)
                 obj.IsRunning = false;

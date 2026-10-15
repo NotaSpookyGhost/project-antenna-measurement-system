@@ -1,0 +1,17 @@
+HOLD OFF before: 25/30
+{"state": "HOLD OFF before", "reads": 30, "pan_valid": 30, "tilt_valid": 0, "tilt_agc_unique": [255], "tilt_raw_valid_range": [null, null], "release_counter_start": 1, "release_counter_end": 1}
+HOLD ON: 25/300
+HOLD ON: 50/300
+HOLD ON: 75/300
+HOLD ON: 100/300
+HOLD ON: 125/300
+HOLD ON: 150/300
+HOLD ON: 175/300
+HOLD ON: 200/300
+HOLD ON: 225/300
+HOLD ON: 250/300
+HOLD ON: 275/300
+HOLD ON: 300/300
+{"state": "HOLD ON", "reads": 300, "pan_valid": 300, "tilt_valid": 245, "tilt_agc_unique": [128, 255], "tilt_raw_valid_range": [174.38, 185.54], "release_counter_start": 1, "release_counter_end": 1}
+HOLD OFF after: 25/30
+{"state": "HOLD OFF after", "reads": 30, "pan_valid": 30, "tilt_valid": 0, "tilt_agc_unique": [255], "tilt_raw_valid_range": [null, null], "release_counter_start": 2, "release_counter_end": 2}

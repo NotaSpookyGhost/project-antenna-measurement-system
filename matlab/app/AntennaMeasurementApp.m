@@ -45,6 +45,11 @@ classdef AntennaMeasurementApp < handle
         StepAngleEdit
         AxisDropdown
         SettleTimeEdit
+        MotorRampBtn
+        Scan3DSettingsBtn
+        Scan3DPreviewLabel
+        SliceDropdown
+        SettingsFigure
 
         StartScanBtn
         PauseBtn
@@ -82,24 +87,42 @@ classdef AntennaMeasurementApp < handle
         LiveAngles double = []
         LiveS21_dB double = []
         LastScanData struct = struct()
+        Scan3DConfig struct = ScanGeometry.defaults()
+        SettingsFile char = ''
+        Live3DData struct = struct()
+        LiveTiltRow double = 0
     end
 
     methods
-        function obj = AntennaMeasurementApp()
+        function obj = AntennaMeasurementApp(varargin)
             % Constructor: Add classes to path and build UI
             matlab_dir = fileparts(fileparts(mfilename('fullpath')));
             addpath(fullfile(matlab_dir, 'classes'));
 
+            parser = inputParser;
+            addParameter(parser,'SettingsFile',fullfile(prefdir,'antenna-ver2-settings.mat'),@(x) ischar(x)||isstring(x));
+            parse(parser,varargin{:}); obj.SettingsFile = char(parser.Results.SettingsFile);
+            if ~isempty(obj.SettingsFile) && exist(obj.SettingsFile,'file')
+                try
+                    stored = load(obj.SettingsFile,'scan3DConfig');
+                    ScanGeometry.buildPlan(stored.scan3DConfig);
+                    obj.Scan3DConfig = stored.scan3DConfig;
+                catch ME
+                    warning('AntennaMeasurementApp:SettingsIgnored','Cannot load 3D settings: %s',ME.message);
+                end
+            end
             obj.VNA = VNAController('Mode', 'Mock');
-            obj.Positioner = PositionerController('Mode', 'Mock');
+            obj.Positioner = PositionerController('Mode', 'Mock','TiltDisabled',false);
             obj.Orchestrator = MeasurementOrchestrator(obj.VNA, obj.Positioner);
 
             obj.createUI();
+            obj.handleScanAxisChange();
             obj.updateConnectionStatus();
             obj.log('Antenna Measurement App initialized.');
         end
 
         function delete(obj)
+            if ~isempty(obj.SettingsFigure) && isgraphics(obj.SettingsFigure), delete(obj.SettingsFigure); end
             if ~isempty(obj.Figure) && isvalid(obj.Figure)
                 delete(obj.Figure);
             end
@@ -125,6 +148,17 @@ classdef AntennaMeasurementApp < handle
             stop_ang   = str2double(obj.StopAngleEdit.String);
             step_ang   = str2double(obj.StepAngleEdit.String);
             settle_s   = str2double(obj.SettleTimeEdit.String);
+            is3D = obj.AxisDropdown.Value==3;
+            if is3D
+                try
+                    ScanGeometry.buildPlan(obj.Scan3DConfig);
+                catch ME
+                    errordlg(ME.message,'3D Configuration'); return;
+                end
+                start_ang = obj.Scan3DConfig.PanStartDeg;
+                stop_ang = obj.Scan3DConfig.PanStopDeg;
+                step_ang = obj.Scan3DConfig.PanStepDeg;
+            end
 
             % Angular and sweep input validation
             if isnan(start_ang) || isnan(stop_ang) || isnan(step_ang)
@@ -139,7 +173,7 @@ classdef AntennaMeasurementApp < handle
                 errordlg('Bước góc (Step) phải lớn hơn 0°! Hệ thống tự động xác định chiều quay (CW/CCW) từ Start và Stop.', 'Bước góc không hợp lệ');
                 return;
             end
-            if abs(start_ang - stop_ang) < 1e-4
+            if ~is3D && abs(start_ang - stop_ang) < 1e-4
                 errordlg('Góc Start và Stop không được trùng nhau!', 'Phạm vi quét không hợp lệ');
                 return;
             end
@@ -152,7 +186,7 @@ classdef AntennaMeasurementApp < handle
             end
 
             axis_idx = obj.AxisDropdown.Value;
-            axis_choices = {'AZ', 'EL'};
+            axis_choices = {'AZ', 'EL', '3D'};
             scan_axis = axis_choices{axis_idx};
 
             % Auto-connect Positioner if not connected
@@ -174,7 +208,7 @@ classdef AntennaMeasurementApp < handle
             end
 
             % Hardware safety lock check: Tilt driver protection
-            if strcmp(scan_axis, 'EL') && obj.Positioner.TiltDisabled
+            if ismember(scan_axis, {'EL','3D'}) && obj.Positioner.TiltDisabled
                 errMsg = 'Trục Tilt đang bị KHÓA BẢO VỆ vì AS5600 chưa theo kịp lệnh góc. Vui lòng chuyển Scan Axis về Azimuth (AZ)!';
                 obj.log(sprintf('⚠️ %s', errMsg));
                 errordlg(errMsg, 'Hardware Protection');
@@ -187,14 +221,18 @@ classdef AntennaMeasurementApp < handle
             obj.Orchestrator.setScanParameters(start_ang, stop_ang, step_ang, ...
                                                center_mhz * 1e6, span_mhz * 1e6, pts);
             obj.Orchestrator.Axis = scan_axis;
+            obj.Orchestrator.Scan3DConfig = obj.Scan3DConfig;
             obj.Orchestrator.SettleTimeSec = settle_s;
 
             % Set up Real-time Step Callback
             obj.LiveAngles = [];
             obj.LiveS21_dB = [];
+            obj.Live3DData = struct(); obj.LiveTiltRow = 0;
             % Keep the previous curves until the first new measurement arrives.
             % A failed/aborted home must not erase the displayed result.
-            if obj.TabGroup.SelectedTab == obj.LogTab || obj.TabGroup.SelectedTab == obj.ThreeDTab
+            if is3D
+                obj.TabGroup.SelectedTab = obj.ThreeDTab;
+            elseif obj.TabGroup.SelectedTab == obj.LogTab || obj.TabGroup.SelectedTab == obj.ThreeDTab
                 obj.TabGroup.SelectedTab = obj.PolarTab;
             end
             obj.updateProgress(0.0);
@@ -210,6 +248,7 @@ classdef AntennaMeasurementApp < handle
             obj.StopBtn.String = 'STOP';
             obj.ReleaseBtn.Enable = 'off';
             obj.HomeBtn.Enable = 'off';
+            obj.setScanInputsEnabled(false);
 
             % Run scan
             try
@@ -222,8 +261,13 @@ classdef AntennaMeasurementApp < handle
                     obj.updateFinalResults(scanData);
                     if isfield(scanData, 'Metadata') && isfield(scanData.Metadata, 'Aborted') && scanData.Metadata.Aborted
                         reason = 'yêu cầu STOP';
-                        if isfield(scanData.Metadata, 'AbortReason') && strcmp(scanData.Metadata.AbortReason, 'EncoderUnavailable')
+                        if isfield(scanData.Metadata, 'AbortMessage') && ~isempty(scanData.Metadata.AbortMessage)
+                            reason = scanData.Metadata.AbortMessage;
+                        elseif isfield(scanData.Metadata, 'AbortReason') && strcmp(scanData.Metadata.AbortReason, 'EncoderUnavailable')
                             reason = 'AS5600 mất phản hồi';
+                        elseif isfield(scanData.Metadata, 'AbortReason') && ...
+                                ~isempty(scanData.Metadata.AbortReason) && ~strcmp(scanData.Metadata.AbortReason, 'UserStop')
+                            reason = scanData.Metadata.AbortReason;
                         end
                         obj.log(sprintf('⚠️ Quét đã dừng: %s (đã ghi nhận %d/%d điểm). Dữ liệu được giữ để phân tích/xuất file.', reason, ...
                             scanData.Metadata.CompletedPoints, scanData.Metadata.TotalAngles));
@@ -243,6 +287,8 @@ classdef AntennaMeasurementApp < handle
             obj.StopBtn.Enable = 'off';
             obj.StopBtn.String = 'STOP';
             obj.HomeBtn.Enable = 'on';
+            obj.setScanInputsEnabled(true);
+            obj.handleScanAxisChange();
             obj.updateConnectionStatus();
         end
 
@@ -265,17 +311,36 @@ classdef AntennaMeasurementApp < handle
             obj.Orchestrator.abortScan();
         end
 
-        function exportCurrentData(obj)
+        function exp_dir = exportCurrentData(obj,base_dir)
             if isempty(fieldnames(obj.LastScanData))
                 errordlg('No scan data available to export. Run a scan first.', 'Export Error');
                 return;
             end
             matlab_dir = fileparts(fileparts(mfilename('fullpath')));
             projects_dir = fileparts(matlab_dir);
-            base_dir = fullfile(projects_dir, 'data', 'scans');
+            if nargin<2, base_dir = fullfile(projects_dir, 'data', 'scans'); end
 
             exp_dir = DataManager.createScanDirectory(base_dir, 'export_app_scan');
             fig_export = figure('Visible', 'off', 'Position', [100 100 1000 480]);
+            figureCleanup=onCleanup(@() close(fig_export));
+            if strcmpi(obj.LastScanData.Metadata.ScanAxis,'3D')
+                ax = axes('Parent',fig_export);
+                mesh = ScanGeometry.surface(obj.LastScanData);
+                if all(size(mesh.Z)>=2) && nnz(isfinite(mesh.Z))>=4
+                    surf(ax,mesh.X,mesh.Y,mesh.Z,mesh.RelativeDB,'EdgeColor','none');
+                end
+                hold(ax,'on');
+                radius = 10.^(obj.LastScanData.NormalizedS21_dB/20);
+                scatter3(ax,radius.*sind(obj.LastScanData.ThetaDeg).*cosd(obj.LastScanData.PhiDeg), ...
+                    radius.*sind(obj.LastScanData.ThetaDeg).*sind(obj.LastScanData.PhiDeg), ...
+                    radius.*cosd(obj.LastScanData.ThetaDeg),12,obj.LastScanData.NormalizedS21_dB(:),'filled');
+                axis(ax,'equal'); view(ax,45,30); colorbar(ax); grid(ax,'on');
+                title(ax,'Measured 3D — radius: relative amplitude; color: relative S21 (dB)');
+                DataManager.saveScanDataset(exp_dir,obj.LastScanData,fig_export);
+                obj.log(sprintf('Exported 3D dataset to: %s',exp_dir));
+                if nargout==0, msgbox(sprintf('Dataset exported to:\n%s',exp_dir),'Export Success'); end
+                return;
+            end
             ax1 = subplot(1, 2, 1, polaraxes);
             PatternAnalyzer.plotPolar(ax1, obj.LastScanData.Angles, obj.LastScanData.NormalizedS21_dB, ...
                 sprintf('Polar Pattern — %.3f GHz', obj.LastScanData.SelectedFreqHz/1e6));
@@ -284,7 +349,6 @@ classdef AntennaMeasurementApp < handle
                 sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', ...
                         obj.LastScanData.Analysis.HPBW_deg, obj.LastScanData.Analysis.SLL_dB));
             DataManager.saveScanDataset(exp_dir, obj.LastScanData, fig_export);
-            close(fig_export);
 
             msgbox(sprintf('Dataset successfully exported to:\n%s', exp_dir), 'Export Success');
             obj.log(sprintf('Exported dataset to: %s', exp_dir));
@@ -408,8 +472,13 @@ classdef AntennaMeasurementApp < handle
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Scan Axis:', ...
                       'Position', [10, 375, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
             obj.AxisDropdown = uicontrol(ctrlPanel, 'Style', 'popupmenu', ...
-                                         'String', {'Azimuth (AZ)', 'Elevation (EL)'}, ...
-                                         'Position', [140, 375, 110, 22]);
+                                         'String', {'Azimuth (AZ)', 'Elevation (EL)', '3D Pan × Tilt'}, ...
+                                         'Position', [140, 375, 110, 22], ...
+                                         'Callback', @(~,~) obj.handleScanAxisChange());
+            obj.Scan3DSettingsBtn = uicontrol(ctrlPanel,'Style','pushbutton','String','3D / ZERO', ...
+                'Position',[260 375 85 24],'Callback',@(~,~) obj.openScan3DSettings());
+            obj.Scan3DPreviewLabel = uicontrol(ctrlPanel,'Style','text','String','', ...
+                'Position',[10 655 335 32],'BackgroundColor','w','HorizontalAlignment','left','FontSize',8);
 
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Start → Stop (°):', ...
                       'Position', [10, 345, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
@@ -427,6 +496,10 @@ classdef AntennaMeasurementApp < handle
                       'Position', [10, 285, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
             obj.SettleTimeEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', '0.2', ...
                                            'Position', [140, 285, 80, 22]);
+            obj.MotorRampBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Gia tốc...', ...
+                'Position', [230, 285, 110, 24], ...
+                'TooltipString', 'Chỉnh số bước tăng tốc Pan/Tilt; ít bước hơn là tăng tốc nhanh hơn.', ...
+                'Callback', @(~,~) obj.openMotorRampDialog());
 
             % 5. Start / Pause / Stop Buttons
             obj.StartScanBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'START SCAN', ...
@@ -524,8 +597,11 @@ classdef AntennaMeasurementApp < handle
 
             % Tab 4: 3D Pattern
             obj.ThreeDTab = uitab(obj.TabGroup, 'Title', '3D Spherical Pattern');
-            obj.ThreeDAx = axes('Parent', obj.ThreeDTab, 'Units', 'normalized', 'Position', [0.10, 0.10, 0.80, 0.80]);
+            obj.ThreeDAx = axes('Parent', obj.ThreeDTab, 'Units', 'normalized', 'Position', [0.10, 0.16, 0.80, 0.72]);
             title(obj.ThreeDAx, '3D Radiation Pattern', 'FontWeight', 'bold');
+            obj.SliceDropdown = uicontrol(obj.ThreeDTab,'Style','popupmenu','Units','normalized', ...
+                'Position',[0.10 0.025 0.8 0.055],'String',{'Lát cắt Pan: chưa có dữ liệu 3D'}, ...
+                'Enable','off','Callback',@(~,~) obj.select3DSlice(obj.SliceDropdown.Value));
 
             % Tab 5: Dedicated System & Hardware Logs
             obj.LogTab = uitab(obj.TabGroup, 'Title', '📋 System & Hardware Logs');
@@ -583,6 +659,13 @@ classdef AntennaMeasurementApp < handle
 
         function handleStepProgress(obj, info)
             % Live real-time update on every step
+            is3D = isfield(info,'TiltAngle');
+            if is3D
+                obj.recordLive3D(info);
+                if info.RowIndex~=obj.LiveTiltRow
+                    obj.LiveAngles=[]; obj.LiveS21_dB=[]; obj.LiveTiltRow=info.RowIndex;
+                end
+            end
             obj.LiveAngles(end+1) = info.CommandedAngle;
             obj.LiveS21_dB(end+1) = info.S21_dB_Center;
 
@@ -612,7 +695,12 @@ classdef AntennaMeasurementApp < handle
 
             % Update Status and Progress
             obj.updateProgress(info.Progress * 100);
-            if isfield(info, 'EncoderAngle') && ~isnan(info.EncoderAngle)
+            if is3D
+                obj.StatusLabel.String = sprintf('3D hàng %d/%d | motor P %.1f° T %.1f° | θ %.1f° φ %.1f° | S21 %.2f dB', ...
+                    info.RowIndex,info.TotalRows,info.PanAngle,info.TiltAngle,info.ThetaDeg,mod(info.PhiDeg,360),info.S21_dB_Center);
+                title(obj.PolarAx,sprintf('Pan slice — Tilt motor %.1f°, theta %.1f°',info.TiltAngle,info.ThetaDeg));
+                title(obj.CartAx,sprintf('Pan slice — Tilt motor %.1f°, theta %.1f°',info.TiltAngle,info.ThetaDeg));
+            elseif isfield(info, 'EncoderAngle') && ~isnan(info.EncoderAngle)
                 obj.StatusLabel.String = sprintf('Góc lệnh %.1f° (AS5600 đuôi motor: %.1f°) | S21: %.2f dB | %.1f s', ...
                                                  info.CommandedAngle, info.EncoderAngle, info.S21_dB_Center, info.ElapsedSec);
             else
@@ -622,11 +710,28 @@ classdef AntennaMeasurementApp < handle
             drawnow limitrate;
         end
 
-        function updateFinalResults(obj, scanData)
+        function updateFinalResults(obj, scanData, render3D)
             % Update all metrics and plots after scan completion
+            if nargin<3, render3D=true; end
             if isempty(scanData) || ~isstruct(scanData) || ~isfield(scanData, 'Analysis')
                 return;
             end
+            if strcmpi(scanData.Metadata.ScanAxis,'3D')
+                obj.LastScanData=scanData;
+                rows = unique(scanData.RowIndex,'stable');
+                labels = cell(1,numel(rows));
+                for k=1:numel(rows)
+                    point = find(scanData.RowIndex==rows(k),1);
+                    labels{k} = sprintf('Lát cắt Pan tại Tilt %.1f° — theta %.1f° (HPBW/SLL/FBR của lát cắt)',scanData.TiltAngles(point),scanData.ThetaDeg(point));
+                end
+                obj.SliceDropdown.String=labels; obj.SliceDropdown.Value=numel(rows); obj.SliceDropdown.Enable='on';
+                obj.select3DSlice(numel(rows)); obj.plotMeasured3D(scanData);
+                obj.StatusLabel.String=sprintf('3D: %d/%d điểm | đỉnh θ %.1f° φ %.1f° | S21 %.2f dB', ...
+                    scanData.Metadata.CompletedPoints,scanData.Metadata.TotalAngles, ...
+                    scanData.Analysis.PeakTheta_deg,scanData.Analysis.PeakPhi_deg,scanData.Analysis.PeakVal_dB);
+                drawnow; return;
+            end
+            if render3D, obj.SliceDropdown.Enable='off'; end
             an = scanData.Analysis;
 
             if isfield(an, 'PeakAngle_deg') && ~isnan(an.PeakAngle_deg)
@@ -685,7 +790,7 @@ classdef AntennaMeasurementApp < handle
             end
 
             % 3D Surface (requires at least 3 points)
-            if length(scanData.Angles) >= 3
+            if render3D && length(scanData.Angles) >= 3
                 obj.plot3DSurface(scanData.Angles, scanData.NormalizedS21_dB);
             end
             drawnow;
@@ -714,6 +819,199 @@ classdef AntennaMeasurementApp < handle
             cb = colorbar(obj.ThreeDAx);
             cb.Label.String = 'Relative S21 (dB)';
             title(obj.ThreeDAx, '3D Radiation Pattern Model', 'FontWeight', 'bold');
+            title(obj.ThreeDAx, '3D estimate from a 2D slice — assumed elevation model', 'FontWeight', 'bold');
+        end
+
+        function configureMotorRamp(obj,pan,tilt)
+            if obj.Orchestrator.IsRunning
+                error('AntennaMeasurementApp:ScanRunning','Dừng quét trước khi đổi gia tốc motor.');
+            end
+            obj.Positioner.setRampSteps(pan,tilt);
+            obj.log(sprintf('Gia tốc motor: Pan ramp %d bước, Tilt ramp %d bước (ít bước hơn = nhanh hơn).',pan,tilt));
+        end
+
+        function openMotorRampDialog(obj)
+            answer=inputdlg({'Pan: 100..600 bước ramp (ít hơn = tăng tốc nhanh hơn)', ...
+                'Tilt: 75..300 bước ramp (ít hơn = tăng tốc nhanh hơn)'}, ...
+                'Gia tốc motor', [1 58], ...
+                {num2str(obj.Positioner.PanRampSteps),num2str(obj.Positioner.TiltRampSteps)});
+            if isempty(answer), return; end
+            try
+                obj.configureMotorRamp(str2double(answer{1}),str2double(answer{2}));
+            catch ME
+                errordlg(ME.message,'Gia tốc motor');
+                obj.log(sprintf('Không đổi được gia tốc motor: %s',ME.message));
+            end
+        end
+
+        function configureScan3D(obj,c,confirmTravel)
+            if nargin<3, confirmTravel=false; end
+            if obj.Orchestrator.IsRunning
+                error('AntennaMeasurementApp:ScanRunning','Stop the scan before changing ZERO orientation or scan settings.');
+            end
+            ScanGeometry.buildPlan(c);
+            if confirmTravel
+                obj.Positioner.setTravelLimits(c.TravelPanDeg,c.TravelTiltDeg);
+            end
+            obj.Scan3DConfig=c; obj.Orchestrator.Scan3DConfig=c;
+            if ~isempty(obj.SettingsFile)
+                scan3DConfig=c;
+                save(obj.SettingsFile,'scan3DConfig');
+            end
+            obj.handleScanAxisChange();
+        end
+
+        function handleScanAxisChange(obj)
+            if isempty(obj.AxisDropdown) || ~isgraphics(obj.AxisDropdown), return; end
+            c=obj.Scan3DConfig; p=ScanGeometry.buildPlan(c);
+            obj.Scan3DPreviewLabel.String=sprintf('3D: %d hàng Tilt × %d Pan = %d điểm\nZERO hình học: Tilt %.1f°, Pan %.1f°; đổi tại 3D / ZERO', ...
+                numel(p.TiltVector),numel(p.PanVector),numel(p.PanMotorDeg),c.TiltAtZeroDeg,c.PanAtZeroDeg);
+            controls=[obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit];
+            if obj.AxisDropdown.Value==3 || obj.Orchestrator.IsRunning
+                set(controls,'Enable','off');
+            else
+                set(controls,'Enable','on');
+            end
+        end
+
+        function setScanInputsEnabled(obj,enabled)
+            controls=[obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
+                obj.VNAPortEdit obj.PosPortEdit obj.VNAConnectBtn obj.PosConnectBtn ...
+                obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit obj.MotorRampBtn ...
+                obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown];
+            value='off'; if enabled, value='on'; end
+            set(controls,'Enable',value);
+            if enabled && (isempty(fieldnames(obj.LastScanData)) || ...
+                    ~strcmpi(obj.LastScanData.Metadata.ScanAxis,'3D'))
+                obj.SliceDropdown.Enable='off';
+            end
+        end
+
+        function openScan3DSettings(obj)
+            if obj.Orchestrator.IsRunning
+                obj.log('Hãy dừng quét trước khi đổi cấu hình 3D / ZERO.'); return;
+            end
+            if ~isempty(obj.SettingsFigure) && isgraphics(obj.SettingsFigure)
+                figure(obj.SettingsFigure); return;
+            end
+            c=obj.Scan3DConfig;
+            obj.SettingsFigure=figure('Name','Ver2 — Pan/Tilt và hướng anten tại ZERO', ...
+                'NumberTitle','off','MenuBar','none','ToolBar','none', ...
+                'Position',[100 100 660 620],'Color',[0.97 0.97 0.97]);
+            f=obj.SettingsFigure; fields=struct();
+            uicontrol(f,'Style','text','Position',[20 570 620 35],'HorizontalAlignment','left', ...
+                'String','Góc motor tính từ Khóa + ZERO. Góc cực: 0° hướng lên, 90° nằm ngang, 180° hướng xuống.');
+            labels={'Pan bắt đầu','Pan kết thúc','Bước Pan','Tilt bắt đầu','Tilt kết thúc','Bước Tilt', ...
+                'Góc Tilt tại ZERO','Góc Pan tại ZERO'};
+            names={'PanStartDeg','PanStopDeg','PanStepDeg','TiltStartDeg','TiltStopDeg','TiltStepDeg','TiltAtZeroDeg','PanAtZeroDeg'};
+            for k=1:8
+                col=mod(k-1,2); row=floor((k-1)/2); y=530-row*52; x=20+col*320;
+                uicontrol(f,'Style','text','Position',[x y 190 23],'String',[labels{k} ' (°)'],'HorizontalAlignment','left');
+                fields.(names{k})=uicontrol(f,'Style','edit','Position',[x+195 y 95 26],'String',num2str(c.(names{k})));
+            end
+            uicontrol(f,'Style','text','Position',[20 305 170 23],'String','Chiều tăng Tilt → θ','HorizontalAlignment','left');
+            fields.TiltSign=uicontrol(f,'Style','popupmenu','Position',[195 305 110 25], ...
+                'String',{'Cùng chiều (+)','Ngược chiều (-)'},'Value',1+(c.TiltSign<0));
+            uicontrol(f,'Style','text','Position',[340 305 170 23],'String','Chiều tăng Pan → φ','HorizontalAlignment','left');
+            fields.PanSign=uicontrol(f,'Style','popupmenu','Position',[515 305 110 25], ...
+                'String',{'Cùng chiều (+)','Ngược chiều (-)'},'Value',1+(c.PanSign<0));
+            uicontrol(f,'Style','text','Position',[20 265 600 25],'String','Hành trình theo ZERO cơ khí hiện tại (giới hạn motor, không phải góc dựng hình):','HorizontalAlignment','left');
+            travelNames={'PanMin','PanMax','TiltMin','TiltMax'};
+            travelLabels={'Pan nhỏ nhất','Pan lớn nhất','Tilt nhỏ nhất','Tilt lớn nhất'};
+            travel=[c.TravelPanDeg c.TravelTiltDeg];
+            for k=1:4
+                col=mod(k-1,2); row=floor((k-1)/2); y=230-row*42; x=20+col*320;
+                uicontrol(f,'Style','text','Position',[x y 185 23],'String',[travelLabels{k} ' (°)'],'HorizontalAlignment','left');
+                fields.(travelNames{k})=uicontrol(f,'Style','edit','Position',[x+195 y 95 26],'String',num2str(travel(k)));
+            end
+            fields.PanAlternating=uicontrol(f,'Style','checkbox','Position',[20 146 610 25], ...
+                'String','Pan luân phiên giữa các hàng: 0→360°, rồi 360→0° (giảm xoắn dây)', ...
+                'Value',c.PanAlternating);
+            preview=uicontrol(f,'Style','text','Position',[20 73 620 62], ...
+                'HorizontalAlignment','left','String','');
+            uicontrol(f,'Style','pushbutton','Position',[20 20 160 35],'String','Xem lưới quét', ...
+                'Callback',@(~,~) obj.applyScan3DDialog(fields,preview,'preview'));
+            uicontrol(f,'Style','pushbutton','Position',[190 20 160 35],'String','Lưu cấu hình', ...
+                'Callback',@(~,~) obj.applyScan3DDialog(fields,preview,'save'));
+            uicontrol(f,'Style','pushbutton','Position',[360 20 275 35],'String','Lưu + xác nhận hành trình ZERO hiện tại', ...
+                'Callback',@(~,~) obj.applyScan3DDialog(fields,preview,'confirm'));
+            obj.applyScan3DDialog(fields,preview,'preview');
+        end
+
+        function applyScan3DDialog(obj,fields,preview,action)
+            try
+                c=obj.Scan3DConfig;
+                numeric={'PanStartDeg','PanStopDeg','PanStepDeg','TiltStartDeg','TiltStopDeg','TiltStepDeg','TiltAtZeroDeg','PanAtZeroDeg'};
+                for k=1:numel(numeric), c.(numeric{k})=str2double(fields.(numeric{k}).String); end
+                c.TiltSign=3-2*fields.TiltSign.Value; c.PanSign=3-2*fields.PanSign.Value;
+                c.PanAlternating=logical(fields.PanAlternating.Value);
+                c.TravelPanDeg=[str2double(fields.PanMin.String) str2double(fields.PanMax.String)];
+                c.TravelTiltDeg=[str2double(fields.TiltMin.String) str2double(fields.TiltMax.String)];
+                p=ScanGeometry.buildPlan(c);
+                preview.String=sprintf('%d hàng × %d điểm Pan = %d phép đo\nθ: %.1f..%.1f°, φ: %.1f..%.1f°; θ = %.1f + (%d) × Tilt motor', ...
+                    numel(p.TiltVector),numel(p.PanVector),numel(p.PanMotorDeg),min(p.ThetaDeg),max(p.ThetaDeg),min(p.PhiDeg),max(p.PhiDeg),c.TiltAtZeroDeg,c.TiltSign);
+                if ~strcmp(action,'preview')
+                    obj.configureScan3D(c,strcmp(action,'confirm'));
+                    obj.log('Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.');
+                    if strcmp(action,'confirm'), obj.log('Đã xác nhận hành trình theo ZERO cơ khí hiện tại.'); end
+                    delete(obj.SettingsFigure);
+                end
+            catch ME
+                preview.String=ME.message; preview.ForegroundColor=[0.8 0.1 0.1];
+            end
+        end
+
+        function recordLive3D(obj,info)
+            if isempty(fieldnames(obj.Live3DData))
+                obj.Live3DData=struct('Metadata',struct('Scan3DConfig',obj.Orchestrator.Scan3DConfig, ...
+                    'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode), ...
+                    'PanAngles',[],'TiltAngles',[],'ThetaDeg',[],'PhiDeg',[], ...
+                    'RowIndex',[],'SelectedS21_dB',[],'NormalizedS21_dB',[]);
+            end
+            d=obj.Live3DData;
+            d.PanAngles(end+1)=info.PanAngle; d.TiltAngles(end+1)=info.TiltAngle;
+            d.ThetaDeg(end+1)=info.ThetaDeg; d.PhiDeg(end+1)=info.PhiDeg;
+            d.RowIndex(end+1)=info.RowIndex; d.SelectedS21_dB(end+1)=info.S21_dB_Center;
+            d.NormalizedS21_dB=PatternAnalyzer.normalize(d.SelectedS21_dB);
+            obj.Live3DData=d; obj.plotMeasured3D(d);
+        end
+
+        function plotMeasured3D(obj,d)
+            mesh=ScanGeometry.surface(d); cla(obj.ThreeDAx); hold(obj.ThreeDAx,'on');
+            if numel(unique(d.RowIndex))>=2 && size(mesh.X,2)>=2 && nnz(isfinite(mesh.X))>=4
+                surf(obj.ThreeDAx,mesh.X,mesh.Y,mesh.Z,mesh.RelativeDB,'EdgeColor','none');
+            end
+            radius=10.^(d.NormalizedS21_dB/20);
+            scatter3(obj.ThreeDAx,radius.*sind(d.ThetaDeg).*cosd(d.PhiDeg), ...
+                radius.*sind(d.ThetaDeg).*sind(d.PhiDeg),radius.*cosd(d.ThetaDeg), ...
+                15,d.NormalizedS21_dB(:),'filled');
+            hold(obj.ThreeDAx,'off'); axis(obj.ThreeDAx,'equal'); grid(obj.ThreeDAx,'on'); view(obj.ThreeDAx,45,30);
+            xlabel(obj.ThreeDAx,'X'); ylabel(obj.ThreeDAx,'Y'); zlabel(obj.ThreeDAx,'Z');
+            colormap(obj.ThreeDAx,'parula'); clim(obj.ThreeDAx,[-40 0]);
+            if isfield(d.Metadata,'ScanAxis')
+                cb=colorbar(obj.ThreeDAx); cb.Label.String='Relative S21 (dB), global peak';
+            end
+            c=d.Metadata.Scan3DConfig;
+            source='Measured 3D';
+            if isfield(d.Metadata,'VNAMode') && (strcmpi(d.Metadata.VNAMode,'Mock') || strcmpi(d.Metadata.PositionerMode,'Mock'))
+                source='Mock 3D';
+            end
+            title(obj.ThreeDAx,sprintf('%s — theta ZERO %.1f°, phi ZERO %.1f°\nRadius: relative amplitude; %d sampled points', ...
+                source,c.TiltAtZeroDeg,c.PanAtZeroDeg,numel(d.PanAngles)));
+        end
+
+        function select3DSlice(obj,index)
+            if isempty(fieldnames(obj.LastScanData)) || ~strcmpi(obj.LastScanData.Metadata.ScanAxis,'3D'), return; end
+            d=obj.LastScanData; rows=unique(d.RowIndex,'stable');
+            if index<1 || index>numel(rows), return; end
+            obj.SliceDropdown.Value=index;
+            slice=ScanGeometry.slice(d,rows(index)); slice.Metadata.ScanAxis='AZ';
+            obj.updateFinalResults(slice,false);
+            point=find(d.RowIndex==rows(index),1);
+            description=sprintf('Pan slice — Tilt motor %.1f°, theta %.1f°',d.TiltAngles(point),d.ThetaDeg(point));
+            title(obj.PolarAx,description); title(obj.CartAx,description);
+            obj.PeakAngleLabel.String=sprintf('P %.1f° / T %.1f°',d.Analysis.PeakPan_deg,d.Analysis.PeakTilt_deg);
+            obj.PeakS21Label.String=sprintf('%.2f dB (3D peak)',d.Analysis.PeakVal_dB);
         end
 
         function handleVNAModeChange(obj)
@@ -739,7 +1037,7 @@ classdef AntennaMeasurementApp < handle
                     obj.Positioner.ElevationEncoderDeg >= 0
                 % Enable Tilt only when a sensor was available at connection.
                 obj.Positioner.setTiltDisabled(false);
-                obj.log('Firmware v3: đã nhận cả hai encoder; cho phép Pan và Tilt.');
+                obj.log('Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.');
             end
         end
 
@@ -755,7 +1053,7 @@ classdef AntennaMeasurementApp < handle
             port = strtrim(obj.PosPortEdit.String);
             if isempty(port), port = 'COM5'; end
             if val == 1
-                obj.Positioner = PositionerController('Mode', 'Mock');
+                obj.Positioner = PositionerController('Mode', 'Mock','TiltDisabled',false);
                 obj.Orchestrator.Positioner = obj.Positioner;
                 obj.log('Positioner switched to Mock mode.');
             else

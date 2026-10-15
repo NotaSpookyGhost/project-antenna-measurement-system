@@ -1,6 +1,43 @@
 classdef TestPositionerResponse < matlab.unittest.TestCase
     % Serial fixtures exercise the same decoder used by hardware POS queries.
     methods (Test)
+        function decodesRampCapabilityAndCurrentValues(testCase)
+            response = ['PAN:0.00 TILT:0.00 RAW_PAN:121.46 (AGC:75) RAW_TILT:180.00 (AGC:75) ' ...
+                'RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100'];
+            result = PositionerController.decodePositionResponse(response);
+            testCase.verifyTrue(result.RampConfigSupported);
+            testCase.verifyEqual([result.PanRampSteps result.TiltRampSteps],[150 100]);
+        end
+        function mockRampSettingsAreBoundedAndAtomic(testCase)
+            pos = PositionerController('Mode','Mock');
+            testCase.addTeardown(@() delete(pos));
+            pos.setRampSteps(100,75);
+            testCase.verifyEqual([pos.PanRampSteps pos.TiltRampSteps],[100 75]);
+            testCase.verifyError(@() pos.setRampSteps(99,75),'PositionerController:InvalidRamp');
+            testCase.verifyError(@() pos.setRampSteps(100,301),'PositionerController:InvalidRamp');
+            testCase.verifyError(@() pos.setRampSteps(100.5,75),'PositionerController:InvalidRamp');
+            testCase.verifyError(@() pos.setRampSteps(100+1i,75),'PositionerController:InvalidRamp');
+            testCase.verifyEqual([pos.PanRampSteps pos.TiltRampSteps],[100 75]);
+        end
+        function hardwareRampRequiresConnection(testCase)
+            pos = PositionerController('Mode','Hardware');
+            testCase.addTeardown(@() delete(pos));
+            testCase.verifyError(@() pos.setRampSteps(100,75),'PositionerController:NotConnected');
+        end
+        function acceptsTiltPWMWithoutInventingAGC(testCase)
+            response = ['PAN:0.00 TILT:0.00 RAW_PAN:121.46 (AGC:75) RAW_TILT:180.00 (AGC:255) ' ...
+                'HOLD_CAP:1 HOLD:1 CAL_REQUIRED:0 SENSOR_CACHED:0 ENC_PAN_VALID:1 ENC_TILT_VALID:1 ' ...
+                'FW:V4.1_PWM_HOLD ENC_TILT_SOURCE:PWM AGC_TILT_AVAILABLE:0 PWM_CONFIG:1'];
+            result = PositionerController.decodePositionResponse(response);
+            testCase.verifyEqual(result.TiltEncoderDeg,180);
+            testCase.verifyTrue(result.EncoderTelemetrySupported);
+        end
+        function rejectsMissingTiltPWMDespitePreviousAngle(testCase)
+            response = ['PAN:0.00 TILT:0.00 RAW_PAN:121.46 (AGC:75) RAW_TILT:180.00 (AGC:255) ' ...
+                'SENSOR_CACHED:0 ENC_PAN_VALID:1 ENC_TILT_VALID:0 ENC_TILT_SOURCE:PWM AGC_TILT_AVAILABLE:0'];
+            result = PositionerController.decodePositionResponse(response);
+            testCase.verifyTrue(isnan(result.TiltEncoderDeg));
+        end
         function invalidLiveTelemetryCannotReuseOldAngle(testCase)
             response = ['PAN:10.00 TILT:0.00 RAW_PAN:128.58 (AGC:48) RAW_TILT:-1.00 (AGC:255) ' ...
                 'ENC_PAN_VALID:0 ENC_TILT_VALID:0 SENSOR_CACHED:0'];

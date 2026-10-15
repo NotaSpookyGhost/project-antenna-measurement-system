@@ -1,0 +1,6 @@
+{
+  "backup_bytes": 4194304,
+  "backup_sha256": "c271bc6963e922915050e234e7885cd72a9a35a0280b4dd274c93bd131ff9bf2",
+  "uploaded_app_sha256": "37c86f8edfa7bec59b09f0d3eda1917a0d743aa86c13fd0d8af051102779322d",
+  "pre_restore_app_matches_built_image": false
+}
