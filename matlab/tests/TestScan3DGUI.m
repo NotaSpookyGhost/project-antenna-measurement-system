@@ -14,6 +14,37 @@ classdef TestScan3DGUI < matlab.unittest.TestCase
         end
     end
     methods (Test)
+        function motorRampControlAppliesBoundedSettings(tc)
+            tc.verifyTrue(isgraphics(tc.App.MotorRampBtn));
+            tc.App.configureMotorRamp(100,75);
+            tc.verifyEqual([tc.App.Positioner.PanRampSteps tc.App.Positioner.TiltRampSteps],[100 75]);
+            tc.verifyError(@() tc.App.configureMotorRamp(99,75),'PositionerController:InvalidRamp');
+            tc.verifyEqual([tc.App.Positioner.PanRampSteps tc.App.Positioner.TiltRampSteps],[100 75]);
+        end
+        function encoderMismatchAfterOnePointPreservesCauseAndPlot(tc)
+            delete(tc.App.Positioner); pos=DualAxisTrackingPositioner();
+            tc.App.Positioner=pos; tc.App.Orchestrator.Positioner=pos;
+            pos.BeforeMove=@(axis,target) tc.failSecondPanPoint(axis,target);
+            tc.addTeardown(@() delete(findall(groot,'Type','figure','Name','Scan Error')));
+            c=ScanGeometry.defaults(); c.PanStopDeg=90; c.TiltStartDeg=0; c.TiltStopDeg=90;
+            tc.App.configureScan3D(c); tc.App.AxisDropdown.Value=3; tc.App.startScan();
+            d=tc.App.LastScanData;
+            tc.verifyTrue(d.Metadata.Aborted);
+            tc.verifyEqual(d.Metadata.CompletedPoints,1);
+            tc.verifyEqual(d.Metadata.AbortReason,'PositionerController:EncoderMismatch');
+            tc.verifyTrue(contains(tc.App.StatusLabel.String,'AS5600 AZ moved 7.21'));
+            tc.verifyFalse(contains(tc.App.StatusLabel.String,'STOP'));
+            tc.verifyEmpty(findall(groot,'Type','figure','Name','Scan Error'));
+            tc.verifyEqual(tc.App.TabGroup.SelectedTab,tc.App.ThreeDTab);
+            points=findobj(tc.App.ThreeDAx,'Type','scatter');
+            tc.assertNumElements(points,1); tc.verifyNumElements(points.XData,1);
+            tc.verifyGreaterThan(diff(tc.App.CartAx.XLim),0);
+            folder=tempname; mkdir(folder); tc.addTeardown(@() rmdir(folder,'s'));
+            exported=tc.App.exportCurrentData(folder);
+            mats=dir(fullfile(exported,'*.mat'));
+            restored=DataManager.loadScanDataset(fullfile(mats(1).folder,mats(1).name));
+            tc.verifyEqual(restored,d);
+        end
         function singleRowExportsThroughGUI(tc)
             c=ScanGeometry.defaults(); c.PanStopDeg=20; c.TiltStartDeg=0; c.TiltStopDeg=0;
             tc.App.configureScan3D(c); tc.App.AxisDropdown.Value=3; tc.App.startScan();
@@ -79,6 +110,12 @@ classdef TestScan3DGUI < matlab.unittest.TestCase
         end
     end
     methods (Access=private)
+        function failSecondPanPoint(~,axis,target)
+            if strcmp(axis,'AZ') && target==10
+                error('PositionerController:EncoderMismatch', ...
+                    'AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00.');
+            end
+        end
         function removeSettings(tc)
             if exist(tc.SettingsFile,'file'), delete(tc.SettingsFile); end
         end

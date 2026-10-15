@@ -42,9 +42,16 @@ const int PIN_PAN_SCL  = 19;
 // --- HẰNG SỐ ĐỘNG HỌC ---
 // Puly 16T:90T (5.625:1) | 1/8 vi bước (1600 xung/vòng) -> 25.0 bước / 1° anten
 const float STEPS_PER_DEG = 25.0f;
-const unsigned long CRUISE_DELAY_US = 2200; // ~18.18 deg/s
-const unsigned long START_DELAY_US  = 5000;
-const long RAMP_STEPS = 100;
+const unsigned long PAN_CRUISE_DELAY_US = 5000; // 8 deg/s
+const unsigned long PAN_START_DELAY_US = 9000; // ~4.44 deg/s
+const long PAN_RAMP_STEPS = 150;
+const unsigned long TILT_CRUISE_DELAY_US = 2200; // ~18.18 deg/s
+const unsigned long TILT_START_DELAY_US = 5000;
+const long TILT_RAMP_STEPS = 100;
+const long PAN_RAMP_MIN = 100, PAN_RAMP_MAX = 600;
+const long TILT_RAMP_MIN = 75, TILT_RAMP_MAX = 300;
+long panRampSteps = PAN_RAMP_STEPS;
+long tiltRampSteps = TILT_RAMP_STEPS;
 
 // Góc anten logic hiện tại
 float currentPanDeg = 0.0f;
@@ -132,10 +139,11 @@ void refreshSensors() {
 
 void printPosition() {
   refreshSensors();
-  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:%s SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180\n",
+  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:%s SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:%ld RAMP_TILT:%ld\n",
                 currentPanDeg, currentTiltDeg, cachedPanSensorDeg, cachedPanAGC,
                 cachedTiltSensorDeg, cachedTiltAGC, holdRequested,
-                calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount,FW_VERSION);
+                calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount,FW_VERSION,
+                panRampSteps, tiltRampSteps);
 }
 
 // Accumulate complete lines without Stream's blocking timeout in the pulse loop.
@@ -192,17 +200,17 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
   long completedPan = 0;
   long completedTilt = 0;
   bool interrupted = false;
-  const long ramp = min(maxSteps / 4, RAMP_STEPS);
+  // Any Pan pulses select the slower shared clock, including dual-axis GOTO.
+  const unsigned long cruiseDelay = stepsPan != 0 ? PAN_CRUISE_DELAY_US : TILT_CRUISE_DELAY_US;
+  const unsigned long startDelay = stepsPan != 0 ? PAN_START_DELAY_US : TILT_START_DELAY_US;
+  const long rampLimit = stepsPan != 0 ? panRampSteps : tiltRampSteps;
   unsigned long nextStepTime = micros();
 
   for (long i = 0; i < maxSteps; i++) {
     if (pollMotionStop()) { interrupted = true; break; }
-    unsigned long pulseDelay = CRUISE_DELAY_US;
-    if (ramp > 0 && i < ramp) {
-      pulseDelay = START_DELAY_US - (START_DELAY_US - CRUISE_DELAY_US) * i / ramp;
-    } else if (ramp > 0 && i > maxSteps - ramp) {
-      pulseDelay = START_DELAY_US - (START_DELAY_US - CRUISE_DELAY_US) * (maxSteps - i) / ramp;
-    }
+    // Short moves never compress the acceleration slope below its configured limit.
+    const long rampProgress = min(min(i, maxSteps - 1 - i), rampLimit);
+    const unsigned long pulseDelay = startDelay - (startDelay - cruiseDelay) * rampProgress / rampLimit;
 
     bool stepP = false;
     bool stepT = false;
@@ -343,6 +351,19 @@ void loop() {
   }
   else if (cmd == "POS") {
     printPosition();
+  }
+  else if (cmd.startsWith("RAMP")) {
+    long pan, tilt;
+    char extra;
+    if (sscanf(cmd.c_str(), "RAMP %ld %ld %c", &pan, &tilt, &extra) != 2 ||
+        pan < PAN_RAMP_MIN || pan > PAN_RAMP_MAX ||
+        tilt < TILT_RAMP_MIN || tilt > TILT_RAMP_MAX) {
+      Serial.println("ERR: RAMP_RANGE; PAN 100..600 TILT 75..300");
+    } else {
+      panRampSteps = pan;
+      tiltRampSteps = tilt;
+      Serial.printf("RAMP OK PAN:%ld TILT:%ld\n", panRampSteps, tiltRampSteps);
+    }
   }
   // Retired commands must not fall through to TILT <angle> parsing.
   else if (cmd.startsWith("TILT PWM")) {

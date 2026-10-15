@@ -497,7 +497,7 @@ classdef MeasurementOrchestrator < handle
             obj.TotalSteps = int32(n); obj.CurrentIndex = 0; obj.Progress = 0;
             obj.setState('SCANNING'); notify(obj,'ScanStarted');
             obj.logStatus(sprintf('3D scan: %d Tilt rows × %d Pan points; preserve mechanical ZERO.',numel(plan.TiltVector),numel(plan.PanVector)));
-            done = 0; aborted = false; reason = ''; scanClock = tic;
+            done = 0; aborted = false; reason = ''; abortMessage = ''; scanClock = tic;
             try
                 previousRow = 0;
                 for i = 1:n
@@ -553,6 +553,7 @@ classdef MeasurementOrchestrator < handle
                 end
             catch ME
                 aborted = true;
+                abortMessage = ME.message;
                 if contains(ME.identifier,'EncoderUnavailable')
                     reason = 'EncoderUnavailable';
                 else
@@ -574,6 +575,7 @@ classdef MeasurementOrchestrator < handle
                 'EncoderLocation','Motor shaft, modulo 360 deg; reduction 90/16', ...
                 'CoordinateFrame','Declared theta/phi frame relative to manual ZERO', ...
                 'TotalAngles',n,'CompletedPoints',done,'Aborted',aborted,'AbortReason',reason, ...
+                'AbortMessage',abortMessage, ...
                 'CenterFreqHz',obj.CenterFreqHz,'SpanHz',obj.SpanHz,'SweepPoints',nf, ...
                 'SettleTimeSec',obj.SettleTimeSec,'TotalTimeSec',toc(scanClock), ...
                 'AngleStepDeg',cfg.PanStepDeg,'Firmware','Positioner capability reported over POS', ...

@@ -1,5 +1,47 @@
 # Codex setup for antenna-v3
 
+## Adjustable acceleration on COM5 — 2026-10-15
+
+The MATLAB GUI now offers **Gia tốc...** to set Pan/Tilt ramp lengths while
+idle. Default values remain Pan 150 and Tilt 100 steps; lower values
+accelerate faster, bounded to Pan 100..600 and Tilt 75..300. Five native
+tests, 39 selected MATLAB mock tests, and the PlatformIO release build
+passed. The firmware was uploaded to COM5; esptool verified the flash
+hashes, and a no-motion serial probe confirmed capability, bounds and
+setting changes. The GUI was reopened in Mock mode. Reconnect ESP32 and
+manually set the mechanical ZERO before scanning. See
+`docs/motor-ramp-control-2026-10-15.md` for timing estimates and usage.
+
+## Latest Pan result after wire repair — 2026-10-14, about 23:05 onward
+
+The user repaired a broken Pan motor conductor in the A1/A2 pair. With the
+same slow-Pan firmware and unchanged encoder guards, Pan passed 21 positions
+through 0..+90..0, with 210/210 valid paired snapshots and uninterrupted
+commanded hold. Maximum encoder-derived output error was 0.218667 degrees;
+Pan closure was −0.09 motor degrees (0.016 output degrees in magnitude).
+The user confirmed smooth movement and return to the physical mark. Both
+encoders also passed the stationary 30/100/30 test. Drivers were released
+and COM5 closed afterward; recalibrate ZERO before measurement. This run
+did not move Tilt or perform a complete 3D RF scan. See
+`docs/pan-wire-repair-validation-2026-10-14.md` and
+`data/validation/pan_wire_repair_20261014_230557/`. Earlier Pan failures below
+predate the physical wire repair.
+
+## Latest Pan slow trial — 2026-10-14 evening
+
+COM5 now runs the Pan-only slow profile:5000/9000 us and ramp150;
+standalone Tilt keeps2200/5000 us and ramp100. MATLAB has axis-specific
+move timeouts. Firmware banner remains V4.0_HOLD; hashes identify the build.
+Software verification passed (4 native suites,60 MATLAB mock tests,39 Python
+tests, release build and verified upload). Both encoders passed160/160
+stationary samples, but Pan5 and the user's subsequent visible Pan30 trial
+still failed the unchanged encoder guard. Pan30 changed only7.21 motor
+degrees by before/after sample medians versus168.75 expected. No Pan90 or
+conditional Tilt90 trial followed. The motor drivers were released and COM5
+closed. This change does not qualify real3D or confirm stall as the cause.
+See `docs/pan-slow-validation-2026-10-14.md` and
+`data/validation/pan_slow_20261014_2203/` for results and full flash backup.
+
 ## Current Tilt transport: I2C only — 2026-10-14
 
 After the user shortened the Tilt cable to 1 m and removed the external
@@ -148,6 +190,13 @@ The new `CODEX_HANDOVER/contex ver2` package contains the later v2/v3 hardware r
 - The local `matlab-control` skill from the Antigravity project was copied into Codex's user skills directory. A new session may be needed for skill discovery.
 
 ## Run the application
+
+On Windows, double-click **Open Antenna App.vbs** in the repository root.
+It opens the antenna GUI without the MATLAB desktop or a command window,
+using installed MATLAB R2025b (or `matlab.exe` on `PATH`). Closing the GUI
+exits that MATLAB session. Both instruments start in Mock mode; use the GUI
+to select and connect real hardware. MATLAB must remain installed and licensed.
+You can create a Windows shortcut to this file for access from the Desktop.
 
 From the repository root in MATLAB:
 

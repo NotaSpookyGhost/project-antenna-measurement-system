@@ -279,9 +279,19 @@ import math
 
 def _result_to_dict(result, points_requested: int) -> dict:
     """Convert SweepResult to MATLAB-compatible dict."""
-    freq_hz = result.frequency_hz
-    s11_c   = result.s11_complex
-    s21_c   = result.s21_complex
+    if not result.complete:
+        error = _error_dict(
+            f"Incomplete VNA sweep: expected indices 0..{result.points - 1}, "
+            f"received {[rec.freq_index for rec in result.records]}",
+            points_requested,
+        )
+        error["points_received"] = len(result.records)
+        return error
+
+    records = sorted(result.records, key=lambda rec: rec.freq_index)
+    freq_hz = [result.start_hz + rec.freq_index * result.step_hz for rec in records]
+    s11_c   = [rec.s11 for rec in records]
+    s21_c   = [rec.s21 for rec in records]
 
     def safe_db(c: complex) -> float:
         m = abs(c)

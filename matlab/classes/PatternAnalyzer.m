@@ -379,7 +379,13 @@ classdef PatternAnalyzer
             xlabel(ax, 'Angle (deg)');
             ylabel(ax, 'Relative Transmission (dB)');
             ylim(ax, [-dynamic_range_db, 2]);
-            xlim(ax, [min(angles_deg), max(angles_deg)]);
+            angleLimits = [min(angles_deg), max(angles_deg)];
+            if angleLimits(1) == angleLimits(2)
+                % A stopped scan or a one-point Pan slice still has valid data.
+                angleLimits = angleLimits + [-1, 1];
+                h_plot.Marker = 'o';
+            end
+            xlim(ax, angleLimits);
             title(ax, title_str, 'FontWeight', 'bold');
         end
 

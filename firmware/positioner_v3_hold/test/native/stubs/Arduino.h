@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <string>
 #include <cstdint>
+#include <vector>
 
 using byte = unsigned char;
 using std::max;
@@ -22,11 +23,15 @@ inline unsigned long long injectStopAtUs = 0;
 inline bool stopInjected = false;
 inline int disableTransitions[64] = {};
 inline int risingEdges[64] = {};
+inline std::vector<unsigned long long> risingEdgeTimes[64];
+inline unsigned long long heartbeatEveryUs = 0;
+inline unsigned long long nextHeartbeatAtUs = 0;
 
 inline void pinMode(int, int) {}
 inline void digitalWrite(int pin, int value) {
   if (pins[pin] == LOW && value == HIGH) {
     risingEdges[pin]++;
+    risingEdgeTimes[pin].push_back(ticksUs);
     if (pin == 27 || pin == 14) disableTransitions[pin]++;
   }
   pins[pin] = value;
@@ -98,6 +103,10 @@ class SerialStub {
 };
 inline SerialStub Serial;
 inline void maybeInjectStop() {
+  if (heartbeatEveryUs && ticksUs >= nextHeartbeatAtUs) {
+    Serial.input += "KEEPALIVE\n";
+    nextHeartbeatAtUs = ticksUs + heartbeatEveryUs;
+  }
   if (injectStopAtUs && !stopInjected && ticksUs >= injectStopAtUs) {
     Serial.input += "STOP\n";
     stopInjected = true;

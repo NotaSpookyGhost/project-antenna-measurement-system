@@ -45,6 +45,7 @@ classdef AntennaMeasurementApp < handle
         StepAngleEdit
         AxisDropdown
         SettleTimeEdit
+        MotorRampBtn
         Scan3DSettingsBtn
         Scan3DPreviewLabel
         SliceDropdown
@@ -260,8 +261,13 @@ classdef AntennaMeasurementApp < handle
                     obj.updateFinalResults(scanData);
                     if isfield(scanData, 'Metadata') && isfield(scanData.Metadata, 'Aborted') && scanData.Metadata.Aborted
                         reason = 'yêu cầu STOP';
-                        if isfield(scanData.Metadata, 'AbortReason') && strcmp(scanData.Metadata.AbortReason, 'EncoderUnavailable')
+                        if isfield(scanData.Metadata, 'AbortMessage') && ~isempty(scanData.Metadata.AbortMessage)
+                            reason = scanData.Metadata.AbortMessage;
+                        elseif isfield(scanData.Metadata, 'AbortReason') && strcmp(scanData.Metadata.AbortReason, 'EncoderUnavailable')
                             reason = 'AS5600 mất phản hồi';
+                        elseif isfield(scanData.Metadata, 'AbortReason') && ...
+                                ~isempty(scanData.Metadata.AbortReason) && ~strcmp(scanData.Metadata.AbortReason, 'UserStop')
+                            reason = scanData.Metadata.AbortReason;
                         end
                         obj.log(sprintf('⚠️ Quét đã dừng: %s (đã ghi nhận %d/%d điểm). Dữ liệu được giữ để phân tích/xuất file.', reason, ...
                             scanData.Metadata.CompletedPoints, scanData.Metadata.TotalAngles));
@@ -490,6 +496,10 @@ classdef AntennaMeasurementApp < handle
                       'Position', [10, 285, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
             obj.SettleTimeEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', '0.2', ...
                                            'Position', [140, 285, 80, 22]);
+            obj.MotorRampBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Gia tốc...', ...
+                'Position', [230, 285, 110, 24], ...
+                'TooltipString', 'Chỉnh số bước tăng tốc Pan/Tilt; ít bước hơn là tăng tốc nhanh hơn.', ...
+                'Callback', @(~,~) obj.openMotorRampDialog());
 
             % 5. Start / Pause / Stop Buttons
             obj.StartScanBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'START SCAN', ...
@@ -812,6 +822,28 @@ classdef AntennaMeasurementApp < handle
             title(obj.ThreeDAx, '3D estimate from a 2D slice — assumed elevation model', 'FontWeight', 'bold');
         end
 
+        function configureMotorRamp(obj,pan,tilt)
+            if obj.Orchestrator.IsRunning
+                error('AntennaMeasurementApp:ScanRunning','Dừng quét trước khi đổi gia tốc motor.');
+            end
+            obj.Positioner.setRampSteps(pan,tilt);
+            obj.log(sprintf('Gia tốc motor: Pan ramp %d bước, Tilt ramp %d bước (ít bước hơn = nhanh hơn).',pan,tilt));
+        end
+
+        function openMotorRampDialog(obj)
+            answer=inputdlg({'Pan: 100..600 bước ramp (ít hơn = tăng tốc nhanh hơn)', ...
+                'Tilt: 75..300 bước ramp (ít hơn = tăng tốc nhanh hơn)'}, ...
+                'Gia tốc motor', [1 58], ...
+                {num2str(obj.Positioner.PanRampSteps),num2str(obj.Positioner.TiltRampSteps)});
+            if isempty(answer), return; end
+            try
+                obj.configureMotorRamp(str2double(answer{1}),str2double(answer{2}));
+            catch ME
+                errordlg(ME.message,'Gia tốc motor');
+                obj.log(sprintf('Không đổi được gia tốc motor: %s',ME.message));
+            end
+        end
+
         function configureScan3D(obj,c,confirmTravel)
             if nargin<3, confirmTravel=false; end
             if obj.Orchestrator.IsRunning
@@ -845,7 +877,7 @@ classdef AntennaMeasurementApp < handle
         function setScanInputsEnabled(obj,enabled)
             controls=[obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
                 obj.VNAPortEdit obj.PosPortEdit obj.VNAConnectBtn obj.PosConnectBtn ...
-                obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit ...
+                obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit obj.MotorRampBtn ...
                 obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown];
             value='off'; if enabled, value='on'; end
             set(controls,'Enable',value);

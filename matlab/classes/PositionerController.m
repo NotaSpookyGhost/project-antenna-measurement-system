@@ -62,6 +62,9 @@ classdef PositionerController < handle
         % Settling and speed config
         SettleTimeSec double = 0.2     % Mechanical settling time after move
         SpeedDegPerSec double = 30.0   % Nominal rotation speed in Mock mode
+        RampConfigSupported logical = false
+        PanRampSteps double = 150
+        TiltRampSteps double = 100
     end
 
     properties (Access = private)
@@ -94,6 +97,7 @@ classdef PositionerController < handle
             obj.BaudRate = p.Results.BaudRate;
             obj.SettleTimeSec = p.Results.SettleTime;
             obj.TiltDisabled = p.Results.TiltDisabled;
+            obj.RampConfigSupported = strcmpi(obj.Mode,'Mock');
         end
 
         function delete(obj)
@@ -110,6 +114,31 @@ classdef PositionerController < handle
             else
                 fprintf('[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).\n');
             end
+        end
+
+        function setRampSteps(obj,pan,tilt)
+            % Lower ramp length accelerates faster; firmware enforces the same bounds.
+            if ~isnumeric(pan) || ~isscalar(pan) || ~isreal(pan) || ~isfinite(pan) || mod(pan,1)~=0 || ...
+                    ~isnumeric(tilt) || ~isscalar(tilt) || ~isreal(tilt) || ~isfinite(tilt) || mod(tilt,1)~=0 || ...
+                    pan<100 || pan>600 || tilt<75 || tilt>300
+                error('PositionerController:InvalidRamp','Pan ramp must be 100..600 and Tilt ramp 75..300 whole steps.');
+            end
+            if obj.IsMoving || obj.CommandInFlight
+                error('PositionerController:MotionInProgress','Change the motor ramp only while idle.');
+            end
+            if strcmpi(obj.Mode,'Hardware')
+                obj.ensureConnected();
+                if ~obj.RampConfigSupported
+                    error('PositionerController:RampUnsupported','Connected ESP32 firmware does not support adjustable ramp.');
+                end
+                obj.sendCommand(sprintf('RAMP %d %d',pan,tilt));
+                response = obj.waitForPrompt(3.0);
+                if ~contains(response,sprintf('RAMP OK PAN:%d TILT:%d',pan,tilt))
+                    error('PositionerController:RampRejected','ESP32 did not confirm the ramp setting: %s',strtrim(response));
+                end
+            end
+            obj.PanRampSteps=pan;
+            obj.TiltRampSteps=tilt;
         end
 
         function setTravelLimits(obj,pan,tilt)
@@ -229,6 +258,7 @@ classdef PositionerController < handle
             obj.ManualHomingActive = false;
             obj.HoldingSupported = false;
             obj.IsHomed = false;
+            obj.RampConfigSupported = strcmpi(obj.Mode,'Mock');
         end
 
         function releaseForHoming(obj)
@@ -452,9 +482,9 @@ classdef PositionerController < handle
                 end
                 obj.sendCommand(cmd);
 
-                % 25 pulses/degree at 2200 us/pulse, plus encoder checks and USB margin.
+                % Axis-specific motion budget, including ramp and USB margin.
                 deltaAng = abs(targetDeg - currentAng);
-                maxWait = max(5.0, (deltaAng / 18.0) + 3.0);
+                maxWait = PositionerController.moveTimeoutSec(axis, deltaAng);
 
                 resp = obj.waitForPrompt(maxWait);
                 if contains(resp, "ERR:")
@@ -597,6 +627,18 @@ classdef PositionerController < handle
     end
 
     methods (Static)
+        function timeout = moveTimeoutSec(axis, deltaDeg)
+            % Pan uses the slow profile; standalone Tilt retains its timing.
+            switch upper(char(axis))
+                case {'AZ','PAN'}
+                    timeout = max(6.0, abs(deltaDeg) / 7.0 + 4.0);
+                case {'EL','TILT'}
+                    timeout = max(5.0, abs(deltaDeg) / 18.0 + 3.0);
+                otherwise
+                    error('PositionerController:InvalidTarget', 'Unknown motion axis.');
+            end
+        end
+
         function limits=effectiveTravelLimits(axis,capability,travel,confirmed,isHardware)
             limits=capability;
             if confirmed
@@ -634,6 +676,19 @@ classdef PositionerController < handle
             position = struct('PanDeg', values(1), 'TiltDeg', values(2), ...
                 'PanEncoderDeg', values(3), 'TiltEncoderDeg', values(4), 'Protocol', protocol);
             position.Scan3DSupported=contains(resp,'SCAN3D_CAP:1');
+            position.RampConfigSupported=contains(resp,'RAMP_CAP:1');
+            position.PanRampSteps=NaN; position.TiltRampSteps=NaN;
+            if position.RampConfigSupported
+                ramp=regexp(resp,'RAMP_PAN:(\d+)\s+RAMP_TILT:(\d+)','tokens','once');
+                if isempty(ramp)
+                    error('PositionerController:InvalidPositionResponse','Incomplete motor ramp capabilities.');
+                end
+                valuesRamp=str2double(ramp);
+                if valuesRamp(1)<100 || valuesRamp(1)>600 || valuesRamp(2)<75 || valuesRamp(2)>300
+                    error('PositionerController:InvalidPositionResponse','Invalid motor ramp capabilities.');
+                end
+                position.PanRampSteps=valuesRamp(1); position.TiltRampSteps=valuesRamp(2);
+            end
             position.PanLimitsDeg=[-360 360]; position.TiltLimitsDeg=[-5 95];
             if position.Scan3DSupported
                 bounds=regexp(resp,['PAN_MIN:' number '\s+PAN_MAX:' number ...
@@ -741,6 +796,11 @@ classdef PositionerController < handle
             end
             position = PositionerController.decodePositionResponse(resp);
             obj.Scan3DSupported=position.Scan3DSupported;
+            obj.RampConfigSupported=position.RampConfigSupported;
+            if position.RampConfigSupported
+                obj.PanRampSteps=position.PanRampSteps;
+                obj.TiltRampSteps=position.TiltRampSteps;
+            end
             obj.PanLimitsDeg=position.PanLimitsDeg; obj.TiltLimitsDeg=position.TiltLimitsDeg;
             obj.HoldingSupported = contains(resp, 'HOLD_CAP:1');
             if obj.HoldingSupported
