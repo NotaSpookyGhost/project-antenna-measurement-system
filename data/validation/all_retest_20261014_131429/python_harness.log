@@ -1,0 +1,366 @@
+
+--- Test 1: Python Compilation (py_compile) ---
+Compiling test_thru.py... OK
+Compiling test_s11_loads.py... OK
+Compiling test_fifo_freshness.py... OK
+Compiling test_repeatability.py... OK
+Compiling test_averaging.py... OK
+
+--- Test 2: AST Contract Inspection ---
+AST & Contracts in test_thru.py: OK
+AST & Contracts in test_s11_loads.py: OK
+AST & Contracts in test_fifo_freshness.py: OK
+AST & Contracts in test_repeatability.py: OK
+AST & Contracts in test_averaging.py: OK
+
+--- Test 3: test_thru.py Dynamic Execution ---
+
+============================================================
+  Test A — THRU Validation (Port 1 <-> Port 2)
+============================================================
+
+
+[CONNECT] Connecting to COM_TEST...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_TEST
+
+[SWEEP] Acquiring sweep (2395.0 - 2405.0 MHz, 11 points)...
+
+[LOG] Saving experiment artifacts to: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\thru_20261014_131532
+
+[DATA] Sweep results (show_complex=True):
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    1     2396.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    2     2397.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    3     2398.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    4     2399.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    5     2400.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    6     2401.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    7     2402.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    8     2403.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+    9     2404.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+   10     2405.000    -26.99       26.57°     -1.28      -10.01°    0.040000    0.020000    0.850000   -0.150000
+
+[ANALYSIS] Transmission Metrics:
+  Center Freq:       2400.000 MHz
+  Center S21:        -1.28 dB (Phase: -10.01°)
+  Center S11:        -26.99 dB (Phase: 26.57°)
+  S21 Band Range:    -1.28 to -1.28 dB (Mean: -1.28 dB)
+  Complete Sweep:    True (11/11 points)
+  Threshold Check:   S21 > -10.0 dB -> OK
+
+============================================================
+  VERDICT: [PASS]
+============================================================
+[CLEANUP] Disconnected from COM_TEST.
+
+--- Test 4: test_s11_loads.py Dynamic Execution ---
+
+============================================================
+  Test B — S11 Loads Validation (OPEN / SHORT / LOAD on Port 1)
+============================================================
+
+
+[CONNECT] Connecting to COM_TEST...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_TEST
+
+[1/3] Standard: OPEN
+       Instructions: Attach SMA OPEN calibration standard to Port 1.
+       Connect OPEN to Port 1, then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring OPEN standard sweep (2395.0 - 2405.0 MHz)...
+
+[DATA] OPEN S11 Results:
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    1     2396.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    2     2397.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    3     2398.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    4     2399.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    5     2400.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    6     2401.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    7     2402.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    8     2403.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+    9     2404.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+   10     2405.000     -0.16        2.92°    -81.58        0.00°    0.980000    0.050000    0.000083    0.000000
+
+[2/3] Standard: SHORT
+       Instructions: Attach SMA SHORT calibration standard to Port 1.
+       Connect SHORT to Port 1, then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring SHORT standard sweep (2395.0 - 2405.0 MHz)...
+
+[DATA] SHORT S11 Results:
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    1     2396.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    2     2397.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    3     2398.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    4     2399.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    5     2400.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    6     2401.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    7     2402.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    8     2403.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+    9     2404.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+   10     2405.000     -0.24      175.29°    -81.58        0.00°   -0.970000    0.080000    0.000083    0.000000
+
+[3/3] Standard: 50-ohm LOAD
+       Instructions: Attach SMA 50-ohm LOAD calibration standard to Port 1.
+       Connect 50-ohm LOAD to Port 1, then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring LOAD standard sweep (2395.0 - 2405.0 MHz)...
+
+[DATA] LOAD S11 Results:
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    1     2396.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    2     2397.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    3     2398.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    4     2399.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    5     2400.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    6     2401.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    7     2402.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    8     2403.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+    9     2404.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+   10     2405.000    -30.00       18.43°    -81.58        0.00°    0.030000    0.010000    0.000083    0.000000
+
+============================================================
+  S11 STANDARDS COMPARISON TABLE (Center: 2400.000 MHz)
+============================================================
+  Standard          S11 (dB)   Phase (deg)        Real        Imag
+  --------------  ----------  ------------  ----------  ----------
+  OPEN                 -0.16         2.92°    0.980000    0.050000
+  SHORT                -0.24       175.29°   -0.970000    0.080000
+  LOAD (50Ω)          -30.00        18.43°    0.030000    0.010000
+------------------------------------------------------------
+  Phase Difference |OPEN - SHORT|: 172.36° (Threshold: > 90.0°)
+  OPEN  Magnitude:                 -0.16 dB (Threshold: > -3.0 dB) -> PASS
+  SHORT Magnitude:                 -0.24 dB (Threshold: > -3.0 dB) -> PASS
+  Phase Difference Check:          172.36° -> PASS
+  LOAD Absolute:                   -30.00 dB (Threshold: < -15.0 dB) -> PASS
+  LOAD Relative:                   29.76 dB below OPEN/SHORT (Threshold: > 10.0 dB) -> PASS
+  LOAD Overall (either criterion): PASS
+============================================================
+
+[LOG] Saving experiment artifacts to: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\s11_loads_20261014_131532
+
+============================================================
+  VERDICT: [PASS]
+============================================================
+[CLEANUP] Disconnected from COM_TEST.
+
+--- Test 5: test_fifo_freshness.py Dynamic Execution ---
+
+============================================================
+  Test D — FIFO Freshness Validation (State Transitions)
+============================================================
+
+
+[CONNECT] Connecting to COM_TEST...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_TEST
+
+[1/3] State: DISCONNECTED
+       Instructions: Ensure Port 1 and Port 2 are OPEN (no cable attached).
+       Set state to 'DISCONNECTED', then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring State 1 (DISCONNECTED)...
+
+[DATA] State 1 Sweep:
+    #   Freq (MHz)    S11 dB    S21 dB
+    0     2395.000    -25.38    -71.58
+    1     2396.000    -25.38    -71.58
+    2     2397.000    -25.38    -71.58
+    3     2398.000    -25.38    -71.58
+    4     2399.000    -25.38    -71.58
+    5     2400.000    -25.38    -71.58
+    6     2401.000    -25.38    -71.58
+    7     2402.000    -25.38    -71.58
+    8     2403.000    -25.38    -71.58
+    9     2404.000    -25.38    -71.58
+   10     2405.000    -25.38    -71.58
+
+[2/3] State: THRU CONNECTED
+       Instructions: Connect Port 1 to Port 2 with the SMA cable.
+       Set state to 'THRU CONNECTED', then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring State 2 (THRU CONNECTED)...
+
+[DATA] State 2 Sweep:
+    #   Freq (MHz)    S11 dB    S21 dB
+    0     2395.000    -25.38     -1.28
+    1     2396.000    -25.38     -1.28
+    2     2397.000    -25.38     -1.28
+    3     2398.000    -25.38     -1.28
+    4     2399.000    -25.38     -1.28
+    5     2400.000    -25.38     -1.28
+    6     2401.000    -25.38     -1.28
+    7     2402.000    -25.38     -1.28
+    8     2403.000    -25.38     -1.28
+    9     2404.000    -25.38     -1.28
+   10     2405.000    -25.38     -1.28
+
+[3/3] State: DISCONNECTED
+       Instructions: Disconnect the SMA cable (leave Port 1 & 2 open again).
+       Set state to 'DISCONNECTED', then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring State 3 (DISCONNECTED)...
+
+[DATA] State 3 Sweep:
+    #   Freq (MHz)    S11 dB    S21 dB
+    0     2395.000    -25.38    -71.58
+    1     2396.000    -25.38    -71.58
+    2     2397.000    -25.38    -71.58
+    3     2398.000    -25.38    -71.58
+    4     2399.000    -25.38    -71.58
+    5     2400.000    -25.38    -71.58
+    6     2401.000    -25.38    -71.58
+    7     2402.000    -25.38    -71.58
+    8     2403.000    -25.38    -71.58
+    9     2404.000    -25.38    -71.58
+   10     2405.000    -25.38    -71.58
+
+============================================================
+  FIFO FRESHNESS TRANSITION ANALYSIS (Center: 2400.000 MHz)
+============================================================
+  State 1 (DISCONNECTED):      -71.58 dB
+  State 2 (THRU CONNECTED):     -1.28 dB
+  State 3 (DISCONNECTED):      -71.58 dB
+------------------------------------------------------------
+  Jump (State 2 - State 1):    +70.31 dB (Required: > +20.0 dB) -> PASS
+  State 2 S21 Level:            -1.28 dB (Required: > -10.0 dB)  -> PASS
+  Drop (State 2 - State 3):    +70.31 dB (Required: > +20.0 dB) -> PASS
+  State 3 S21 Level:           -71.58 dB (Required: < -30.0 dB)  -> PASS
+  Completeness Check:        PASS
+============================================================
+
+[LOG] Saving experiment artifacts to: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\fifo_freshness_20261014_131532
+
+============================================================
+  VERDICT: [PASS]
+============================================================
+[CLEANUP] Disconnected from COM_TEST.
+
+--- Test 6: test_repeatability.py Dynamic Execution ---
+
+============================================================
+  Test E — Repeatability (100 Consecutive Sweeps)
+============================================================
+
+
+[CONNECT] Connecting to COM_TEST...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_TEST
+
+[SETUP] Connect a stable DUT (e.g. THRU SMA cable) to Port 1 & 2.
+        Ensure DUT is securely connected, then press Enter to start 100 sweeps...        (Proceeding...)
+
+[CONFIG] Configuring sweep: 2395.0 - 2405.0 MHz, 11 points...
+
+[ACQUISITION] Starting 100 sweeps (using acquire_single)...
+  [SWEEP   1/100] S21 =   -1.28 dB, Phase =   -9.98°
+  [SWEEP  10/100] S21 =   -1.28 dB, Phase =  -10.03°
+  [SWEEP  20/100] S21 =   -1.28 dB, Phase =   -9.98°
+  [SWEEP  30/100] S21 =   -1.28 dB, Phase =  -10.03°
+  [SWEEP  40/100] S21 =   -1.27 dB, Phase =   -9.99°
+  [SWEEP  50/100] S21 =   -1.28 dB, Phase =  -10.00°
+  [SWEEP  60/100] S21 =   -1.28 dB, Phase =  -10.03°
+  [SWEEP  70/100] S21 =   -1.28 dB, Phase =   -9.98°
+  [SWEEP  80/100] S21 =   -1.28 dB, Phase =  -10.04°
+  [SWEEP  90/100] S21 =   -1.27 dB, Phase =   -9.98°
+  [SWEEP 100/100] S21 =   -1.28 dB, Phase =  -10.01°
+
+[DONE] Completed in 0.00s (0.000 s/sweep).
+       Valid sweeps: 100/100
+
+============================================================
+  REPEATABILITY STATISTICAL SUMMARY (Center: 2400.000 MHz)
+============================================================
+  Sweeps Attempted:     100
+  Valid Sweeps:         100
+  Total Elapsed Time:   0.00 s (0.000 s/sweep)
+------------------------------------------------------------
+  S21 Magnitude (dB):
+    Mean:                -1.2789 dB
+    Std Dev:              0.0035 dB  (Threshold: < 1.0 dB) -> PASS
+    Min / Max:           -1.2838 /  -1.2739 dB (Span: 0.0100 dB)
+  S21 Phase (deg):
+    Mean:                 -10.01°
+    Std Dev:              0.0231°
+    Min / Max:            -10.04° /    -9.97°
+------------------------------------------------------------
+  Error Counters:
+    Timeouts:           0 (OK)
+    Partial FIFO Reads: 0 (OK)
+    freq_index Missing: 0 (OK)
+    freq_index Reorder: 0 (info only — firmware continuous sweep)
+    Total Hard Errors:  0 (OK)
+============================================================
+
+[LOG] Saving experiment artifacts to: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\repeatability_20261014_131532
+
+============================================================
+  VERDICT: [PASS]
+============================================================
+[CLEANUP] Disconnected from COM_TEST.
+
+--- Test 7: test_averaging.py Dynamic Execution ---
+
+============================================================
+  Test F — Averaging Comparison (N in [1, 2, 4, 8, 16])
+============================================================
+
+
+[CONNECT] Connecting to COM_TEST...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_TEST
+
+[SETUP] Connect THRU SMA cable (Port 1 <-> Port 2) for averaging benchmark.
+        Ensure cable is securely connected, then press Enter to begin...        (Proceeding...)
+
+[CONFIG] Configuring sweep: 2395.0 - 2405.0 MHz, 11 points...
+
+[BENCHMARK] Executing complex vector averaging sweeps...
+  --> Benchmarking N =  1 sweeps... done:  0.00s | S21 avg =  -1.28 dB, phase =  -9.94°
+  --> Benchmarking N =  2 sweeps... done:  0.00s | S21 avg =  -1.27 dB, phase =  -9.99°
+  --> Benchmarking N =  4 sweeps... done:  0.00s | S21 avg =  -1.28 dB, phase = -10.02°
+  --> Benchmarking N =  8 sweeps... done:  0.00s | S21 avg =  -1.28 dB, phase = -10.00°
+  --> Benchmarking N = 16 sweeps... done:  0.00s | S21 avg =  -1.28 dB, phase = -10.01°
+
+=========================================================================================
+  AVERAGING COMPARISON TABLE (Center: 2400.000 MHz)
+=========================================================================================
+    N   Time (s)   Time/Swp   S21 Avg (dB)   Phase (deg)   Noise Std    Complex Avg (Re, Im)
+  ---  ---------  ---------  -------------  ------------  ----------  ----------------------
+    1      0.00s     0.000s         -1.28 dB        -9.94°       N/A       (+0.8500, -0.1490j)
+    2      0.00s     0.000s         -1.27 dB        -9.99°    0.0011 dB     (+0.8508, -0.1499j)
+    4      0.00s     0.000s         -1.28 dB       -10.02°    0.0055 dB     (+0.8495, -0.1500j)
+    8      0.00s     0.000s         -1.28 dB       -10.00°    0.0073 dB     (+0.8501, -0.1499j)
+   16      0.00s     0.000s         -1.28 dB       -10.01°    0.0074 dB     (+0.8499, -0.1501j)
+=========================================================================================
+  All Stages Valid:   PASS
+  Transmission Level: PASS (Expected > -10.0 dB)
+  Total Errors:       0 -> PASS
+
+[LOG] Saving experiment artifacts to: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\averaging_20261014_131532
+
+============================================================
+  VERDICT: [PASS]
+============================================================
+[CLEANUP] Disconnected from COM_TEST.
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.358s
+
+OK

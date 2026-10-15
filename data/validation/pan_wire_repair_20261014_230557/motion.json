@@ -1,0 +1,543 @@
+{
+  "passed": true,
+  "panPassed": true,
+  "tiltMotionTested": false,
+  "error": "",
+  "gearRatio": 5.625,
+  "userTravelDeg": [
+    0,
+    90
+  ],
+  "physicalAngleIndependentlyMeasured": false,
+  "stages": [
+    {
+      "movedAxis": "ZERO",
+      "targetDeg": [
+        0,
+        0
+      ],
+      "motorEncoderDeg": [
+        236.43,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0
+      ],
+      "encoderBasedOutputDeg": [
+        0,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        0,
+        0
+      ],
+      "moveSeconds": 0
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        5,
+        0
+      ],
+      "motorEncoderDeg": [
+        208.12,
+        217
+      ],
+      "motorSpanDeg": [
+        0.0800000000000125,
+        0
+      ],
+      "encoderBasedOutputDeg": [
+        5.0328888888888894,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        0.032888888888889412,
+        0
+      ],
+      "moveSeconds": 1.3249653
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        10,
+        0
+      ],
+      "motorEncoderDeg": [
+        180.22,
+        217
+      ],
+      "motorSpanDeg": [
+        0.079999999999984084,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        9.99288888888889,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.0071111111111097358,
+        0
+      ],
+      "moveSeconds": 1.3117713
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        20,
+        0
+      ],
+      "motorEncoderDeg": [
+        124.37,
+        217
+      ],
+      "motorSpanDeg": [
+        0.090000000000003411,
+        0
+      ],
+      "encoderBasedOutputDeg": [
+        19.921777777777777,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.078222222222223081,
+        0
+      ],
+      "moveSeconds": 2.0470499
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        30,
+        0
+      ],
+      "motorEncoderDeg": [
+        68.03,
+        217
+      ],
+      "motorSpanDeg": [
+        0.090000000000003411,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        29.937777777777779,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.062222222222221291,
+        0
+      ],
+      "moveSeconds": 2.0298324
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        40,
+        0
+      ],
+      "motorEncoderDeg": [
+        12.660000000000004,
+        217
+      ],
+      "motorSpanDeg": [
+        0.090000000000003411,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        39.781333333333336,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.2186666666666639,
+        0
+      ],
+      "moveSeconds": 2.0445082
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        50,
+        0
+      ],
+      "motorEncoderDeg": [
+        316.23,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        49.81333333333334,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.18666666666666032,
+        0
+      ],
+      "moveSeconds": 2.0511985
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        60,
+        0
+      ],
+      "motorEncoderDeg": [
+        259.45,
+        217
+      ],
+      "motorSpanDeg": [
+        0.079999999999984084,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        59.907555555555568,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.0924444444444319,
+        0
+      ],
+      "moveSeconds": 2.0532517
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        70,
+        0
+      ],
+      "motorEncoderDeg": [
+        202.59,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        70.016,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        0.016000000000005343,
+        0
+      ],
+      "moveSeconds": 2.0390005
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        80,
+        0
+      ],
+      "motorEncoderDeg": [
+        146.6,
+        217
+      ],
+      "motorSpanDeg": [
+        0.090000000000003411,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        79.969777777777779,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.030222222222221262,
+        0
+      ],
+      "moveSeconds": 2.0529544
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        90,
+        0
+      ],
+      "motorEncoderDeg": [
+        90.53,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        89.937777777777782,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.062222222222217738,
+        0
+      ],
+      "moveSeconds": 2.0369689
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        80,
+        0
+      ],
+      "motorEncoderDeg": [
+        146.43,
+        217
+      ],
+      "motorSpanDeg": [
+        0.079999999999984084,
+        0
+      ],
+      "encoderBasedOutputDeg": [
+        80,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        0,
+        0
+      ],
+      "moveSeconds": 2.0565786
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        70,
+        0
+      ],
+      "motorEncoderDeg": [
+        202.32,
+        217.04500000000002
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        70.064000000000007,
+        0.00800000000000283
+      ],
+      "outputTrackingErrorDeg": [
+        0.064000000000007162,
+        0.00800000000000283
+      ],
+      "moveSeconds": 2.0532468
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        60,
+        0
+      ],
+      "motorEncoderDeg": [
+        259.1,
+        217
+      ],
+      "motorSpanDeg": [
+        0.089999999999974989,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        59.969777777777772,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.030222222222228368,
+        0
+      ],
+      "moveSeconds": 2.0147036
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        50,
+        0
+      ],
+      "motorEncoderDeg": [
+        315.97,
+        217
+      ],
+      "motorSpanDeg": [
+        0.079999999999984084,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        49.859555555555552,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.14044444444444792,
+        0
+      ],
+      "moveSeconds": 2.003611
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        40,
+        0
+      ],
+      "motorEncoderDeg": [
+        12.48,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        39.813333333333333,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.18666666666666742,
+        0
+      ],
+      "moveSeconds": 2.0348136
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        30,
+        0
+      ],
+      "motorEncoderDeg": [
+        67.76,
+        217.09
+      ],
+      "motorSpanDeg": [
+        0.089999999999974989,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        29.985777777777777,
+        0.016000000000000607
+      ],
+      "outputTrackingErrorDeg": [
+        -0.014222222222223024,
+        0.016000000000000607
+      ],
+      "moveSeconds": 2.0386481
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        20,
+        0
+      ],
+      "motorEncoderDeg": [
+        124.19,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        19.953777777777773,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        -0.046222222222226605,
+        0
+      ],
+      "moveSeconds": 2.0524656
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        10,
+        0
+      ],
+      "motorEncoderDeg": [
+        180.09,
+        217
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        10.015999999999995,
+        0
+      ],
+      "outputTrackingErrorDeg": [
+        0.015999999999994685,
+        0
+      ],
+      "moveSeconds": 2.0047795
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        5,
+        0
+      ],
+      "motorEncoderDeg": [
+        207.95,
+        217.09
+      ],
+      "motorSpanDeg": [
+        0.089999999999974989,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        5.0631111111111089,
+        0.016000000000000607
+      ],
+      "outputTrackingErrorDeg": [
+        0.0631111111111089,
+        0.016000000000000607
+      ],
+      "moveSeconds": 1.2883988
+    },
+    {
+      "movedAxis": "AZ",
+      "targetDeg": [
+        0,
+        0
+      ],
+      "motorEncoderDeg": [
+        236.34,
+        217.09
+      ],
+      "motorSpanDeg": [
+        0,
+        0.090000000000003411
+      ],
+      "encoderBasedOutputDeg": [
+        0.015999999999995553,
+        0.016000000000000607
+      ],
+      "outputTrackingErrorDeg": [
+        0.015999999999995553,
+        0.016000000000000607
+      ],
+      "moveSeconds": 1.3007236
+    }
+  ],
+  "pairedSnapshots": 210,
+  "sampleColumns": [
+    "stage",
+    "targetPan",
+    "targetTilt",
+    "logicalPan",
+    "logicalTilt",
+    "encoderPan",
+    "encoderTilt",
+    "releaseCount",
+    "hold",
+    "elapsedSeconds"
+  ],
+  "closureMotorDeg": [
+    -0.090000000000003411,
+    0.090000000000003411
+  ],
+  "closureOutputEstimateDeg": [
+    0.016000000000000607,
+    0.016000000000000607
+  ],
+  "maxAbsOutputTrackingErrorDeg": [
+    0.2186666666666639,
+    0.016000000000000607
+  ]
+}

@@ -1,0 +1,32 @@
+[SYSTEM] Log console initialized. Ready.
+[20:16:53] Antenna Measurement App initialized.
+[20:19:26] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[20:19:30] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[20:19:34] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[20:19:38] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[20:19:38] ✓ Đã kết nối Positioner trên COM5 (Góc AS5600: 236.6°, Khóa Tilt: 0).
+[20:19:41] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 240.5°, Tilt 233.4°.
+[20:19:49] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[20:19:49] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[20:19:50] 3D scan: 10 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[20:19:50] Tilt row 1/10: motor 0.0°, theta 90.0°.
+[20:19:53] 3D scan stopped: AS5600 AZ moved 3.60 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[20:19:53] 3D ABORTED: 1/100 points retained.
+[20:19:55] ⚠️ Quét đã dừng: AS5600 AZ moved 3.60 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/100 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[20:21:27] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 243.6°, Tilt 233.4°.
+[20:22:58] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[20:22:58] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[20:23:00] 3D scan: 5 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[20:23:00] Tilt row 1/5: motor 0.0°, theta 0.0°.
+[20:23:02] 3D scan stopped: AS5600 AZ moved 0.09 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[20:23:02] 3D ABORTED: 1/50 points retained.
+[20:23:03] ⚠️ Quét đã dừng: AS5600 AZ moved 0.09 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/50 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[20:23:25] ❌ Lỗi trong quá trình quét: Lock and ZERO both axes before scanning.
+[20:23:28] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 243.7°, Tilt 233.4°.
+[20:23:32] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[20:23:32] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[20:23:34] 3D scan: 5 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[20:23:34] Tilt row 1/5: motor 0.0°, theta 0.0°.
+[20:23:36] 3D scan stopped: AS5600 AZ moved 3.52 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[20:23:36] 3D ABORTED: 1/50 points retained.
+[20:23:36] ⚠️ Quét đã dừng: AS5600 AZ moved 3.52 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/50 điểm). Dữ liệu được giữ để phân tích/xuất file.

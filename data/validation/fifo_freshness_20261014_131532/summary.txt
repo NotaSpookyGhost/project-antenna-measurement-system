@@ -1,0 +1,18 @@
+Test D — FIFO Freshness Validation Summary
+Generated: 2026-10-14T13:15:32.217125
+------------------------------------------------------------
+Device:            SAA-2N (port: COM_TEST)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.4)
+Protocol:          0x01, Hardware Rev: 2
+Sweep:             2395.0 - 2405.0 MHz, 11 points
+DUT:               FIFO Freshness: Disconnected -> THRU Connected -> Disconnected
+------------------------------------------------------------
+Center Freq:       2400.000 MHz
+State 1 S21 (dB):    -71.58 dB (Disconnected)
+State 2 S21 (dB):     -1.28 dB (THRU Connected, Expected > -10.0 dB) -> PASS
+State 3 S21 (dB):    -71.58 dB (Disconnected, Expected < -30.0 dB) -> PASS
+Jump Delta (2-1):    +70.31 dB (Expected > +20.0 dB) -> PASS
+Drop Delta (2-3):    +70.31 dB (Expected > +20.0 dB) -> PASS
+Freshness Verdict: Fresh hardware readings confirmed across transitions.
+------------------------------------------------------------
+VERDICT: [PASS]

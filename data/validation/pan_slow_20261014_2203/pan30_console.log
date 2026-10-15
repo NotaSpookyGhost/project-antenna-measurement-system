@@ -1,0 +1,15 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 245.5° | Tilt = 0.0° (TiltDisabled=0)
+NOW: PAN +30 degrees, nominal motion about 4.5 seconds.
+                         targetPanDeg: 30
+                               passed: 0
+                                error: 'AS5600 AZ moved 7.03 deg; expected about 168.75 deg for PAN 30.00.'
+                        authorization: 'User requested a 30 or 45 degree visible trial after failed 5 degree move. Chose 30 degrees; unchanged encoder guard.'
+                          moveSeconds: 4.6057
+                      errorIdentifier: 'PositionerController:EncoderMismatch'
+                     logicalAtFailure: [30 0]
+                     encoderAtFailure: [252.5100 250.8400]
+                     rawMotorDeltaDeg: [7.2100 0]
+    expectedPanMotorDeltaMagnitudeDeg: 168.7500
+
+Observation trial ended; no automatic return; drivers released and COM5 closed.

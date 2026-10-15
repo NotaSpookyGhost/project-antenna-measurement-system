@@ -1,0 +1,186 @@
+{
+  "passed": true,
+  "userSafeTravelDeg": [
+    -90,
+    90
+  ],
+  "externalPullup": "not reverified",
+  "cableMetres": "not reverified",
+  "gearRatio": 5.625,
+  "physicalAngleIndependentlyMeasured": false,
+  "error": "",
+  "stages": [
+    {
+      "targetDeg": 0,
+      "validSamples": 10,
+      "motorEncoderDeg": 246.8,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 0,
+      "outputTrackingErrorDeg": 0
+    },
+    {
+      "targetDeg": 5,
+      "validSamples": 10,
+      "motorEncoderDeg": 274.78999999999996,
+      "motorSpanDeg": 0.079999999999984084,
+      "encoderBasedOutputDeg": 4.9759999999999911,
+      "outputTrackingErrorDeg": -0.024000000000008903
+    },
+    {
+      "targetDeg": 10,
+      "validSamples": 10,
+      "motorEncoderDeg": 302.78,
+      "motorSpanDeg": 0.090000000000031832,
+      "encoderBasedOutputDeg": 9.9519999999999929,
+      "outputTrackingErrorDeg": -0.048000000000007148
+    },
+    {
+      "targetDeg": 20,
+      "validSamples": 10,
+      "motorEncoderDeg": 358.68,
+      "motorSpanDeg": 0.089999999999974989,
+      "encoderBasedOutputDeg": 19.889777777777777,
+      "outputTrackingErrorDeg": -0.11022222222222311
+    },
+    {
+      "targetDeg": 30,
+      "validSamples": 10,
+      "motorEncoderDeg": 55.28,
+      "motorSpanDeg": 0.079999999999984084,
+      "encoderBasedOutputDeg": 29.952,
+      "outputTrackingErrorDeg": -0.047999999999998266
+    },
+    {
+      "targetDeg": 40,
+      "validSamples": 10,
+      "motorEncoderDeg": 112.24,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 40.078222222222223,
+      "outputTrackingErrorDeg": 0.078222222222223081
+    },
+    {
+      "targetDeg": 50,
+      "validSamples": 10,
+      "motorEncoderDeg": 168.4,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 50.062222222222225,
+      "outputTrackingErrorDeg": 0.062222222222224843
+    },
+    {
+      "targetDeg": 60,
+      "validSamples": 10,
+      "motorEncoderDeg": 224.38,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 60.01422222222223,
+      "outputTrackingErrorDeg": 0.01422222222223013
+    },
+    {
+      "targetDeg": 70,
+      "validSamples": 10,
+      "motorEncoderDeg": 280.37,
+      "motorSpanDeg": 0.089999999999974989,
+      "encoderBasedOutputDeg": 69.968,
+      "outputTrackingErrorDeg": -0.031999999999996476
+    },
+    {
+      "targetDeg": 80,
+      "validSamples": 10,
+      "motorEncoderDeg": 336.18,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 79.88977777777778,
+      "outputTrackingErrorDeg": -0.11022222222221956
+    },
+    {
+      "targetDeg": 90,
+      "validSamples": 10,
+      "motorEncoderDeg": 32.52,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 89.905777777777786,
+      "outputTrackingErrorDeg": -0.094222222222214214
+    },
+    {
+      "targetDeg": 80,
+      "validSamples": 10,
+      "motorEncoderDeg": 336.45,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 79.937777777777782,
+      "outputTrackingErrorDeg": -0.062222222222217738
+    },
+    {
+      "targetDeg": 70,
+      "validSamples": 10,
+      "motorEncoderDeg": 280.63,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 70.01422222222223,
+      "outputTrackingErrorDeg": 0.01422222222223013
+    },
+    {
+      "targetDeg": 60,
+      "validSamples": 10,
+      "motorEncoderDeg": 224.56,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 60.046222222222234,
+      "outputTrackingErrorDeg": 0.046222222222233711
+    },
+    {
+      "targetDeg": 50,
+      "validSamples": 10,
+      "motorEncoderDeg": 168.66,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 50.108444444444444,
+      "outputTrackingErrorDeg": 0.10844444444444434
+    },
+    {
+      "targetDeg": 40,
+      "validSamples": 10,
+      "motorEncoderDeg": 112.5,
+      "motorSpanDeg": 0.090000000000003411,
+      "encoderBasedOutputDeg": 40.12444444444445,
+      "outputTrackingErrorDeg": 0.12444444444444969
+    },
+    {
+      "targetDeg": 30,
+      "validSamples": 10,
+      "motorEncoderDeg": 55.46,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 29.984000000000005,
+      "outputTrackingErrorDeg": -0.015999999999994685
+    },
+    {
+      "targetDeg": 20,
+      "validSamples": 10,
+      "motorEncoderDeg": 358.95,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 19.937777777777782,
+      "outputTrackingErrorDeg": -0.062222222222217738
+    },
+    {
+      "targetDeg": 10,
+      "validSamples": 10,
+      "motorEncoderDeg": 303.05,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 10.000000000000011,
+      "outputTrackingErrorDeg": 1.0658141036401503E-14
+    },
+    {
+      "targetDeg": 5,
+      "validSamples": 10,
+      "motorEncoderDeg": 275.01,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 5.0151111111111177,
+      "outputTrackingErrorDeg": 0.015111111111117737
+    },
+    {
+      "targetDeg": 0,
+      "validSamples": 10,
+      "motorEncoderDeg": 246.97,
+      "motorSpanDeg": 0,
+      "encoderBasedOutputDeg": 0.030222222222230106,
+      "outputTrackingErrorDeg": 0.030222222222230106
+    }
+  ],
+  "validReadings": 210,
+  "closureMotorDeg": 0.16999999999998749,
+  "closureOutputEstimateDeg": 0.03022222222222,
+  "maxAbsOutputTrackingErrorDeg": 0.12444444444444969
+}

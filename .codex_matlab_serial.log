@@ -1,0 +1,3 @@
+[Positioner]  kt ni th�nh c�ng ESP32 tr�n cng COM9 (115200 baud).
+[Positioner] Trng th�i: Pan = 0.0�, AS5600 Pan = 205.1� | Tilt = 0.0� (TiltDisabled=0)
+PAN=0.00 TILT=0.00 ENC_PAN=205.14 ENC_TILT=53.00

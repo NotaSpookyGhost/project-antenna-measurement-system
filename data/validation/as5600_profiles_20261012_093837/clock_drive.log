@@ -1,0 +1,133 @@
+H 0
+HOLD MASK 0
+DIAG> D 3 10000
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,b3 raw=3763 us=4996 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=0 err=0 bytes=b3,03,8f raw=911 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,b3 raw=3763 us=4894 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=1 err=0 bytes=b3,03,8f raw=911 us=4893 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,b3 raw=3763 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=2 err=0 bytes=b3,03,8f raw=911 us=4898 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,b3 raw=3763 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=3 err=0 bytes=b3,03,8f raw=911 us=4898 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,b3 raw=3763 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=4 err=0 bytes=b3,03,8f raw=911 us=4898 idle=100,100
+SUMMARY mask=0 mode=3 hz=10000 good=5,5/5
+DIAG> D 4 10000
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,b3 raw=3763 us=4885 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=0 err=0 bytes=b3,03,8f raw=911 us=4893 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,b3 raw=3763 us=4885 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=1 err=0 bytes=b3,03,8f raw=911 us=4869 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,b3 raw=3763 us=4875 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=2 err=0 bytes=b3,03,8f raw=911 us=4874 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,b3 raw=3763 us=4875 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=3 err=0 bytes=b3,03,8f raw=911 us=4874 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,b3 raw=3763 us=4875 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=4 err=0 bytes=b3,03,8f raw=911 us=4874 idle=100,100
+SUMMARY mask=0 mode=4 hz=10000 good=5,5/5
+DIAG> H 1
+HOLD MASK 1
+DIAG> D 3 10000
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,ae raw=3758 us=4879 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1006 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,ab raw=3755 us=4894 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=2 err=-13 bytes=ff,ff,ff raw=4095 us=2701 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=1010 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,ab raw=3755 us=4894 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=99,100
+SAMPLE mask=1 mode=3 hz=10000 axis=0 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,100
+SAMPLE mask=1 mode=3 hz=10000 axis=1 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1009 idle=100,100
+SUMMARY mask=1 mode=3 hz=10000 good=3,0/5
+DIAG> D 4 10000
+SAMPLE mask=1 mode=4 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,ab raw=3755 us=4867 idle=99,100
+SAMPLE mask=1 mode=4 hz=10000 axis=1 n=0 err=0 bytes=b3,03,8f raw=911 us=4916 idle=99,100
+SAMPLE mask=1 mode=4 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,ac raw=3756 us=4885 idle=100,100
+SAMPLE mask=1 mode=4 hz=10000 axis=1 n=1 err=0 bytes=b3,03,8f raw=911 us=4869 idle=100,100
+SAMPLE mask=1 mode=4 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,ab raw=3755 us=4875 idle=100,100
+SAMPLE mask=1 mode=4 hz=10000 axis=1 n=2 err=0 bytes=b3,03,8f raw=911 us=4874 idle=100,100
+SAMPLE mask=1 mode=4 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,ab raw=3755 us=4875 idle=100,100
+SAMPLE mask=1 mode=4 hz=10000 axis=1 n=3 err=0 bytes=b3,03,8f raw=911 us=4874 idle=99,100
+SAMPLE mask=1 mode=4 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,ac raw=3756 us=4875 idle=99,100
+SAMPLE mask=1 mode=4 hz=10000 axis=1 n=4 err=0 bytes=b3,03,0f raw=783 us=4879 idle=100,100
+SUMMARY mask=1 mode=4 hz=10000 good=5,5/5
+DIAG> H 2
+HOLD MASK 2
+DIAG> D 3 10000
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=994 idle=100,97
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1009 idle=99,99
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1010 idle=100,99
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1012 idle=99,97
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,99
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=1008 idle=95,96
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,99
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=1008 idle=99,99
+SAMPLE mask=2 mode=3 hz=10000 axis=0 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,99
+SAMPLE mask=2 mode=3 hz=10000 axis=1 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1008 idle=96,98
+SUMMARY mask=2 mode=3 hz=10000 good=0,0/5
+DIAG> D 4 10000
+SAMPLE mask=2 mode=4 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,af raw=3759 us=4863 idle=100,99
+SAMPLE mask=2 mode=4 hz=10000 axis=1 n=0 err=0 bytes=b3,03,6a raw=874 us=4891 idle=100,100
+SAMPLE mask=2 mode=4 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,af raw=3759 us=4885 idle=100,100
+SAMPLE mask=2 mode=4 hz=10000 axis=1 n=1 err=0 bytes=b3,03,6a raw=874 us=4869 idle=99,100
+SAMPLE mask=2 mode=4 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,af raw=3759 us=4875 idle=100,100
+SAMPLE mask=2 mode=4 hz=10000 axis=1 n=2 err=0 bytes=b3,03,6a raw=874 us=4874 idle=99,100
+SAMPLE mask=2 mode=4 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,af raw=3759 us=4875 idle=100,100
+SAMPLE mask=2 mode=4 hz=10000 axis=1 n=3 err=0 bytes=b3,03,6a raw=874 us=4874 idle=99,100
+SAMPLE mask=2 mode=4 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,af raw=3759 us=4875 idle=100,100
+SAMPLE mask=2 mode=4 hz=10000 axis=1 n=4 err=0 bytes=b3,03,6a raw=874 us=4874 idle=99,100
+SUMMARY mask=2 mode=4 hz=10000 good=5,5/5
+DIAG> H 3
+HOLD MASK 3
+DIAG> D 3 10000
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1006 idle=100,98
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1007 idle=99,98
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1010 idle=97,99
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=1 err=-11 bytes=ff,ff,ff raw=4095 us=1014 idle=99,99
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,99
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=2 err=-11 bytes=ff,ff,ff raw=4095 us=1008 idle=99,99
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=99,97
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=3 err=-11 bytes=ff,ff,ff raw=4095 us=1010 idle=97,97
+SAMPLE mask=3 mode=3 hz=10000 axis=0 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1005 idle=100,100
+SAMPLE mask=3 mode=3 hz=10000 axis=1 n=4 err=-11 bytes=ff,ff,ff raw=4095 us=1009 idle=98,99
+SUMMARY mask=3 mode=3 hz=10000 good=0,0/5
+DIAG> D 4 10000
+SAMPLE mask=3 mode=4 hz=10000 axis=0 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=998 idle=99,98
+SAMPLE mask=3 mode=4 hz=10000 axis=1 n=0 err=-11 bytes=ff,ff,ff raw=4095 us=1020 idle=99,99
+SAMPLE mask=3 mode=4 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,ab raw=3755 us=4889 idle=100,100
+SAMPLE mask=3 mode=4 hz=10000 axis=1 n=1 err=0 bytes=b3,03,6a raw=874 us=4887 idle=98,100
+SAMPLE mask=3 mode=4 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,ab raw=3755 us=4875 idle=100,100
+SAMPLE mask=3 mode=4 hz=10000 axis=1 n=2 err=0 bytes=b3,03,6a raw=874 us=4874 idle=100,100
+SAMPLE mask=3 mode=4 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,ac raw=3756 us=4875 idle=100,100
+SAMPLE mask=3 mode=4 hz=10000 axis=1 n=3 err=0 bytes=00,00,b3 raw=179 us=4874 idle=100,100
+SAMPLE mask=3 mode=4 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,ab raw=3755 us=4875 idle=100,100
+SAMPLE mask=3 mode=4 hz=10000 axis=1 n=4 err=-10 bytes=ff,ff,ff raw=4095 us=56 idle=100,100
+SUMMARY mask=3 mode=4 hz=10000 good=4,3/5
+DIAG> H 0
+HOLD MASK 0
+DIAG> D 3 10000
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,ad raw=3757 us=4883 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=0 err=0 bytes=b3,03,6a raw=874 us=4891 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,af raw=3759 us=4894 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=1 err=0 bytes=b3,03,6b raw=875 us=4893 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,af raw=3759 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=2 err=0 bytes=b3,03,6b raw=875 us=4898 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,af raw=3759 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=3 err=0 bytes=b3,03,6b raw=875 us=4898 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,af raw=3759 us=4892 idle=100,100
+SAMPLE mask=0 mode=3 hz=10000 axis=1 n=4 err=0 bytes=b3,03,6b raw=875 us=4898 idle=100,100
+SUMMARY mask=0 mode=3 hz=10000 good=5,5/5
+DIAG> D 4 10000
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=0 err=0 bytes=a7,0e,af raw=3759 us=4863 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=0 err=0 bytes=b3,03,6b raw=875 us=4890 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=1 err=0 bytes=a7,0e,af raw=3759 us=4885 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=1 err=0 bytes=b3,03,6b raw=875 us=4869 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=2 err=0 bytes=a7,0e,af raw=3759 us=4875 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=2 err=0 bytes=b3,03,6b raw=875 us=4874 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=3 err=0 bytes=a7,0e,af raw=3759 us=4875 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=3 err=0 bytes=b3,03,6b raw=875 us=4874 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=0 n=4 err=0 bytes=a7,0e,af raw=3759 us=4875 idle=100,100
+SAMPLE mask=0 mode=4 hz=10000 axis=1 n=4 err=0 bytes=b3,03,6b raw=875 us=4874 idle=100,100
+SUMMARY mask=0 mode=4 hz=10000 good=5,5/5
+DIAG> H 0
+HOLD MASK 0
+DIAG> 

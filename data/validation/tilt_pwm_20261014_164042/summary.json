@@ -1,0 +1,43 @@
+{
+  "port": "COM5",
+  "phases": [
+    {
+      "state": "released before",
+      "reads": 30,
+      "tilt_valid": 30,
+      "circular_span_deg": 0.2600000000000193,
+      "release_count_start": 0,
+      "release_count_end": 0,
+      "period_us_range": [
+        4274,
+        4276
+      ]
+    },
+    {
+      "state": "held",
+      "reads": 100,
+      "tilt_valid": 100,
+      "circular_span_deg": 0.27000000000001023,
+      "release_count_start": 0,
+      "release_count_end": 0,
+      "period_us_range": [
+        4274,
+        4276
+      ]
+    },
+    {
+      "state": "released after",
+      "reads": 30,
+      "tilt_valid": 30,
+      "circular_span_deg": 0.35000000000002274,
+      "release_count_start": 1,
+      "release_count_end": 1,
+      "period_us_range": [
+        4274,
+        4276
+      ]
+    }
+  ],
+  "release_confirmed": true,
+  "passed": true
+}

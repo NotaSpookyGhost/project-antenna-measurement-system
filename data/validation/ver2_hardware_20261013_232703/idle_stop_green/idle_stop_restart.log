@@ -1,0 +1,13 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 107.0° | Tilt = 0.0° (TiltDisabled=1)
+PASS: idle STOP allows fresh POS without invalidating ZERO or hold.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 5.00°, 3 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Đang dừng quét sau bước hiện tại...
+[ORCHESTRATOR] Scan loop finished (2/3 points, 1.26 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/3 điểm, dữ liệu một phần được giữ lại.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 5.00°, 3 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (3/3 points, 2.25 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+PASS: restarted scan uses SAME ZERO after STOP between points.

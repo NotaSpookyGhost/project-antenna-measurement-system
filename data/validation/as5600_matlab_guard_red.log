@@ -1,0 +1,103 @@
+Running TestManualHoming
+[10:05:59] Antenna Measurement App initialized.
+[10:05:59] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[10:05:59] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.17 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] AS5600 mất tín hiệu: đang dùng góc theo số xung, chưa xác minh góc cơ khí. Motor vẫn giữ cứng.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.11 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+
+================================================================================
+Verification failed in TestManualHoming/repeatedScansKeepManualReference.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyError failed.
+    --> The function did not throw any exception.
+        
+        Expected Exception:
+            'MeasurementOrchestrator:EncoderUnavailable'
+    
+    Evaluated Function:
+      function_handle with value:
+    
+        @()scan.startScan()
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestManualHoming.m (TestManualHoming.repeatedScansKeepManualReference) at 27
+================================================================================
+.[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] AS5600 mất tín hiệu: đang dùng góc theo số xung, chưa xác minh góc cơ khí. Motor vẫn giữ cứng.
+[ORCHESTRATOR] Scan loop finished (4/4 points, 0.17 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+
+================================================================================
+Verification failed in TestManualHoming/lostEncoderStopsScanKeepsEarlierPoints.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyTrue failed.
+    --> The value must evaluate to "true".
+    
+    Actual Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestManualHoming.m (TestManualHoming.lostEncoderStopsScanKeepsEarlierPoints) at 44
+================================================================================
+
+================================================================================
+Error occurred in TestManualHoming/lostEncoderStopsScanKeepsEarlierPoints and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:nonExistentField'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized field name "AbortReason".
+    
+    Error in TestManualHoming/lostEncoderStopsScanKeepsEarlierPoints (line 45)
+                test.verifyEqual(result.Metadata.AbortReason, 'EncoderUnavailable');
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+...[10:06:05] Antenna Measurement App initialized.
+[10:06:05] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[10:06:05] Đã nhả mô phỏng; không thay đổi motor thật.
+[10:06:05] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[10:06:06] Antenna Measurement App initialized.
+[10:06:06] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 10.00°, 2 points)
+.
+Done TestManualHoming
+__________
+
+Failure Summary:
+
+     Name                                                     Failed  Incomplete  Reason(s)
+    ======================================================================================================
+     TestManualHoming/repeatedScansKeepManualReference          X                 Failed by verification.
+    ------------------------------------------------------------------------------------------------------
+     TestManualHoming/lostEncoderStopsScanKeepsEarlierPoints    X         X       Failed by verification.
+                                                                                  Errored.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

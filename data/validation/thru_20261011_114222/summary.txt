@@ -1,0 +1,17 @@
+Test A — THRU Validation Summary
+Generated: 2026-10-11T11:42:22.304567
+------------------------------------------------------------
+Device:            SAA-2N (port: COM6)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.2)
+Protocol:          0x01, Hardware Rev: 2
+Sweep:             2395.0 - 2405.0 MHz, 11 points
+DUT:               THRU SMA cable Port 1 <-> Port 2
+------------------------------------------------------------
+Center Freq:       2400.000 MHz
+Center S21 (dB):   -3.01 dB (phase: -109.73°)
+Center S11 (dB):   -25.53 dB (phase: -83.10°)
+S21 Band Range:    -3.01 to -2.92 dB
+Complete:          True (11/11)
+Criterion:         S21 > -10.0 dB
+------------------------------------------------------------
+VERDICT: [PASS]

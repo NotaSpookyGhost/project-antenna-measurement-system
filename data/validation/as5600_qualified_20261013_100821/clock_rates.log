@@ -1,0 +1,121 @@
+H 3
+HOLD MASK 3
+DIAG> 
+D 7 200000
+SAMPLE mask=3 mode=7 hz=200000 axis=0 n=0 err=0 bytes=67,0a,87 raw=2695 us=8231 idle=100,98
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=200000 axis=1 n=0 err=-30 bytes=ff,ff,ff raw=4095 us=9943 idle=100,98
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=200000 axis=0 n=1 err=0 bytes=67,0a,87 raw=2695 us=8103 idle=100,100
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=200000 axis=1 n=1 err=-30 bytes=ff,ff,ff raw=4095 us=9082 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=200000 axis=0 n=2 err=0 bytes=67,0a,87 raw=2695 us=15312 idle=100,100
+ATTEMPTS 8
+SAMPLE mask=3 mode=7 hz=200000 axis=1 n=2 err=-30 bytes=33,01,60 raw=352 us=13705 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=200000 axis=0 n=3 err=0 bytes=67,0a,87 raw=2695 us=8099 idle=100,100
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=200000 axis=1 n=3 err=-30 bytes=ff,ff,ff raw=4095 us=9477 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=200000 axis=0 n=4 err=0 bytes=67,0a,87 raw=2695 us=15529 idle=100,100
+ATTEMPTS 7
+SAMPLE mask=3 mode=7 hz=200000 axis=1 n=4 err=-30 bytes=33,01,7f raw=383 us=14100 idle=99,100
+ATTEMPTS 17
+SUMMARY mask=3 mode=7 hz=200000 good=5,0/5
+DIAG> 
+D 7 100000
+SAMPLE mask=3 mode=7 hz=100000 axis=0 n=0 err=0 bytes=67,0a,87 raw=2695 us=18246 idle=100,100
+ATTEMPTS 8
+SAMPLE mask=3 mode=7 hz=100000 axis=1 n=0 err=-30 bytes=33,01,ff raw=511 us=12719 idle=99,99
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=100000 axis=0 n=1 err=0 bytes=67,0a,87 raw=2695 us=9146 idle=100,100
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=100000 axis=1 n=1 err=-30 bytes=ff,ff,ff raw=4095 us=10236 idle=98,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=100000 axis=0 n=2 err=0 bytes=67,0a,87 raw=2695 us=14169 idle=100,100
+ATTEMPTS 7
+SAMPLE mask=3 mode=7 hz=100000 axis=1 n=2 err=-30 bytes=33,01,ff raw=511 us=13152 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=100000 axis=0 n=3 err=0 bytes=67,0a,87 raw=2695 us=9153 idle=100,100
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=100000 axis=1 n=3 err=-30 bytes=ff,ff,ff raw=4095 us=11594 idle=98,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=100000 axis=0 n=4 err=0 bytes=67,0a,87 raw=2695 us=12659 idle=100,100
+ATTEMPTS 7
+SAMPLE mask=3 mode=7 hz=100000 axis=1 n=4 err=-30 bytes=33,01,ff raw=511 us=13151 idle=98,100
+ATTEMPTS 17
+SUMMARY mask=3 mode=7 hz=100000 good=5,0/5
+DIAG> 
+D 7 50000
+SAMPLE mask=3 mode=7 hz=50000 axis=0 n=0 err=0 bytes=67,0a,87 raw=2695 us=19361 idle=100,98
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=50000 axis=1 n=0 err=-30 bytes=33,ff,ff raw=4095 us=21515 idle=99,99
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=50000 axis=0 n=1 err=0 bytes=67,0a,87 raw=2695 us=15857 idle=100,100
+ATTEMPTS 5
+SAMPLE mask=3 mode=7 hz=50000 axis=1 n=1 err=-30 bytes=33,01,7f raw=383 us=22317 idle=97,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=50000 axis=0 n=2 err=0 bytes=67,0a,87 raw=2695 us=16613 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=50000 axis=1 n=2 err=-30 bytes=3f,ff,ff raw=4095 us=21443 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=50000 axis=0 n=3 err=0 bytes=67,0a,87 raw=2695 us=17916 idle=100,100
+ATTEMPTS 7
+SAMPLE mask=3 mode=7 hz=50000 axis=1 n=3 err=-30 bytes=ff,ff,ff raw=4095 us=20511 idle=98,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=50000 axis=0 n=4 err=0 bytes=67,0a,87 raw=2695 us=16482 idle=100,100
+ATTEMPTS 5
+SAMPLE mask=3 mode=7 hz=50000 axis=1 n=4 err=-30 bytes=33,01,60 raw=352 us=21717 idle=97,100
+ATTEMPTS 17
+SUMMARY mask=3 mode=7 hz=50000 good=5,0/5
+DIAG> 
+D 7 20000
+SAMPLE mask=3 mode=7 hz=20000 axis=0 n=0 err=0 bytes=67,0a,87 raw=2695 us=16114 idle=100,97
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=20000 axis=1 n=0 err=-30 bytes=ff,ff,ff raw=4095 us=17927 idle=99,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=20000 axis=0 n=1 err=0 bytes=67,0a,87 raw=2695 us=20281 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=20000 axis=1 n=1 err=-30 bytes=ff,ff,ff raw=4095 us=17916 idle=97,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=20000 axis=0 n=2 err=0 bytes=67,0a,87 raw=2695 us=20245 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=20000 axis=1 n=2 err=-30 bytes=ff,ff,ff raw=4095 us=17899 idle=98,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=20000 axis=0 n=3 err=0 bytes=67,0a,87 raw=2695 us=21164 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=20000 axis=1 n=3 err=-30 bytes=ff,ff,ff raw=4095 us=17933 idle=98,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=20000 axis=0 n=4 err=0 bytes=67,0a,87 raw=2695 us=20245 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=20000 axis=1 n=4 err=-30 bytes=ff,ff,ff raw=4095 us=17899 idle=100,100
+ATTEMPTS 17
+SUMMARY mask=3 mode=7 hz=20000 good=5,0/5
+DIAG> 
+D 7 10000
+SAMPLE mask=3 mode=7 hz=10000 axis=0 n=0 err=0 bytes=67,0a,87 raw=2695 us=24793 idle=100,99
+ATTEMPTS 3
+SAMPLE mask=3 mode=7 hz=10000 axis=1 n=0 err=-30 bytes=ff,ff,ff raw=4095 us=28756 idle=96,98
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=10000 axis=0 n=1 err=0 bytes=67,0a,87 raw=2695 us=36554 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=10000 axis=1 n=1 err=-30 bytes=ff,ff,ff raw=4095 us=28784 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=10000 axis=0 n=2 err=0 bytes=67,0a,87 raw=2695 us=39203 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=10000 axis=1 n=2 err=-30 bytes=ff,ff,ff raw=4095 us=28757 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=10000 axis=0 n=3 err=0 bytes=67,0a,87 raw=2695 us=39203 idle=100,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=10000 axis=1 n=3 err=-30 bytes=ff,ff,ff raw=4095 us=28757 idle=100,100
+ATTEMPTS 17
+SAMPLE mask=3 mode=7 hz=10000 axis=0 n=4 err=0 bytes=67,0a,87 raw=2695 us=39203 idle=99,100
+ATTEMPTS 6
+SAMPLE mask=3 mode=7 hz=10000 axis=1 n=4 err=-30 bytes=ff,ff,ff raw=4095 us=28760 idle=99,100
+ATTEMPTS 17
+SUMMARY mask=3 mode=7 hz=10000 good=5,0/5
+DIAG> 
+H 0
+HOLD MASK 0
+DIAG> 

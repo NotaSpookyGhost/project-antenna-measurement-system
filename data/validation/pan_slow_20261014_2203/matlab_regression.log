@@ -1,0 +1,245 @@
+Running TestMoveTimeout
+...
+Done TestMoveTimeout
+__________
+
+Running TestPatternPartialPlot
+...
+Done TestPatternPartialPlot
+__________
+
+Running TestScanGeometry
+.....
+Done TestScanGeometry
+__________
+
+Running TestPositionerLimits
+....
+Done TestPositionerLimits
+__________
+
+Running TestScan3D
+..........
+Done TestScan3D
+__________
+
+Running TestScan3DData
+...
+Done TestScan3DData
+__________
+
+Running TestScan3DGUI
+[22:08:35] Antenna Measurement App initialized.
+[22:08:35] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:08:37] 3D scan: 10 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[22:08:37] Tilt row 1/10: motor 0.0°, theta 90.0°.
+[22:08:39] 3D scan stopped: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[22:08:39] 3D ABORTED: 1/100 points retained.
+[22:08:41] ⚠️ Quét đã dừng: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/100 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[22:08:46] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tp92d1feb9_15c2_415c_a10c_09e9852c6588\export_app_scan_20261014_220841
+.[22:08:47] Antenna Measurement App initialized.
+[22:08:47] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:08:48] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:08:48] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[22:08:49] 3D COMPLETED: 3/3 points retained.
+[22:08:53] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpc567c27c_2966_4f69_ac90_690dc5c61376\export_app_scan_20261014_220850
+.[22:08:54] Antenna Measurement App initialized.
+[22:08:55] Antenna Measurement App initialized.
+.[22:08:55] Antenna Measurement App initialized.
+[22:08:55] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:08:56] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:08:56] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[22:08:57] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[22:08:58] 3D COMPLETED: 6/6 points retained.
+.[22:09:00] Antenna Measurement App initialized.
+[22:09:00] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:01] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:09:01] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[22:09:02] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[22:09:02] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[22:09:03] Đang dừng quét sau bước hiện tại...
+[22:09:03] 3D ABORTED: 3/6 points retained.
+[22:09:03] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 3/6 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[22:09:03] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:09:03] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[22:09:04] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[22:09:05] 3D COMPLETED: 6/6 points retained.
+.[22:09:06] Antenna Measurement App initialized.
+[ORCHESTRATOR] 3D scan: 1 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 2/2 points retained.
+.
+Done TestScan3DGUI
+__________
+
+Running TestPositionerResponse
+.......... ..
+Done TestPositionerResponse
+__________
+
+Running TestManualHoming
+[22:09:07] Antenna Measurement App initialized.
+[22:09:07] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[22:09:07] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+.[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.
+[ORCHESTRATOR] Scan loop finished (2/4 points, 0.09 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+...[22:09:09] Antenna Measurement App initialized.
+[22:09:09] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[22:09:09] Đã nhả mô phỏng; không thay đổi motor thật.
+[22:09:09] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[22:09:09] Antenna Measurement App initialized.
+[22:09:09] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 10.00°, 2 points)
+.
+Done TestManualHoming
+__________
+
+Running TestScanStopGUI
+[22:09:10] Antenna Measurement App initialized.
+[22:09:10] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:11] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:11] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:11] AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.
+[22:09:11] Scan loop finished (2/4 points, 0.84 s). Processing data...
+[22:09:11] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+[22:09:13] ⚠️ Quét đã dừng: AS5600 mất phản hồi (đã ghi nhận 2/4 điểm). Dữ liệu được giữ để phân tích/xuất file.
+.[22:09:14] Antenna Measurement App initialized.
+[22:09:14] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:14] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:14] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:15] Scan loop finished (4/4 points, 1.03 s). Processing data...
+[22:09:15] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[22:09:18] Antenna Measurement App initialized.
+[22:09:18] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:18] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:18] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:19] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[22:09:20] Đang dừng quét sau bước hiện tại...
+[22:09:20] Scan loop finished (2/4 points, 2.13 s). Processing data...
+[22:09:20] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+[22:09:21] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 2/4 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[22:09:21] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:21] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:21] Scan loop finished (4/4 points, 0.38 s). Processing data...
+[22:09:21] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[22:09:23] Antenna Measurement App initialized.
+[22:09:23] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:23] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:23] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:24] Scan loop finished (4/4 points, 1.02 s). Processing data...
+[22:09:24] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[22:09:26] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:26] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:26] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:26] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[22:09:26] Đang dừng quét sau bước hiện tại...
+[22:09:26] Scan dừng, chưa đủ dữ liệu (cần >= 2 điểm).
+[22:09:26] ⚠️ Quá trình quét đã bị hủy hoặc không đủ dữ liệu (cần >= 2 điểm).
+.[22:09:28] Antenna Measurement App initialized.
+[22:09:28] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:28] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:28] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:29] ❌ Lỗi trong quá trình quét: Injected positioner command interruption.
+.[22:09:33] Antenna Measurement App initialized.
+[22:09:33] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:09:33] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[22:09:33] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:09:34] Scan loop finished (4/4 points, 0.98 s). Processing data...
+[22:09:34] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[22:09:36] Antenna Measurement App initialized.
+.
+Done TestScanStopGUI
+__________
+
+                                       Name                                       Passed    Failed    Incomplete    Duration       Details   
+    __________________________________________________________________________    ______    ______    __________    _________    ____________
+
+    {'TestMoveTimeout/panUsesSlowMotionBudget'                               }    true      false       false         0.51696    {1×1 struct}
+    {'TestMoveTimeout/tiltRetainsExistingBudget'                             }    true      false       false        0.017825    {1×1 struct}
+    {'TestMoveTimeout/rejectsUnknownAxis'                                    }    true      false       false         0.14142    {1×1 struct}
+    {'TestPatternPartialPlot/singleAngleHasVisibleMarkerAndIncreasingLimits' }    true      false       false          2.8276    {1×1 struct}
+    {'TestPatternPartialPlot/repeatedAngleHasIncreasingLimits'               }    true      false       false         0.22479    {1×1 struct}
+    {'TestPatternPartialPlot/descendingScanKeepsMeasuredExtent'              }    true      false       false         0.20046    {1×1 struct}
+    {'TestScanGeometry/horizontalZeroAndDirection'                           }    true      false       false        0.058726    {1×1 struct}
+    {'TestScanGeometry/oneWayAndEndpoint'                                    }    true      false       false       0.0081893    {1×1 struct}
+    {'TestScanGeometry/invalidInputRejected'                                 }    true      false       false         0.10278    {1×1 struct}
+    {'TestScanGeometry/closureAverageAndMissingCells'                        }    true      false       false        0.072707    {1×1 struct}
+    {'TestScanGeometry/sectorCrossingAzimuthZeroHasNoLongGap'                }    true      false       false       0.0073968    {1×1 struct}
+    {'TestPositionerLimits/hardwareFeedbackFixtureRejectsBothAxes'           }    true      false       false        0.052163    {1×1 struct}
+    {'TestPositionerLimits/unconfirmedHardwareUsesConservativeTravel'        }    true      false       false        0.013133    {1×1 struct}
+    {'TestPositionerLimits/capabilitiesAndLegacy'                            }    true      false       false        0.013899    {1×1 struct}
+    {'TestPositionerLimits/declaredTravel'                                   }    true      false       false        0.035947    {1×1 struct}
+    {'TestScan3D/stopDuringInitializationMovesNothing'                       }    true      false       false         0.14742    {1×1 struct}
+    {'TestScan3D/lostZeroStopsBeforeAcquisition'                             }    true      false       false         0.27883    {1×1 struct}
+    {'TestScan3D/serpentineCommandOrderAndData'                              }    true      false       false         0.32211    {1×1 struct}
+    {'TestScan3D/stopAfterOnePointAndRestart'                                }    true      false       false         0.30546    {1×1 struct}
+    {'TestScan3D/stopWhenChangingTilt'                                       }    true      false       false         0.19109    {1×1 struct}
+    {'TestScan3D/missingTiltStopsBeforeNextAcquisition'                      }    true      false       false         0.11463    {1×1 struct}
+    {'TestScan3D/missingPanStopsBeforeNextAcquisition'                       }    true      false       false        0.089542    {1×1 struct}
+    {'TestScan3D/mockPoleIndependentOfAzimuth'                               }    true      false       false        0.016636    {1×1 struct}
+    {'TestScan3D/invalidGridMovesNothing'                                    }    true      false       false        0.021699    {1×1 struct}
+    {'TestScan3D/pauseResumesWithoutLosingRows'                              }    true      false       false         0.54105    {1×1 struct}
+    {'TestScan3DData/roundtripAndCSV'                                        }    true      false       false          3.8437    {1×1 struct}
+    {'TestScan3DData/partialPointExports'                                    }    true      false       false           0.468    {1×1 struct}
+    {'TestScan3DData/legacyCSVRemainsReadable'                               }    true      false       false         0.55493    {1×1 struct}
+    {'TestScan3DGUI/encoderMismatchAfterOnePointPreservesCauseAndPlot'       }    true      false       false          12.874    {1×1 struct}
+    {'TestScan3DGUI/singleRowExportsThroughGUI'                              }    true      false       false           7.332    {1×1 struct}
+    {'TestScan3DGUI/configureWithoutMovingAndPersist'                        }    true      false       false          1.0442    {1×1 struct}
+    {'TestScan3DGUI/mockScanAndLoadedFrame'                                  }    true      false       false          5.0461    {1×1 struct}
+    {'TestScan3DGUI/stopWhenChangingRowKeeps3DAndRestarts'                   }    true      false       false          5.5767    {1×1 struct}
+    {'TestScan3DGUI/settingsLockedWhileScanning'                             }    true      false       false          1.3104    {1×1 struct}
+    {'TestPositionerResponse/acceptsTiltPWMWithoutInventingAGC'              }    true      false       false        0.010068    {1×1 struct}
+    {'TestPositionerResponse/rejectsMissingTiltPWMDespitePreviousAngle'      }    true      false       false        0.001313    {1×1 struct}
+    {'TestPositionerResponse/invalidLiveTelemetryCannotReuseOldAngle'        }    true      false       false       0.0052417    {1×1 struct}
+    {'TestPositionerResponse/oldCachedSnapshotIsNotLiveFeedback'             }    true      false       false       0.0013717    {1×1 struct}
+    {'TestPositionerResponse/readsV3MotorDegreesWithoutRawCountConversion'   }    true      false       false        0.011299    {1×1 struct}
+    {'TestPositionerResponse/preservesLegacyEncoderDegreesInsteadOfRawCounts'}    true      false       false       0.0048402    {1×1 struct}
+    {'TestPositionerResponse/acceptsLegacyEqualsFormat'                      }    true      false       false        0.003322    {1×1 struct}
+    {'TestPositionerResponse/preservesUnavailableEncoderSentinel'            }    true      false       false       0.0019895    {1×1 struct}
+    {'TestPositionerResponse/acceptsEncoderAngleNearWrapBoundary'            }    true      false       false       0.0036221    {1×1 struct}
+    {'TestPositionerResponse/rejectsDoneWithoutEncoderData'                  }    true      false       false        0.014081    {1×1 struct}
+    {'TestPositionerResponse/rejectsIncompleteV3Response'                    }    true      false       false       0.0046913    {1×1 struct}
+    {'TestPositionerResponse/rejectsRawCountsWithoutAnIdentifiedFormat'      }    true      false       false       0.0088527    {1×1 struct}
+    {'TestManualHoming/mockLockCannotClaimPhysicalMotorHolding'              }    true      false       false         0.43972    {1×1 struct}
+    {'TestManualHoming/repeatedScansKeepManualReference'                     }    true      false       false         0.59175    {1×1 struct}
+    {'TestManualHoming/lostEncoderStopsScanKeepsEarlierPoints'               }    true      false       false         0.35815    {1×1 struct}
+    {'TestManualHoming/controllerReleasesThenLocksAtNewZero'                 }    true      false       false        0.019978    {1×1 struct}
+    {'TestManualHoming/disconnectReleasesHoldingTorque'                      }    true      false       false       0.0028737    {1×1 struct}
+    {'TestManualHoming/guiButtonsReleaseAndLockBothAxes'                     }    true      false       false         0.49498    {1×1 struct}
+    {'TestManualHoming/scanCannotOverwriteManualCalibration'                 }    true      false       false         0.46571    {1×1 struct}
+    {'TestScanStopGUI/encoderLossKeepsPartialGraphAndReportsCause'           }    true      false       false          3.6748    {1×1 struct}
+    {'TestScanStopGUI/restartFromLogsShowsPattern'                           }    true      false       false          3.9745    {1×1 struct}
+    {'TestScanStopGUI/stopDuringMotionKeepsDataAndRestarts'                  }    true      false       false           4.906    {1×1 struct}
+    {'TestScanStopGUI/stopBeforeFirstPointKeepsPreviousGraph'                }    true      false       false          4.8442    {1×1 struct}
+    {'TestScanStopGUI/hardwareErrorKeepsMeasuredGraphVisible'                }    true      false       false           4.579    {1×1 struct}
+    {'TestScanStopGUI/preservesSelectedCartesianTab'                         }    true      false       false          3.5154    {1×1 struct}
+    {'TestScanStopGUI/windowAndTabsFitScreen'                                }    true      false       false          1.1597    {1×1 struct}
+
+
+ans = 
+
+  1×60 TestResult array with properties:
+
+    Name
+    Passed
+    Failed
+    Incomplete
+    Duration
+    Details
+
+Totals:
+   60 Passed, 0 Failed, 0 Incomplete.
+   73.47 seconds testing time.
+

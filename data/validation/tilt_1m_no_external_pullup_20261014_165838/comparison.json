@@ -1,0 +1,116 @@
+{
+  "started": "2026-10-14T16:58:48.828373",
+  "physical_condition": {
+    "tilt_cable_m": 1,
+    "sda_pullup_ohm": null,
+    "out_gpio": 23,
+    "sda_scl_retained": true
+  },
+  "no_commanded_motion": true,
+  "pwm_restored": true,
+  "initial_pwm_probe_exit": 0,
+  "initial_pwm_probe": "BOOT\n\nHOLD OFF\nHOLD OFF OK\n\nESP32-ANTENNA> \nTILT PWM CHECK\nPAN:  0.00 TILT:  0.00 RAW_PAN:221.66 (AGC: 73) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:0 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:1 ENC_TILT_VALID:0 RELEASES:0 FW:V4.1_PWM_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180\nENC_TILT_SOURCE:PWM AGC_TILT_AVAILABLE:0 PWM_CONFIG:0 PWM_PIN:23 PWM_PERIOD_US:60 PWM_AGE_US:184613947\nESP32-ANTENNA> \nHOLD OFF\nHOLD OFF OK\n\nESP32-ANTENNA> \n",
+  "i2c_upload_exit": 0,
+  "i2c_stationary_exit": 0,
+  "i2c_phases": [
+    {
+      "state": "HOLD OFF before",
+      "reads": 30,
+      "pan_valid": 30,
+      "tilt_valid": 30,
+      "tilt_agc_unique": [
+        128
+      ],
+      "tilt_raw_valid_range": [
+        224.38,
+        224.38
+      ],
+      "release_counter_start": 0,
+      "release_counter_end": 0,
+      "circular_span_deg": 0.0,
+      "tilt_passed": true
+    },
+    {
+      "state": "HOLD ON",
+      "reads": 100,
+      "pan_valid": 100,
+      "tilt_valid": 100,
+      "tilt_agc_unique": [
+        128
+      ],
+      "tilt_raw_valid_range": [
+        222.36,
+        222.36
+      ],
+      "release_counter_start": 0,
+      "release_counter_end": 0,
+      "circular_span_deg": 0.0,
+      "tilt_passed": true
+    },
+    {
+      "state": "HOLD OFF after",
+      "reads": 30,
+      "pan_valid": 30,
+      "tilt_valid": 30,
+      "tilt_agc_unique": [
+        128
+      ],
+      "tilt_raw_valid_range": [
+        222.98,
+        223.07
+      ],
+      "release_counter_start": 1,
+      "release_counter_end": 1,
+      "circular_span_deg": 0.09000000000000341,
+      "tilt_passed": true
+    }
+  ],
+  "i2c_passed": true,
+  "pwm_restore_upload_exit": 0,
+  "restored_pwm_acceptance_exit": 0,
+  "restored_pwm_folder": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\data\\validation\\tilt_pwm_20261014_165929",
+  "restored_pwm": {
+    "port": "COM5",
+    "phases": [
+      {
+        "state": "released before",
+        "reads": 30,
+        "tilt_valid": 30,
+        "circular_span_deg": 0.09000000000000341,
+        "release_count_start": 0,
+        "release_count_end": 0,
+        "period_us_range": [
+          4276,
+          4277
+        ]
+      },
+      {
+        "state": "held",
+        "reads": 100,
+        "tilt_valid": 100,
+        "circular_span_deg": 0.1699999999999875,
+        "release_count_start": 0,
+        "release_count_end": 0,
+        "period_us_range": [
+          4274,
+          4278
+        ]
+      },
+      {
+        "state": "released after",
+        "reads": 30,
+        "tilt_valid": 30,
+        "circular_span_deg": 0.17000000000001592,
+        "release_count_start": 1,
+        "release_count_end": 1,
+        "period_us_range": [
+          4276,
+          4277
+        ]
+      }
+    ],
+    "release_confirmed": true,
+    "passed": true
+  },
+  "finished": "2026-10-14T16:59:42.289780"
+}

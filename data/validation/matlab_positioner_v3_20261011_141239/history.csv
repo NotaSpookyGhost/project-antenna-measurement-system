@@ -1,0 +1,5 @@
+Axis,TargetDeg,PanDeg,TiltDeg,PanEncoderDeg,TiltEncoderDeg
+AZ,10,10,0,129.73,48.25
+EL,5,10,5,129.99,74.18
+EL,0,10,0,129.99,48.78
+AZ,0,0,0,74.18,48.34

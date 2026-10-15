@@ -1,0 +1,44 @@
+[
+  {
+    "state": "HOLD OFF",
+    "axis": "PAN",
+    "reads": 20,
+    "transferred": 20,
+    "magnet_detected": 20,
+    "stages": {
+      "NONE": 20
+    }
+  },
+  {
+    "state": "HOLD OFF",
+    "axis": "TILT",
+    "reads": 20,
+    "transferred": 20,
+    "magnet_detected": 20,
+    "stages": {
+      "NONE": 20
+    }
+  },
+  {
+    "state": "HOLD ON",
+    "axis": "PAN",
+    "reads": 20,
+    "transferred": 18,
+    "magnet_detected": 18,
+    "stages": {
+      "NONE": 18,
+      "ADDRESS_READ_NACK": 2
+    }
+  },
+  {
+    "state": "HOLD ON",
+    "axis": "TILT",
+    "reads": 20,
+    "transferred": 0,
+    "magnet_detected": 0,
+    "stages": {
+      "ADDRESS_WRITE_NACK": 19,
+      "REGISTER_NACK": 1
+    }
+  }
+]

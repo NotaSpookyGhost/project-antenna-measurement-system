@@ -1,0 +1,12 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 245.3° | Tilt = 0.0° (TiltDisabled=0)
+STAGE 1: Pan 0.0 Tilt 0.0; raw 245.39 246.01; error 0.000 0.000; 10/10 valid both
+MOVE AZ 5.0 deg
+FAIL: AS5600 AZ moved 3.60 deg; expected about 28.12 deg for PAN 5.00.. No further motion or automatic return.
+{Error using PositionerController/moveTo (line 486)
+AS5600 AZ moved 3.60 deg; expected about 28.12 deg for PAN 5.00.
+
+Error in test_both_motion (line 22)
+            pos.moveTo(axisNames{axisIndex},goal);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

@@ -1,0 +1,28 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 236.6° | Tilt = 0.0° (TiltDisabled=1)
+MOVE FAILED: PositionerController:EncoderMismatch: AS5600 AZ moved 3.69 deg; expected about 28.12 deg for PAN 5.00.
+Before [Pan Tilt EncoderPan EncoderTilt]:
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+         0         0  240.2900  230.8900
+
+After [Pan Tilt EncoderPan EncoderTilt]:
+    5.0000         0  243.9000  230.8900
+    5.0000         0  243.9000  230.8900
+    5.0000         0  243.9800  230.8900
+    5.0000         0  243.9000  230.8900
+    5.0000         0  243.9000  230.8900
+    5.0000         0  243.9800  230.8900
+    5.0000         0  243.9800  230.8900
+    5.0000         0  243.9000  230.8900
+    5.0000         0  243.9000  230.8900
+    5.0000         0  243.9000  230.8900
+
+Returned after successful check: 0. COM5 closed; test ZERO must be reset in GUI.

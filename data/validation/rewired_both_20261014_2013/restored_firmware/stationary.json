@@ -1,0 +1,1656 @@
+{
+  "released_before": {
+    "count": 30,
+    "samples": [
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.21,
+        "RAW_TILT": 247.76,
+        "HOLD": 0.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      }
+    ],
+    "hold_matches": true,
+    "PAN": {
+      "valid": 30,
+      "raw_min": 245.21,
+      "raw_max": 245.3,
+      "span_deg": 0.09000000000000341
+    },
+    "TILT": {
+      "valid": 30,
+      "raw_min": 247.76,
+      "raw_max": 247.76,
+      "span_deg": 0.0
+    }
+  },
+  "held": {
+    "count": 100,
+    "samples": [
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.65,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.65,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.39,
+        "RAW_TILT": 245.57,
+        "HOLD": 1.0,
+        "RELEASES": 0.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      }
+    ],
+    "hold_matches": true,
+    "PAN": {
+      "valid": 100,
+      "raw_min": 245.39,
+      "raw_max": 245.39,
+      "span_deg": 0.0
+    },
+    "TILT": {
+      "valid": 100,
+      "raw_min": 245.57,
+      "raw_max": 245.65,
+      "span_deg": 0.0800000000000125
+    }
+  },
+  "released_after": {
+    "count": 30,
+    "samples": [
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      },
+      {
+        "PAN": 0.0,
+        "TILT": 0.0,
+        "RAW_PAN": 245.3,
+        "RAW_TILT": 246.01,
+        "HOLD": 0.0,
+        "RELEASES": 1.0,
+        "ENC_PAN_VALID": 1.0,
+        "ENC_TILT_VALID": 1.0
+      }
+    ],
+    "hold_matches": true,
+    "PAN": {
+      "valid": 30,
+      "raw_min": 245.3,
+      "raw_max": 245.3,
+      "span_deg": 0.0
+    },
+    "TILT": {
+      "valid": 30,
+      "raw_min": 246.01,
+      "raw_max": 246.01,
+      "span_deg": 0.0
+    }
+  }
+}

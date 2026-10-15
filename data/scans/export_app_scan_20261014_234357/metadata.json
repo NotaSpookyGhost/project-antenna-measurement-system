@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 2,
+  "ScanAxis": "3D",
+  "Scan3DConfig": {
+    "PanStartDeg": 0,
+    "PanStopDeg": 360,
+    "PanStepDeg": 30,
+    "TiltStartDeg": 0,
+    "TiltStopDeg": 90,
+    "TiltStepDeg": 30,
+    "TiltAtZeroDeg": 0,
+    "PanAtZeroDeg": 0,
+    "TiltSign": 1,
+    "PanSign": 1,
+    "PanAlternating": true,
+    "TravelPanDeg": [
+      0,
+      360
+    ],
+    "TravelTiltDeg": [
+      0,
+      90
+    ]
+  },
+  "Device": "SAA-2N",
+  "VNAMode": "Mock",
+  "VNAPort": "MOCK_COM",
+  "PositionerMode": "Hardware",
+  "PositionerPort": "COM5",
+  "AngleSource": "Commanded positioner angles; encoder on motor shaft",
+  "EncoderLocation": "Motor shaft, modulo 360 deg; reduction 90/16",
+  "CoordinateFrame": "Declared theta/phi frame relative to manual ZERO",
+  "TotalAngles": 52,
+  "CompletedPoints": 52,
+  "Aborted": false,
+  "AbortReason": "",
+  "AbortMessage": "",
+  "CenterFreqHz": 2.4E+9,
+  "SpanHz": 1.0E+7,
+  "SweepPoints": 11,
+  "SettleTimeSec": 1,
+  "TotalTimeSec": 302.8856634,
+  "AngleStepDeg": 30,
+  "Firmware": "Positioner capability reported over POS",
+  "Timestamp": "2026-10-14 23:41:24"
+}

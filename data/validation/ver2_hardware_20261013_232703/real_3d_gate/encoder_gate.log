@@ -1,0 +1,5 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 107.1° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+3D preflight rejected: PositionerController:EncoderUnavailable / Both AS5600 encoders must be valid for 3D acquisition.
+PASS: missing encoder blocks real 3D before motor motion/RF connection; ZERO and hold retained.

@@ -1,0 +1,27 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 188.9° | Tilt = 0.0° (TiltDisabled=1)
+[ORCHESTRATOR] Starting scan: 0.0° to 360.0° (step 10.00°, 37 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] AS5600 mất tín hiệu: đang dùng góc theo số xung, chưa xác minh góc cơ khí. Motor vẫn giữ cứng.
+Point 1/37: logical 0.00, shaft encoder NaN, releases 0
+Point 2/37: logical 10.00, shaft encoder NaN, releases 0
+Point 3/37: logical 20.00, shaft encoder NaN, releases 0
+Point 4/37: logical 30.00, shaft encoder NaN, releases 0
+Point 5/37: logical 40.00, shaft encoder NaN, releases 0
+Point 6/37: logical 50.00, shaft encoder NaN, releases 0
+Point 7/37: logical 60.00, shaft encoder NaN, releases 0
+Point 8/37: logical 70.00, shaft encoder NaN, releases 0
+Point 9/37: logical 80.00, shaft encoder NaN, releases 0
+Point 10/37: logical 90.00, shaft encoder NaN, releases 0
+Point 11/37: logical 100.00, shaft encoder NaN, releases 0
+Point 12/37: logical 110.00, shaft encoder NaN, releases 0
+Point 13/37: logical 120.00, shaft encoder NaN, releases 0
+Point 14/37: logical 130.00, shaft encoder 0.26, releases 0
+[ORCHESTRATOR] AS5600 mất tín hiệu: đang dùng góc theo số xung, chưa xác minh góc cơ khí. Motor vẫn giữ cứng.
+Point 15/37: logical 140.00, shaft encoder NaN, releases 0
+Point 16/37: logical 150.00, shaft encoder NaN, releases 0
+Point 17/37: logical 160.00, shaft encoder NaN, releases 0
+Point 18/37: logical 170.00, shaft encoder NaN, releases 0
+Point 19/37: logical 180.00, shaft encoder NaN, releases 0
+Point 20/37: logical 190.00, shaft encoder NaN, releases 0
+Point 21/37: logical 200.00, shaft encoder NaN, releases 0

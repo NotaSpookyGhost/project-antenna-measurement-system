@@ -1,0 +1,14 @@
+Test A — THRU Validation Summary
+Generated: 2026-10-14T22:09:26.326393
+------------------------------------------------------------
+Device:            SAA-2N (port: COM_TEST)
+Firmware:          DiSlord v1.4.02 FPU (reg fw: 1.4)
+Protocol:          0x01, Hardware Rev: 2
+Sweep:             2395.0 - 2405.0 MHz, 11 points
+DUT:               THRU SMA cable Port 1 <-> Port 2
+------------------------------------------------------------
+Status:            ERROR — No FIFO records received from device (timeout)
+Complete:          False (0/11 points)
+Criterion:         S21 > -10.0 dB
+------------------------------------------------------------
+VERDICT: [FAIL]

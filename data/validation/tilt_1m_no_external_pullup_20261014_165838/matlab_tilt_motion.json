@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "userSafeTravelDeg": [
+    -90,
+    90
+  ],
+  "externalPullup": false,
+  "cableMetres": 1,
+  "gearRatio": 5.625,
+  "physicalAngleIndependentlyMeasured": false,
+  "error": "Subscripted assignment between dissimilar structures.",
+  "errorIdentifier": "MATLAB:heterogeneousStrucAssignment",
+  "logicalTiltAtFailure": 0
+}

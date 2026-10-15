@@ -1,0 +1,8 @@
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 221.7° | Tilt = 0.0° (TiltDisabled=0)
+Tilt stage 1/5: target 0.0, encoder 223.51, tracking error 0.000 deg, 10/10 valid
+Tilt stage 2/5: target 5.0, encoder 251.46, tracking error -0.031 deg, 10/10 valid
+Tilt stage 3/5: target 10.0, encoder 279.40, tracking error -0.064 deg, 10/10 valid
+Tilt stage 4/5: target 5.0, encoder 251.63, tracking error -0.001 deg, 10/10 valid
+Tilt stage 5/5: target 0.0, encoder 223.77, tracking error 0.046 deg, 10/10 valid
+PASS: 5/5 stages, 50 fresh Tilt snapshots, motor closure 0.260 deg (output estimate 0.046 deg).

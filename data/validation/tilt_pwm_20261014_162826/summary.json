@@ -1,0 +1,7 @@
+{
+  "port": "COM5",
+  "phases": [],
+  "release_confirmed": true,
+  "passed": false,
+  "error": "Configuration failed; check sensor-side 3.3 V and use short SDA/SCL wires"
+}

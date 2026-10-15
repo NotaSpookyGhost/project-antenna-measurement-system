@@ -1,0 +1,149 @@
+{
+  "port": "COM5",
+  "baud": 115200,
+  "status": "PASS",
+  "criteria": "3 cycles at Pan 10/Tilt 5; travel within 20% of gear-ratio expectation; cumulative return drift <=1 antenna degree; encoders available; DONE+prompt required",
+  "cycles": [
+    {
+      "cycle": 1,
+      "before": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.6,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.34,
+        "agc_tilt": 128.0
+      },
+      "target": {
+        "pan": 10.0,
+        "tilt": 5.0,
+        "raw_pan": 128.58,
+        "agc_pan": 48.0,
+        "raw_tilt": 72.6,
+        "agc_tilt": 128.0
+      },
+      "returned": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.42,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.43,
+        "agc_tilt": 128.0
+      },
+      "settled": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.42,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.43,
+        "agc_tilt": 128.0
+      },
+      "travel_motor_deg": {
+        "pan": 55.98000000000002,
+        "tilt": 24.25999999999999
+      },
+      "residual_from_initial_motor_deg": {
+        "pan": -0.18000000000000682,
+        "tilt": 0.0
+      },
+      "residual_from_initial_antenna_deg": {
+        "pan": -0.032000000000001215,
+        "tilt": 0.0
+      }
+    },
+    {
+      "cycle": 2,
+      "before": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.42,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.43,
+        "agc_tilt": 128.0
+      },
+      "target": {
+        "pan": 10.0,
+        "tilt": 5.0,
+        "raw_pan": 128.58,
+        "agc_pan": 48.0,
+        "raw_tilt": 72.69,
+        "agc_tilt": 128.0
+      },
+      "returned": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.42,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.43,
+        "agc_tilt": 128.0
+      },
+      "settled": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.51,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.43,
+        "agc_tilt": 128.0
+      },
+      "travel_motor_deg": {
+        "pan": 56.160000000000025,
+        "tilt": 24.25999999999999
+      },
+      "residual_from_initial_motor_deg": {
+        "pan": -0.08999999999997499,
+        "tilt": 0.0
+      },
+      "residual_from_initial_antenna_deg": {
+        "pan": -0.015999999999995553,
+        "tilt": 0.0
+      }
+    },
+    {
+      "cycle": 3,
+      "before": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.42,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.43,
+        "agc_tilt": 128.0
+      },
+      "target": {
+        "pan": 10.0,
+        "tilt": 5.0,
+        "raw_pan": 128.58,
+        "agc_pan": 48.0,
+        "raw_tilt": 72.69,
+        "agc_tilt": 128.0
+      },
+      "returned": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.42,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.52,
+        "agc_tilt": 128.0
+      },
+      "settled": {
+        "pan": 0.0,
+        "tilt": 0.0,
+        "raw_pan": 72.51,
+        "agc_pan": 48.0,
+        "raw_tilt": 48.52,
+        "agc_tilt": 128.0
+      },
+      "travel_motor_deg": {
+        "pan": 56.160000000000025,
+        "tilt": 24.25999999999999
+      },
+      "residual_from_initial_motor_deg": {
+        "pan": -0.08999999999997499,
+        "tilt": 0.09000000000000341
+      },
+      "residual_from_initial_antenna_deg": {
+        "pan": -0.015999999999995553,
+        "tilt": 0.016000000000000607
+      }
+    }
+  ]
+}

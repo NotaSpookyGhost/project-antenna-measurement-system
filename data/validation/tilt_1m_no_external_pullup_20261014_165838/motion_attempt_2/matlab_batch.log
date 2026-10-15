@@ -1,0 +1,36 @@
+[Positioner]  kt ni th�nh c�ng ESP32 tr�n cng COM5 (115200 baud).
+[Positioner] Trng th�i: Pan = 0.0�, AS5600 Pan = 221.7� | Tilt = 0.0� (TiltDisabled=0)
+Tilt stage 1/33: target 0.0, encoder 224.38, tracking error 0.000 deg, 10/10 valid
+Tilt stage 2/33: target 5.0, encoder 252.07, tracking error -0.077 deg, 10/10 valid
+Tilt stage 3/33: target 10.0, encoder 280.02, tracking error -0.108 deg, 10/10 valid
+Tilt stage 4/33: target 20.0, encoder 335.92, tracking error -0.171 deg, 10/10 valid
+Tilt stage 5/33: target 30.0, encoder 32.61, tracking error -0.092 deg, 10/10 valid
+Tilt stage 6/33: target 45.0, encoder 117.69, tracking error 0.033 deg, 10/10 valid
+Tilt stage 7/33: target 60.0, encoder 201.71, tracking error -0.030 deg, 10/10 valid
+Tilt stage 8/33: target 75.0, encoder 285.64, tracking error -0.109 deg, 10/10 valid
+Tilt stage 9/33: target 90.0, encoder 9.76, tracking error -0.155 deg, 10/10 valid
+Tilt stage 10/33: target 75.0, encoder 285.82, tracking error -0.077 deg, 10/10 valid
+Tilt stage 11/33: target 60.0, encoder 201.97, tracking error 0.016 deg, 10/10 valid
+Tilt stage 12/33: target 45.0, encoder 117.95, tracking error 0.079 deg, 10/10 valid
+Tilt stage 13/33: target 30.0, encoder 32.96, tracking error -0.030 deg, 10/10 valid
+Tilt stage 14/33: target 20.0, encoder 336.18, tracking error -0.124 deg, 10/10 valid
+Tilt stage 15/33: target 10.0, encoder 280.28, tracking error -0.062 deg, 10/10 valid
+Tilt stage 16/33: target 5.0, encoder 252.33, tracking error -0.031 deg, 10/10 valid
+Tilt stage 17/33: target 0.0, encoder 224.38, tracking error -0.000 deg, 10/10 valid
+Tilt stage 18/33: target -5.0, encoder 196.44, tracking error 0.033 deg, 10/10 valid
+Tilt stage 19/33: target -10.0, encoder 168.49, tracking error 0.064 deg, 10/10 valid
+Tilt stage 20/33: target -20.0, encoder 112.50, tracking error 0.110 deg, 10/10 valid
+Tilt stage 21/33: target -30.0, encoder 55.81, tracking error 0.032 deg, 10/10 valid
+Tilt stage 22/33: target -45.0, encoder 330.64, tracking error -0.109 deg, 10/10 valid
+Tilt stage 23/33: target -60.0, encoder 246.80, tracking error -0.014 deg, 10/10 valid
+Tilt stage 24/33: target -75.0, encoder 162.86, tracking error 0.063 deg, 10/10 valid
+Tilt stage 25/33: target -90.0, encoder 78.57, tracking error 0.078 deg, 10/10 valid
+Tilt stage 26/33: target -75.0, encoder 162.51, tracking error 0.001 deg, 10/10 valid
+Tilt stage 27/33: target -60.0, encoder 246.62, tracking error -0.046 deg, 10/10 valid
+Tilt stage 28/33: target -45.0, encoder 330.38, tracking error -0.156 deg, 10/10 valid
+Tilt stage 29/33: target -30.0, encoder 55.55, tracking error -0.014 deg, 10/10 valid
+Tilt stage 30/33: target -20.0, encoder 112.15, tracking error 0.048 deg, 10/10 valid
+Tilt stage 31/33: target -10.0, encoder 168.13, tracking error -0.000 deg, 10/10 valid
+Tilt stage 32/33: target -5.0, encoder 196.17, tracking error -0.015 deg, 10/10 valid
+Tilt stage 33/33: target 0.0, encoder 224.21, tracking error -0.030 deg, 10/10 valid
+PASS: 33/33 stages, 330 fresh Tilt snapshots, motor closure -0.170 deg (output estimate -0.030 deg).

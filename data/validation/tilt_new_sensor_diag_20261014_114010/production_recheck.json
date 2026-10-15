@@ -1,0 +1,20 @@
+[
+  {
+    "state": "HOLD OFF",
+    "reads": 20,
+    "pan_valid": 20,
+    "tilt_valid": 20
+  },
+  {
+    "state": "HOLD ON",
+    "reads": 100,
+    "pan_valid": 100,
+    "tilt_valid": 98
+  },
+  {
+    "state": "HOLD OFF",
+    "reads": 20,
+    "pan_valid": 20,
+    "tilt_valid": 20
+  }
+]
