@@ -1,0 +1,9 @@
+Running TestScan3DGUI
+[02:26:05] Antenna Measurement App initialized.
+[02:26:06] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+.
+Done TestScan3DGUI
+__________
+
+[02:26:07] Antenna Measurement App initialized.
+TILT_180_UI_PASS tests=1 mock_only=1

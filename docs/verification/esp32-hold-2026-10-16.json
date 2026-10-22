@@ -1,0 +1,253 @@
+{
+  "port": "COM9",
+  "baudrate": 115200,
+  "initialHoldAcknowledgement": "HOLD ON OK CAL_REQUIRED:1\nESP32-ANTENNA> ",
+  "operatorObservation": "Cả hai vẫn lỏng",
+  "noMotionOrZero": true,
+  "records": [
+    {
+      "at": "2026-10-15T17:26:43.035Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:43.174Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:47.992Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:48.129Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:52.917Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:53.059Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:57.845Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:26:57.974Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:02.766Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:02.910Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:07.716Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:07.841Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:12.635Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:12.775Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:17.566Z",
+      "kind": "POS",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 298 byte(s) from COM9.\", \"n_read\": 298, \"data\": \"PAN:  0.00 TILT:  0.00 RAW_PAN: -1.00 (AGC:255) RAW_TILT: -1.00 (AGC:255) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:1 SENSOR_CACHED:0 ENC_PAN_VALID:0 ENC_TILT_VALID:0 RELEASES:2 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "at": "2026-10-15T17:27:17.691Z",
+      "kind": "PING",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 21 byte(s) from COM9.\", \"n_read\": 21, \"data\": \"PONG\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "kind": "HOLD OFF",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Wrote 9 byte(s) to COM9.\", \"bytes_written\": 9}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "kind": "release acknowledgement",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Read 28 byte(s) from COM9.\", \"n_read\": 28, \"data\": \"HOLD OFF OK\\r\\nESP32-ANTENNA> \", \"format\": \"text\", \"encoding\": \"utf-8\"}"
+          }
+        ],
+        "isError": false
+      }
+    },
+    {
+      "kind": "close",
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\": true, \"message\": \"Closed COM9.\", \"connection_id\": \"s8b0991e2\", \"port\": \"COM9\"}"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ]
+}

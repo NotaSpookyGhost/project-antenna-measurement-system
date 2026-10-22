@@ -1,0 +1,97 @@
+Running TestScanGeometry
+.......
+Done TestScanGeometry
+__________
+
+Running TestScan3DGUI
+[02:24:45] Antenna Measurement App initialized.
+
+================================================================================
+Error occurred in TestScan3DGUI/horizontalZeroPresetAcceptsFullDescendingTilt and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:string:MustBeCharCellArrayOrString'
+    --------------
+    Error Details:
+    --------------
+    Error using contains
+    First argument must be text.
+    
+    Error in TestScan3DGUI/horizontalZeroPresetAcceptsFullDescendingTilt (line 29)
+                tc.verifyTrue(contains(preview.String,'Góc cực θ tại ZERO'));
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.[02:24:48] Antenna Measurement App initialized.
+[02:24:48] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 75 bước (ít bước hơn = nhanh hơn).
+.[02:24:49] Antenna Measurement App initialized.
+[02:24:53] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[02:24:56] 3D scan: 10 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[02:24:56] Tilt row 1/10: motor 0.0°, theta 90.0°.
+[02:24:59] 3D scan stopped: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[02:24:59] 3D ABORTED: 1/100 points retained.
+[02:25:01] ⚠️ Quét đã dừng: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/100 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[02:25:12] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpfe88a859_0f60_449d_ba3d_4f0f79bcef9b\export_app_scan_20261017_022501
+.[02:25:14] Antenna Measurement App initialized.
+[02:25:14] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[02:25:16] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[02:25:16] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[02:25:17] 3D COMPLETED: 3/3 points retained.
+[02:25:22] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpf5f4f9f9_5075_4c2f_bf97_92c70502dc91\export_app_scan_20261017_022518
+.[02:25:24] Antenna Measurement App initialized.
+[02:25:25] Antenna Measurement App initialized.
+.[02:25:26] Antenna Measurement App initialized.
+[02:25:26] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[02:25:28] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[02:25:28] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[02:25:28] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[02:25:30] 3D COMPLETED: 6/6 points retained.
+.[02:25:33] Antenna Measurement App initialized.
+[02:25:33] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[02:25:34] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[02:25:34] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[02:25:35] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[02:25:35] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[02:25:36] Đang dừng quét sau bước hiện tại...
+[02:25:36] 3D ABORTED: 3/6 points retained.
+[02:25:36] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 3/6 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[02:25:37] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[02:25:37] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[02:25:37] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[02:25:38] 3D COMPLETED: 6/6 points retained.
+.[02:25:39] Antenna Measurement App initialized.
+[ORCHESTRATOR] 3D scan: 1 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 2/2 points retained.
+.
+Done TestScan3DGUI
+__________
+
+Running TestPositionerLimits
+....
+Done TestPositionerLimits
+__________
+
+Running TestScan3D
+..........
+Done TestScan3D
+__________
+
+Failure Summary:
+
+     Name                                                         Failed  Incomplete  Reason(s)
+    ============================================================================================
+     TestScan3DGUI/horizontalZeroPresetAcceptsFullDescendingTilt    X         X       Errored.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_green (line 8)
+results=run(suite); assertSuccess(results);
+                    ^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

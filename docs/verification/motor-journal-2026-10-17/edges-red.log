@@ -1,0 +1,85 @@
+Running TestMotorScanJournal
+
+================================================================================
+Verification failed in TestMotorScanJournal/closureRequiresUnchangedValidReferenceAndActiveHold.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyFalse failed.
+    --> The value must evaluate to "false".
+    
+    Actual Value:
+      logical
+    
+       1
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestMotorScanJournal.m (TestMotorScanJournal.closureRequiresUnchangedValidReferenceAndActiveHold) at 69
+================================================================================
+
+================================================================================
+Verification failed in TestMotorScanJournal/closureRequiresUnchangedValidReferenceAndActiveHold.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyFalse failed.
+    --> The value must evaluate to "false".
+    
+    Actual Value:
+      logical
+    
+       1
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestMotorScanJournal.m (TestMotorScanJournal.closureRequiresUnchangedValidReferenceAndActiveHold) at 71
+================================================================================
+.
+Done TestMotorScanJournal
+__________
+
+Running TestMotorJournalIntegration
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpbe254fdf_bb5f_4717_af90_88c2469baf64\motor_20261017_053605_065_4da27609-4903-42b3-a4c8-06a44f483d87.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+
+================================================================================
+Error occurred in TestMotorJournalIntegration/failedMoveIsPersistedBeforeItsSampleIsCommitted and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:nonExistentField'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized field name "scan_point_index".
+    
+    Error in TestMotorJournalIntegration/failedMoveIsPersistedBeforeItsSampleIsCommitted (line 62)
+                t.verifyEqual(failures{1}.before.scan_point_index,2);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+Done TestMotorJournalIntegration
+__________
+
+Failure Summary:
+
+     Name                                                                         Failed  Incomplete  Reason(s)
+    ==========================================================================================================================
+     TestMotorScanJournal/closureRequiresUnchangedValidReferenceAndActiveHold       X                 Failed by verification.
+    --------------------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/failedMoveIsPersistedBeforeItsSampleIsCommitted    X         X       Errored.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_edges (line 6)
+results=run(suite); assertSuccess(results);
+                    ^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

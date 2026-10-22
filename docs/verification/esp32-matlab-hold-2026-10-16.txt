@@ -1,0 +1,9 @@
+[00:31:00] Antenna Measurement App initialized.
+[00:31:00] Positioner switched to Hardware (ESP32 on COM9) [Kh�a Tilt: BT n khi kim tra t].
+[Positioner]  kt ni th�nh c�ng ESP32 tr�n cng COM9 (115200 baud).
+[Positioner] Trng th�i: Pan = 0.0�, AS5600 Pan = 323.2� | Tilt = 0.0� (TiltDisabled=1)
+[Positioner] Kh�a an to�n trc Tilt: TT (Trc Tilt  sn s�ng hot ng).
+[00:31:05]  nhn c hai encoder; cho ph�p Pan/Tilt trong gii hn firmware b�o v.
+MATLAB_HOLD_INITIAL connected=1 hold=1 zero_required=1 pan_encoder=323.17 tilt_encoder=215.68 releases=0
+MATLAB_HOLD_AFTER_35S hold=1 pan_encoder=322.47 tilt_encoder=216.04 releases=0 lamp=CN ZERO
+MATLAB_STATIONARY_HOLD PASS; no motion or ZERO; disconnected and released.

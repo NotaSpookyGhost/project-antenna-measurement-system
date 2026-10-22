@@ -1,5 +1,116 @@
 # Codex setup for antenna-v3
 
+## Live plot callback recovery — 2026-10-22
+
+The scan status bar now has a persistent **Lỗi live plot** menu with three
+policies: continue measurement with live rendering disabled, retry once at the
+next point then disable, or abort while retaining completed points. The
+default is continue-and-disable. The selection is stored with `scan3DConfig`
+in `antenna-ver2-settings.mat`.
+
+A callback failure is a visualization fault, not an RF measurement fault.
+Policies `CONTINUE` and `RETRY_ONCE` keep acquiring data; `ABORT` records
+`LivePlotCallbackFailure` with the original callback error. Unexpected
+non-callback scan faults now normalize active state to `ERROR`.
+
+Live plots reuse line/scatter handles. The 3D surface is recomputed only when a
+Pan row completes, and `ScanGeometry.surface()` uses vectorized binning. VNA
+transport failures use the stable `TRANSPORT` job code, mark the controller
+offline and invalidate calibration. Python unit-test artifacts default to a
+temporary directory unless `ANTENNA_VALIDATION_DIR` is set explicitly.
+Local warm benchmarks after the change were about0.0245s per calibration
+application and0.0129s per full37x73 surface (previously about0.2646s and
+0.0499s respectively).
+
+## Motor encoder journal —2026-10-17
+
+Hardware-positioner scans now append durable JSONL under data/logs/motor,
+including when RF is Mock. Move attempts/results/faults retain both cached
+encoders, raw POS, HOLD, release count, fixed manual ZERO and scan point/row.
+The app reports estimated closure error on completed Pan0 targets, warning
+above1 antenna degree without automatic ZERO, correction, or changed stops.
+Explicit home/Lock+ZERO captures the reference; observed releases and counter
+discontinuities invalidate it. A new scan never silently rebases it.
+Mock-only tests opt in with MotorLogDirectory pointing to a temp folder;
+legacy Mock encoder scale1 is labelled separately from hardware5.625.
+See `docs/motor-encoder-journal-user-guide.md` and the motor-journal plan/evidence.
+
+## Full180-degree Tilt setup —2026-10-17
+
+Motor Tilt+90..−90 requires polar theta90 at a horizontal mechanical ZERO.
+Polar theta0 declares an upward ZERO and correctly rejects negative theta.
+The3D/ZERO form now labels this explicitly, offers a horizontal-ZERO preset
+for the pending form only, and explains valid ranges in Vietnamese. Travel
+and firmware guards remain; no automatic homing, confirmation or motion.
+The requested5-degree grid has37Tilt rows ×73Pan samples =2701 points.
+See `docs/tilt-180-configuration-2026-10-17.md` for verification and limits.
+
+## VNA refresh and launcher — 2026-10-16
+
+Use `Open Antenna App.vbs` to start the interactive app with MATLAB minimized
+(`-automation -r`), preserving dialogs. Console output is retained under
+`data/logs/matlab_runtime_*.txt`; do not replace the interactive launcher with
+`-batch`, which disables some interactive dialogs. Automated MATLAB checks
+must launch in the background, retain logs and confirm their own exit code.
+
+Black console popups were traced separately to MATLAB's repeated `pyinfo.py`
+probes of the repo's console `python.exe`. `vnaPythonBackend` now prefers
+`.venv-vna/Scripts/pythonw.exe` on Windows before Python loads. It uses the same
+environment/packages and preserves an already-loaded Python session; restart
+MATLAB to apply it to an old session. Two fresh Real COM6 app runs passed with
+three frames each and no observed Python console hosts. Evidence and limitations
+are in the console-startup section of the performance report below.
+
+Repeated VNA jobs now reuse an unchanged actual grid and acquire after one
+FIFO clear, without the old fixed cycle delays. Real COM6 backend steady
+medians:11 points0.247s,51 points0.661s,101 points1.178s near2.4GHz/averages1.
+The MATLAB101-point tab updated about1.3–1.4s in the measured steady portion;
+first-use initialization/rendering remains slower. Complete coverage checks
+and bounded transition reacquisition remain. See
+`docs/vna-performance-2026-10-16.md` for measurements, scope and caveats.
+
+## ESP32 connection/hold recheck — 2026-10-16
+
+The connected CH340 ESP32 currently enumerates as COM9 (COM5 was absent).
+Check enumeration after USB changes; do not assume the historical COM5 default.
+After the user reconnected a loose wire, both motors physically held and8/8
+stationary paired encoder samples were valid. The actual MATLAB app Hardware
+connection then maintained HOLD for35s using its production keepalive timer,
+with no release-count increase. Both tests ended released/disconnected; no
+motion or ZERO. `CẦN ZERO` can coexist with active HOLD after a new connection.
+
+The NaN feedback guard was fixed so invalid encoder telemetry cannot pass
+the connection snapshot check; the GUI requires both finite encoders before
+enabling Tilt. Selected49 MATLAB tests passed. See
+`docs/esp32-connection-check-2026-10-16.md` for raw evidence and limits.
+
+## VNA Workbench — 2026-10-15
+
+The app now includes a VNA tab sharing the existing controller: Single/Continuous/STOP,
+Smith/LogMag/Phase/VSWR, SOL and forward SOLT T/R enhanced-response calibration,
+self-contained .vnacal.json profiles and explicit RAW/SOL/TR scan policy. Raw S11/S21
+remain separate from corrected arrays. Software and hardware qualification are tracked
+separately in docs/vna-workbench-implementation-log.md; do not infer real RF accuracy
+from Mock results. User workflow: docs/vna-workbench-user-guide.md.
+
+Dependencies live in .venv-vna (scikit-rf2.1.0, pyserial3.5). The helper selects it
+before Python loads; an already-loaded environment is checked rather than terminated.
+This MATLAB installation warns about Python3.13 support; retain the warning and check
+the actual verification log. RAW/Mock does not import the calibration engine.
+
+Software gate, from repository root (no COM/motion):
+
+```powershell
+& ./.venv-vna/Scripts/python.exe -X utf8 -m unittest discover -s python/tests -p 'test_*.py' -v
+matlab -batch "addpath('matlab/classes','matlab/app','matlab/tests','matlab/tests/fixtures'); run_vna_software_tests"
+```
+
+The allowlist runner includes selected legacy classes and three Mock scripts; it never
+runs the hardware-capable master runner. Mock GUI evidence can be regenerated with
+create_vna_workbench_mock_demo(outputDir) from matlab/tests. Stationary hardware
+qualification is described in docs/vna-workbench-hardware-qualification.md and remains
+NOT_RUN until there is operator evidence. Positioner safety guards remain mandatory.
+
 ## Adjustable acceleration on COM5 — 2026-10-15
 
 The MATLAB GUI now offers **Gia tốc...** to set Pan/Tilt ramp lengths while

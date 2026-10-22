@@ -1,0 +1,30 @@
+Running TestMotorJournalIntegration
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp458c1433_02c8_4030_a351_21dfb85227d9\motor_20261017_053508_880_539c9c79-2f1f-45b0-9477-7fc0364c7957.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch encoder 0.01° motor (~0.014° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.20 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp458c1433_02c8_4030_a351_21dfb85227d9\motor_20261017_053509_321_a7aa21ab-20b0-40ce-bf6a-3ba6291d77b5.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch encoder 0.01° motor (~0.008° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.13 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp2f10169c_9060_4530_8160_4ba144f24272\motor_20261017_053509_602_520a43d3-7404-4478-a2da-4cd27416428b.jsonl
+[ORCHESTRATOR] 3D scan: 2 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] Pan về 0°: lệch encoder -0.01° motor (~0.012° anten).
+[ORCHESTRATOR] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[ORCHESTRATOR] Pan về 0°: lệch encoder -0.01° motor (~0.008° anten).
+[ORCHESTRATOR] 3D COMPLETED: 4/4 points retained.
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpbf0fa97c_492a_4f89_adb4_16b467c9a9fc\motor_20261017_053510_124_f59b1e39-33df-4906-b5e1-7b650e4a22b2.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+..[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpc75f7d96_9786_4e15_9014_f773236b97fc\motor_20261017_053510_514_2bc15341-2aa1-4e9b-b48e-900505490340.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+.
+Done TestMotorJournalIntegration
+__________
+

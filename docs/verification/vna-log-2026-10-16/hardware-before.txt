@@ -1,0 +1,12 @@
+CONNECTED:COM6
+{'device_variant': 2, 'protocol_version': 1, 'hardware_revision': 2, 'firmware_major': 1, 'firmware_minor': 2, 'port': 'COM6', 'is_v2': True, 'status': 'OK'}
+CONFIG 11 OK
+REGISTERS {'start': 2395000000, 'step': 1000000, 'points': 11, 'values': 1}
+ACQUIRE 11 OK received 11
+CONFIG 101 OK
+REGISTERS {'start': 2395000000, 'step': 100000, 'points': 101, 'values': 1}
+ACQUIRE 101 ERROR:Incomplete VNA sweep: expected indices 0..100, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72] received 101
+CONFIG 90 OK
+REGISTERS {'start': 2395000000, 'step': 112359, 'points': 90, 'values': 1}
+ACQUIRE 90 OK received 90
+DISCONNECTED

@@ -37,9 +37,15 @@ _PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 if str(_PACKAGE_ROOT) not in sys.path:
     sys.path.insert(0, str(_PACKAGE_ROOT))
 
-from python.nanovna_v2 import NanoVNA_V2, DeviceIdentity, NanoVNAError
+from python.nanovna_v2 import NanoVNA_V2, TransportError
 
 import serial.tools.list_ports
+import threading
+import json
+import time
+from functools import wraps
+from python.vna_contracts import VNAError,validate_request
+from python.vna_jobs import JobManager
 
 # ─── Module-level singleton ──────────────────────────────────────────────
 # MATLAB OutOfProcess keeps one Python interpreter alive per session.
@@ -79,14 +85,17 @@ def connect(port: str) -> str:
     _vna = NanoVNA_V2()
     try:
         _vna.connect(str(port))
-        if not _vna.indicate():
-            _vna.disconnect()
-            _vna = None
+        identity = _vna.identify()
+        if not identity.is_v2:
             raise RuntimeError(
-                f"INDICATE handshake failed on {port}. "
-                "Device did not respond 0x32."
+                f"Unsupported device variant 0x{identity.device_variant:02X}; "
+                "NanoVNA V2 variant 0x02 is required."
             )
     except Exception as e:
+        try:
+            _vna.disconnect()
+        except Exception:
+            pass
         _vna = None
         raise RuntimeError(f"connect({port}) failed: {e}") from e
 
@@ -166,6 +175,12 @@ def identify() -> dict:
             "is_v2":             identity.is_v2,
             "status":            "OK",
         }
+    except (TransportError,serial.SerialException) as e:
+        try:
+            vna.disconnect()
+        except Exception:
+            pass
+        return {"status": f"ERROR:TRANSPORT:{e}"}
     except Exception as e:
         return {"status": f"ERROR:{e}"}
 
@@ -190,6 +205,12 @@ def configure_sweep(start_hz: float, stop_hz: float, points: int) -> str:
     try:
         vna.configure_sweep(int(start_hz), int(stop_hz), int(points))
         return "OK"
+    except (TransportError,serial.SerialException) as e:
+        try:
+            vna.disconnect()
+        except Exception:
+            pass
+        return f"ERROR:TRANSPORT:{e}"
     except Exception as e:
         return f"ERROR:{e}"
 
@@ -227,8 +248,12 @@ def acquire_sweep(start_hz: float, stop_hz: float, points: int) -> dict:
     """
     vna = _get_vna()
     try:
+        started=time.monotonic()
         result = vna.acquire_sweep(int(start_hz), int(stop_hz), int(points))
+        result = _retry_transitional_sweep(vna,result,started)
         return _result_to_dict(result, int(points))
+    except TransportError as e:
+        return _error_dict(f'TRANSPORT:{e}', int(points))
     except Exception as e:
         return _error_dict(str(e), int(points))
 
@@ -243,12 +268,16 @@ def acquire_single() -> dict:
     """
     vna = _get_vna()
     try:
+        started=time.monotonic()
         result = vna.acquire_single(
             vna._sweep_start,
             vna._sweep_start + vna._sweep_step * (vna._sweep_points - 1),
             vna._sweep_points,
         )
+        result = _retry_transitional_sweep(vna,result,started)
         return _result_to_dict(result, vna._sweep_points)
+    except TransportError as e:
+        return _error_dict(f'TRANSPORT:{e}', 0)
     except Exception as e:
         return _error_dict(str(e), 0)
 
@@ -275,6 +304,21 @@ def acquire_at_frequency(freq_hz: float, span_hz: float = 10e6,
 # ─── Internal helpers ────────────────────────────────────────────────────
 
 import math
+from datetime import datetime, timezone
+from uuid import uuid4
+
+
+def _retry_transitional_sweep(vna,result,started):
+    # Reconfiguration can leave a full-length batch spanning old/new sweeps.
+    # Reacquire once; never merge, deduplicate, or publish the rejected batch.
+    # Both attempts share a 12 s budget; incomplete byte reads are never retried.
+    remaining=12.0-(time.monotonic()-started)
+    if (not result.complete and len(result.records)==result.points
+            and remaining>1.0):
+        return vna.acquire_single(vna._sweep_start,
+            vna._sweep_start+vna._sweep_step*(vna._sweep_points-1),vna._sweep_points,
+            fifo_timeout_s=remaining-.8)
+    return result
 
 
 def _result_to_dict(result, points_requested: int) -> dict:
@@ -289,9 +333,17 @@ def _result_to_dict(result, points_requested: int) -> dict:
         return error
 
     records = sorted(result.records, key=lambda rec: rec.freq_index)
+    if any(not all(math.isfinite(value) for value in
+                   (rec.fwd0_re,rec.fwd0_im,rec.rev0_re,rec.rev0_im,rec.rev1_re,rec.rev1_im))
+           for rec in records):
+        return _error_dict('INVALID_SWEEP: nonfinite wave data', points_requested)
+    if any(rec.fwd0 == 0 for rec in records):
+        return _error_dict('ZERO_REFERENCE: forward reference is zero', points_requested)
     freq_hz = [result.start_hz + rec.freq_index * result.step_hz for rec in records]
     s11_c   = [rec.s11 for rec in records]
     s21_c   = [rec.s21 for rec in records]
+    if any(not math.isfinite(v) for sample in s11_c+s21_c for v in (sample.real,sample.imag)):
+        return _error_dict('INVALID_SWEEP: nonfinite S parameters', points_requested)
 
     def safe_db(c: complex) -> float:
         m = abs(c)
@@ -309,6 +361,10 @@ def _result_to_dict(result, points_requested: int) -> dict:
         "points_received":  len(result.records),
         "complete":         result.complete,
         "status":           "OK",
+        "captured_at_utc":  datetime.now(timezone.utc).isoformat(),
+        "averages":         1,
+        "mode":             "Real",
+        "acquisition_id":   str(uuid4()),
     }
 
 
@@ -327,3 +383,52 @@ def _error_dict(msg: str, points_requested: int) -> dict:
         "complete":         False,
         "status":           f"ERROR:{msg}",
     }
+
+
+# Guard the entire legacy operation, including nested convenience calls.
+_io_lock=threading.RLock()
+
+
+def _guard_hardware(function):
+    @wraps(function)
+    def guarded(*args,**kwargs):
+        with _jobs.hardware_guard():
+            return function(*args,**kwargs)
+    return guarded
+
+
+def _configure_job(request):
+    vna=_get_vna()
+    step=(request['stop_hz']-request['start_hz'])//(request['points']-1)
+    if (vna._sweep_start==request['start_hz'] and vna._sweep_step==step
+            and vna._sweep_points==request['points'] and vna._sweep_values_per_freq==1):
+        return
+    status=configure_sweep(request['start_hz'],request['stop_hz'],request['points'])
+    if status!='OK': raise VNAError('INVALID_REQUEST',status)
+
+
+_jobs=JobManager(lambda:acquire_single(),_configure_job,_io_lock)
+for _name in ('connect','disconnect','auto_detect_port','identify','configure_sweep',
+              'acquire_sweep','acquire_single','acquire_at_frequency'):
+    globals()[_name]=_guard_hardware(globals()[_name])
+
+
+def _job_json(operation):
+    try:
+        return json.dumps(dict(status='OK',payload=operation()),allow_nan=False)
+    except VNAError as exc:
+        return json.dumps(dict(status='ERROR',code=exc.code,message=str(exc)))
+    except Exception as exc:
+        return json.dumps(dict(status='ERROR',code='INVALID_REQUEST',message=str(exc)))
+
+
+def start_sweep_json(request_json,generation):
+    return _job_json(lambda:_jobs.start(validate_request(json.loads(request_json)),generation))
+
+
+def poll_sweep_json(job_id):
+    return _job_json(lambda:_jobs.poll(str(job_id)))
+
+
+def cancel_sweep_json(job_id):
+    return _job_json(lambda:_jobs.cancel(str(job_id)))

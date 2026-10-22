@@ -1,0 +1,32 @@
+[
+  {
+    "Run": "import",
+    "ConsolePythonProcesses": 12,
+    "WindowlessPythonProcesses": 0,
+    "PythonConsoleHosts": 6
+  },
+  {
+    "Run": "console-red",
+    "ConsolePythonProcesses": 20,
+    "WindowlessPythonProcesses": 0,
+    "PythonConsoleHosts": 9
+  },
+  {
+    "Run": "console-green",
+    "ConsolePythonProcesses": 6,
+    "WindowlessPythonProcesses": 11,
+    "PythonConsoleHosts": 3
+  },
+  {
+    "Run": "quiet-real-migration",
+    "ConsolePythonProcesses": 0,
+    "WindowlessPythonProcesses": 11,
+    "PythonConsoleHosts": 0
+  },
+  {
+    "Run": "quiet-real-restart",
+    "ConsolePythonProcesses": 0,
+    "WindowlessPythonProcesses": 8,
+    "PythonConsoleHosts": 0
+  }
+]

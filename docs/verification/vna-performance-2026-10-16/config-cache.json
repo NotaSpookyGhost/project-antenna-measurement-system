@@ -1,0 +1,110 @@
+[
+  {
+    "iteration": 0,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.9986022999801207,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10060590002103709
+      },
+      {
+        "method": "configure_sweep",
+        "seconds": 0.10161780001362786
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10082900000270456
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10083890001988038
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 1.0797061000193935
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.8834086999995634
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  },
+  {
+    "iteration": 1,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.5899181999848224,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.1012646000017412
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10079410002799705
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.7731014000019059
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.5776876999880187
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  },
+  {
+    "iteration": 2,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.5882483999885153,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.1005777999816928
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10082530000363477
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.7694503999955487
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.5719211999967229
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  },
+  {
+    "iteration": 3,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.5918163000023924,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10105430000112392
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10113259998615831
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.7717695999890566
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.5756938999984413
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  }
+]

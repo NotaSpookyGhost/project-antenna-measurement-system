@@ -115,7 +115,7 @@ PatternAnalyzer.plotPolar(ax1, angles, synth_pat, 'Synthetic 2.4 GHz Patch Array
 ax2 = subplot(1, 2, 2);
 PatternAnalyzer.plotCartesian(ax2, angles, synth_pat, 'Cartesian Pattern (-180° to +180°)');
 
-val_dir = fullfile(projects_dir, 'data', 'validation');
+val_dir = tempname;
 if ~exist(val_dir, 'dir'), mkdir(val_dir); end
 test_plot_file = fullfile(val_dir, 'test_pattern_analyzer_output.png');
 exportgraphics(fig, test_plot_file, 'Resolution', 150);

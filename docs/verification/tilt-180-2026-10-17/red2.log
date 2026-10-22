@@ -1,0 +1,92 @@
+Running TestScanGeometry
+
+================================================================================
+Verification failed in TestScanGeometry/invalidZeroExplainsWhichFieldToCorrect.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyTrue failed.
+    --> The value must evaluate to "true".
+    
+    Actual Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.invalidZeroExplainsWhichFieldToCorrect) at 23
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/invalidZeroExplainsWhichFieldToCorrect.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyTrue failed.
+    --> The value must evaluate to "true".
+    
+    Actual Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.invalidZeroExplainsWhichFieldToCorrect) at 24
+================================================================================
+.
+Done TestScanGeometry
+__________
+
+Running TestScan3DGUI
+[02:23:54] Antenna Measurement App initialized.
+
+================================================================================
+Assertion failed in TestScan3DGUI/horizontalZeroPresetAcceptsFullDescendingTilt and it did not run to completion.
+    ----------------
+    Test Diagnostic:
+    ----------------
+    Offer an explicit horizontal ZERO preset.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    assertNumElements failed.
+    --> The value did not have the correct number of elements.
+        
+        Actual Number of Elements:
+             0
+        Expected Number of Elements:
+             1
+    
+    Actual Value:
+      0×0 empty GraphicsPlaceholder array.
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScan3DGUI.m (TestScan3DGUI.horizontalZeroPresetAcceptsFullDescendingTilt) at 20
+================================================================================
+.
+Done TestScan3DGUI
+__________
+
+Failure Summary:
+
+     Name                                                         Failed  Incomplete  Reason(s)
+    ==========================================================================================================
+     TestScanGeometry/invalidZeroExplainsWhichFieldToCorrect        X                 Failed by verification.
+    ----------------------------------------------------------------------------------------------------------
+     TestScan3DGUI/horizontalZeroPresetAcceptsFullDescendingTilt    X         X       Failed by assertion.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_red (line 6)
+results=run(suite); assertSuccess(results);
+                    ^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

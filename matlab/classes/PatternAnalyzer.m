@@ -149,13 +149,15 @@ classdef PatternAnalyzer
                 s21_rel_db = PatternAnalyzer.normalize(s21_rel_db);
             end
 
-            [peak_val, peak_idx] = max(s21_rel_db);
+            [~, peak_idx] = max(s21_rel_db);
             peak_angle = angles_deg(peak_idx);
 
             if nargin < 3 || isnan(hpbw_deg)
                 [hpbw_deg, ~, ~] = PatternAnalyzer.calculateHPBW(angles_deg, s21_rel_db);
                 if isnan(hpbw_deg)
-                    hpbw_deg = 30.0; % Default reasonable assumption if beamwidth cannot be resolved
+                    sll_db = NaN;
+                    sll_angle_deg = NaN;
+                    return;
                 end
             end
 
@@ -163,12 +165,23 @@ classdef PatternAnalyzer
             exclusion_half = max(hpbw_deg * 0.75, 5.0);
 
             N = length(angles_deg);
+            fullCircle=max(angles_deg)-min(angles_deg)>=359.999;
             sidelobe_peaks = [];
             sidelobe_angles = [];
 
-            for i = 1:N
-                prev_i = mod(i-2, N) + 1;
-                next_i = mod(i, N) + 1;
+            if fullCircle
+                candidates=1:N;
+            else
+                candidates=2:(N-1);
+            end
+            for i = candidates
+                if fullCircle
+                    prev_i = mod(i-2, N) + 1;
+                    next_i = mod(i, N) + 1;
+                else
+                    prev_i=i-1;
+                    next_i=i+1;
+                end
 
                 % Check if local peak
                 if s21_rel_db(i) > s21_rel_db(prev_i) && s21_rel_db(i) >= s21_rel_db(next_i)
@@ -321,11 +334,11 @@ classdef PatternAnalyzer
             [peak_angle, ~] = PatternAnalyzer.findMainLobe(angles_deg, s21_rel_db);
             [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles_deg, s21_rel_db);
 
-            h_peak = polarplot(ax, deg2rad(peak_angle), 0, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 6);
+            polarplot(ax, deg2rad(peak_angle), 0, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 6);
 
             if ~isnan(hpbw) && ~isnan(th_left) && ~isnan(th_right)
-                h_l = polarplot(ax, [deg2rad(th_left), deg2rad(th_left)], [-dynamic_range_db, -3], 'r--', 'LineWidth', 1.2);
-                h_r = polarplot(ax, [deg2rad(th_right), deg2rad(th_right)], [-dynamic_range_db, -3], 'r--', 'LineWidth', 1.2);
+                polarplot(ax, [deg2rad(th_left), deg2rad(th_left)], [-dynamic_range_db, -3], 'r--', 'LineWidth', 1.2);
+                polarplot(ax, [deg2rad(th_right), deg2rad(th_right)], [-dynamic_range_db, -3], 'r--', 'LineWidth', 1.2);
             end
 
             ax.RLim = [-dynamic_range_db, 0];

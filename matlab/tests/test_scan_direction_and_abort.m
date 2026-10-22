@@ -7,7 +7,7 @@
 %   2. Forward scan (CCW viewed from above: 0° -> 30°) in Mock mode
 %   3. Reverse scan (CW viewed from above: 180° -> 0°) in Mock mode
 %   4. Mid-scan abort with partial dataset retention (>= 2 points)
-%   5. Early abort (< 2 points) returning safe empty dataset
+%   5. Early abort preserving a single completed point with undefined beamwidth
 %   6. Tilt axis lockout protection (TiltDisabled == true)
 %
 % Author: Antenna Measurement Automation Team
@@ -121,16 +121,19 @@ assert(~orch.IsRunning, 'Orchestrator IsRunning must be reset to false after abo
 fprintf('  ✓ Partial dataset safely preserved: %d points retained, Aborted = %d\n\n', ...
         scanDataAborted.Metadata.CompletedPoints, scanDataAborted.Metadata.Aborted);
 
-%% 5. Early Abort (< 2 points)
-fprintf('[5] Testing Early Abort on step 1 (< 2 points)...\n');
+%% 5. Early Abort (one completed point)
+fprintf('[5] Testing Early Abort on step 1 (preserve its raw data)...\n');
 orch.setScanParameters(0.0, 180.0, 5.0, 2.4e9, 10e6, 5);
 orch.StepCallback = @(info) triggerAbortOnStep(orch, info, 1);
 
 scanDataEarlyAbort = orch.startScan();
-assert(isempty(scanDataEarlyAbort), 'Early abort with < 2 points should return empty dataset ([])');
+assert(~isempty(scanDataEarlyAbort)&&scanDataEarlyAbort.Metadata.CompletedPoints==1, ...
+    'Early abort must preserve its one completed RF point');
+assert(size(scanDataEarlyAbort.S21,1)==1&&isnan(scanDataEarlyAbort.Analysis.HPBW_deg), ...
+    'One-point data must remain available without a fabricated beamwidth');
 assert(~orch.IsRunning, 'Orchestrator IsRunning must be reset to false');
 assert(strcmp(orch.State, 'ABORTED'), 'State should be ABORTED');
-fprintf('  ✓ Early abort handled cleanly, returned empty [] without crash.\n\n');
+fprintf('  ✓ Early abort preserved one complete raw point and undefined beamwidth.\n\n');
 
 %% 6. Tilt Axis Lockout Protection
 fprintf('[6] Testing Tilt Axis Lockout Protection...\n');

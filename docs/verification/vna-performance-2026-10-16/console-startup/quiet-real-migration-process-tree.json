@@ -1,0 +1,142 @@
+[
+  {
+    "Time": "2026-10-16T11:52:55.761306+07:00",
+    "Pid": 30864,
+    "Parent": 17456,
+    "Name": "matlab.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\matlab.exe\" -automation -wait -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" -logfile \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\quiet-real-migration-matlab.log\" -r \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_real_quiet; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\""
+  },
+  {
+    "Time": "2026-10-16T11:52:55.7693982+07:00",
+    "Pid": 23192,
+    "Parent": 30864,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:52:55.7696413+07:00",
+    "Pid": 10884,
+    "Parent": 30864,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" \"-automation\" -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" \"-logfile\" \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\quiet-real-migration-matlab.log\" \"-r\" \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_real_quiet; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\" "
+  },
+  {
+    "Time": "2026-10-16T11:52:56.6315485+07:00",
+    "Pid": 20396,
+    "Parent": 10884,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" -mpasessionid=bfdc2c07-3e4b-487d-b5c0-df0b4b4004a3 -catapultTransport -LaunchConnectPolicy serverStarts -NamedPipe local://path=mathworks-0b83756a-0760-4583-acb4-7172cdc51384/protocol/catapult "
+  },
+  {
+    "Time": "2026-10-16T11:53:06.5704961+07:00",
+    "Pid": 34512,
+    "Parent": 20396,
+    "Name": "pythonw.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\pythonw.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:53:06.5705593+07:00",
+    "Pid": 23080,
+    "Parent": 34512,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:06.8306434+07:00",
+    "Pid": 33288,
+    "Parent": 20396,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:06.8308561+07:00",
+    "Pid": 22860,
+    "Parent": 33288,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:07.105888+07:00",
+    "Pid": 21676,
+    "Parent": 20396,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:07.1062283+07:00",
+    "Pid": 23952,
+    "Parent": 21676,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:07.3633474+07:00",
+    "Pid": 28208,
+    "Parent": 20396,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:07.632941+07:00",
+    "Pid": 828,
+    "Parent": 20396,
+    "Name": "MATLABPyHost.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\interprocess\\bin\\win64\\pycli\\MATLABPyHost.exe\" -layeredTransport -NamedPipeHandle 00000000000011B8:00000000000011BC "
+  },
+  {
+    "Time": "2026-10-16T11:53:07.633153+07:00",
+    "Pid": 11256,
+    "Parent": 20396,
+    "Name": "pythonw.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\pythonw.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:53:07.6332169+07:00",
+    "Pid": 2532,
+    "Parent": 11256,
+    "Name": "pythonw.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\pythonw.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:53:28.2402619+07:00",
+    "Pid": 15568,
+    "Parent": 20396,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:28.2403231+07:00",
+    "Pid": 34720,
+    "Parent": 15568,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:53:42.5897217+07:00",
+    "Pid": 32828,
+    "Parent": 31092,
+    "Name": "matlab.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\matlab.exe\" -automation -wait -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" -logfile \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\quiet-real-restart-matlab.log\" -r \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_real_quiet; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\""
+  },
+  {
+    "Time": "2026-10-16T11:53:42.5898429+07:00",
+    "Pid": 30600,
+    "Parent": 32828,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:53:42.5898907+07:00",
+    "Pid": 11004,
+    "Parent": 32828,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" \"-automation\" -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" \"-logfile\" \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\quiet-real-restart-matlab.log\" \"-r\" \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_real_quiet; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\" "
+  },
+  {
+    "Time": "2026-10-16T11:53:43.6770604+07:00",
+    "Pid": 26556,
+    "Parent": 11004,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" -mpasessionid=02ab244e-a926-4c48-a4b2-9b971e771f00 -catapultTransport -LaunchConnectPolicy serverStarts -NamedPipe local://path=mathworks-dd903e9f-8cc7-436c-9469-70fbc79fd58e/protocol/catapult "
+  }
+]

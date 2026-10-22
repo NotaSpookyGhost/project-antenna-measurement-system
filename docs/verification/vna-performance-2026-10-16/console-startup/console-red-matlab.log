@@ -1,0 +1,48 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+Running TestVNABackend
+[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 10)
+In TestVNABackend/calibrationEnvironment (line 5)]
+
+================================================================================
+Verification failed in TestVNABackend/calibrationEnvironment.
+    ----------------
+    Test Diagnostic:
+    ----------------
+    Fresh Windows startup must not launch the console Python executable.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The strings are not equal.
+    
+    Actual Value:
+        "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\.venv-vna\Scripts\python.exe"
+    Expected Value:
+        "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\.venv-vna\Scripts\pythonw.exe"
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestVNABackend.m (TestVNABackend.calibrationEnvironment) at 12
+================================================================================
+.
+Done TestVNABackend
+__________
+
+Failure Summary:
+
+     Name                                   Failed  Incomplete  Reason(s)
+    ====================================================================================
+     TestVNABackend/calibrationEnvironment    X                 Failed by verification.
+Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in probe_backend_test (line 4)
+assertSuccess(results);
+^^^^^^^^^^^^^^^^^^^^^^

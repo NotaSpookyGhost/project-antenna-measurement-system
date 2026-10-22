@@ -1,0 +1,94 @@
+[
+  {
+    "iteration": 0,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.3828264999901876,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10051990000647493
+      },
+      {
+        "method": "configure_sweep",
+        "seconds": 0.10144040000159293
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10052219999488443
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 1.0759614999988116
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.2770600999938324
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  },
+  {
+    "iteration": 1,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.1772967999859247,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10063509998144582
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.9682244999858085
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.1693116999813356
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  },
+  {
+    "iteration": 2,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.1947854999743868,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10075240000151098
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.9728468999965116
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.1741738999844529
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  },
+  {
+    "iteration": 3,
+    "state": "SUCCEEDED",
+    "elapsed_s": 1.178347400011262,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.1008764999860432
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.9700469000090379
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 1.1715745000110473
+      }
+    ],
+    "error": null,
+    "points_received": 101
+  }
+]

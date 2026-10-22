@@ -30,12 +30,15 @@ classdef MeasurementOrchestrator < handle
         CenterFreqHz double = 2.4e9
         SpanHz double = 10e6
         SweepPoints int32 = 11
+        CalibrationPolicy char = 'RAW'
 
         SettleTimeSec double = 0.25
+        LivePlotFailurePolicy char = 'CONTINUE'
 
         % Callbacks for real-time visualization
         StepCallback function_handle = function_handle.empty
         StatusCallback function_handle = function_handle.empty
+        MotorLogDirectory char = '' % Hardware auto-enables; Mock tests opt in with a temp directory.
     end
 
     properties (SetAccess = private)
@@ -47,10 +50,18 @@ classdef MeasurementOrchestrator < handle
         Progress double = 0.0
 
         LastScanData struct = struct()
+        LastMotorLogPath char = ''
     end
 
     properties (Access = private)
         CancelRequested logical = false
+        MotorJournal = []
+        MotorJournalCompleted double = 0
+        MotorJournalTerminalState char = ''
+        LivePlotFailureCount double = 0
+        LivePlotCallbackDisabled logical = false
+        LivePlotCallbackAbort logical = false
+        LivePlotCallbackMessage char = ''
     end
 
     events
@@ -84,13 +95,58 @@ classdef MeasurementOrchestrator < handle
 
             if nargin >= 5 && ~isempty(centerHz), obj.CenterFreqHz = double(centerHz); end
             if nargin >= 6 && ~isempty(spanHz),   obj.SpanHz = double(spanHz); end
-            if nargin >= 7 && ~isempty(points),   obj.SweepPoints = int32(points); end
+            if nargin >= 7 && ~isempty(points)
+                if ~isnumeric(points)||~isscalar(points)||~isfinite(points)||points~=fix(points)||points<2||points>401
+                    error('VNA:INVALID_REQUEST','Sweep points must be an integer in 2..401 before conversion.');
+                end
+                obj.SweepPoints = int32(points);
+            end
         end
 
-        function scanData = startScan(obj)
+        function [snapshot,request]=prepareRF(obj,lease)
+            obj.VNA.assertLease(lease);
+            if ~strcmp(lease.Owner,'scan'), error('VNA:BUSY','A scan lease is required.'); end
+            request=VNARequest.normalize(struct('StartHz',obj.CenterFreqHz-obj.SpanHz/2, ...
+                'StopHz',obj.CenterFreqHz+obj.SpanHz/2,'Points',double(obj.SweepPoints),'Averages',1));
+            if ~obj.VNA.IsConnected, obj.VNA.connect([],lease); end
+            snapshot=obj.VNA.Calibration.validateFor(obj.CalibrationPolicy,request,obj.VNA.getContext());
+        end
+        function set.CalibrationPolicy(obj,value)
+            value=upper(char(value));
+            if ~ismember(value,{'RAW','SOL','TR'}), error('VNA:INVALID_REQUEST','Unknown scan calibration policy.'); end
+            if obj.IsRunning||(~isempty(obj.VNA)&&strcmp(obj.VNA.Owner,'scan'))
+                error('VNA:BUSY','Cannot change calibration policy during a scan.');
+            end
+            obj.CalibrationPolicy=value;
+        end
+        function set.LivePlotFailurePolicy(obj,value)
+            value=upper(char(value));
+            if ~ismember(value,{'CONTINUE','RETRY_ONCE','ABORT'})
+                error('MeasurementOrchestrator:InvalidLivePlotPolicy', ...
+                    'Live plot failure policy must be CONTINUE, RETRY_ONCE or ABORT.');
+            end
+            if obj.IsRunning
+                error('MeasurementOrchestrator:ScanRunning', ...
+                    'Cannot change live plot failure policy during a scan.');
+            end
+            obj.LivePlotFailurePolicy=value;
+        end
+        function scanData = startScan(obj,lease)
             % STARTSCAN Execute the automated scan sequence
+            if obj.IsRunning
+                error('MeasurementOrchestrator:AlreadyRunning','A scan is already in progress.');
+            end
+            if nargin<2||isempty(lease)
+                lease=obj.VNA.claim('scan');
+                leaseGuard=onCleanup(@()obj.VNA.release(lease));
+            else
+                obj.VNA.assertLease(lease);
+            end
+            [snapshot,request]=obj.prepareRF(lease);
+            obj.beginMotorJournal();
+            motorJournalGuard=onCleanup(@()obj.finishMotorJournal());
             if strcmpi(obj.Axis,'3D')
-                scanData = obj.startScan3D();
+                scanData = obj.startScan3D(lease,snapshot,request);
                 return;
             end
             if obj.IsRunning
@@ -106,6 +162,7 @@ classdef MeasurementOrchestrator < handle
             obj.Progress = 0.0;
             obj.CancelRequested = false;
             obj.IsPaused = false;
+            obj.resetLivePlotFailure();
             obj.IsRunning = true;
             guard = onCleanup(@() obj.resetRunning());
             obj.setState('INITIALIZING');
@@ -125,14 +182,11 @@ classdef MeasurementOrchestrator < handle
                 error('MeasurementOrchestrator:HoldLost', ...
                     'Holding torque is unavailable. Reconnect and calibrate before scanning.');
             end
-            if ~obj.VNA.IsConnected
-                obj.VNA.connect();
-            end
 
             % Configure VNA sweep once
             start_freq = obj.CenterFreqHz - obj.SpanHz / 2;
             stop_freq  = obj.CenterFreqHz + obj.SpanHz / 2;
-            obj.VNA.configureSweep(start_freq, stop_freq, obj.SweepPoints);
+            obj.VNA.configureSweep(start_freq, stop_freq, obj.SweepPoints,lease);
 
             % Check Tilt safety lock
             if (strcmpi(obj.Axis, 'EL') || strcmpi(obj.Axis, 'TILT')) && obj.Positioner.TiltDisabled
@@ -168,7 +222,8 @@ classdef MeasurementOrchestrator < handle
             s21_matrix = complex(zeros(N_angles, N_freqs));
             measured_angles = zeros(1, N_angles);
             encoder_angles = zeros(1, N_angles);
-            frequencies_hz = linspace(start_freq, stop_freq, N_freqs);
+            frequencies_hz = VNARequest.actualGrid(request);
+            [corrected11,corrected21]=obj.allocateCorrection(snapshot,N_angles,N_freqs);
 
             obj.setState('SCANNING');
             notify(obj, 'ScanStarted');
@@ -178,6 +233,7 @@ classdef MeasurementOrchestrator < handle
             nDone = 0;
             aborted = false;
             abortReason = '';
+            abortMessage = '';
             try
                 for i = 1:N_angles
                     drawnow limitrate;   % let STOP / Pause callbacks run
@@ -201,7 +257,7 @@ classdef MeasurementOrchestrator < handle
                     obj.Progress = double(i) / double(N_angles);
 
                     % Step A: Move Positioner
-                    obj.Positioner.moveTo(obj.Axis, target_th);
+                    obj.movePositioner(obj.Axis, target_th,i,0);
                     if obj.CancelRequested
                         aborted = true;
                         break;
@@ -233,29 +289,44 @@ classdef MeasurementOrchestrator < handle
                     end
 
                     % Step D: Acquire fresh sweep from VNA
-                    sweep = obj.VNA.acquireSingle();
+                    sweep = obj.VNA.acquireSingle(lease);
+                    if obj.CancelRequested, aborted=true; break; end
+                    VNARequest.toWire(sweep);
+                    if ~isequal(reshape(sweep.FrequencyHz,1,[]),frequencies_hz)
+                        error('VNA:GRID_MISMATCH','Actual VNA grid changed during scan.');
+                    end
+                    measurement=obj.VNA.Calibration.apply(sweep,snapshot);
 
                     % Step E: Store raw complex records
                     s11_matrix(i, :) = sweep.S11;
                     s21_matrix(i, :) = sweep.S21;
+                    if ~isempty(corrected11), corrected11(i,:)=measurement.CorrectedS11; end
+                    if ~isempty(corrected21), corrected21(i,:)=measurement.CorrectedS21; end
                     nDone = i;
+                    obj.MotorJournalCompleted=i;
 
                     % Find center frequency index for real-time visualization
                     [~, center_idx] = min(abs(frequencies_hz - obj.CenterFreqHz));
-                    center_s21_db = sweep.S21_dB(center_idx);
+                    currentS21=sweep.S21;
+                    if ~isempty(measurement.CorrectedS21), currentS21=measurement.CorrectedS21; end
+                    center_s21_db = 20*log10(abs(currentS21(center_idx)));
 
                     % Step F: Trigger progress callback
-                    if ~isempty(obj.StepCallback)
-                        stepInfo = struct(...
-                            'Index', i, ...
-                            'Total', N_angles, ...
-                            'CommandedAngle', target_th, ...
-                            'MeasuredAngle', actual_th, ...
-                            'EncoderAngle', actual_enc, ...
-                            'S21_dB_Center', center_s21_db, ...
-                            'Progress', obj.Progress, ...
-                            'ElapsedSec', toc(scan_tic));
-                        obj.StepCallback(stepInfo);
+                    stepInfo = struct(...
+                        'Index', i, ...
+                        'Total', N_angles, ...
+                        'CommandedAngle', target_th, ...
+                        'MeasuredAngle', actual_th, ...
+                        'EncoderAngle', actual_enc, ...
+                        'S21_dB_Center', center_s21_db, ...
+                        'Progress', obj.Progress, ...
+                        'ElapsedSec', toc(scan_tic));
+                    obj.dispatchLivePlot(stepInfo);
+                    if obj.LivePlotCallbackAbort
+                        aborted=true;
+                        abortReason='LivePlotCallbackFailure';
+                        abortMessage=obj.LivePlotCallbackMessage;
+                        break;
                     end
 
                     notify(obj, 'StepProgress');
@@ -268,10 +339,15 @@ classdef MeasurementOrchestrator < handle
                 elseif obj.CancelRequested && strcmp(ME.identifier, 'PositionerController:Aborted')
                     % STOP interrupts serial waits; process the completed rows below.
                     aborted = true;
+                elseif startsWith(ME.identifier,{'VNA:','VNAController:','MATLAB:Python'})
+                    aborted=true; abortReason=ME.identifier; abortMessage=ME.message;
+                    obj.logStatus(sprintf('RF scan stopped: %s; preserving %d complete points.',ME.message,nDone));
                 else
                     rethrow(ME);
                 end
             end
+
+            if obj.CancelRequested && isempty(abortReason), abortReason='UserStop'; end
 
             total_time_sec = toc(scan_tic);
 
@@ -283,11 +359,13 @@ classdef MeasurementOrchestrator < handle
                 s21_matrix = s21_matrix(keep, :);
                 measured_angles = measured_angles(keep);
                 encoder_angles = encoder_angles(keep);
+                if ~isempty(corrected11), corrected11=corrected11(keep,:); end
+                if ~isempty(corrected21), corrected21=corrected21(keep,:); end
             end
 
-            if aborted && nDone < 2
+            if nDone == 0
                 obj.setState('ABORTED');
-                obj.logStatus('Scan dừng, chưa đủ dữ liệu (cần >= 2 điểm).');
+                obj.logStatus('Scan stopped before the first complete measurement.');
                 notify(obj, 'ScanAborted');
                 scanData = [];
                 return;
@@ -299,17 +377,21 @@ classdef MeasurementOrchestrator < handle
 
             % 5. Post-Process Scan Data
             [~, center_freq_idx] = min(abs(frequencies_hz - obj.CenterFreqHz));
-            s21_center_raw_db = 20 * log10(max(abs(s21_matrix(:, center_freq_idx)), 1e-12))';
-            s21_center_phase = rad2deg(angle(s21_matrix(:, center_freq_idx)))';
+            analysisS21=s21_matrix; if ~isempty(corrected21), analysisS21=corrected21; end
+            s21_center_raw_db = 20 * log10(abs(analysisS21(:, center_freq_idx)))';
+            s21_center_phase = rad2deg(angle(analysisS21(:, center_freq_idx)))';
+            s21_center_phase(abs(analysisS21(:,center_freq_idx))==0)=NaN;
             s21_normalized_db = PatternAnalyzer.normalize(s21_center_raw_db);
 
             peak_angle = NaN; peak_val = NaN; hpbw = NaN; th_left = NaN; th_right = NaN;
             sll = NaN; sll_angle = NaN; fbr = NaN;
             try
                 [peak_angle, peak_val] = PatternAnalyzer.findMainLobe(angles, s21_center_raw_db);
-                [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles, s21_normalized_db);
-                [sll, sll_angle] = PatternAnalyzer.calculateSLL(angles, s21_normalized_db, hpbw);
-                fbr = PatternAnalyzer.calculateFBR(angles, s21_normalized_db);
+                if nDone>=3
+                    [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles, s21_normalized_db);
+                    [sll, sll_angle] = PatternAnalyzer.calculateSLL(angles, s21_normalized_db, hpbw);
+                    fbr = PatternAnalyzer.calculateFBR(angles, s21_normalized_db);
+                end
             catch MEa
                 obj.logStatus(sprintf('Cảnh báo phân tích búp sóng: %s', MEa.message));
             end
@@ -349,6 +431,7 @@ classdef MeasurementOrchestrator < handle
                 'CompletedPoints', nDone, ...
                 'Aborted', aborted, ...
                 'AbortReason', abortReason, ...
+                'AbortMessage',abortMessage, ...
                 'CenterFreqHz', obj.CenterFreqHz, ...
                 'SpanHz', obj.SpanHz, ...
                 'SweepPoints', obj.SweepPoints, ...
@@ -371,6 +454,8 @@ classdef MeasurementOrchestrator < handle
                 'SelectedS21_PhaseDeg', s21_center_phase, ...
                 'NormalizedS21_dB', s21_normalized_db, ...
                 'Analysis', analysis);
+
+            scanData=obj.attachRF(scanData,corrected11,corrected21,snapshot);
 
             obj.LastScanData = scanData;
             if aborted
@@ -436,14 +521,16 @@ classdef MeasurementOrchestrator < handle
     end
 
     methods (Access = private)
-        function data = startScan3D(obj)
+        function data = startScan3D(obj,lease,snapshot,request)
             if obj.IsRunning
                 error('MeasurementOrchestrator:AlreadyRunning','A scan is already in progress.');
             end
             % Validate the entire plan BEFORE moving either motor.
             cfg = obj.Scan3DConfig;
             plan = ScanGeometry.buildPlan(cfg);
-            obj.CancelRequested = false; obj.IsPaused = false; obj.IsRunning = true;
+            obj.CancelRequested = false; obj.IsPaused = false;
+            obj.resetLivePlotFailure();
+            obj.IsRunning = true;
             obj.TotalSteps = int32(numel(plan.PanMotorDeg)); obj.CurrentIndex=0; obj.Progress=0;
             cleanup = onCleanup(@() obj.resetRunning());
             obj.setState('INITIALIZING');
@@ -476,9 +563,8 @@ classdef MeasurementOrchestrator < handle
                     ~isfinite(obj.SettleTimeSec) || obj.SettleTimeSec<0
                 error('MeasurementOrchestrator:InvalidSweep','Use a positive frequency band, at least two VNA points and nonnegative settling.');
             end
-            if ~obj.VNA.IsConnected, obj.VNA.connect(); end
             startHz = obj.CenterFreqHz-obj.SpanHz/2; stopHz = obj.CenterFreqHz+obj.SpanHz/2;
-            obj.VNA.configureSweep(startHz,stopHz,obj.SweepPoints);
+            obj.VNA.configureSweep(startHz,stopHz,obj.SweepPoints,lease);
             catch ME
                 if obj.CancelRequested
                     data=[]; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
@@ -490,9 +576,10 @@ classdef MeasurementOrchestrator < handle
             end
             n = numel(plan.PanMotorDeg); nf = double(obj.SweepPoints);
             s11 = complex(nan(n,nf)); s21 = s11;
+            [corrected11,corrected21]=obj.allocateCorrection(snapshot,n,nf);
             panMeasured = nan(1,n); tiltMeasured = panMeasured;
             panEncoder = panMeasured; tiltEncoder = panMeasured; elapsed = panMeasured;
-            frequencies = linspace(startHz,stopHz,nf);
+            frequencies = VNARequest.actualGrid(request);
             [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
             obj.TotalSteps = int32(n); obj.CurrentIndex = 0; obj.Progress = 0;
             obj.setState('SCANNING'); notify(obj,'ScanStarted');
@@ -504,12 +591,12 @@ classdef MeasurementOrchestrator < handle
                     if ~obj.awaitScan3D(), aborted = true; break; end
                     if plan.RowIndex(i)~=previousRow
                         obj.logStatus(sprintf('Tilt row %d/%d: motor %.1f°, theta %.1f°.',plan.RowIndex(i),numel(plan.TiltVector),plan.TiltMotorDeg(i),plan.ThetaDeg(i)));
-                        obj.Positioner.moveTo('EL',plan.TiltMotorDeg(i));
+                        obj.movePositioner('EL',plan.TiltMotorDeg(i),i,plan.RowIndex(i));
                         if ~obj.awaitScan3D(), aborted = true; break; end
                         obj.readBothAxes();
                         previousRow = plan.RowIndex(i);
                     end
-                    obj.Positioner.moveTo('AZ',plan.PanMotorDeg(i));
+                    obj.movePositioner('AZ',plan.PanMotorDeg(i),i,plan.RowIndex(i));
                     if ~obj.awaitScan3D(), aborted = true; break; end
                     settling = tic;
                     while toc(settling)<obj.SettleTimeSec
@@ -521,7 +608,7 @@ classdef MeasurementOrchestrator < handle
                     if strcmpi(obj.VNA.Mode,'Mock')
                         obj.VNA.setMockOrientation(plan.PhiDeg(i),plan.ThetaDeg(i));
                     end
-                    sweep = obj.VNA.acquireSingle();
+                    sweep = obj.VNA.acquireSingle(lease);
                     % STOP while acquiring may discard this uncommitted point.
                     if obj.CancelRequested, aborted = true; break; end
                     if numel(sweep.S11)~=nf || numel(sweep.S21)~=nf || ...
@@ -529,25 +616,35 @@ classdef MeasurementOrchestrator < handle
                             numel(sweep.FrequencyHz)~=nf || any(~isfinite(sweep.FrequencyHz))
                         error('MeasurementOrchestrator:InvalidSweep','VNA returned an incomplete or invalid sweep.');
                     end
-                    if done>0 && ~isequal(reshape(sweep.FrequencyHz,1,[]),frequencies)
+                    VNARequest.toWire(sweep);
+                    if ~isequal(reshape(sweep.FrequencyHz,1,[]),frequencies)
                         error('MeasurementOrchestrator:InvalidSweep','VNA frequency grid changed during the scan.');
                     end
                     frequencies = reshape(sweep.FrequencyHz,1,[]);
                     [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
+                    measurement=obj.VNA.Calibration.apply(sweep,snapshot);
                     s11(i,:) = sweep.S11; s21(i,:) = sweep.S21;
+                    if ~isempty(corrected11), corrected11(i,:)=measurement.CorrectedS11; end
+                    if ~isempty(corrected21), corrected21(i,:)=measurement.CorrectedS21; end
+                    currentS21=sweep.S21; if ~isempty(measurement.CorrectedS21), currentS21=measurement.CorrectedS21; end
                     done = i; elapsed(i) = toc(scanClock);
+                    obj.MotorJournalCompleted=i;
                     obj.CurrentIndex = int32(i); obj.Progress = i/n;
-                    if ~isempty(obj.StepCallback)
-                        info = struct('Index',i,'Total',n,'CommandedAngle',plan.PanMotorDeg(i), ...
-                            'MeasuredAngle',panMeasured(i),'EncoderAngle',panEncoder(i), ...
-                            'PanAngle',plan.PanMotorDeg(i),'TiltAngle',plan.TiltMotorDeg(i), ...
-                            'MeasuredPanAngle',panMeasured(i),'MeasuredTiltAngle',tiltMeasured(i), ...
-                            'TiltEncoderAngle',tiltEncoder(i),'ThetaDeg',plan.ThetaDeg(i), ...
-                            'PhiDeg',plan.PhiDeg(i),'RowIndex',plan.RowIndex(i), ...
-                            'ColumnIndex',plan.ColumnIndex(i),'TotalRows',numel(plan.TiltVector), ...
-                            'S21_dB_Center',20*log10(max(abs(sweep.S21(centerIndex)),1e-12)), ...
-                            'Progress',obj.Progress,'ElapsedSec',elapsed(i));
-                        obj.StepCallback(info);
+                    info = struct('Index',i,'Total',n,'CommandedAngle',plan.PanMotorDeg(i), ...
+                        'MeasuredAngle',panMeasured(i),'EncoderAngle',panEncoder(i), ...
+                        'PanAngle',plan.PanMotorDeg(i),'TiltAngle',plan.TiltMotorDeg(i), ...
+                        'MeasuredPanAngle',panMeasured(i),'MeasuredTiltAngle',tiltMeasured(i), ...
+                        'TiltEncoderAngle',tiltEncoder(i),'ThetaDeg',plan.ThetaDeg(i), ...
+                        'PhiDeg',plan.PhiDeg(i),'RowIndex',plan.RowIndex(i), ...
+                        'ColumnIndex',plan.ColumnIndex(i),'TotalRows',numel(plan.TiltVector), ...
+                        'S21_dB_Center',20*log10(abs(currentS21(centerIndex))), ...
+                        'Progress',obj.Progress,'ElapsedSec',elapsed(i));
+                    obj.dispatchLivePlot(info);
+                    if obj.LivePlotCallbackAbort
+                        aborted=true;
+                        reason='LivePlotCallbackFailure';
+                        abortMessage=obj.LivePlotCallbackMessage;
+                        break;
                     end
                     notify(obj,'StepProgress');
                 end
@@ -566,7 +663,10 @@ classdef MeasurementOrchestrator < handle
                 data = []; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
             end
             keep = 1:done; s11 = s11(keep,:); s21 = s21(keep,:);
-            rawDB = 20*log10(max(abs(s21(:,centerIndex)),1e-12)).';
+            if ~isempty(corrected11), corrected11=corrected11(keep,:); end
+            if ~isempty(corrected21), corrected21=corrected21(keep,:); end
+            analysisS21=s21; if ~isempty(corrected21), analysisS21=corrected21; end
+            rawDB = 20*log10(abs(analysisS21(:,centerIndex))).';
             [peakDB,peakIndex] = max(rawDB);
             metadata = struct('SchemaVersion',2,'ScanAxis','3D','Scan3DConfig',cfg, ...
                 'Device','SAA-2N','VNAMode',obj.VNA.Mode,'VNAPort',obj.VNA.Port, ...
@@ -594,8 +694,10 @@ classdef MeasurementOrchestrator < handle
                 'RowIndex',plan.RowIndex(keep),'ColumnIndex',plan.ColumnIndex(keep), ...
                 'ElapsedSec',elapsed(keep),'FrequenciesHz',frequencies,'SelectedFreqHz',obj.CenterFreqHz, ...
                 'S11',s11,'S21',s21,'SelectedS21_dB',rawDB, ...
-                'SelectedS21_PhaseDeg',rad2deg(angle(s21(:,centerIndex))).', ...
+                'SelectedS21_PhaseDeg',rad2deg(angle(analysisS21(:,centerIndex))).', ...
                 'NormalizedS21_dB',PatternAnalyzer.normalize(rawDB));
+            data.SelectedS21_PhaseDeg(abs(analysisS21(:,centerIndex))==0)=NaN;
+            data=obj.attachRF(data,corrected11,corrected21,snapshot);
             obj.LastScanData = data;
             if aborted
                 obj.setState('ABORTED'); notify(obj,'ScanAborted');
@@ -609,6 +711,110 @@ classdef MeasurementOrchestrator < handle
             drawnow limitrate;
             while obj.IsPaused && ~obj.CancelRequested, pause(0.05); end
             ready = ~obj.CancelRequested;
+        end
+
+        function [a,b]=allocateCorrection(~,snapshot,n,nf)
+            a=[]; b=[];
+            if ~isempty(fieldnames(snapshot))
+                a=complex(nan(n,nf));
+                if strcmp(snapshot.Profile.algorithm,'TR_ENHANCED_RESPONSE'), b=complex(nan(n,nf)); end
+            end
+        end
+        function data=attachRF(obj,data,a,b,snapshot)
+            data.CorrectedS11=a; data.CorrectedS21=b;
+            data.CalibrationProfile=struct(); data.CalibrationProfileJSON='';
+            meta=struct('RFSchemaVersion',1,'CalibrationPolicy',obj.CalibrationPolicy, ...
+                'AnalysisSource','raw_s21','CalibrationProfileId','', ...
+                'ChannelState',struct('S11','RAW','S21','RAW'),'RFAverages',1,'RFContext',obj.VNA.getContext());
+            if ~isempty(fieldnames(snapshot))
+                data.CalibrationProfile=snapshot.Profile; data.CalibrationProfileJSON=snapshot.CanonicalJSON;
+                meta.CalibrationProfileId=char(snapshot.Profile.profile_id); meta.ChannelState.S11='SOL';
+                if ~isempty(b)
+                    meta.AnalysisSource='corrected_s21_tr';
+                    meta.ChannelState=struct('S11','TR_ENHANCED_RESPONSE','S21','TR_ENHANCED_RESPONSE');
+                end
+            end
+            names=fieldnames(meta);
+            for k=1:numel(names), data.Metadata.(names{k})=meta.(names{k}); end
+            if ~isempty(obj.LastMotorLogPath), data.Metadata.MotorJournalPath=obj.LastMotorLogPath; end
+        end
+
+        function beginMotorJournal(obj)
+            obj.MotorJournal=[]; obj.LastMotorLogPath=''; obj.MotorJournalCompleted=0;
+            obj.MotorJournalTerminalState='';
+            if isempty(obj.MotorLogDirectory) && strcmpi(obj.Positioner.Mode,'Hardware')
+                root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
+                obj.MotorLogDirectory=fullfile(root,'data','logs','motor');
+            end
+            if isempty(obj.MotorLogDirectory), return; end
+            context=struct('PositionerMode',obj.Positioner.Mode,'VNAMode',obj.VNA.Mode, ...
+                'PositionerPort',obj.Positioner.Port,'ScanAxis',obj.Axis, ...
+                'Scan3DConfig',obj.Scan3DConfig,'StartAngleDeg',obj.StartAngleDeg, ...
+                'StopAngleDeg',obj.StopAngleDeg,'StepAngleDeg',obj.StepAngleDeg);
+            obj.MotorJournal=MotorScanJournal(obj.MotorLogDirectory,context);
+            obj.LastMotorLogPath=obj.MotorJournal.Path;
+            obj.logStatus(['Nhật ký motor tự lưu: ' obj.LastMotorLogPath]);
+        end
+
+        function s=motorSnapshot(obj,index,row)
+            p=obj.Positioner;
+            s=struct('pan_deg',p.AzimuthDeg,'tilt_deg',p.ElevationDeg, ...
+                'pan_encoder_deg',p.AzimuthEncoderDeg,'tilt_encoder_deg',p.ElevationEncoderDeg, ...
+                'holding_active',p.HoldingActive,'is_homed',p.IsHomed, ...
+                'manual_homing_active',p.ManualHomingActive,'release_count',p.DriverReleaseCount, ...
+                'pan_zero_encoder_deg',p.PanZeroEncoderDeg,'pan_zero_id',p.PanZeroId, ...
+                'raw_position_response',p.LastPositionResponse,'scan_point_index',double(index), ...
+                'scan_row_index',double(row));
+        end
+
+        function movePositioner(obj,axis,target,index,row)
+            if isempty(obj.MotorJournal)
+                obj.Positioner.moveTo(axis,target); return;
+            end
+            before=obj.motorSnapshot(index,row);
+            obj.MotorJournal.recordMove(axis,target,before,before,'started','','');
+            try
+                obj.Positioner.moveTo(axis,target);
+            catch ex
+                try
+                    obj.MotorJournal.recordMove(axis,target,before,obj.motorSnapshot(index,row),'failed',ex.identifier,ex.message);
+                catch logError
+                    obj.warnMotorJournalFailure(['Motor fault retained; journal failed: ' logError.message]);
+                end
+                rethrow(ex);
+            end
+            closure=obj.MotorJournal.recordMove(axis,target,before,obj.motorSnapshot(index,row),'completed','','');
+            if ~isempty(closure)
+                if ~closure.valid
+                    obj.logStatus(['Pan 0°: chưa xác minh độ lệch ZERO (' closure.reason ').']);
+                elseif closure.warning
+                    obj.logStatus(sprintf('⚠️ Pan về 0° lệch %.2f° encoder (~%.3f° anten); giữ nguyên ZERO gốc.', ...
+                        closure.error_motor_deg,closure.error_antenna_deg));
+                else
+                    obj.logStatus(sprintf('Pan về 0°: lệch %.2f° encoder (~%.3f° anten).', ...
+                        closure.error_motor_deg,closure.error_antenna_deg));
+                end
+            end
+        end
+
+        function finishMotorJournal(obj)
+            if isempty(obj.MotorJournal), return; end
+            state=obj.MotorJournalTerminalState;
+            if isempty(state), state='ERROR'; end
+            try
+                obj.MotorJournal.finish(state,obj.MotorJournalCompleted);
+            catch ex
+                obj.warnMotorJournalFailure(['Cannot finish motor journal: ' ex.message]);
+            end
+            obj.MotorJournal=[];
+        end
+
+        function warnMotorJournalFailure(~,message)
+            try
+                warning('MeasurementOrchestrator:MotorJournalFailure','%s',message);
+            catch
+                % Even warning-as-error settings must not replace the motor fault during cleanup.
+            end
         end
 
         function [pan,tilt,panEncoder,tiltEncoder] = readBothAxes(obj)
@@ -627,13 +833,61 @@ classdef MeasurementOrchestrator < handle
 
         function resetRunning(obj)
             if isvalid(obj)
+                wasActive=ismember(obj.State,{'INITIALIZING','SCANNING','PAUSED','PROCESSING'});
                 obj.IsRunning = false;
                 obj.IsPaused = false;
+                if wasActive
+                    obj.setState('ERROR');
+                end
             end
+        end
+
+        function resetLivePlotFailure(obj)
+            obj.LivePlotFailureCount=0;
+            obj.LivePlotCallbackDisabled=false;
+            obj.LivePlotCallbackAbort=false;
+            obj.LivePlotCallbackMessage='';
+        end
+
+        function dispatchLivePlot(obj,info)
+            if obj.LivePlotCallbackDisabled||isempty(obj.StepCallback)
+                return;
+            end
+            try
+                obj.StepCallback(info);
+            catch ex
+                obj.LivePlotFailureCount=obj.LivePlotFailureCount+1;
+                message=sprintf('%s: %s',ex.identifier,ex.message);
+                switch obj.LivePlotFailurePolicy
+                    case 'CONTINUE'
+                        obj.disableLivePlot(message);
+                    case 'RETRY_ONCE'
+                        if obj.LivePlotFailureCount>=2
+                            obj.disableLivePlot(message);
+                        else
+                            obj.logStatus(['Live plot callback failed once; retry at next point: ' message]);
+                        end
+                    case 'ABORT'
+                        obj.LivePlotCallbackAbort=true;
+                        obj.LivePlotCallbackMessage=ex.message;
+                        obj.CancelRequested=true;
+                        obj.StepCallback=function_handle.empty;
+                        obj.logStatus(['Live plot callback failed; scan abort requested: ' message]);
+                end
+            end
+        end
+
+        function disableLivePlot(obj,message)
+            obj.LivePlotCallbackDisabled=true;
+            obj.StepCallback=function_handle.empty;
+            obj.logStatus(['Live plot disabled; measurement continues: ' message]);
         end
 
         function setState(obj, newState)
             obj.State = newState;
+            if ~isempty(obj.MotorJournal) && ismember(newState,{'COMPLETED','ABORTED'})
+                obj.MotorJournalTerminalState=newState;
+            end
         end
 
         function logStatus(obj, msg)

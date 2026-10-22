@@ -1,0 +1,17 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[11:53:53] Antenna Measurement App initialized.
+[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In VNAController/initPythonBridge (line 342)
+In VNAController (line 59)
+In AntennaMeasurementApp/handleVNAModeChange (line 1096)
+In probe_real_quiet (line 7)] 
+[11:53:57] VNA switched to Real hardware mode.
+[11:53:57] VNA: Controller changed; previous trace retains its recorded provenance
+[11:54:00] VNA: Measuring | actual stop 2405.000000000 MHz | NONE
+[11:54:13] VNA: STOPPING: waiting for current sweep to finish
+[11:54:13] VNA: Stopped
+REAL_QUIET_APP_PASS fresh_frames=3 no_positioner=1

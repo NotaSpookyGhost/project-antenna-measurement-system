@@ -1,0 +1,440 @@
+Running TestVNARequest
+..
+Done TestVNARequest
+__________
+
+Running TestVNABackend
+[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In TestVNABackend/calibrationEnvironment (line 5)]
+.
+Done TestVNABackend
+__________
+
+Running TestVNACalibration
+....
+Done TestVNACalibration
+__________
+
+Running TestVNAControllerSession
+....
+Done TestVNAControllerSession
+__________
+
+Running TestVNAAnalysis
+..
+Done TestVNAAnalysis
+__________
+
+Running TestVNAPlotter
+.
+Done TestVNAPlotter
+__________
+
+Running TestVNAWorkbench
+.....[05:44:16] Antenna Measurement App initialized.
+[05:44:16] VNA: Controller changed; previous trace retains its recorded provenance
+[05:44:16] VNA: Measuring | actual stop 2405.000000000 MHz | NONE
+[05:44:16] VNA: STOPPING: waiting for current sweep to finish
+[05:44:16] VNA: Stopped
+.
+Done TestVNAWorkbench
+__________
+
+Running TestVNACalibrationDialog
+.C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\vna_calibration.py:96: UserWarning: only gave a single measurement orientation, error correction is partial without a tuple
+  result=engine.apply_cal(_network(f,s)).s
+..
+Done TestVNACalibrationDialog
+__________
+
+Running TestScanVNACalibration
+..[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] RF scan stopped: Injected RF failure.; preserving 2 complete points.
+[ORCHESTRATOR] Scan loop finished (2/4 points, 0.48 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+.[ORCHESTRATOR] Starting scan: 0.0° to 20.0° (step 10.00°, 3 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] RF scan stopped: Injected RF failure.; preserving 1 complete points.
+[ORCHESTRATOR] Scan loop finished (1/3 points, 0.22 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 1/3 điểm, dữ liệu một phần được giữ lại.
+.[ORCHESTRATOR] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 3/3 points retained.
+.[05:44:23] Antenna Measurement App initialized.
+[05:44:23] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:44:23] Starting scan: 0.0° to 20.0° (step 10.00°, 3 points)
+[05:44:23] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:44:27] Đang dừng quét sau bước hiện tại...
+[05:44:27] Scan loop finished (1/3 points, 4.27 s). Processing data...
+[05:44:27] Scan đã dừng ở 1/3 điểm, dữ liệu một phần được giữ lại.
+[05:44:28] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 1/3 điểm). Dữ liệu được giữ để phân tích/xuất file.
+.
+Done TestScanVNACalibration
+__________
+
+Running TestVNADataManager
+..
+Done TestVNADataManager
+__________
+
+Running TestScanVNAData
+.[05:44:45] Antenna Measurement App initialized.
+..
+Done TestScanVNAData
+__________
+
+Running TestScanGeometry
+.......
+Done TestScanGeometry
+__________
+
+Running TestPositionerLimits
+....
+Done TestPositionerLimits
+__________
+
+Running TestScan3D
+..........
+Done TestScan3D
+__________
+
+Running TestScan3DData
+...
+Done TestScan3DData
+__________
+
+Running TestScan3DGUI
+[05:44:58] Antenna Measurement App initialized.
+[05:44:58] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+.[05:44:59] Antenna Measurement App initialized.
+[05:44:59] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 75 bước (ít bước hơn = nhanh hơn).
+.[05:45:00] Antenna Measurement App initialized.
+[05:45:00] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:45:02] 3D scan: 10 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[05:45:02] Tilt row 1/10: motor 0.0°, theta 90.0°.
+[05:45:03] 3D scan stopped: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[05:45:03] 3D ABORTED: 1/100 points retained.
+[05:45:06] ⚠️ Quét đã dừng: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/100 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[05:45:13] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tp39c4a6e2_fc15_4892_817c_6998d2e0cd68\export_app_scan_20261017_054506
+.[05:45:15] Antenna Measurement App initialized.
+[05:45:15] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:45:17] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[05:45:17] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[05:45:19] 3D COMPLETED: 3/3 points retained.
+[05:45:24] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpd9525f7f_dc03_424d_8767_82300347d5ec\export_app_scan_20261017_054521
+.[05:45:26] Antenna Measurement App initialized.
+[05:45:26] Antenna Measurement App initialized.
+.[05:45:27] Antenna Measurement App initialized.
+[05:45:27] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:45:29] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[05:45:29] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[05:45:29] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[05:45:31] 3D COMPLETED: 6/6 points retained.
+.[05:45:33] Antenna Measurement App initialized.
+[05:45:33] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:45:34] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[05:45:34] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[05:45:35] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[05:45:35] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[05:45:36] Đang dừng quét sau bước hiện tại...
+[05:45:36] 3D ABORTED: 3/6 points retained.
+[05:45:37] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 3/6 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[05:45:37] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[05:45:37] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[05:45:38] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[05:45:39] 3D COMPLETED: 6/6 points retained.
+.[05:45:41] Antenna Measurement App initialized.
+[ORCHESTRATOR] 3D scan: 1 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 2/2 points retained.
+.
+Done TestScan3DGUI
+__________
+
+Running TestPositionerResponse
+.......... ........
+Done TestPositionerResponse
+__________
+
+Running TestManualHoming
+[05:45:44] Antenna Measurement App initialized.
+[05:45:44] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[05:45:44] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.11 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.09 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 10.00°
+[ORCHESTRATOR] Starting scan: 10.0° to 20.0° (step 10.00°, 2 points)
+.[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.
+[ORCHESTRATOR] Scan loop finished (2/4 points, 0.11 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+...[05:45:46] Antenna Measurement App initialized.
+[05:45:46] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[05:45:46] Đã nhả mô phỏng; không thay đổi motor thật.
+[05:45:46] Đã ZERO mô phỏng; không khóa motor thật. Chọn ESP32 (thật) để điều khiển motor.
+.[05:45:48] Antenna Measurement App initialized.
+[05:45:48] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[ORCHESTRATOR] Starting scan: 0.0° to 10.0° (step 10.00°, 2 points)
+.
+Done TestManualHoming
+__________
+
+Running TestScanStopGUI
+[05:45:50] Antenna Measurement App initialized.
+[05:45:50] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:45:50] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:45:50] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:45:51] AS5600 mất tín hiệu: dừng quét trước khi đo điểm mới. Motor vẫn giữ; dữ liệu đã đo được giữ lại.
+[05:45:51] Scan loop finished (2/4 points, 1.33 s). Processing data...
+[05:45:51] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+[05:45:53] ⚠️ Quét đã dừng: AS5600 mất phản hồi (đã ghi nhận 2/4 điểm). Dữ liệu được giữ để phân tích/xuất file.
+.[05:45:56] Antenna Measurement App initialized.
+[05:45:56] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:45:56] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:45:56] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:45:58] Scan loop finished (4/4 points, 1.60 s). Processing data...
+[05:45:58] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[05:46:01] Antenna Measurement App initialized.
+[05:46:01] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:46:01] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:46:01] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:46:03] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[05:46:04] Đang dừng quét sau bước hiện tại...
+[05:46:04] Scan loop finished (2/4 points, 2.83 s). Processing data...
+[05:46:04] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+[05:46:05] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 2/4 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[05:46:05] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:46:05] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:46:05] Scan loop finished (4/4 points, 0.56 s). Processing data...
+[05:46:05] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[05:46:08] Antenna Measurement App initialized.
+[05:46:08] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:46:08] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:46:08] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:46:10] Scan loop finished (4/4 points, 1.74 s). Processing data...
+[05:46:10] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[05:46:11] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:46:11] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:46:11] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:46:11] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[05:46:12] Đang dừng quét sau bước hiện tại...
+[05:46:12] Scan stopped before the first complete measurement.
+[05:46:12] ⚠️ Quá trình quét đã bị hủy hoặc không đủ dữ liệu (cần >= 2 điểm).
+.[05:46:14] Antenna Measurement App initialized.
+[05:46:14] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:46:14] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:46:14] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:46:15] ❌ Lỗi trong quá trình quét: Injected positioner command interruption.
+.[05:46:20] Antenna Measurement App initialized.
+[05:46:20] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[05:46:20] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[05:46:20] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[05:46:22] Scan loop finished (4/4 points, 1.54 s). Processing data...
+[05:46:22] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[05:46:25] Antenna Measurement App initialized.
+.
+Done TestScanStopGUI
+__________
+
+Running TestMoveTimeout
+...
+Done TestMoveTimeout
+__________
+
+Running TestPatternPartialPlot
+...
+Done TestPatternPartialPlot
+__________
+
+Running TestMotorScanJournal
+......
+Done TestMotorScanJournal
+__________
+
+Running TestMotorJournalIntegration
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp384b272f_483b_4d85_abd3_6c308b1c40dc\motor_20261017_054628_274_74e330ab-a1d6-4bdd-85c8-d2271933e027.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.008° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.12 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp384b272f_483b_4d85_abd3_6c308b1c40dc\motor_20261017_054628_494_910e9e57-fff7-4f07-aa2e-7aa84cce32c2.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpaf198f37_363a_4b56_b668_f1c6671af700\motor_20261017_054628_653_0e02dd28-c4c1-4db2-bb77-ce763cc87f04.jsonl
+[ORCHESTRATOR] 3D scan: 2 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.009° anten).
+[ORCHESTRATOR] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.008° anten).
+[ORCHESTRATOR] 3D COMPLETED: 4/4 points retained.
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp7d1ddcf0_f6f8_438b_bfaa_5bad6193a5ae\motor_20261017_054629_002_105b7fe4-fdd9-4896-aebe-fbc99f9d5729.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+..[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp8cc7462a_ee02_49d8_89d0_eba00747c5bf\motor_20261017_054629_180_6ae60d28-ec8d-45e2-a8db-1a048df60e20.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261017_054629_284_0d11cb27-82eb-42dc-8833-92109f05127f.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpa3431a6a_11b9_402b_a2e8_dccf0d34cf86\motor_20261017_054629_344_99078ac1-f673-4835-a665-ec2b7f249a5c.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.07 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpa3431a6a_11b9_402b_a2e8_dccf0d34cf86\motor_20261017_054629_433_e96f6a00-79f4-4ec5-ad3a-88e80321075d.jsonl
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpa3431a6a_11b9_402b_a2e8_dccf0d34cf86\motor_20261017_054629_462_a60710b4-cf6b-44ab-be47-3900b9071dc7.jsonl
+..[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpb428ef55_10ff_47c5_bf39_d6660a89ce13\motor_20261017_054629_600_85683d44-0b49-4f95-a932-67d50628cb5e.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+.
+Done TestMotorJournalIntegration
+__________
+
+============================================================
+  Unit Test: PatternAnalyzer (Antenna Metric Algorithms)
+============================================================
+
+[TEST 1] Normalization check...
+  ✓ PASS: Peak normalized exactly to 0.0 dB
+[TEST 2] Main lobe detection...
+  ✓ PASS: Found peak at angle 2 deg with value 0.00 dB
+[TEST 3] HPBW interpolation accuracy on known Gaussian beam...
+  Target HPBW: 40.00 deg | Calculated: 40.00 deg (Left: 70.00, Right: 110.00) | Error: 0.0000 deg
+  ✓ PASS: HPBW calculated within 0.1 deg of ground truth
+[TEST 4] SLL detection on synthetic patch pattern...
+  Synthetic beam: HPBW = 32.83 deg, SLL = -20.65 dB at angle -59.0 deg
+  ✓ PASS: SLL correctly identified at -20.65 dB outside main lobe
+[TEST 5] Front-to-Back Ratio...
+  Calculated FBR = 26.26 dB
+  ✓ PASS: FBR is 26.26 dB (> 15 dB threshold for directional pattern)
+[TEST 6] Gain substitution calculation...
+  ✓ PASS: DUT Gain calculated = 11.00 dBi (Matches 11.0 dBi)
+[TEST 7] Visualization generation & export...
+  ✓ PASS: Plot exported successfully to C:\Users\Spooky Laptop\AppData\Local\Temp\tpb3bf6ce1_6e09_4461_9913_a7394f26bfa4\test_pattern_analyzer_output.png
+
+============================================================
+  RESULT: 7 / 7 Tests Passed
+============================================================
+  ALL PATTERN ANALYZER TESTS PASSED!
+
+SOFTWARE_SCRIPT_PASS test_pattern_analyzer
+============================================================
+  End-to-End Test: Automated Scan Pipeline (Simulation)
+============================================================
+
+[1] Initializing VNA and Positioner controllers in Mock mode...
+  ✓ VNA connected (Mock variant: 0x02)
+  ✓ Positioner connected (Homed: 1)
+
+[2] Setting up MeasurementOrchestrator...
+
+[3] Executing automated 360° scan sequence...
+[ORCHESTRATOR] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+  --> [SCAN PROGRESS] Angle:   45.0° ( 10/ 73) | S21: -46.30 dB | Elapsed:  0.63 s
+  --> [SCAN PROGRESS] Angle:   95.0° ( 20/ 73) | S21: -54.59 dB | Elapsed:  1.27 s
+  --> [SCAN PROGRESS] Angle:  145.0° ( 30/ 73) | S21: -56.33 dB | Elapsed:  1.92 s
+  --> [SCAN PROGRESS] Angle:  195.0° ( 40/ 73) | S21: -43.42 dB | Elapsed:  2.52 s
+  --> [SCAN PROGRESS] Angle:  245.0° ( 50/ 73) | S21: -54.92 dB | Elapsed:  3.18 s
+  --> [SCAN PROGRESS] Angle:  295.0° ( 60/ 73) | S21: -36.40 dB | Elapsed:  3.83 s
+  --> [SCAN PROGRESS] Angle:  345.0° ( 70/ 73) | S21: -17.50 dB | Elapsed:  4.50 s
+  --> [SCAN PROGRESS] Angle:  360.0° ( 73/ 73) | S21: -14.99 dB | Elapsed:  4.69 s
+[ORCHESTRATOR] Scan loop finished (73/73 points, 4.69 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = 32.40°, SLL = -20.70 dB, Peak = 360.00°
+  ✓ Scan completed successfully! Acquired 73 angles.
+
+[4] Verifying computed pattern metrics...
+  Peak Angle    : 360.00°
+  Peak S21      : -14.99 dB
+  HPBW (-3 dB)  :  32.40° (Left: 343.79°, Right: 376.20°)
+  Side-Lobe Lvl : -20.70 dB (at 300.00°)
+  Front-to-Back :  26.26 dB
+  ✓ All metrics passed physical validity checks!
+
+[5] Generating Polar and Cartesian visualization figures...
+[6] Exporting full dataset via DataManager...
+  Destination directory: C:\Users\Spooky Laptop\AppData\Local\Temp\tpdc494e26_08f2_4ed6_9066_3ef6a3c86318\sim_azimuth_20261017_054639
+  ✓ Saved MAT     : C:\Users\Spooky Laptop\AppData\Local\Temp\tpdc494e26_08f2_4ed6_9066_3ef6a3c86318\sim_azimuth_20261017_054639\scan_data.mat
+  ✓ Saved CSV     : C:\Users\Spooky Laptop\AppData\Local\Temp\tpdc494e26_08f2_4ed6_9066_3ef6a3c86318\sim_azimuth_20261017_054639\scan_pattern.csv
+  ✓ Saved JSON    : C:\Users\Spooky Laptop\AppData\Local\Temp\tpdc494e26_08f2_4ed6_9066_3ef6a3c86318\sim_azimuth_20261017_054639\metadata.json
+  ✓ Saved Summary : C:\Users\Spooky Laptop\AppData\Local\Temp\tpdc494e26_08f2_4ed6_9066_3ef6a3c86318\sim_azimuth_20261017_054639\summary.txt
+  ✓ Saved Plot    : C:\Users\Spooky Laptop\AppData\Local\Temp\tpdc494e26_08f2_4ed6_9066_3ef6a3c86318\sim_azimuth_20261017_054639\radiation_pattern.png
+
+[7] Testing dataset reload & integrity...
+  ✓ Reloaded data matches original dataset with 100% precision!
+
+============================================================
+  ALL END-TO-END PIPELINE TESTS PASSED SUCCESSFULLY! ✅
+============================================================
+SOFTWARE_SCRIPT_PASS test_orchestrator_mock
+======================================================================
+  TEST SUITE: Scan Direction (CW/CCW) & Safe Abort Handling
+======================================================================
+
+[1] Testing MeasurementOrchestrator.buildAngleVector()...
+  ✓ CCW (0° -> 90°, step 10°): 10 points [0 ... 90]
+  ✓ CW (180° -> 0°, step 30°): 7 points [180 ... 0]
+  ✓ CW with negative step input normalized properly.
+  ✓ Start == Stop correctly rejected with error.
+
+[2] Testing Forward Scan (CCW) in Mock Mode...
+[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (4/4 points, 0.22 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+  ✓ CCW Scan completed: 4 points, direction = CCW
+
+[3] Testing Reverse Scan (CW: 180° -> 0°) in Mock Mode...
+[ORCHESTRATOR] Starting scan: 180.0° to 0.0° (step 30.00°, 7 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (7/7 points, 1.00 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+  ✓ CW Scan completed: 7 points, direction = CW, angles = [180  150  120   90   60   30    0]
+
+[4] Testing Mid-scan Abort (STOP button simulation)...
+[ORCHESTRATOR] Starting scan: 0.0° to 180.0° (step 5.00°, 37 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+    [SIMULATED USER] Clicked STOP button at step 4 (Angle: 15.0°)
+[ORCHESTRATOR] Đang dừng quét sau bước hiện tại...
+[ORCHESTRATOR] Scan loop finished (4/37 points, 0.25 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 4/37 điểm, dữ liệu một phần được giữ lại.
+  ✓ Partial dataset safely preserved: 4 points retained, Aborted = 1
+
+[5] Testing Early Abort on step 1 (preserve its raw data)...
+[ORCHESTRATOR] Starting scan: 0.0° to 180.0° (step 5.00°, 37 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+    [SIMULATED USER] Clicked STOP button at step 1 (Angle: 0.0°)
+[ORCHESTRATOR] Đang dừng quét sau bước hiện tại...
+[ORCHESTRATOR] Scan loop finished (1/37 points, 0.09 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 1/37 điểm, dữ liệu một phần được giữ lại.
+  ✓ Early abort preserved one complete raw point and undefined beamwidth.
+
+[6] Testing Tilt Axis Lockout Protection...
+[ORCHESTRATOR] Starting scan: 0.0° to 180.0° (step 5.00°, 37 points)
+  ✓ Hardware safety lock confirmed: Tilt scan successfully blocked!
+
+======================================================================
+  ALL DIRECTION & ABORT TESTS PASSED SUCCESSFULLY! ✓
+======================================================================
+SOFTWARE_SCRIPT_PASS test_scan_direction_and_abort
+VNA_SOFTWARE_GATE: 120/120 unit tests PASS; 3/3 scripts PASS; no VNA timer leaks.
+MATLAB 25.2.0.2998904 (R2025b) | Hardware: NOT_RUN
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\docs\verification\motor-journal-2026-10-17\motor_20261017_054645_705_a9c53631-fc29-444d-9e6f-de558e07544b.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.015° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.09 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+MOTOR_JOURNAL_DEMO_PASS C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\docs\verification\motor-journal-2026-10-17\motor_20261017_054645_705_a9c53631-fc29-444d-9e6f-de558e07544b.jsonl

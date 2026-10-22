@@ -29,7 +29,17 @@ classdef ScanGeometry
             thetaEnds = c.TiltAtZeroDeg + c.TiltSign*[c.TiltStartDeg c.TiltStopDeg];
             if any(thetaEnds < 0 | thetaEnds > 180)
                 validTilt = sort(([0 180]-c.TiltAtZeroDeg)/c.TiltSign);
-                error('ScanGeometry:ThetaRange','Theta must be 0..180 deg; Tilt motor range for this ZERO is %.1f..%.1f deg.',validTilt(1),validTilt(2));
+                requiredZero=[-min(c.TiltSign*[c.TiltStartDeg c.TiltStopDeg]) ...
+                    180-max(c.TiltSign*[c.TiltStartDeg c.TiltStopDeg])];
+                if requiredZero(1)<=requiredZero(2)
+                    hint=sprintf('Với Tilt %.1f → %.1f°, Góc cực θ tại ZERO cần %.1f..%.1f° (90° = nằm ngang).', ...
+                        c.TiltStartDeg,c.TiltStopDeg,requiredZero(1),requiredZero(2));
+                else
+                    hint='Hành trình Tilt cho một lưới θ không được vượt quá 180°.';
+                end
+                error('ScanGeometry:ThetaRange', ...
+                    'Góc cực θ phải trong 0..180°. %s\nNếu giữ hướng ZERO hiện tại, Tilt motor hợp lệ là %.1f..%.1f°.', ...
+                    hint,validTilt(1),validTilt(2));
             end
             ScanGeometry.checkTravel(c.TravelPanDeg,[c.PanStartDeg c.PanStopDeg]);
             ScanGeometry.checkTravel(c.TravelTiltDeg,[c.TiltStartDeg c.TiltStopDeg]);
@@ -58,16 +68,29 @@ classdef ScanGeometry
             if fullTurn, phi = mod(phi,360); end
             phi = unique(phi);
             amplitude = nan(numel(theta),numel(phi));
-            samplePhi = mod(d.PhiDeg,360);
-            for row = 1:numel(theta)
-                atTheta = abs(d.ThetaDeg-theta(row))<1e-8;
-                atPole = abs(sind(theta(row)))<1e-8;
-                for column = 1:numel(phi)
-                    mask = atTheta & (abs(samplePhi-mod(phi(column),360))<1e-8 | atPole);
-                    values = 10.^(d.NormalizedS21_dB(mask)/20);
-                    values = values(isfinite(values));
-                    if ~isempty(values), amplitude(row,column) = mean(values); end
+            sampleTheta=d.ThetaDeg(:);
+            samplePhi=d.PhiDeg(:);
+            if fullTurn, samplePhi=mod(samplePhi,360); end
+            values=10.^(d.NormalizedS21_dB(:)/20);
+            finite=isfinite(values);
+            if any(finite)
+                [thetaIndex,thetaDistance]=dsearchn(theta(:),sampleTheta);
+                [phiIndex,phiDistance]=dsearchn(phi(:),samplePhi);
+                valid=finite&thetaDistance<=1e-8&phiDistance<=1e-8;
+                if any(valid)
+                    sums=accumarray([thetaIndex(valid) phiIndex(valid)],values(valid), ...
+                        size(amplitude),@sum,0);
+                    counts=accumarray([thetaIndex(valid) phiIndex(valid)],1, ...
+                        size(amplitude),@sum,0);
+                    hasSamples=counts>0;
+                    amplitude(hasSamples)=sums(hasSamples)./counts(hasSamples);
                 end
+            end
+            poleRows=abs(sind(theta))<1e-8;
+            poleSamples=abs(sind(sampleTheta))<1e-8;
+            poleValues=values(finite&poleSamples);
+            if ~isempty(poleValues)
+                amplitude(poleRows,:)=mean(poleValues);
             end
             if fullTurn && ~isempty(phi)
                 phi(end+1) = phi(1)+360;
@@ -87,6 +110,10 @@ classdef ScanGeometry
             d.MeasuredAngles = scanData.MeasuredPanAngles(keep);
             d.EncoderAngles = scanData.PanEncoderAngles(keep);
             d.S11 = scanData.S11(keep,:); d.S21 = scanData.S21(keep,:);
+            for field={'CorrectedS11','CorrectedS21'}
+                key=field{1};
+                if isfield(scanData,key)&&~isempty(scanData.(key)), d.(key)=scanData.(key)(keep,:); end
+            end
             d.SelectedS21_dB = scanData.SelectedS21_dB(keep);
             d.SelectedS21_PhaseDeg = scanData.SelectedS21_PhaseDeg(keep);
             d.NormalizedS21_dB = PatternAnalyzer.normalize(d.SelectedS21_dB);

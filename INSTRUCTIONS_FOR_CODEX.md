@@ -1,5 +1,12 @@
 # 🤖 INSTRUCTIONS & SYSTEM BRIEFING FOR OPENAI CODEX
 
+> **VNA Workbench (2026-10-15):** Read `docs/vna-workbench-user-guide.md` and
+> `docs/vna-workbench-implementation-log.md` for current calibration/session/export APIs.
+> The software-only gate is `matlab/tests/run_vna_software_tests.m` plus Python unit
+> discovery in `.venv-vna`; the master runner and device scripts below are hardware capable.
+> `S11/S21` stay raw, `CorrectedS11/CorrectedS21` are separate; TR means forward
+> enhanced response, not full two-port. No hardware qualification is implied by Mock tests.
+
 > **Bản đối chiếu môi trường:** Đọc `CODEX_GUIDE.md` trước khi chạy lệnh kiểm thử hoặc kết nối thiết bị. Tài liệu đó ghi lại đường dẫn và hành vi đã xác minh trên máy Codex; một số lệnh và mô tả mock trong bản bàn giao này chưa khớp với mã hiện tại.
 
 > **Dành riêng cho Codex / AI Agent tiếp quản dự án:**  

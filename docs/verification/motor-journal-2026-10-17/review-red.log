@@ -1,0 +1,285 @@
+Running TestMotorJournalIntegration
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp5ddb7d52_2ac3_4f03_ac55_73ecd626017b\motor_20261017_054112_046_30b9cc49-bca8-4e51-a8a2-033d4ac50354.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.014° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.35 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp5ddb7d52_2ac3_4f03_ac55_73ecd626017b\motor_20261017_054112_856_d703434e-785d-438b-b086-de6a558c760e.jsonl
+
+================================================================================
+Verification failed in TestMotorJournalIntegration/invalidNewPlanCannotInheritPreviousCompletion.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The character arrays are not equal.
+    
+    Actual char:
+        COMPLETED
+    Expected char:
+        ERROR
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestMotorJournalIntegration.m (TestMotorJournalIntegration.invalidNewPlanCannotInheritPreviousCompletion) at 95
+================================================================================
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp5ddb7d52_2ac3_4f03_ac55_73ecd626017b\motor_20261017_054115_662_a82a3115-7774-4077-aaff-2107952c821e.jsonl
+
+================================================================================
+Verification failed in TestMotorJournalIntegration/invalidNewPlanCannotInheritPreviousCompletion.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The character arrays are not equal.
+    
+    Actual char:
+        COMPLETED
+    Expected char:
+        ERROR
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestMotorJournalIntegration.m (TestMotorJournalIntegration.invalidNewPlanCannotInheritPreviousCompletion) at 100
+================================================================================
+.
+Done TestMotorJournalIntegration
+__________
+
+Running TestMotorJournalIntegration
+
+================================================================================
+Error occurred in TestMotorJournalIntegration/telemetryReleaseAndCounterResetInvalidateFixedReference and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noSuchMethodOrField'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized method, property, or field 'observePanReferenceStatus' for class 'ReferenceStatusPositioner'.
+    
+    Error in ReferenceStatusPositioner/observeStatus (line 8)
+                obj.observePanReferenceStatus(held,needsZero,previousReleases,currentReleases);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    Error in TestMotorJournalIntegration/telemetryReleaseAndCounterResetInvalidateFixedReference (line 105)
+                p.observeStatus(true,false,4,4); t.verifyEqual(p.PanZeroId,original);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+Done TestMotorJournalIntegration
+__________
+
+Running TestMotorJournalIntegration
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tpd2482bdb_9ce0_44d7_8ee8_97e0b3f79971\motor_20261017_054117_295_e5355046-f57b-49ad-bd3d-a285e82d54cb.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[Warning: The following error was caught while executing 'onCleanup' class destructor:
+Error using warning
+Cannot finish motor journal: Cannot append motor journal C:\Users\Spooky
+Laptop\AppData\Local\Temp\tpd2482bdb_9ce0_44d7_8ee8_97e0b3f79971\motor_20261017_054117_295_e5355046-f57b-49ad-bd3d-a285e82d54cb.jsonl: Permission denied
+
+Error in MeasurementOrchestrator/finishMotorJournal (line 777)
+                warning('MeasurementOrchestrator:MotorJournalFailure','Cannot finish motor journal: %s',ex.message);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in MeasurementOrchestrator>@()obj.finishMotorJournal() (line 129)
+            motorJournalGuard=onCleanup(@()obj.finishMotorJournal()); %#ok<NASGU>
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+Error in onCleanup/delete (line 29)
+            obj.task();
+            ^^^^^^^^^^
+Error in MeasurementOrchestrator/startScan (line 118)
+            if obj.IsRunning
+            ^
+Error in TestMotorJournalIntegration>@()t.Scan.startScan() (line 117)
+            t.verifyError(@()t.Scan.startScan(),'PositionerController:EncoderMismatch');
+                             ^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.internal.constraints.FunctionHandleConstraint/invoke (line 35)
+            [varargout{1:nargout}] = fcn();
+                                     ^^^^^
+Error in matlab.unittest.constraints.Throws/invoke (line 291)
+                [constraint.FunctionOutputs{:}] = constraint.invoke@matlab.unittest.internal.constraints.FunctionHandleConstraint(fcn);
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.constraints.Throws/throwsExpectedException (line 331)
+            constraint.invoke(actual);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.constraints.Throws/satisfiedBy (line 200)
+                constraint.throwsExpectedException(actual);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.internal.constraints.CasualDiagnosticDecorator/satisfiedBy (line 42)
+            bool = decorator.Constraint.satisfiedBy(actual);
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.internal.qualifications.QualificationDelegate/qualifyThat (line 82)
+                result = constraint.satisfiedBy(actual);
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.internal.qualifications.QualificationDelegate/qualifyError (line 199)
+            delegate.qualifyThat(qualifiable, notificationData, actual, throwsWithOutputs, varargin{:});
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.qualifications.Verifiable/verifyError (line 702)
+            [varargout{1:nargout}] = qualifyError(verifiable.VerificationDelegate, ...
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in TestMotorJournalIntegration/warningConfigurationCannotReplacePrimaryMotorFault (line 117)
+            t.verifyError(@()t.Scan.startScan(),'PositionerController:EncoderMismatch');
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/evaluateMethodCore (line 1083)
+                    func(content);
+                    ^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/evaluateMethodsOnTestContent (line 1020)
+                    runner.evaluateMethodCore(method, content, arguments);
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/runTestMethodCore (line 1199)
+            runner.evaluateMethodsOnTestContent(method, testCase);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/runTestCore (line 1171)
+                    runner.runTestMethodCore;
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/repeatTest (line 615)
+                    runner.runTestCore;
+                    ^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/runSharedTestCase (line 556)
+                    runner.repeatTest(usePlugins);
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/runTestClass (line 1465)
+                runner.runSharedTestCase(runner.PluginData.runSharedTestCase);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.TestRunnerPlugin/runTestClass (line 430)
+            nextOperator.runTestClass(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.testrunprogress.ConciseProgressPlugin/runTestClass (line 68)
+            runTestClass@matlab.unittest.plugins.TestRunnerPlugin(plugin, pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.TestRunnerPlugin/runTestClass (line 430)
+            nextOperator.runTestClass(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sltest.plugins.TestManagerResultsPlugin/runTestClass (line 148)
+            plugin.runTestClass@matlab.unittest.plugins.TestRunnerPlugin(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/runTestSuite (line 1390)
+                    plugin.runTestClass(runner.PluginData.runTestClass);
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.TestRunnerPlugin/runTestSuite (line 265)
+            nextOperator.runTestSuite(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.DiagnosticsOutputPlugin/runTestSuite (line 161)
+            runTestSuite@matlab.unittest.plugins.TestRunnerPlugin(plugin, pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.TestRunnerPlugin/runTestSuite (line 265)
+            nextOperator.runTestSuite(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.DiagnosticsRecordingPlugin/runTestSuite (line 208)
+            plugin.runTestSuite@matlab.unittest.plugins.TestRunnerPlugin(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.TestRunnerPlugin/runTestSuite (line 265)
+            nextOperator.runTestSuite(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sltest.plugins.TestManagerResultsPlugin/runTestSuite (line 134)
+            plugin.runTestSuite@matlab.unittest.plugins.TestRunnerPlugin(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/evaluateMethodOnPlugins (line 473)
+                [varargout{1:nargout}] = plugin.(methodName)(pluginData);
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.internal.SerialTestRunStrategy/runTestSuite (line 36)
+            runner.evaluateMethodOnPlugins("runTestSuite", pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.internal.SerialTestRunStrategy/runSession (line 16)
+            strategy.runTestSuite(runner,testSuiteRunPluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/runSession (line 1346)
+            runner.TestRunStrategy.runSession(runner,pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.plugins.TestRunnerPlugin/runSession (line 228)
+            nextOperator.runSession(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sltest.plugins.TestManagerResultsPlugin/runSession (line 122)
+            plugin.runSession@matlab.unittest.plugins.TestRunnerPlugin(pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^] 
+[Error in matlab.unittest.TestRunner/evaluateMethodOnPlugins (line 473)
+                [varargout{1:nargout}] = plugin.(methodName)(pluginData);
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/doRunWithFcn (line 461)
+            runner.evaluateMethodOnPlugins(methodName, pluginData);
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestRunner/run (line 344)
+            result = doRunWithFcn(runner, "runSession", pluginData);
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in matlab.unittest.TestSuite/run (line 564)
+            results = runner.run(suite);
+                      ^^^^^^^^^^^^^^^^^
+Error in run_review_cases (line 7)
+results=run(suite); assertSuccess(results);
+        ^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^] 
+[> In MeasurementOrchestrator/startScan (line 118)
+In TestMotorJournalIntegration>@()t.Scan.startScan() (line 117)
+In matlab.unittest.internal.constraints/FunctionHandleConstraint/invoke (line 35)
+In matlab.unittest.constraints/Throws/invoke (line 291)
+In matlab.unittest.constraints/Throws/throwsExpectedException (line 331)
+In matlab.unittest.constraints/Throws/satisfiedBy (line 200)
+In matlab.unittest.internal.constraints/CasualDiagnosticDecorator/satisfiedBy (line 42)
+In TestMotorJournalIntegration/warningConfigurationCannotReplacePrimaryMotorFault (line 117)]
+
+================================================================================
+Verification failed in TestMotorJournalIntegration/warningConfigurationCannotReplacePrimaryMotorFault.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyError failed.
+    --> The function threw the wrong exception.
+        
+        Actual Exception:
+            'MeasurementOrchestrator:MotorJournalFailure'
+        Expected Exception:
+            'PositionerController:EncoderMismatch'
+    --> Actual Error Report:
+            Error using warning
+            Motor fault retained; journal failed: Cannot append motor journal C:\Users\Spooky
+            Laptop\AppData\Local\Temp\tpd2482bdb_9ce0_44d7_8ee8_97e0b3f79971\motor_20261017_054117_295_e5355046-f57b-49ad-bd3d-a285e82d54cb.jsonl: Permission denied
+            
+            Error in MeasurementOrchestrator/movePositioner (line 752)
+                                warning('MeasurementOrchestrator:MotorJournalFailure','Motor fault retained; journal failed: %s',logError.message);
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            Error in MeasurementOrchestrator/startScan (line 241)
+                                obj.movePositioner(obj.Axis, target_th,i,0);
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            Error in TestMotorJournalIntegration>@()t.Scan.startScan() (line 117)
+                        t.verifyError(@()t.Scan.startScan(),'PositionerController:EncoderMismatch');
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
+    Evaluated Function:
+      function_handle with value:
+    
+        @()t.Scan.startScan()
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestMotorJournalIntegration.m (TestMotorJournalIntegration.warningConfigurationCannotReplacePrimaryMotorFault) at 117
+================================================================================
+.
+Done TestMotorJournalIntegration
+__________
+
+Failure Summary:
+
+     Name                                                                                 Failed  Incomplete  Reason(s)
+    ==================================================================================================================================
+     TestMotorJournalIntegration/invalidNewPlanCannotInheritPreviousCompletion              X                 Failed by verification.
+    ----------------------------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/telemetryReleaseAndCounterResetInvalidateFixedReference    X         X       Errored.
+    ----------------------------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/warningConfigurationCannotReplacePrimaryMotorFault         X                 Failed by verification.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_review_cases (line 7)
+results=run(suite); assertSuccess(results);
+                    ^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

@@ -1,5 +1,29 @@
 classdef TestScanGeometry < matlab.unittest.TestCase
     methods (Test)
+        function fullTiltDescendingCoversBothPoles(tc)
+            c=ScanGeometry.defaults();
+            c.PanStepDeg=5; c.TiltStepDeg=5;
+            c.TiltStartDeg=90; c.TiltStopDeg=-90;
+            p=ScanGeometry.buildPlan(c);
+            tc.verifyNumElements(p.TiltVector,37);
+            tc.verifyNumElements(p.PanVector,73);
+            tc.verifyNumElements(p.ThetaDeg,2701);
+            tc.verifyEqual([min(p.ThetaDeg) max(p.ThetaDeg)],[0 180]);
+            tc.verifyEqual([p.ThetaDeg(1) p.ThetaDeg(end)],[180 0]);
+            tc.verifyEqual([min(p.TiltMotorDeg) max(p.TiltMotorDeg)],[-90 90]);
+        end
+        function invalidZeroExplainsWhichFieldToCorrect(tc)
+            c=ScanGeometry.defaults();
+            c.TiltStartDeg=90; c.TiltStopDeg=-90; c.TiltAtZeroDeg=0;
+            try
+                ScanGeometry.buildPlan(c);
+                tc.assertFail('The inconsistent spherical frame must stay rejected.');
+            catch ex
+                tc.verifyEqual(ex.identifier,'ScanGeometry:ThetaRange');
+                tc.verifyTrue(contains(ex.message,'Góc cực θ tại ZERO'));
+                tc.verifyTrue(contains(ex.message,'90.0'));
+            end
+        end
         function horizontalZeroAndDirection(tc)
             c = ScanGeometry.defaults(); c.PanStopDeg = 20; c.PanStepDeg = 10;
             c.TiltStartDeg = -90; c.TiltStopDeg = 90; c.TiltStepDeg = 90;
@@ -49,6 +73,27 @@ classdef TestScanGeometry < matlab.unittest.TestCase
                 'PhiDeg',p.PhiDeg,'NormalizedS21_dB',zeros(size(p.ThetaDeg)));
             s=ScanGeometry.surface(d);
             tc.verifyEqual(s.PhiDeg(1,:),[355 360 365]);
+        end
+        function sectorEndpointIsNotTreatedAsCircularSidelobe(tc)
+            [sll,angle]=PatternAnalyzer.calculateSLL(0:10:40,[-10 -20 0 -30 -5],10);
+            tc.verifyTrue(isnan(sll));
+            tc.verifyTrue(isnan(angle));
+        end
+        function unresolvedBeamwidthDoesNotFabricateSll(tc)
+            [sll,angle]=PatternAnalyzer.calculateSLL(0:90:270,[0 -1 -2 -1],NaN);
+            tc.verifyTrue(isnan(sll));
+            tc.verifyTrue(isnan(angle));
+        end
+        function fullSurfaceComputationMeetsBudget(tc)
+            c=ScanGeometry.defaults();
+            c.PanStepDeg=5; c.TiltStepDeg=5;
+            p=ScanGeometry.buildPlan(c);
+            d=struct('Metadata',struct('Scan3DConfig',c), ...
+                'ThetaDeg',p.ThetaDeg,'PhiDeg',p.PhiDeg, ...
+                'NormalizedS21_dB',-10*sin(deg2rad(p.ThetaDeg)).^2);
+            elapsed=timeit(@()ScanGeometry.surface(d),1);
+            tc.verifyLessThan(elapsed,0.02, ...
+                'A 37x73 surface must stay below the 100-update/2-second budget.');
         end
     end
 end
