@@ -1,0 +1,177 @@
+[
+  {
+    "Time": "2026-10-16T11:51:09.1274873+07:00",
+    "Pid": 16296,
+    "Parent": 26004,
+    "Name": "matlab.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\matlab.exe\" -automation -wait -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" -logfile \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\console-green-matlab.log\" -r \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_backend_test; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\""
+  },
+  {
+    "Time": "2026-10-16T11:51:09.1413043+07:00",
+    "Pid": 25456,
+    "Parent": 16296,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:51:09.1415659+07:00",
+    "Pid": 8688,
+    "Parent": 16296,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" \"-automation\" -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" \"-logfile\" \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\console-green-matlab.log\" \"-r\" \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_backend_test; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:10.0848289+07:00",
+    "Pid": 25036,
+    "Parent": 8688,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" -mpasessionid=c8150a2d-f658-4759-beb5-054ef78d9a57 -catapultTransport -LaunchConnectPolicy serverStarts -NamedPipe local://path=mathworks-a73a808e-ea83-4fbe-a364-bb2b96da6af3/protocol/catapult "
+  },
+  {
+    "Time": "2026-10-16T11:51:19.2744814+07:00",
+    "Pid": 28144,
+    "Parent": 25036,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:19.2747605+07:00",
+    "Pid": 18380,
+    "Parent": 28144,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:19.2748396+07:00",
+    "Pid": 11152,
+    "Parent": 18380,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:51:19.601242+07:00",
+    "Pid": 31036,
+    "Parent": 25036,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:19.6014796+07:00",
+    "Pid": 22664,
+    "Parent": 31036,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:19.6015738+07:00",
+    "Pid": 15212,
+    "Parent": 22664,
+    "Name": "conhost.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:19.8837506+07:00",
+    "Pid": 25092,
+    "Parent": 25036,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:19.8840062+07:00",
+    "Pid": 34696,
+    "Parent": 25092,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:19.8840969+07:00",
+    "Pid": 26524,
+    "Parent": 34696,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:51:20.1702107+07:00",
+    "Pid": 24828,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\pythonw.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:20.4836707+07:00",
+    "Pid": 31892,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:20.4878296+07:00",
+    "Pid": 792,
+    "Parent": 31892,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:20.7625831+07:00",
+    "Pid": 34748,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:20.7627483+07:00",
+    "Pid": 27736,
+    "Parent": 34748,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:21.0295347+07:00",
+    "Pid": 25500,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:21.0297973+07:00",
+    "Pid": 29384,
+    "Parent": 25500,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:21.335655+07:00",
+    "Pid": 31848,
+    "Parent": 25036,
+    "Name": "MATLABPyHost.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\interprocess\\bin\\win64\\pycli\\MATLABPyHost.exe\" -layeredTransport -NamedPipeHandle 0000000000000FDC:0000000000000FE8 "
+  },
+  {
+    "Time": "2026-10-16T11:51:21.3360423+07:00",
+    "Pid": 21132,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\pythonw.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:24.7536111+07:00",
+    "Pid": 9924,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\pythonw.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:51:26.822676+07:00",
+    "Pid": 28432,
+    "Parent": 25036,
+    "Name": "pythonw.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:51:26.822874+07:00",
+    "Pid": 25984,
+    "Parent": 28432,
+    "Name": "pythonw.exe",
+    "Command": null
+  }
+]

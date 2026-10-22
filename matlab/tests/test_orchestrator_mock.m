@@ -97,7 +97,7 @@ PatternAnalyzer.plotCartesian(ax2, scanData.Angles, scanData.NormalizedS21_dB, .
 
 %% 6. Export Dataset using DataManager
 fprintf('[6] Exporting full dataset via DataManager...\n');
-scan_dir = DataManager.createScanDirectory(fullfile(projects_dir, 'data', 'scans'), 'sim_azimuth');
+scan_dir = DataManager.createScanDirectory(tempname, 'sim_azimuth');
 fprintf('  Destination directory: %s\n', scan_dir);
 
 saved_files = DataManager.saveScanDataset(scan_dir, scanData, fig);

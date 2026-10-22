@@ -24,7 +24,9 @@ class TestSweepIntegrity(unittest.TestCase):
         ordered = _result_to_dict(sweep((0, 1, 2, 3)), 4)
         rotated = _result_to_dict(sweep((2, 3, 0, 1)), 4)
 
-        self.assertEqual(rotated, ordered)
+        for key in ordered:
+            if key not in ('captured_at_utc', 'acquisition_id'):
+                self.assertEqual(rotated[key], ordered[key])
         self.assertEqual(rotated["frequency_hz"], [100_000_000, 101_000_000,
                                                     102_000_000, 103_000_000])
         self.assertEqual(rotated["s11_real"], [0.10, 0.11, 0.12, 0.13])

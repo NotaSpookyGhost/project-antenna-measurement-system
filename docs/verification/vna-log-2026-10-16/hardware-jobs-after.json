@@ -1,0 +1,100 @@
+[
+  {
+    "request": {
+      "start_hz": 2395000000,
+      "stop_hz": 2405000000,
+      "points": 11,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 11,
+    "first_hz": 2395000000,
+    "last_hz": 2405000000,
+    "elapsed_s": 1.063,
+    "error": null
+  },
+  {
+    "request": {
+      "start_hz": 2395000000,
+      "stop_hz": 2405000000,
+      "points": 101,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 101,
+    "first_hz": 2395000000,
+    "last_hz": 2405000000,
+    "elapsed_s": 3.343,
+    "error": null
+  },
+  {
+    "request": {
+      "start_hz": 2395000000,
+      "stop_hz": 2405000000,
+      "points": 101,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 101,
+    "first_hz": 2395000000,
+    "last_hz": 2405000000,
+    "elapsed_s": 3.44,
+    "error": null
+  },
+  {
+    "request": {
+      "start_hz": 2395000000,
+      "stop_hz": 2405000000,
+      "points": 90,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 90,
+    "first_hz": 2395000000,
+    "last_hz": 2404999951,
+    "elapsed_s": 3.088,
+    "error": null
+  },
+  {
+    "request": {
+      "start_hz": 50000,
+      "stop_hz": 3000000000,
+      "points": 101,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 101,
+    "first_hz": 50000,
+    "last_hz": 3000000000,
+    "elapsed_s": 3.341,
+    "error": null
+  },
+  {
+    "request": {
+      "start_hz": 50000,
+      "stop_hz": 3000000000,
+      "points": 401,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 401,
+    "first_hz": 50000,
+    "last_hz": 3000000000,
+    "elapsed_s": 9.714,
+    "error": null
+  },
+  {
+    "request": {
+      "start_hz": 2395000000,
+      "stop_hz": 2405000000,
+      "points": 11,
+      "averages": 1
+    },
+    "state": "SUCCEEDED",
+    "points_received": 11,
+    "first_hz": 2395000000,
+    "last_hz": 2405000000,
+    "elapsed_s": 1.064,
+    "error": null
+  }
+]

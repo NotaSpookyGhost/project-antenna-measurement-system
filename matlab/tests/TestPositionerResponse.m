@@ -1,6 +1,30 @@
 classdef TestPositionerResponse < matlab.unittest.TestCase
     % Serial fixtures exercise the same decoder used by hardware POS queries.
     methods (Test)
+        function invalidPanCannotPassConnectionValidation(testCase)
+            response = ['PAN:0.00 TILT:0.00 RAW_PAN:-1.00 (AGC:255) RAW_TILT:208.30 (AGC:128) ' ...
+                'ENC_PAN_VALID:0 ENC_TILT_VALID:1 SENSOR_CACHED:0'];
+            position=PositionerController.decodePositionResponse(response);
+            testCase.verifyError(@()PositionerController.requireEncoderFeedback(position,true), ...
+                'PositionerController:EncoderUnavailable');
+        end
+        function invalidTiltCannotPassWhenTiltEnabled(testCase)
+            response = ['PAN:0.00 TILT:0.00 RAW_PAN:121.46 (AGC:75) RAW_TILT:-1.00 (AGC:255) ' ...
+                'ENC_PAN_VALID:1 ENC_TILT_VALID:0 SENSOR_CACHED:0'];
+            position=PositionerController.decodePositionResponse(response);
+            testCase.verifyError(@()PositionerController.requireEncoderFeedback(position,false), ...
+                'PositionerController:EncoderUnavailable');
+            PositionerController.requireEncoderFeedback(position,true);
+        end
+        function validFeedbackPassesConnectionValidation(testCase)
+            response = ['PAN:0.00 TILT:0.00 RAW_PAN:121.46 (AGC:75) RAW_TILT:208.30 (AGC:128) ' ...
+                'ENC_PAN_VALID:1 ENC_TILT_VALID:1 SENSOR_CACHED:0'];
+            position=PositionerController.decodePositionResponse(response);
+            PositionerController.requireEncoderFeedback(position,false);
+            position.PanEncoderDeg=-1;
+            testCase.verifyError(@()PositionerController.requireEncoderFeedback(position,true), ...
+                'PositionerController:EncoderUnavailable');
+        end
         function decodesRampCapabilityAndCurrentValues(testCase)
             response = ['PAN:0.00 TILT:0.00 RAW_PAN:121.46 (AGC:75) RAW_TILT:180.00 (AGC:75) ' ...
                 'RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100'];

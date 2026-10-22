@@ -1,0 +1,26 @@
+[
+  {
+    "Path": "matlab/classes/MotorScanJournal.m",
+    "SHA256": "919E50781E9E6706BB84633B04E680EE474CA4ED787B34D333932D2F299EA144"
+  },
+  {
+    "Path": "matlab/classes/MeasurementOrchestrator.m",
+    "SHA256": "D1999D6D5422493111540F5D04CBEAFFA403FCF00AD98B6A5FDE1CF87F37AEB8"
+  },
+  {
+    "Path": "matlab/classes/PositionerController.m",
+    "SHA256": "33B3BA3DA411BAF7F897B6FD2CDBCF33DC369B414BC184FD2BF721ED4CEF220C"
+  },
+  {
+    "Path": "matlab/tests/TestMotorScanJournal.m",
+    "SHA256": "4160D14D3A5380F6C98E14A5E1B1A3308A5F5849AF7229CC82EAA233F5270BEF"
+  },
+  {
+    "Path": "matlab/tests/TestMotorJournalIntegration.m",
+    "SHA256": "4082847848B4F473272119904A8BE838DEF81539C6B7FEE15AB41B36D0F2FB9B"
+  },
+  {
+    "Path": "matlab/tests/run_vna_software_tests.m",
+    "SHA256": "A43B1DF4F877C534D1D245F5AE7EB5020C5409F09006F8AC7FFE94B083B41355"
+  }
+]

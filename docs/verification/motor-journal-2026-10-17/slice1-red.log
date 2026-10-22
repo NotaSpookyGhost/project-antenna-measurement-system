@@ -1,0 +1,111 @@
+Running TestMotorScanJournal
+
+================================================================================
+Error occurred in TestMotorScanJournal/recordsAreReadableBeforeFinishAndRemainAfterFailure and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:UndefinedFunction'
+    --------------
+    Error Details:
+    --------------
+    Undefined function 'MotorScanJournal' for input arguments of type 'struct'.
+    
+    Error in TestMotorScanJournal/recordsAreReadableBeforeFinishAndRemainAfterFailure (line 13)
+                j=MotorScanJournal(t.Folder,struct('PositionerMode','Hardware','VNAMode','Mock'));
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorScanJournal/fixedReferenceFindsIncreasingReturnDriftAcrossWrap and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:UndefinedFunction'
+    --------------
+    Error Details:
+    --------------
+    Undefined function 'MotorScanJournal' for input arguments of type 'struct'.
+    
+    Error in TestMotorScanJournal/fixedReferenceFindsIncreasingReturnDriftAcrossWrap (line 27)
+                j=MotorScanJournal(t.Folder,struct('PositionerMode','Hardware','VNAMode','Mock'));
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorScanJournal/fullAntennaTurnIsNotMistakenForShaftZero and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:UndefinedFunction'
+    --------------
+    Error Details:
+    --------------
+    Undefined function 'MotorScanJournal' for input arguments of type 'struct'.
+    
+    Error in TestMotorScanJournal/fullAntennaTurnIsNotMistakenForShaftZero (line 41)
+                j=MotorScanJournal(t.Folder,struct('PositionerMode','Hardware','VNAMode','Mock'));
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorScanJournal/missingReferenceAndFailedZeroMoveNeverClaimClosure and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:UndefinedFunction'
+    --------------
+    Error Details:
+    --------------
+    Undefined function 'MotorScanJournal' for input arguments of type 'struct'.
+    
+    Error in TestMotorScanJournal/missingReferenceAndFailedZeroMoveNeverClaimClosure (line 48)
+                j=MotorScanJournal(t.Folder,struct('PositionerMode','Hardware','VNAMode','Mock'));
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorScanJournal/filesAreUniqueAndMockUnitsAreExplicit and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:UndefinedFunction'
+    --------------
+    Error Details:
+    --------------
+    Undefined function 'MotorScanJournal' for input arguments of type 'struct'.
+    
+    Error in TestMotorScanJournal/filesAreUniqueAndMockUnitsAreExplicit (line 57)
+                j=MotorScanJournal(t.Folder,meta); k=MotorScanJournal(t.Folder,meta);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+Done TestMotorScanJournal
+__________
+
+Failure Summary:
+
+     Name                                                                      Failed  Incomplete  Reason(s)
+    =========================================================================================================
+     TestMotorScanJournal/recordsAreReadableBeforeFinishAndRemainAfterFailure    X         X       Errored.
+    ---------------------------------------------------------------------------------------------------------
+     TestMotorScanJournal/fixedReferenceFindsIncreasingReturnDriftAcrossWrap     X         X       Errored.
+    ---------------------------------------------------------------------------------------------------------
+     TestMotorScanJournal/fullAntennaTurnIsNotMistakenForShaftZero               X         X       Errored.
+    ---------------------------------------------------------------------------------------------------------
+     TestMotorScanJournal/missingReferenceAndFailedZeroMoveNeverClaimClosure     X         X       Errored.
+    ---------------------------------------------------------------------------------------------------------
+     TestMotorScanJournal/filesAreUniqueAndMockUnitsAreExplicit                  X         X       Errored.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_slice1 (line 4)
+results=runtests('TestMotorScanJournal'); assertSuccess(results);
+                                          ^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

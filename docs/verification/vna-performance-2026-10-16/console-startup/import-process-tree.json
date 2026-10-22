@@ -1,0 +1,163 @@
+[
+  {
+    "Time": "2026-10-16T11:49:30.6159843+07:00",
+    "Pid": 25440,
+    "Parent": 2892,
+    "Name": "matlab.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\matlab.exe\" -automation -wait -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" -logfile \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\import-matlab.log\" -r \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_imports; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\""
+  },
+  {
+    "Time": "2026-10-16T11:49:30.623834+07:00",
+    "Pid": 22920,
+    "Parent": 25440,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:49:30.6241126+07:00",
+    "Pid": 10908,
+    "Parent": 25440,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" \"-automation\" -sd \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\" \"-logfile\" \"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.superpowers\\sdd\\vna-performance-2026-10-16\\import-matlab.log\" \"-r\" \"try; addpath('.superpowers/sdd/vna-performance-2026-10-16'); probe_imports; exit(0); catch ME; disp(getReport(ME,'extended')); exit(1); end\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:31.5369348+07:00",
+    "Pid": 18932,
+    "Parent": 10908,
+    "Name": "MATLAB.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\bin\\win64\\MATLAB.exe\" -mpasessionid=a3baaa8a-c789-4dcf-8bd6-9ac9f3956b9e -catapultTransport -LaunchConnectPolicy serverStarts -NamedPipe local://path=mathworks-e4355774-34cc-4e3d-b285-f51589f1a5ee/protocol/catapult "
+  },
+  {
+    "Time": "2026-10-16T11:49:37.8990796+07:00",
+    "Pid": 3176,
+    "Parent": 18932,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:37.8993211+07:00",
+    "Pid": 32392,
+    "Parent": 3176,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:37.899386+07:00",
+    "Pid": 19208,
+    "Parent": 32392,
+    "Name": "conhost.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:38.4688059+07:00",
+    "Pid": 30808,
+    "Parent": 18932,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:38.4689724+07:00",
+    "Pid": 14088,
+    "Parent": 30808,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:38.4690234+07:00",
+    "Pid": 18848,
+    "Parent": 14088,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:49:38.7575557+07:00",
+    "Pid": 11716,
+    "Parent": 18932,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:38.7577114+07:00",
+    "Pid": 27144,
+    "Parent": 11716,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:38.7577755+07:00",
+    "Pid": 28948,
+    "Parent": 27144,
+    "Name": "conhost.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:39.0369635+07:00",
+    "Pid": 7824,
+    "Parent": 18932,
+    "Name": "MATLABPyHost.exe",
+    "Command": "\"C:\\Program Files\\MATLAB\\R2025b\\interprocess\\bin\\win64\\pycli\\MATLABPyHost.exe\" -layeredTransport -NamedPipeHandle 0000000000000FE4:0000000000000FE8 "
+  },
+  {
+    "Time": "2026-10-16T11:49:39.342286+07:00",
+    "Pid": 29896,
+    "Parent": 18932,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:39.3425123+07:00",
+    "Pid": 20876,
+    "Parent": 29896,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:39.342579+07:00",
+    "Pid": 32380,
+    "Parent": 20876,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  },
+  {
+    "Time": "2026-10-16T11:49:42.3574644+07:00",
+    "Pid": 30248,
+    "Parent": 18932,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:42.3575977+07:00",
+    "Pid": 29600,
+    "Parent": 30248,
+    "Name": "python.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:42.3576659+07:00",
+    "Pid": 32656,
+    "Parent": 29600,
+    "Name": "conhost.exe",
+    "Command": null
+  },
+  {
+    "Time": "2026-10-16T11:49:43.4872389+07:00",
+    "Pid": 31376,
+    "Parent": 18932,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:43.4875066+07:00",
+    "Pid": 34284,
+    "Parent": 31376,
+    "Name": "python.exe",
+    "Command": "\"C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\.venv-vna\\Scripts\\python.exe\" \"C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\external\\interfaces\\python\\+python\\+internal\\pyinfo.py\" "
+  },
+  {
+    "Time": "2026-10-16T11:49:43.4875864+07:00",
+    "Pid": 31660,
+    "Parent": 34284,
+    "Name": "conhost.exe",
+    "Command": "\\??\\C:\\Windows\\system32\\conhost.exe 0x4"
+  }
+]

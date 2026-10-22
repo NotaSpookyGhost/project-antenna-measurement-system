@@ -1,0 +1,94 @@
+[
+  {
+    "iteration": 0,
+    "state": "SUCCEEDED",
+    "elapsed_s": 0.45475470001110807,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10071959998458624
+      },
+      {
+        "method": "configure_sweep",
+        "seconds": 0.10132200000225566
+      },
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10072570000193082
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.13514240001677535
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 0.3362138000084087
+      }
+    ],
+    "error": null,
+    "points_received": 11
+  },
+  {
+    "iteration": 1,
+    "state": "SUCCEEDED",
+    "elapsed_s": 0.2471566000021994,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10062279997509904
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.033376700012013316
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 0.2341807000047993
+      }
+    ],
+    "error": null,
+    "points_received": 11
+  },
+  {
+    "iteration": 2,
+    "state": "SUCCEEDED",
+    "elapsed_s": 0.24776609998662025,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10081890001310967
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.03458779997890815
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 0.23577100000693463
+      }
+    ],
+    "error": null,
+    "points_received": 11
+  },
+  {
+    "iteration": 3,
+    "state": "SUCCEEDED",
+    "elapsed_s": 0.24709759998950176,
+    "events": [
+      {
+        "method": "clear_fifo",
+        "seconds": 0.10083390001091175
+      },
+      {
+        "method": "_read_fifo",
+        "seconds": 0.03310359999886714
+      },
+      {
+        "method": "acquire_single",
+        "seconds": 0.23448730001109652
+      }
+    ],
+    "error": null,
+    "points_received": 11
+  }
+]

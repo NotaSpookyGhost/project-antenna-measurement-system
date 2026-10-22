@@ -1,0 +1,129 @@
+Running TestMotorJournalIntegration
+
+================================================================================
+Error occurred in TestMotorJournalIntegration/manualReferencePersistsUntilExplicitReleaseOrZero and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noPublicFieldForClass'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized property 'MotorLogDirectory' for class 'MeasurementOrchestrator'.
+    
+    Error in TestMotorJournalIntegration/setup (line 15)
+                t.Scan.MotorLogDirectory=t.Folder; t.Scan.SettleTimeSec=0;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorJournalIntegration/repeatedScansKeepReferenceAndSaveWithoutExport and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noPublicFieldForClass'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized property 'MotorLogDirectory' for class 'MeasurementOrchestrator'.
+    
+    Error in TestMotorJournalIntegration/setup (line 15)
+                t.Scan.MotorLogDirectory=t.Folder; t.Scan.SettleTimeSec=0;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorJournalIntegration/threeDimensionalScanLogsBothAxes and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noPublicFieldForClass'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized property 'MotorLogDirectory' for class 'MeasurementOrchestrator'.
+    
+    Error in TestMotorJournalIntegration/setup (line 15)
+                t.Scan.MotorLogDirectory=t.Folder; t.Scan.SettleTimeSec=0;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorJournalIntegration/failedMoveIsPersistedBeforeItsSampleIsCommitted and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noPublicFieldForClass'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized property 'MotorLogDirectory' for class 'MeasurementOrchestrator'.
+    
+    Error in TestMotorJournalIntegration/setup (line 15)
+                t.Scan.MotorLogDirectory=t.Folder; t.Scan.SettleTimeSec=0;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorJournalIntegration/unwritableJournalPreventsAnyMove and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noPublicFieldForClass'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized property 'MotorLogDirectory' for class 'MeasurementOrchestrator'.
+    
+    Error in TestMotorJournalIntegration/setup (line 15)
+                t.Scan.MotorLogDirectory=t.Folder; t.Scan.SettleTimeSec=0;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+================================================================================
+Error occurred in TestMotorJournalIntegration/loggingFailureDoesNotReplaceMotorFailure and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:noPublicFieldForClass'
+    --------------
+    Error Details:
+    --------------
+    Unrecognized property 'MotorLogDirectory' for class 'MeasurementOrchestrator'.
+    
+    Error in TestMotorJournalIntegration/setup (line 15)
+                t.Scan.MotorLogDirectory=t.Folder; t.Scan.SettleTimeSec=0;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+.
+Done TestMotorJournalIntegration
+__________
+
+Failure Summary:
+
+     Name                                                                           Failed  Incomplete  Reason(s)
+    ==============================================================================================================
+     TestMotorJournalIntegration/manualReferencePersistsUntilExplicitReleaseOrZero    X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/repeatedScansKeepReferenceAndSaveWithoutExport       X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/threeDimensionalScanLogsBothAxes                     X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/failedMoveIsPersistedBeforeItsSampleIsCommitted      X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/unwritableJournalPreventsAnyMove                     X         X       Errored.
+    --------------------------------------------------------------------------------------------------------------
+     TestMotorJournalIntegration/loggingFailureDoesNotReplaceMotorFailure             X         X       Errored.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_slice2 (line 4)
+results=runtests('TestMotorJournalIntegration'); assertSuccess(results);
+                                                 ^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

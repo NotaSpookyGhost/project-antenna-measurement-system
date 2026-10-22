@@ -14,6 +14,34 @@ classdef TestScan3DGUI < matlab.unittest.TestCase
         end
     end
     methods (Test)
+        function horizontalZeroPresetAcceptsFullDescendingTilt(tc)
+            tc.App.openScan3DSettings(); f=tc.App.SettingsFigure; f.Visible='off';
+            button=findobj(f,'Tag','HorizontalTiltZeroBtn');
+            tc.assertNumElements(button,1,'Offer an explicit horizontal ZERO preset.');
+            values=struct('PanStartDeg',0,'PanStopDeg',360,'PanStepDeg',5, ...
+                'TiltStartDeg',90,'TiltStopDeg',-90,'TiltStepDeg',5,'TiltAtZeroDeg',0);
+            for key=fieldnames(values).'
+                edit=findobj(f,'Tag',key{1}); edit.String=num2str(values.(key{1}));
+            end
+            preview=findobj(f,'Tag','Scan3DSettingsPreview');
+            previewButton=findobj(f,'String','Xem lưới quét');
+            feval(previewButton.Callback,previewButton,[]);
+            tc.verifyTrue(any(contains(string(preview.String),'Góc cực θ tại ZERO')));
+            feval(button.Callback,button,[]);
+            tc.verifyTrue(any(contains(string(preview.String),'2701')));
+            tc.verifyEqual(preview.ForegroundColor,[0 0 0]);
+            tc.verifyFalse(isfile(tc.SettingsFile),'A preset must not save or confirm travel by itself.');
+            saveButton=findobj(f,'String','Lưu cấu hình');
+            feval(saveButton.Callback,saveButton,[]);
+            c=tc.App.Scan3DConfig; p=ScanGeometry.buildPlan(c);
+            tc.verifyEqual(c.TiltAtZeroDeg,90);
+            tc.verifyEqual([c.TiltStartDeg c.TiltStopDeg],[90 -90]);
+            tc.verifyEqual(c.TravelTiltDeg,[-90 90]);
+            tc.verifyEqual([min(p.ThetaDeg) max(p.ThetaDeg)],[0 180]);
+            tc.verifyFalse(tc.App.Positioner.IsConnected);
+            tc.verifyFalse(tc.App.Positioner.IsHomed);
+            tc.verifyFalse(tc.App.Positioner.TravelConfirmed);
+        end
         function motorRampControlAppliesBoundedSettings(tc)
             tc.verifyTrue(isgraphics(tc.App.MotorRampBtn));
             tc.App.configureMotorRamp(100,75);
