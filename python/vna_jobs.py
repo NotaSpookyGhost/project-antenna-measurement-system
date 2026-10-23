@@ -64,7 +64,7 @@ class JobManager:
                 expected=actual_grid(request); total=None; first=None
                 fields=('s11_real','s11_imag','s21_real','s21_imag')
                 for _ in range(request['averages']):
-                    self._check_cancel(); incoming=self._acquire(); self._check_cancel()
+                    self._check_cancel(); incoming=self._acquire()
                     if str(incoming.get('status','OK')).startswith('ERROR'):
                         status=str(incoming['status'])
                         if 'TRANSPORT:' in status:
@@ -74,6 +74,7 @@ class JobManager:
                         else:
                             code='INVALID_SWEEP'
                         raise VNAError(code,incoming['status'])
+                    self._check_cancel()
                     raw=validate_raw(incoming)
                     if raw['frequency_hz']!=expected or (first and raw['mode']!=first['mode']):
                         raise VNAError('GRID_MISMATCH','Sweep grid/mode changed inside averaging group')
@@ -91,5 +92,7 @@ class JobManager:
             result={'error':dict(code='INVALID_SWEEP',message=str(exc))}
         finally:
             with self._mutex:
-                if self._cancel.is_set(): state='CANCELLED'; result={}
+                if self._cancel.is_set():
+                    state='CANCELLED'
+                    result.pop('raw',None)
                 self._job.update(state=state,**result); self._worker_ident=None

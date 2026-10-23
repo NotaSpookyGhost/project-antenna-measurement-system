@@ -335,7 +335,7 @@ classdef VNAController < handle
             end
             if job.Generation~=obj.Generation, error('VNA:CONTEXT_MISMATCH','Job belongs to an old connection.'); end
             if ~strcmp(job.State,'RUNNING'), obj.ActiveJobId=''; end
-            if strcmp(job.State,'FAILED')&&strcmp(job.Error.Code,'TRANSPORT')
+            if ~strcmp(job.State,'RUNNING')&&isfield(job.Error,'Code')&&strcmp(job.Error.Code,'TRANSPORT')
                 obj.markTransportLost();
             end
         end

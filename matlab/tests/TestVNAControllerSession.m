@@ -1,5 +1,14 @@
 classdef TestVNAControllerSession < matlab.unittest.TestCase
     methods(Test)
+        function cancelledTransportInvalidatesConnectionAndCalibration(t)
+            t.checkTerminalTransport('CANCELLED','TRANSPORT',false,'STALE');
+        end
+        function failedTransportInvalidatesConnectionAndCalibration(t)
+            t.checkTerminalTransport('FAILED','TRANSPORT',false,'STALE');
+        end
+        function ordinaryCancellationKeepsConnectionAndCalibration(t)
+            t.checkTerminalTransport('CANCELLED','',true,'ACTIVE');
+        end
         function asyncDispatchNeverCallsSynchronousConfiguration(t)
             c=SyncConfigurationTrap(); c.connect(); cleanup=onCleanup(@()delete(c)); %#ok<NASGU>
             lease=c.claim('workbench');
@@ -40,6 +49,36 @@ classdef TestVNAControllerSession < matlab.unittest.TestCase
             c.disconnect(); c.connect();
             t.verifyGreaterThan(c.Generation,gen);
             t.verifyError(@()c.assertLease(lease),'VNA:BUSY');
+        end
+    end
+    methods(Access=private)
+        function checkTerminalTransport(t,state,code,connected,calState)
+            vnaPythonBackend(true);
+            fixture=py.importlib.import_module('python.tests.controller_transport_fixture');
+            patcher=fixture.TerminalJobPatch(state,code);
+            patchCleanup=onCleanup(@()patcher.close());
+            c=VNAController('Mode','Real'); c.connect('FAKE');
+            controllerCleanup=onCleanup(@()delete(c));
+            c.setRFContext('Test instrument','test-path','test-plane');
+            f=py.importlib.import_module('python.tests.vna_fixtures'); values=f.fixture();
+            draft=jsondecode(char(py.json.dumps(values{1})));
+            request=struct('StartHz',2300000000,'StopHz',2500000000,'Points',11,'Averages',1);
+            ctx=c.getContext();
+            c.Calibration.beginCollection('SOL_1PORT',draft.kit,ctx,request);
+            names=fieldnames(draft.standards);
+            for k=1:numel(names)
+                raw=draft.standards.(names{k}); raw.mode='Real';
+                c.Calibration.recordStandard(names{k},VNARequest.fromWire(raw));
+            end
+            c.Calibration.solve(); c.Calibration.activate(request,ctx,true);
+            lease=c.claim('workbench');
+            id=c.beginSweep(request,lease);
+            job=c.pollSweep(id,lease); c.release(lease);
+            t.verifyEqual(job.State,state);
+            t.verifyEmpty(job.Raw);
+            t.verifyEqual(c.IsConnected,connected);
+            t.verifyEqual(c.Calibration.State,calState);
+            t.verifyFalse(c.isBusy());
         end
     end
 end

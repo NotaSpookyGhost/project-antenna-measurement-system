@@ -252,7 +252,11 @@ def acquire_sweep(start_hz: float, stop_hz: float, points: int) -> dict:
         result = vna.acquire_sweep(int(start_hz), int(stop_hz), int(points))
         result = _retry_transitional_sweep(vna,result,started)
         return _result_to_dict(result, int(points))
-    except TransportError as e:
+    except (TransportError,serial.SerialException) as e:
+        try:
+            vna.disconnect()
+        except Exception:
+            pass
         return _error_dict(f'TRANSPORT:{e}', int(points))
     except Exception as e:
         return _error_dict(str(e), int(points))
@@ -276,7 +280,11 @@ def acquire_single() -> dict:
         )
         result = _retry_transitional_sweep(vna,result,started)
         return _result_to_dict(result, vna._sweep_points)
-    except TransportError as e:
+    except (TransportError,serial.SerialException) as e:
+        try:
+            vna.disconnect()
+        except Exception:
+            pass
         return _error_dict(f'TRANSPORT:{e}', 0)
     except Exception as e:
         return _error_dict(str(e), 0)
@@ -404,7 +412,9 @@ def _configure_job(request):
             and vna._sweep_points==request['points'] and vna._sweep_values_per_freq==1):
         return
     status=configure_sweep(request['start_hz'],request['stop_hz'],request['points'])
-    if status!='OK': raise VNAError('INVALID_REQUEST',status)
+    if status!='OK':
+        code='TRANSPORT' if status.startswith('ERROR:TRANSPORT:') else 'INVALID_REQUEST'
+        raise VNAError(code,status)
 
 
 _jobs=JobManager(lambda:acquire_single(),_configure_job,_io_lock)
