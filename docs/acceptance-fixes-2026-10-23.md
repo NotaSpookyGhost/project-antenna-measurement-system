@@ -24,9 +24,27 @@ Red/green evidence and execution logs: `output/fixes-2026-10-23/`.
 - Raw combined-run evidence: `data/validation/acceptance_system_20261023_160241_UTC/result.mat`, `hardware.log` and `motor/*.jsonl`; summary `output/fixes-2026-10-23/hardware-summary.json`. Preserve all11 completed points.
 - Stationary post-fault diagnosis: Pan160/160 valid, Tilt0/160 valid across30 released,100 held,30 released samples. No motion or ZERO. Final HOLD OFF confirmed. Evidence: `data/validation/acceptance_encoder_20261023_230625/raw.jsonl` and `summary.json`. An earlier probe stopped on a Windows file-write error; its partial raw evidence at `acceptance_encoder_20261023_230526/raw.json` is retained and not counted as a complete pass.
 
-## Acceptance outcome
+## Initial acceptance outcome
 
 The five software review defects and consistent SLL annotations across GUI/export/viewer are corrected and regression-tested. Software acceptance passes. Full hardware motion/3D acceptance does not pass: the firmware currently reports unavailable Tilt feedback even without movement. Sensor power/GND, connections and magnetic alignment need physical inspection before further scans; neither the host guard nor firmware limits were weakened to obtain a pass.
+
+## Follow-up retest after clearing a snagged Pan cable
+
+At the operator's request, tests were rerun against source commit `6f1fd6d16c7078de3d39d2ef88caf1d8a958459b`, without source changes. Fresh software evidence under `output/retest-6f1fd6d-20261023_162307/`:147/147 MATLAB tests across all24 allowlisted classes,3/3 Mock scripts,85/85 Python tests,7/7 supplementary Python tests and all5 native firmware suites PASS. All process exit codes0; no VNA timer leaks.
+
+Fresh stationary hardware: both Pan and Tilt160/160 samples valid across release/hold/release; real COM6 VNA9/9 sweeps complete at11/101/401 points. Evidence: `data/validation/acceptance_encoder_20261023_232325/` and `data/validation/acceptance_rf_20261023_232337/`.
+
+The operator reported removing a snagged Pan cable during the first combined retest and requested a new run. That affected run at `acceptance_system_20261023_163011_UTC` is retained with the operator note in the software retest output folder; it is not the clean-run acceptance evidence.
+
+**Latest clean functional hardware retest: PASS**, process exit0. Evidence: `data/validation/acceptance_system_20261023_163312_UTC/result.mat`, `hardware.log`, `motor/*.jsonl`; summary/log under `output/hardware-after-wire-20261023_163306/`.
+
+- Real asynchronous STOP drained in4.3205356s; cancelled raw data was suppressed and the connection remained available.
+- All30 held paired encoder snapshots passed, followed by Pan/Tilt0→10→0.
+- Pan0..360 step30 retained13/13 real RF points, without abort, then returned to test ZERO.
+- Small3D scan,2 Tilt rows ×3 Pan points, retained6/6 real RF points without abort. Tilt travel tested0..10 degrees; full Tilt travel was not tested.
+- HOLD and unchanged driver-release count were checked during the scan; both axes returned to test ZERO before normal release/disconnection.
+
+This run passes functional motion/data acquisition acceptance. The earlier unavailable-Tilt episode remains part of the record; the cable event alone does not prove its root cause. Independent physical table closure, calibrated RF accuracy, absolute gain and full Tilt travel remain outside this result. No guard was disabled and no firmware was uploaded.
 
 ## Scope limits
 
