@@ -1,5 +1,14 @@
 # Codex setup for antenna-v3
 
+## Acceptance corrections — 2026-10-23
+
+Pole aggregation, circular/sector SLL and plot annotation consistency, and
+transport-loss propagation through cancellation are corrected. See
+`docs/acceptance-fixes-2026-10-23.md` for red/green evidence, complete test
+coverage and separate real-device results. Cancelled VNA jobs may retain an
+error even though late raw data is discarded; consume transport loss
+independently of terminal cancellation state.
+
 ## Live plot callback recovery — 2026-10-22
 
 The scan status bar now has a persistent **Lỗi live plot** menu with three
