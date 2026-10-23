@@ -79,6 +79,70 @@ classdef TestScanGeometry < matlab.unittest.TestCase
             tc.verifyTrue(isnan(sll));
             tc.verifyTrue(isnan(angle));
         end
+        function northAndSouthPoolTheirOwnAmplitudes(tc)
+            c=ScanGeometry.defaults(); c.PanStepDeg=180; c.TiltStepDeg=180;
+            d=struct('Metadata',struct('Scan3DConfig',c), ...
+                'ThetaDeg',[0 0 0 180 180 180],'PhiDeg',[0 180 360 0 180 360], ...
+                'NormalizedS21_dB',[0 -6 -12 -20 -26 -32]);
+            s=ScanGeometry.surface(d);
+            north=20*log10((1+10^(-6/20)+10^(-12/20))/3);
+            tc.verifyEqual(s.RelativeDB(1,:),repmat(north,1,3),'AbsTol',1e-10);
+            tc.verifyEqual(s.RelativeDB(2,:),repmat(north-20,1,3),'AbsTol',1e-10);
+        end
+        function unmeasuredPoleRemainsMissing(tc)
+            c=ScanGeometry.defaults(); c.PanStepDeg=180; c.TiltStepDeg=180;
+            for measuredTheta=[0 180]
+                d=struct('Metadata',struct('Scan3DConfig',c), ...
+                    'ThetaDeg',[measuredTheta measuredTheta], ...
+                    'PhiDeg',[0 180],'NormalizedS21_dB',[-10 -10]);
+                s=ScanGeometry.surface(d);
+                tc.verifyEqual(s.RelativeDB(s.ThetaDeg==measuredTheta), ...
+                    -10*ones(3,1),'AbsTol',1e-10);
+                tc.verifyTrue(all(isnan(s.RelativeDB(s.ThetaDeg~=measuredTheta))));
+            end
+        end
+        function circularSidelobeAtUnduplicatedEndpoint(tc)
+            grids={0:359,359:-1:0,17:376,376:-1:17};
+            for k=1:numel(grids)
+                a=grids{k}; y=-40*ones(size(a));
+                y(181)=0; y(1)=-10; y([2 end])=-20;
+                [sll,angle]=PatternAnalyzer.calculateSLL(a,y,10);
+                tc.verifyEqual(sll,-10);
+                tc.verifyEqual(angle,a(1));
+            end
+        end
+        function circularSidelobeWithDuplicatedEndpoint(tc)
+            grids={0:360,360:-1:0,17:377,377:-1:17};
+            for k=1:numel(grids)
+                a=grids{k}; y=-40*ones(size(a));
+                y(181)=0; y([1 end])=-10; y([2 end-1])=-20;
+                [sll,angle]=PatternAnalyzer.calculateSLL(a,y,10);
+                tc.verifyEqual(sll,-10);
+                tc.verifyEqual(mod(angle-a(1),360),0);
+            end
+        end
+        function explicitSectorDoesNotWrapNearlyFullTurn(tc)
+            a=0:359; y=-40*ones(size(a));
+            y(181)=0; y(1)=-10; y([2 end])=-20;
+            [sll,angle]=PatternAnalyzer.calculateSLL(a,y,10,false);
+            tc.verifyTrue(isnan(sll));
+            tc.verifyTrue(isnan(angle));
+        end
+        function sliceDoesNotCloseSectorOrIncompleteTurn(tc)
+            for stop=[359 360]
+                c=ScanGeometry.defaults(); c.PanStopDeg=stop; c.PanStepDeg=1;
+                a=0:359; y=-40*ones(size(a));
+                y(181)=0; y(1)=-10; y([2 end])=-20;
+                d=struct('Metadata',struct('Scan3DConfig',c), ...
+                    'RowIndex',ones(size(a)),'PanAngles',a, ...
+                    'MeasuredPanAngles',a,'PanEncoderAngles',a, ...
+                    'S11',zeros(numel(a),1),'S21',zeros(numel(a),1), ...
+                    'SelectedS21_dB',y,'SelectedS21_PhaseDeg',zeros(size(a)));
+                s=ScanGeometry.slice(d,1);
+                tc.verifyTrue(isnan(s.Analysis.SLL_dB));
+                tc.verifyTrue(isnan(s.Analysis.SLLAngle_deg));
+            end
+        end
         function unresolvedBeamwidthDoesNotFabricateSll(tc)
             [sll,angle]=PatternAnalyzer.calculateSLL(0:90:270,[0 -1 -2 -1],NaN);
             tc.verifyTrue(isnan(sll));

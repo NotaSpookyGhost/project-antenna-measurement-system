@@ -128,10 +128,13 @@ classdef PatternAnalyzer
             end
         end
 
-        function [sll_db, sll_angle_deg] = calculateSLL(angles_deg, s21_rel_db, hpbw_deg)
+        function [sll_db, sll_angle_deg] = calculateSLL(angles_deg, s21_rel_db, hpbw_deg, fullCircle)
             % CALCULATESLL Calculate Side-Lobe Level (relative to main lobe peak = 0 dB).
             %
             % Identifies local maxima outside the main lobe beamwidth.
+            % Optional fullCircle declares scan topology when known. Otherwise,
+            % infer a repeated endpoint or a uniform grid spanning 360-step.
+            % Pass false for sectors, including an ambiguous 0:359 sector.
             % Returns:
             %   sll_db: Highest sidelobe peak in dB (typically negative, e.g. -13.5 dB)
             %   sll_angle_deg: Angle at which the highest sidelobe occurs
@@ -143,6 +146,17 @@ classdef PatternAnalyzer
                 sll_db = NaN;
                 sll_angle_deg = NaN;
                 return;
+            end
+
+            [angles_deg,order]=sort(angles_deg);
+            s21_rel_db=s21_rel_db(order);
+            span=angles_deg(end)-angles_deg(1);
+            duplicateEndpoint=abs(span-360)<=1e-8;
+            if nargin<4 || isempty(fullCircle)
+                steps=diff(angles_deg);
+                step=steps(1);
+                fullCircle=duplicateEndpoint || (step>0 && ...
+                    all(abs(steps-step)<=1e-8) && abs(span+step-360)<=1e-8);
             end
 
             if max(s21_rel_db) > 0.05 || max(s21_rel_db) < -0.05
@@ -165,7 +179,6 @@ classdef PatternAnalyzer
             exclusion_half = max(hpbw_deg * 0.75, 5.0);
 
             N = length(angles_deg);
-            fullCircle=max(angles_deg)-min(angles_deg)>=359.999;
             sidelobe_peaks = [];
             sidelobe_angles = [];
 
@@ -178,6 +191,11 @@ classdef PatternAnalyzer
                 if fullCircle
                     prev_i = mod(i-2, N) + 1;
                     next_i = mod(i, N) + 1;
+                    % Closure repeats the same direction, not a neighbor.
+                    if duplicateEndpoint
+                        if i==1, prev_i=N-1; end
+                        if i==N, next_i=2; end
+                    end
                 else
                     prev_i=i-1;
                     next_i=i+1;
@@ -349,8 +367,9 @@ classdef PatternAnalyzer
             h_lines = h_main;
         end
 
-        function h_plot = plotCartesian(ax, angles_deg, s21_rel_db, title_str, dynamic_range_db)
+        function h_plot = plotCartesian(ax, angles_deg, s21_rel_db, title_str, dynamic_range_db, analysis)
             % PLOTCARTESIAN Plot 2D Cartesian pattern (Angle vs Relative dB).
+            % Optional scan analysis preserves the declared topology in annotations.
 
             if isempty(angles_deg) || isempty(s21_rel_db)
                 h_plot = [];
@@ -377,8 +396,13 @@ classdef PatternAnalyzer
             h_plot = plot(ax, angles_deg, s21_rel_db, 'b-', 'LineWidth', 1.8);
 
             % Annotations
-            [hpbw, th_l, th_r] = PatternAnalyzer.calculateHPBW(angles_deg, s21_rel_db);
-            [sll, sll_th] = PatternAnalyzer.calculateSLL(angles_deg, s21_rel_db, hpbw);
+            if nargin<6 || isempty(analysis)
+                [hpbw, th_l, th_r] = PatternAnalyzer.calculateHPBW(angles_deg, s21_rel_db);
+                [sll, sll_th] = PatternAnalyzer.calculateSLL(angles_deg, s21_rel_db, hpbw);
+            else
+                th_l=analysis.ThetaLeft_deg; th_r=analysis.ThetaRight_deg;
+                sll=analysis.SLL_dB; sll_th=analysis.SLLAngle_deg;
+            end
 
             if ~isnan(th_l) && ~isnan(th_r)
                 plot(ax, [th_l, th_r], [-3, -3], 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 5);

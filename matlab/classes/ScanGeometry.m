@@ -86,11 +86,11 @@ classdef ScanGeometry
                     amplitude(hasSamples)=sums(hasSamples)./counts(hasSamples);
                 end
             end
-            poleRows=abs(sind(theta))<1e-8;
-            poleSamples=abs(sind(sampleTheta))<1e-8;
-            poleValues=values(finite&poleSamples);
-            if ~isempty(poleValues)
-                amplitude(poleRows,:)=mean(poleValues);
+            for row=find(abs(sind(theta))<1e-8)
+                poleValues=values(finite & abs(sampleTheta-theta(row))<=1e-8);
+                if ~isempty(poleValues)
+                    amplitude(row,:)=mean(poleValues);
+                end
             end
             if fullTurn && ~isempty(phi)
                 phi(end+1) = phi(1)+360;
@@ -123,7 +123,10 @@ classdef ScanGeometry
                 [an.PeakAngle_deg,an.PeakVal_dB] = PatternAnalyzer.findMainLobe(d.Angles,d.SelectedS21_dB);
                 if numel(keep)>=3
                     [an.HPBW_deg,an.ThetaLeft_deg,an.ThetaRight_deg] = PatternAnalyzer.calculateHPBW(d.Angles,d.NormalizedS21_dB);
-                    [an.SLL_dB,an.SLLAngle_deg] = PatternAnalyzer.calculateSLL(d.Angles,d.NormalizedS21_dB,an.HPBW_deg);
+                    c=scanData.Metadata.Scan3DConfig;
+                    fullCircle=abs(c.PanStopDeg-c.PanStartDeg)==360 && ...
+                        numel(keep)==numel(ScanGeometry.angleVector(c.PanStartDeg,c.PanStopDeg,c.PanStepDeg));
+                    [an.SLL_dB,an.SLLAngle_deg] = PatternAnalyzer.calculateSLL(d.Angles,d.NormalizedS21_dB,an.HPBW_deg,fullCircle);
                     an.FBR_dB = PatternAnalyzer.calculateFBR(d.Angles,d.NormalizedS21_dB);
                 end
             end

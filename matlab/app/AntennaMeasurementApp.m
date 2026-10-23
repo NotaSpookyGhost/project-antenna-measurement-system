@@ -421,7 +421,8 @@ classdef AntennaMeasurementApp < handle
             ax2 = subplot(1, 2, 2);
             PatternAnalyzer.plotCartesian(ax2, obj.LastScanData.Angles, obj.LastScanData.NormalizedS21_dB, ...
                 sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', ...
-                        obj.LastScanData.Analysis.HPBW_deg, obj.LastScanData.Analysis.SLL_dB));
+                        obj.LastScanData.Analysis.HPBW_deg, obj.LastScanData.Analysis.SLL_dB), ...
+                [],obj.LastScanData.Analysis);
             DataManager.saveScanDataset(exp_dir, obj.LastScanData, fig_export);
 
             msgbox(sprintf('Dataset successfully exported to:\n%s', exp_dir), 'Export Success');
@@ -869,7 +870,7 @@ classdef AntennaMeasurementApp < handle
 
             % Final Cartesian Plot with markers
             PatternAnalyzer.plotCartesian(obj.CartAx, scanData.Angles, scanData.NormalizedS21_dB, ...
-                sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB));
+                sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB),[],an);
 
             % Plot RF sweep monitor at peak angle
             if isfield(scanData, 'SelectedS21_dB') && ~isempty(scanData.SelectedS21_dB) && size(scanData.S21, 1) > 0

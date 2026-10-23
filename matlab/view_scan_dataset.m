@@ -61,7 +61,7 @@ function view_scan_dataset(scan_file_or_dir)
     % 2. 2D Cartesian
     ax2 = subplot(2, 2, 2);
     PatternAnalyzer.plotCartesian(ax2, scanData.Angles, scanData.NormalizedS21_dB, ...
-        sprintf('2D Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB));
+        sprintf('2D Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB),[],an);
 
     % 3. RF Sweep Monitor at Peak
     ax3 = subplot(2, 2, 3);

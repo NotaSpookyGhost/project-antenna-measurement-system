@@ -389,7 +389,8 @@ classdef MeasurementOrchestrator < handle
                 [peak_angle, peak_val] = PatternAnalyzer.findMainLobe(angles, s21_center_raw_db);
                 if nDone>=3
                     [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles, s21_normalized_db);
-                    [sll, sll_angle] = PatternAnalyzer.calculateSLL(angles, s21_normalized_db, hpbw);
+                    fullCircle=nDone==N_angles && abs(obj.StopAngleDeg-obj.StartAngleDeg)>=359.999;
+                    [sll, sll_angle] = PatternAnalyzer.calculateSLL(angles, s21_normalized_db, hpbw,fullCircle);
                     fbr = PatternAnalyzer.calculateFBR(angles, s21_normalized_db);
                 end
             catch MEa
