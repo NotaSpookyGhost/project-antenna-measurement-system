@@ -23,10 +23,8 @@ import csv
 import io
 import json
 import math
-import os
 import statistics
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -37,9 +35,6 @@ import serial
 PROJECTS_DIR = Path(__file__).resolve().parent.parent.parent
 if str(PROJECTS_DIR) not in sys.path:
     sys.path.insert(0, str(PROJECTS_DIR))
-_VALIDATION_TMP=tempfile.TemporaryDirectory()
-os.environ.setdefault('ANTENNA_VALIDATION_DIR',_VALIDATION_TMP.name)
-VALIDATION_DIR=Path(os.environ['ANTENNA_VALIDATION_DIR'])
 
 from python.nanovna_v2 import DeviceIdentity, FIFORecord, NanoVNAError, NanoVNA_V2, SweepResult
 from python.tests.test_helpers import (
@@ -339,7 +334,7 @@ class TestS11Loads_FailureModesAndSchema(unittest.TestCase):
             self.assertIn("VERDICT: [FAIL]", output)
             self.assertIn("[ERROR] Incomplete sweep acquisition detected.", output)
 
-            validation_dir = VALIDATION_DIR
+            validation_dir = PROJECTS_DIR / "data" / "validation"
             exp_dirs = sorted(validation_dir.glob("s11_loads_*"), key=lambda p: p.stat().st_mtime)
             self.assertTrue(len(exp_dirs) > 0)
             latest_dir = exp_dirs[-1]
@@ -402,7 +397,7 @@ class TestS11Loads_FailureModesAndSchema(unittest.TestCase):
             mock_exit.assert_not_called()
             self.assertEqual(ret, 0)
 
-            validation_dir = VALIDATION_DIR
+            validation_dir = PROJECTS_DIR / "data" / "validation"
             exp_dirs = sorted(validation_dir.glob("s11_loads_*"), key=lambda p: p.stat().st_mtime)
             latest_dir = exp_dirs[-1]
 
@@ -461,7 +456,7 @@ class TestFIFOFreshness_FailureModesAndSchema(unittest.TestCase):
             self.assertIn("VERDICT: [FAIL]", output)
             self.assertIn("[ERROR] Incomplete sweep acquisition detected.", output)
 
-            validation_dir = VALIDATION_DIR
+            validation_dir = PROJECTS_DIR / "data" / "validation"
             exp_dirs = sorted(validation_dir.glob("fifo_freshness_*"), key=lambda p: p.stat().st_mtime)
             self.assertTrue(len(exp_dirs) > 0)
             latest_dir = exp_dirs[-1]
@@ -521,7 +516,7 @@ class TestFIFOFreshness_FailureModesAndSchema(unittest.TestCase):
             mock_exit.assert_not_called()
             self.assertEqual(ret, 0)
 
-            validation_dir = VALIDATION_DIR
+            validation_dir = PROJECTS_DIR / "data" / "validation"
             exp_dirs = sorted(validation_dir.glob("fifo_freshness_*"), key=lambda p: p.stat().st_mtime)
             latest_dir = exp_dirs[-1]
 
@@ -578,7 +573,7 @@ class TestThru_EmptySweepFailureMode(unittest.TestCase):
             self.assertIn("VERDICT: [FAIL]", output)
             self.assertIn("[ERROR] No FIFO records received from device.", output)
 
-            validation_dir = VALIDATION_DIR
+            validation_dir = PROJECTS_DIR / "data" / "validation"
             exp_dirs = sorted(validation_dir.glob("thru_*"), key=lambda p: p.stat().st_mtime)
             latest_dir = exp_dirs[-1]
             self.assertTrue((latest_dir / "config.json").exists())

@@ -22,11 +22,6 @@ classdef AntennaMeasurementApp < handle
         VNA VNAController
         Positioner PositionerController
         Orchestrator MeasurementOrchestrator
-        VNAWorkbench
-        ClosePending logical=false
-        CloseDispatchActive logical=false
-        ScanCallbackActive logical=false
-        ScanLease=[]
 
         % UI Components - Inputs
         VNAModeDropdown
@@ -44,7 +39,6 @@ classdef AntennaMeasurementApp < handle
         CenterFreqEdit
         SpanEdit
         SweepPointsEdit
-        ScanCalibrationDropdown
 
         StartAngleEdit
         StopAngleEdit
@@ -88,7 +82,6 @@ classdef AntennaMeasurementApp < handle
         ProgressBar
         StatusLabel
         LogListBox
-        LivePlotFailurePopup
 
         % Live Data Cache
         LiveAngles double = []
@@ -98,11 +91,6 @@ classdef AntennaMeasurementApp < handle
         SettingsFile char = ''
         Live3DData struct = struct()
         LiveTiltRow double = 0
-        Live3DPanCount double = 0
-        LivePolarLine = []
-        LiveCartLine = []
-        Live3DScatter = []
-        Live3DSurface = []
     end
 
     methods
@@ -114,28 +102,18 @@ classdef AntennaMeasurementApp < handle
             parser = inputParser;
             addParameter(parser,'SettingsFile',fullfile(prefdir,'antenna-ver2-settings.mat'),@(x) ischar(x)||isstring(x));
             parse(parser,varargin{:}); obj.SettingsFile = char(parser.Results.SettingsFile);
-            livePlotPolicy='CONTINUE';
             if ~isempty(obj.SettingsFile) && exist(obj.SettingsFile,'file')
                 try
-                    stored = load(obj.SettingsFile);
-                    if isfield(stored,'scan3DConfig')
-                        ScanGeometry.buildPlan(stored.scan3DConfig);
-                        obj.Scan3DConfig = stored.scan3DConfig;
-                    end
-                    if isfield(stored,'livePlotFailurePolicy')
-                        candidate=upper(char(stored.livePlotFailurePolicy));
-                        if ismember(candidate,{'CONTINUE','RETRY_ONCE','ABORT'})
-                            livePlotPolicy=candidate;
-                        end
-                    end
+                    stored = load(obj.SettingsFile,'scan3DConfig');
+                    ScanGeometry.buildPlan(stored.scan3DConfig);
+                    obj.Scan3DConfig = stored.scan3DConfig;
                 catch ME
-                    warning('AntennaMeasurementApp:SettingsIgnored','Cannot load settings: %s',ME.message);
+                    warning('AntennaMeasurementApp:SettingsIgnored','Cannot load 3D settings: %s',ME.message);
                 end
             end
             obj.VNA = VNAController('Mode', 'Mock');
             obj.Positioner = PositionerController('Mode', 'Mock','TiltDisabled',false);
             obj.Orchestrator = MeasurementOrchestrator(obj.VNA, obj.Positioner);
-            obj.Orchestrator.LivePlotFailurePolicy=livePlotPolicy;
 
             obj.createUI();
             obj.handleScanAxisChange();
@@ -144,7 +122,6 @@ classdef AntennaMeasurementApp < handle
         end
 
         function delete(obj)
-            if ~isempty(obj.VNAWorkbench)&&isvalid(obj.VNAWorkbench), delete(obj.VNAWorkbench); end
             if ~isempty(obj.SettingsFigure) && isgraphics(obj.SettingsFigure), delete(obj.SettingsFigure); end
             if ~isempty(obj.Figure) && isvalid(obj.Figure)
                 delete(obj.Figure);
@@ -157,32 +134,11 @@ classdef AntennaMeasurementApp < handle
             end
         end
 
-        function requestClose(obj)
-            obj.ClosePending=true; obj.CloseDispatchActive=true;
-            if obj.Orchestrator.IsRunning, obj.Orchestrator.abortScan(); end
-            if ~isempty(obj.VNAWorkbench)&&isvalid(obj.VNAWorkbench), obj.VNAWorkbench.requestClose(); end
-            obj.CloseDispatchActive=false; obj.finalizeCloseIfReady();
-        end
-        function finalizeCloseIfReady(obj)
-            if obj.ClosePending&&~obj.CloseDispatchActive&&~obj.ScanCallbackActive&& ...
-                    ~obj.Orchestrator.IsRunning&&~obj.VNA.isBusy()
-                delete(obj);
-            end
-        end
-        function onVNAStatus(obj,message)
-            obj.log(['VNA: ' message]);
-            obj.updateConnectionStatus();
-            obj.finalizeCloseIfReady();
-        end
-
         function startScan(obj)
             % START SCAN CALLBACK
             if obj.Orchestrator.IsRunning
                 return;
             end
-            if obj.ScanCallbackActive, return; end
-            obj.ScanCallbackActive=true;
-            scanStackGuard=onCleanup(@()obj.finishScanCallback());
 
             % Read UI Parameters
             center_mhz = str2double(obj.CenterFreqEdit.String);
@@ -233,22 +189,6 @@ classdef AntennaMeasurementApp < handle
             axis_choices = {'AZ', 'EL', '3D'};
             scan_axis = axis_choices{axis_idx};
 
-            % Reserve VNA and validate RF policy before connecting either motor.
-            policies={'RAW','SOL','TR'};
-            try
-                obj.Orchestrator.setScanParameters(start_ang,stop_ang,step_ang,center_mhz*1e6,span_mhz*1e6,pts);
-                obj.Orchestrator.Axis=scan_axis; obj.Orchestrator.Scan3DConfig=obj.Scan3DConfig;
-                obj.Orchestrator.SettleTimeSec=settle_s;
-                obj.Orchestrator.CalibrationPolicy=policies{obj.ScanCalibrationDropdown.Value};
-                scanLease=obj.VNA.claim('scan');
-                obj.ScanLease=scanLease;
-                obj.Orchestrator.prepareRF(scanLease);
-            catch ex
-                obj.StatusLabel.String=['Status: ' ex.identifier ' — ' ex.message];
-                obj.log(['RF preflight: ' ex.message]); return;
-            end
-            if obj.ClosePending, return; end
-
             % Auto-connect Positioner if not connected
             if ~obj.Positioner.IsConnected
                 port = strtrim(obj.PosPortEdit.String);
@@ -266,8 +206,6 @@ classdef AntennaMeasurementApp < handle
                     return;
                 end
             end
-
-            if obj.ClosePending, return; end
 
             % Hardware safety lock check: Tilt driver protection
             if ismember(scan_axis, {'EL','3D'}) && obj.Positioner.TiltDisabled
@@ -290,7 +228,6 @@ classdef AntennaMeasurementApp < handle
             obj.LiveAngles = [];
             obj.LiveS21_dB = [];
             obj.Live3DData = struct(); obj.LiveTiltRow = 0;
-            obj.Live3DPanCount=numel(ScanGeometry.buildPlan(obj.Scan3DConfig).PanVector);
             % Keep the previous curves until the first new measurement arrives.
             % A failed/aborted home must not erase the displayed result.
             if is3D
@@ -315,7 +252,7 @@ classdef AntennaMeasurementApp < handle
 
             % Run scan
             try
-                scanData = obj.Orchestrator.startScan(scanLease);
+                scanData = obj.Orchestrator.startScan();
                 if isempty(scanData)
                     obj.log('⚠️ Quá trình quét đã bị hủy hoặc không đủ dữ liệu (cần >= 2 điểm).');
                     obj.StatusLabel.String = 'Status: Quét đã dừng, chưa đủ 2 điểm; giữ đồ thị hiện có.';
@@ -353,17 +290,6 @@ classdef AntennaMeasurementApp < handle
             obj.setScanInputsEnabled(true);
             obj.handleScanAxisChange();
             obj.updateConnectionStatus();
-        end
-
-        function finishScanCallback(obj)
-            if isvalid(obj)
-                if ~isempty(obj.ScanLease)
-                    lease=obj.ScanLease; obj.ScanLease=[];
-                    obj.VNA.release(lease);
-                end
-                obj.ScanCallbackActive=false;
-                obj.finalizeCloseIfReady();
-            end
         end
 
         function togglePause(obj)
@@ -421,8 +347,7 @@ classdef AntennaMeasurementApp < handle
             ax2 = subplot(1, 2, 2);
             PatternAnalyzer.plotCartesian(ax2, obj.LastScanData.Angles, obj.LastScanData.NormalizedS21_dB, ...
                 sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', ...
-                        obj.LastScanData.Analysis.HPBW_deg, obj.LastScanData.Analysis.SLL_dB), ...
-                [],obj.LastScanData.Analysis);
+                        obj.LastScanData.Analysis.HPBW_deg, obj.LastScanData.Analysis.SLL_dB));
             DataManager.saveScanDataset(exp_dir, obj.LastScanData, fig_export);
 
             msgbox(sprintf('Dataset successfully exported to:\n%s', exp_dir), 'Export Success');
@@ -457,7 +382,7 @@ classdef AntennaMeasurementApp < handle
                                 'NumberTitle', 'off', ...
                                 'MenuBar', 'none', ...
                                 'Color', [0.94 0.95 0.96], ...
-                                'CloseRequestFcn', @(~,~) obj.requestClose());
+                                'CloseRequestFcn', @(~,~) delete(obj));
 
             % ── Left Control Panel (x=10, w=360) ─────────────────────────
             ctrlPanel = uipanel(obj.Figure, 'Title', 'Control & Setup', ...
@@ -542,9 +467,6 @@ classdef AntennaMeasurementApp < handle
                       'Position', [10, 410, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
             obj.SweepPointsEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', '11', ...
                                             'Position', [140, 410, 80, 22]);
-            obj.ScanCalibrationDropdown=uicontrol(ctrlPanel,'Style','popupmenu', ...
-                'String',{'RAW','SOL — S11','SOLT T/R — forward'},'Position',[230 410 115 22], ...
-                'TooltipString','Required calibration for scan; mismatches stop before motor initialization.');
 
             % 4. Angular Scan Parameters
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Scan Axis:', ...
@@ -652,7 +574,6 @@ classdef AntennaMeasurementApp < handle
             obj.PolarAx.RLim = [-40, 0];
             obj.PolarAx.ThetaZeroLocation = 'top';
             obj.PolarAx.ThetaDir = 'clockwise';
-            obj.LivePolarLine=polarplot(obj.PolarAx,NaN,NaN,'b.-','LineWidth',1.5,'MarkerSize',8);
 
             % Tab 2: Cartesian Pattern
             obj.CartTab = uitab(obj.TabGroup, 'Title', '2D Cartesian Pattern');
@@ -661,7 +582,6 @@ classdef AntennaMeasurementApp < handle
             xlabel(obj.CartAx, 'Angle (deg)');
             ylabel(obj.CartAx, 'Relative Transmission (dB)');
             grid(obj.CartAx, 'on');
-            obj.LiveCartLine=plot(obj.CartAx,NaN,NaN,'b.-','LineWidth',1.5,'MarkerSize',8);
 
             % Tab 3: Live RF S11 / S21 Frequency Monitor
             obj.RFMonitorTab = uitab(obj.TabGroup, 'Title', 'Live RF S11/S21 Monitor');
@@ -718,15 +638,6 @@ classdef AntennaMeasurementApp < handle
 
             obj.StatusLabel = uicontrol(obj.Figure, 'Style', 'text', 'String', 'Status: Ready', ...
                                         'Position', [380, 36, 400, 20], 'HorizontalAlignment', 'left', 'FontWeight', 'bold');
-            uicontrol(obj.Figure,'Style','text','String','Lỗi live plot:', ...
-                'Position',[790 36 95 20],'HorizontalAlignment','left','FontWeight','bold');
-            policyNames={'CONTINUE','RETRY_ONCE','ABORT'};
-            policy=obj.Orchestrator.LivePlotFailurePolicy;
-            policyValue=find(strcmp(policyNames,policy),1);
-            obj.LivePlotFailurePopup=uicontrol(obj.Figure,'Style','popupmenu', ...
-                'String',{'Tiếp tục, tắt vẽ live','Thử lại một lần rồi tắt live','Dừng quét, giữ dữ liệu'}, ...
-                'Value',policyValue,'Position',[890 35 295 24], ...
-                'Callback',@(~,~)obj.updateLivePlotFailurePolicy());
 
             obj.LogListBox = uicontrol(obj.Figure, 'Style', 'listbox', ...
                                        'Position', [10, 5, 1180, 28], ...
@@ -744,7 +655,6 @@ classdef AntennaMeasurementApp < handle
             fitH = min(figH, screen(4) - 80);
             obj.Figure.Position = [screen(1) + (screen(3) - fitW)/2, ...
                                    screen(2) + (screen(4) - fitH)/2 - 10, fitW, fitH];
-            obj.VNAWorkbench=VNAWorkbench(obj.TabGroup,obj.VNA,@(message)obj.onVNAStatus(message));
         end
 
         function handleStepProgress(obj, info)
@@ -764,8 +674,9 @@ classdef AntennaMeasurementApp < handle
             % Update Polar plot
             theta_rad = deg2rad(obj.LiveAngles);
             r = max(norm_s21, -40.0);
-            obj.ensureLivePlotHandles();
-            set(obj.LivePolarLine,'ThetaData',theta_rad,'RData',r);
+            cla(obj.PolarAx);
+            hold(obj.PolarAx, 'on');
+            polarplot(obj.PolarAx, theta_rad, r, 'b.-', 'LineWidth', 1.5, 'MarkerSize', 8);
             obj.PolarAx.RLim = [-40, 0];
             obj.PolarAx.ThetaZeroLocation = 'top';
             obj.PolarAx.ThetaDir = 'clockwise';
@@ -773,7 +684,10 @@ classdef AntennaMeasurementApp < handle
                   info.CommandedAngle, info.Index, info.Total), 'FontWeight', 'bold');
 
             % Update Cartesian plot
-            set(obj.LiveCartLine,'XData',obj.LiveAngles,'YData',norm_s21);
+            cla(obj.CartAx);
+            hold(obj.CartAx, 'on');
+            yline(obj.CartAx, -3.0, 'r--', 'LineWidth', 1.0);
+            plot(obj.CartAx, obj.LiveAngles, norm_s21, 'b.-', 'LineWidth', 1.5, 'MarkerSize', 8);
             grid(obj.CartAx, 'on');
             title(obj.CartAx, sprintf('Live Cartesian Pattern — Step %d/%d', info.Index, info.Total), 'FontWeight', 'bold');
             xlabel(obj.CartAx, 'Angle (deg)');
@@ -794,20 +708,6 @@ classdef AntennaMeasurementApp < handle
                                                  info.CommandedAngle, info.S21_dB_Center, info.ElapsedSec);
             end
             drawnow limitrate;
-        end
-
-        function ensureLivePlotHandles(obj)
-            if isempty(obj.LivePolarLine)||~isgraphics(obj.LivePolarLine)
-                cla(obj.PolarAx);
-                obj.LivePolarLine=polarplot(obj.PolarAx,NaN,NaN,'b.-','LineWidth',1.5,'MarkerSize',8);
-            end
-            if isempty(obj.LiveCartLine)||~isgraphics(obj.LiveCartLine)
-                cla(obj.CartAx);
-                obj.LiveCartLine=plot(obj.CartAx,NaN,NaN,'b.-','LineWidth',1.5,'MarkerSize',8);
-            end
-            if isempty(findobj(obj.CartAx,'Type','constantline'))
-                yline(obj.CartAx,-3.0,'r--','LineWidth',1.0);
-            end
         end
 
         function updateFinalResults(obj, scanData, render3D)
@@ -870,28 +770,22 @@ classdef AntennaMeasurementApp < handle
 
             % Final Cartesian Plot with markers
             PatternAnalyzer.plotCartesian(obj.CartAx, scanData.Angles, scanData.NormalizedS21_dB, ...
-                sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB),[],an);
+                sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB));
 
             % Plot RF sweep monitor at peak angle
             if isfield(scanData, 'SelectedS21_dB') && ~isempty(scanData.SelectedS21_dB) && size(scanData.S21, 1) > 0
                 [~, peak_idx] = max(scanData.SelectedS21_dB);
                 freq_mhz = scanData.FrequenciesHz / 1e6;
                 cla(obj.RFMonitorAx1);
-                analysisS21=VNAAnalysis.selectScanS21(scanData);
-                plot(obj.RFMonitorAx1, freq_mhz, 20*log10(abs(analysisS21(peak_idx, :))), 'b-o', 'LineWidth', 1.5);
+                plot(obj.RFMonitorAx1, freq_mhz, 20*log10(abs(scanData.S21(peak_idx, :))), 'b-o', 'LineWidth', 1.5);
                 grid(obj.RFMonitorAx1, 'on');
-                source='RAW'; if isfield(scanData.Metadata,'AnalysisSource'), source=scanData.Metadata.AnalysisSource; end
-                title(obj.RFMonitorAx1, sprintf('|S21| %s at Peak Angle (%.1f°)',source,scanData.Angles(peak_idx)),'Interpreter','none');
+                title(obj.RFMonitorAx1, sprintf('|S21| Trace across Band at Peak Angle (%.1f°)', scanData.Angles(peak_idx)));
                 xlabel(obj.RFMonitorAx1, 'Frequency (MHz)'); ylabel(obj.RFMonitorAx1, 'S21 (dB)');
 
                 cla(obj.RFMonitorAx2);
-                reflection=scanData.S11; state='RAW';
-                if isfield(scanData,'CorrectedS11')&&~isempty(scanData.CorrectedS11)
-                    reflection=scanData.CorrectedS11; state=scanData.Metadata.ChannelState.S11;
-                end
-                plot(obj.RFMonitorAx2, freq_mhz, 20*log10(abs(reflection(peak_idx, :))), 'r-o', 'LineWidth', 1.5);
+                plot(obj.RFMonitorAx2, freq_mhz, 20*log10(abs(scanData.S11(peak_idx, :))), 'r-o', 'LineWidth', 1.5);
                 grid(obj.RFMonitorAx2, 'on');
-                title(obj.RFMonitorAx2, sprintf('|S11| Reflection %s at Peak Angle (%.1f°)',state,scanData.Angles(peak_idx)),'Interpreter','none');
+                title(obj.RFMonitorAx2, sprintf('|S11| Return Loss at Peak Angle (%.1f°)', scanData.Angles(peak_idx)));
                 xlabel(obj.RFMonitorAx2, 'Frequency (MHz)'); ylabel(obj.RFMonitorAx2, 'S11 (dB)');
             end
 
@@ -960,29 +854,11 @@ classdef AntennaMeasurementApp < handle
                 obj.Positioner.setTravelLimits(c.TravelPanDeg,c.TravelTiltDeg);
             end
             obj.Scan3DConfig=c; obj.Orchestrator.Scan3DConfig=c;
-            obj.saveSettings();
-            obj.handleScanAxisChange();
-        end
-
-        function updateLivePlotFailurePolicy(obj)
-            policies={'CONTINUE','RETRY_ONCE','ABORT'};
-            if obj.Orchestrator.IsRunning
-                value=find(strcmp(policies,obj.Orchestrator.LivePlotFailurePolicy),1);
-                obj.LivePlotFailurePopup.Value=value;
-                error('AntennaMeasurementApp:ScanRunning', ...
-                    'Dừng quét trước khi đổi chính sách lỗi live plot.');
+            if ~isempty(obj.SettingsFile)
+                scan3DConfig=c;
+                save(obj.SettingsFile,'scan3DConfig');
             end
-            obj.Orchestrator.LivePlotFailurePolicy=policies{obj.LivePlotFailurePopup.Value};
-            obj.saveSettings();
-        end
-
-        function saveSettings(obj)
-            if isempty(obj.SettingsFile), return; end
-            folder=fileparts(obj.SettingsFile);
-            if ~isempty(folder)&&~isfolder(folder), mkdir(folder); end
-            scan3DConfig=obj.Scan3DConfig;
-            livePlotFailurePolicy=obj.Orchestrator.LivePlotFailurePolicy;
-            save(obj.SettingsFile,'scan3DConfig','livePlotFailurePolicy');
+            obj.handleScanAxisChange();
         end
 
         function handleScanAxisChange(obj)
@@ -1001,9 +877,8 @@ classdef AntennaMeasurementApp < handle
         function setScanInputsEnabled(obj,enabled)
             controls=[obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
                 obj.VNAPortEdit obj.PosPortEdit obj.VNAConnectBtn obj.PosConnectBtn ...
-                obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.ScanCalibrationDropdown obj.SettleTimeEdit obj.MotorRampBtn ...
-                obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown ...
-                obj.LivePlotFailurePopup];
+                obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit obj.MotorRampBtn ...
+                obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown];
             value='off'; if enabled, value='on'; end
             set(controls,'Enable',value);
             if enabled && (isempty(fieldnames(obj.LastScanData)) || ...
@@ -1027,13 +902,12 @@ classdef AntennaMeasurementApp < handle
             uicontrol(f,'Style','text','Position',[20 570 620 35],'HorizontalAlignment','left', ...
                 'String','Góc motor tính từ Khóa + ZERO. Góc cực: 0° hướng lên, 90° nằm ngang, 180° hướng xuống.');
             labels={'Pan bắt đầu','Pan kết thúc','Bước Pan','Tilt bắt đầu','Tilt kết thúc','Bước Tilt', ...
-                'Góc cực θ tại ZERO','Góc Pan tại ZERO'};
+                'Góc Tilt tại ZERO','Góc Pan tại ZERO'};
             names={'PanStartDeg','PanStopDeg','PanStepDeg','TiltStartDeg','TiltStopDeg','TiltStepDeg','TiltAtZeroDeg','PanAtZeroDeg'};
             for k=1:8
                 col=mod(k-1,2); row=floor((k-1)/2); y=530-row*52; x=20+col*320;
                 uicontrol(f,'Style','text','Position',[x y 190 23],'String',[labels{k} ' (°)'],'HorizontalAlignment','left');
-                fields.(names{k})=uicontrol(f,'Style','edit','Position',[x+195 y 95 26], ...
-                    'Tag',names{k},'String',num2str(c.(names{k})));
+                fields.(names{k})=uicontrol(f,'Style','edit','Position',[x+195 y 95 26],'String',num2str(c.(names{k})));
             end
             uicontrol(f,'Style','text','Position',[20 305 170 23],'String','Chiều tăng Tilt → θ','HorizontalAlignment','left');
             fields.TiltSign=uicontrol(f,'Style','popupmenu','Position',[195 305 110 25], ...
@@ -1054,23 +928,13 @@ classdef AntennaMeasurementApp < handle
                 'String','Pan luân phiên giữa các hàng: 0→360°, rồi 360→0° (giảm xoắn dây)', ...
                 'Value',c.PanAlternating);
             preview=uicontrol(f,'Style','text','Position',[20 73 620 62], ...
-                'Tag','Scan3DSettingsPreview','HorizontalAlignment','left','String','');
-            uicontrol(f,'Style','pushbutton','Position',[20 334 225 30], ...
-                'Tag','HorizontalTiltZeroBtn','String','ZERO nằm ngang (θ = 90°)', ...
-                'Callback',@(~,~) obj.setHorizontalTiltZero(fields,preview));
-            uicontrol(f,'Style','text','Position',[255 332 380 32],'HorizontalAlignment','left', ...
-                'String','Chỉ chọn nếu anten nằm ngang khi Khóa + ZERO. Không quay motor.');
+                'HorizontalAlignment','left','String','');
             uicontrol(f,'Style','pushbutton','Position',[20 20 160 35],'String','Xem lưới quét', ...
                 'Callback',@(~,~) obj.applyScan3DDialog(fields,preview,'preview'));
             uicontrol(f,'Style','pushbutton','Position',[190 20 160 35],'String','Lưu cấu hình', ...
                 'Callback',@(~,~) obj.applyScan3DDialog(fields,preview,'save'));
             uicontrol(f,'Style','pushbutton','Position',[360 20 275 35],'String','Lưu + xác nhận hành trình ZERO hiện tại', ...
                 'Callback',@(~,~) obj.applyScan3DDialog(fields,preview,'confirm'));
-            obj.applyScan3DDialog(fields,preview,'preview');
-        end
-
-        function setHorizontalTiltZero(obj,fields,preview)
-            fields.TiltAtZeroDeg.String='90';
             obj.applyScan3DDialog(fields,preview,'preview');
         end
 
@@ -1084,7 +948,6 @@ classdef AntennaMeasurementApp < handle
                 c.TravelPanDeg=[str2double(fields.PanMin.String) str2double(fields.PanMax.String)];
                 c.TravelTiltDeg=[str2double(fields.TiltMin.String) str2double(fields.TiltMax.String)];
                 p=ScanGeometry.buildPlan(c);
-                preview.ForegroundColor=[0 0 0];
                 preview.String=sprintf('%d hàng × %d điểm Pan = %d phép đo\nθ: %.1f..%.1f°, φ: %.1f..%.1f°; θ = %.1f + (%d) × Tilt motor', ...
                     numel(p.TiltVector),numel(p.PanVector),numel(p.PanMotorDeg),min(p.ThetaDeg),max(p.ThetaDeg),min(p.PhiDeg),max(p.PhiDeg),c.TiltAtZeroDeg,c.TiltSign);
                 if ~strcmp(action,'preview')
@@ -1101,8 +964,7 @@ classdef AntennaMeasurementApp < handle
         function recordLive3D(obj,info)
             if isempty(fieldnames(obj.Live3DData))
                 obj.Live3DData=struct('Metadata',struct('Scan3DConfig',obj.Orchestrator.Scan3DConfig, ...
-                    'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode, ...
-                    'CalibrationPolicy',obj.Orchestrator.CalibrationPolicy), ...
+                    'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode), ...
                     'PanAngles',[],'TiltAngles',[],'ThetaDeg',[],'PhiDeg',[], ...
                     'RowIndex',[],'SelectedS21_dB',[],'NormalizedS21_dB',[]);
             end
@@ -1111,36 +973,19 @@ classdef AntennaMeasurementApp < handle
             d.ThetaDeg(end+1)=info.ThetaDeg; d.PhiDeg(end+1)=info.PhiDeg;
             d.RowIndex(end+1)=info.RowIndex; d.SelectedS21_dB(end+1)=info.S21_dB_Center;
             d.NormalizedS21_dB=PatternAnalyzer.normalize(d.SelectedS21_dB);
-            updateSurface=obj.Live3DPanCount>0 && ...
-                (mod(info.Index,obj.Live3DPanCount)==0 || info.Index==info.Total);
-            obj.Live3DData=d; obj.plotMeasured3D(d,updateSurface);
+            obj.Live3DData=d; obj.plotMeasured3D(d);
         end
 
-        function plotMeasured3D(obj,d,updateSurface)
-            if nargin<3, updateSurface=true; end
-            if isempty(obj.Live3DSurface)||~isgraphics(obj.Live3DSurface)|| ...
-                    isempty(obj.Live3DScatter)||~isgraphics(obj.Live3DScatter)
-                cla(obj.ThreeDAx);
-                obj.Live3DSurface=surf(obj.ThreeDAx,nan(2),nan(2),nan(2),nan(2),'EdgeColor','none');
-                hold(obj.ThreeDAx,'on');
-                obj.Live3DScatter=scatter3(obj.ThreeDAx,NaN,NaN,NaN,NaN,'filled');
-                hold(obj.ThreeDAx,'off');
-            end
-            if updateSurface
-                mesh=ScanGeometry.surface(d);
-                if numel(unique(d.RowIndex))>=2 && size(mesh.X,2)>=2 && nnz(isfinite(mesh.X))>=4
-                    set(obj.Live3DSurface,'XData',mesh.X,'YData',mesh.Y,'ZData',mesh.Z,'CData',mesh.RelativeDB);
-                else
-                    set(obj.Live3DSurface,'XData',nan(2),'YData',nan(2),'ZData',nan(2),'CData',nan(2));
-                end
+        function plotMeasured3D(obj,d)
+            mesh=ScanGeometry.surface(d); cla(obj.ThreeDAx); hold(obj.ThreeDAx,'on');
+            if numel(unique(d.RowIndex))>=2 && size(mesh.X,2)>=2 && nnz(isfinite(mesh.X))>=4
+                surf(obj.ThreeDAx,mesh.X,mesh.Y,mesh.Z,mesh.RelativeDB,'EdgeColor','none');
             end
             radius=10.^(d.NormalizedS21_dB/20);
-            set(obj.Live3DScatter, ...
-                'XData',radius.*sind(d.ThetaDeg).*cosd(d.PhiDeg), ...
-                'YData',radius.*sind(d.ThetaDeg).*sind(d.PhiDeg), ...
-                'ZData',radius.*cosd(d.ThetaDeg), ...
-                'CData',d.NormalizedS21_dB(:));
-            axis(obj.ThreeDAx,'equal'); grid(obj.ThreeDAx,'on'); view(obj.ThreeDAx,45,30);
+            scatter3(obj.ThreeDAx,radius.*sind(d.ThetaDeg).*cosd(d.PhiDeg), ...
+                radius.*sind(d.ThetaDeg).*sind(d.PhiDeg),radius.*cosd(d.ThetaDeg), ...
+                15,d.NormalizedS21_dB(:),'filled');
+            hold(obj.ThreeDAx,'off'); axis(obj.ThreeDAx,'equal'); grid(obj.ThreeDAx,'on'); view(obj.ThreeDAx,45,30);
             xlabel(obj.ThreeDAx,'X'); ylabel(obj.ThreeDAx,'Y'); zlabel(obj.ThreeDAx,'Z');
             colormap(obj.ThreeDAx,'parula'); clim(obj.ThreeDAx,[-40 0]);
             if isfield(d.Metadata,'ScanAxis')
@@ -1170,11 +1015,6 @@ classdef AntennaMeasurementApp < handle
         end
 
         function handleVNAModeChange(obj)
-            if obj.VNA.isBusy()||obj.Orchestrator.IsRunning
-                obj.VNAModeDropdown.Value=1+strcmpi(obj.VNA.Mode,'Real');
-                obj.log('VNA busy: stop the active operation before changing mode.'); return;
-            end
-            old=obj.VNA;
             val = obj.VNAModeDropdown.Value;
             if val == 1
                 obj.VNA = VNAController('Mode', 'Mock');
@@ -1185,8 +1025,6 @@ classdef AntennaMeasurementApp < handle
                 obj.Orchestrator.VNA = obj.VNA;
                 obj.log('VNA switched to Real hardware mode.');
             end
-            obj.VNAWorkbench.setController(obj.VNA);
-            delete(old);
             obj.updateConnectionStatus();
         end
 
@@ -1196,9 +1034,8 @@ classdef AntennaMeasurementApp < handle
             end
             obj.Positioner.connect(port);
             if strcmp(obj.Positioner.FirmwareProtocol, 'V3') && ...
-                    all(isfinite([obj.Positioner.AzimuthEncoderDeg obj.Positioner.ElevationEncoderDeg])) && ...
-                    obj.Positioner.AzimuthEncoderDeg >= 0 && obj.Positioner.ElevationEncoderDeg >= 0
-                % Enable Tilt only when both encoder samples were available.
+                    obj.Positioner.ElevationEncoderDeg >= 0
+                % Enable Tilt only when a sensor was available at connection.
                 obj.Positioner.setTiltDisabled(false);
                 obj.log('Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.');
             end
@@ -1228,7 +1065,6 @@ classdef AntennaMeasurementApp < handle
         end
 
         function toggleVNAConnect(obj)
-            if obj.VNA.isBusy(), obj.log('VNA busy: stop before connecting or disconnecting.'); return; end
             if obj.VNA.IsConnected
                 obj.VNA.disconnect();
                 obj.log('VNA disconnected.');

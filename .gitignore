@@ -9,7 +9,6 @@ __pycache__/
 *.so
 .env
 .venv/
-.venv-vna/
 env/
 venv/
 *.egg-info/
@@ -25,7 +24,6 @@ slprj/
 *.mex*
 *.mat.bak
 data/logs/*.log
-data/logs/motor/*.jsonl
 
 # Operating System & IDE configs
 .DS_Store

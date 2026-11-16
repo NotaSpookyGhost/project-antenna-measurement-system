@@ -41,9 +41,6 @@ classdef PositionerController < handle
         ManualHomingActive logical = false
         EncoderTelemetrySupported logical = false % Explicit live/invalid flags (v3.1)
         DriverReleaseCount double = NaN % Firmware EN-disable counter; not a torque measurement
-        PanZeroEncoderDeg double = NaN % Fixed shaft reference captured by this session's explicit ZERO.
-        PanZeroId char = ''
-        LastPositionResponse char = '' % Retain rejected POS telemetry as evidence, not accepted angles.
         Scan3DSupported logical = false
         PanLimitsDeg double = [-360 360]
         TiltLimitsDeg double = [-5 95]
@@ -180,8 +177,6 @@ classdef PositionerController < handle
             if nargin >= 2 && ~isempty(port)
                 obj.Port = char(port);
             end
-            obj.invalidatePanZeroReference();
-            obj.LastPositionResponse='';
 
             if strcmpi(obj.Mode, 'Mock')
                 obj.Scan3DSupported=true; obj.PanLimitsDeg=[-360 360]; obj.TiltLimitsDeg=[-180 180];
@@ -195,7 +190,6 @@ classdef PositionerController < handle
                 obj.AzimuthEncoderDeg = 180.0;
                 obj.ElevationEncoderDeg = 180.0;
                 obj.IsHomed = true;
-                obj.capturePanZeroReference(); % Existing implicit virtual ZERO, never a hardware claim.
                 return;
             end
 
@@ -237,8 +231,6 @@ classdef PositionerController < handle
         end
 
         function disconnect(obj)
-            obj.invalidatePanZeroReference();
-            obj.LastPositionResponse='';
             obj.TravelConfirmed=false;
             % DISCONNECT Close connection
             obj.stopKeepAlive();
@@ -293,7 +285,6 @@ classdef PositionerController < handle
                     obj.HoldingActive = false;
                     obj.ManualHomingActive = true;
                     obj.IsHomed = false;
-                    obj.invalidatePanZeroReference();
                     rethrow(ME);
                 end
             end
@@ -301,7 +292,6 @@ classdef PositionerController < handle
             obj.HoldingActive = false;
             obj.ManualHomingActive = true;
             obj.IsHomed = false;
-            obj.invalidatePanZeroReference();
         end
 
         function lockAndZero(obj)
@@ -329,7 +319,6 @@ classdef PositionerController < handle
                     obj.HoldingActive = false;
                     obj.ManualHomingActive = true;
                     obj.IsHomed = false;
-                    obj.invalidatePanZeroReference();
                     rethrow(ME);
                 end
             else
@@ -341,7 +330,6 @@ classdef PositionerController < handle
             obj.HoldingActive = true;
             obj.ManualHomingActive = false;
             obj.IsHomed = true;
-            obj.capturePanZeroReference();
             if strcmpi(obj.Mode, 'Hardware')
                 obj.startKeepAlive();
             end
@@ -377,12 +365,9 @@ classdef PositionerController < handle
                 pause(0.1); % Fast simulation
                 if strcmp(axis, 'AZ') || strcmp(axis, 'PAN') || strcmp(axis, 'ALL')
                     obj.AzimuthDeg = 0.0;
-                    obj.AzimuthEncoderDeg = 180.0;
-                    obj.capturePanZeroReference();
                 end
                 if strcmp(axis, 'EL') || strcmp(axis, 'TILT') || strcmp(axis, 'ALL')
                     obj.ElevationDeg = 0.0;
-                    obj.ElevationEncoderDeg = 180.0;
                 end
                 obj.IsHomed = true;
                 notify(obj, 'PositionUpdated');
@@ -391,7 +376,6 @@ classdef PositionerController < handle
 
             % In ESP32 hardware, "ZERO" pins current physical position as 0.00° reference
             obj.IsHomed = false;
-            obj.invalidatePanZeroReference();
             obj.sendCommand("ZERO");
             resp = obj.waitForPrompt(5.0);
             if contains(resp, "ERR:")
@@ -412,7 +396,6 @@ classdef PositionerController < handle
             % Refresh AS5600 encoder feedback
             obj.queryPositionInternal();
             obj.IsHomed = true;
-            obj.capturePanZeroReference();
             notify(obj, 'PositionUpdated');
         end
 
@@ -644,20 +627,6 @@ classdef PositionerController < handle
     end
 
     methods (Static)
-        function requireEncoderFeedback(position,tiltDisabled)
-            % Invalid live telemetry is NaN, so a negative-only check is unsafe.
-            missing={};
-            if ~isfinite(position.PanEncoderDeg) || position.PanEncoderDeg<0 || position.PanEncoderDeg>=360
-                missing{end+1}='Pan';
-            end
-            if ~tiltDisabled && (~isfinite(position.TiltEncoderDeg) || position.TiltEncoderDeg<0 || position.TiltEncoderDeg>=360)
-                missing{end+1}='Tilt';
-            end
-            if ~isempty(missing)
-                error('PositionerController:EncoderUnavailable', ...
-                    'ESP32 reports unavailable AS5600 feedback: %s. Check sensor power, wiring and magnet before ZERO or scanning.',strjoin(missing,', '));
-            end
-        end
         function timeout = moveTimeoutSec(axis, deltaDeg)
             % Pan uses the slow profile; standalone Tilt retains its timing.
             switch upper(char(axis))
@@ -754,27 +723,7 @@ classdef PositionerController < handle
         end
     end
 
-    methods (Access = protected)
-        function observePanReferenceStatus(obj,held,needsZero,previousReleases,currentReleases)
-            countChanged=isfinite(previousReleases) && isfinite(currentReleases) && ...
-                previousReleases~=currentReleases;
-            if ~held || needsZero || countChanged
-                obj.invalidatePanZeroReference();
-            end
-        end
-    end
-
     methods (Access = private)
-        function invalidatePanZeroReference(obj)
-            obj.PanZeroEncoderDeg=NaN; obj.PanZeroId='';
-        end
-        function capturePanZeroReference(obj)
-            obj.invalidatePanZeroReference();
-            if isfinite(obj.AzimuthEncoderDeg) && obj.AzimuthEncoderDeg>=0 && obj.AzimuthEncoderDeg<360
-                obj.PanZeroEncoderDeg=obj.AzimuthEncoderDeg;
-                obj.PanZeroId=char(java.util.UUID.randomUUID());
-            end
-        end
         function ensureConnected(obj)
             if ~obj.IsConnected
                 error('PositionerController:NotConnected', ...
@@ -803,7 +752,7 @@ classdef PositionerController < handle
         end
 
         function accum = waitForPrompt(obj, timeoutSec)
-            cleanup = onCleanup(@() obj.finishCommand());
+            cleanup = onCleanup(@() obj.finishCommand()); %#ok<NASGU>
             t0 = tic;
             lastHeartbeat = 0;
             accum = "";
@@ -841,7 +790,6 @@ classdef PositionerController < handle
             end
             obj.sendCommand("POS");
             resp = obj.waitForPrompt(3.0);
-            obj.LastPositionResponse=char(resp);
             if ~contains(resp, "ESP32-ANTENNA>")
                 error('PositionerController:InvalidPositionResponse', ...
                       'ESP32 did not return a valid POS response with Pan and AS5600 encoder data.');
@@ -860,12 +808,15 @@ classdef PositionerController < handle
                 obj.ManualHomingActive = contains(resp, 'CAL_REQUIRED:1');
                 obj.IsHomed = obj.HoldingActive && ~obj.ManualHomingActive;
                 if ~obj.IsHomed, obj.TravelConfirmed=false; end
-                obj.observePanReferenceStatus(obj.HoldingActive,obj.ManualHomingActive, ...
-                    obj.DriverReleaseCount,position.DriverReleaseCount);
             end
             obj.EncoderTelemetrySupported = position.EncoderTelemetrySupported;
             obj.DriverReleaseCount = position.DriverReleaseCount;
-            PositionerController.requireEncoderFeedback(position,obj.TiltDisabled);
+            if position.PanEncoderDeg < 0 || ...
+                    (~obj.TiltDisabled && ...
+                     position.TiltEncoderDeg < 0)
+                error('PositionerController:EncoderUnavailable', ...
+                      'ESP32 reports an unavailable AS5600 encoder.');
+            end
             % Commit a complete validated snapshot, avoiding stale partial fields.
             obj.AzimuthDeg = position.PanDeg;
             obj.ElevationDeg = position.TiltDeg;
@@ -902,13 +853,11 @@ classdef PositionerController < handle
                 response = obj.waitForPrompt(3.0);
                 if ~contains(response, "PONG")
                     obj.HoldingActive = false;
-                    obj.invalidatePanZeroReference();
                     obj.stopKeepAlive();
                     warning('PositionerController:HoldLost', 'ESP32 no longer confirms holding torque.');
                 end
             catch ME
                 obj.HoldingActive = false;
-                obj.invalidatePanZeroReference();
                 obj.stopKeepAlive();
                 warning('PositionerController:KeepAliveFailed', ...
                     'ESP32 keepalive failed: %s', ME.message);

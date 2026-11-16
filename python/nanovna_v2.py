@@ -173,10 +173,6 @@ class FIFOError(NanoVNAError):
     """FIFO read returned unexpected data."""
     pass
 
-class TransportError(FIFOError):
-    """Serial transport failed and the pending reply was abandoned."""
-    pass
-
 
 # ─── Driver class ────────────────────────────────────────────────────────
 
@@ -199,7 +195,6 @@ class NanoVNA_V2:
         self._sweep_start: int = 0
         self._sweep_step: int = 0
         self._sweep_points: int = 0
-        self._sweep_values_per_freq: int = 0
 
     # ── Connection ───────────────────────────────────────────────────
 
@@ -211,7 +206,6 @@ class NanoVNA_V2:
         """Open serial connection to SAA-2N."""
         if self.connected:
             self.disconnect()
-        self._sweep_values_per_freq=0
         self._ser = serial.Serial(
             port=port,
             baudrate=115200,
@@ -231,7 +225,6 @@ class NanoVNA_V2:
         self._ser = None
         self._port = ""
         self._identity = None
-        self._sweep_values_per_freq=0
 
     def _ensure_connected(self) -> None:
         if not self.connected:
@@ -314,35 +307,19 @@ class NanoVNA_V2:
 
     def _read_fifo(self, num_records: int, timeout_s: float = 10.0) -> list[FIFORecord]:
         """Read num_records × 32-byte records from FIFO."""
-        # UG1101 READFIFO has a one-byte count, so larger sweeps need chunks.
+        cmd = bytes([CMD_READFIFO, REG_VALUES_FIFO]) + struct.pack("<H", num_records)
+        self._ser.write(cmd)
+
+        expected = num_records * FIFO_RECORD_SIZE
         data = bytearray()
-        deadline = time.monotonic()+timeout_s
-        remaining = num_records
-        try:
-            while remaining>0:
-                count=min(255,remaining)
-                self._ser.write(bytes([CMD_READFIFO,REG_VALUES_FIFO,count]))
-                expected=count*FIFO_RECORD_SIZE
-                block=bytearray()
-                while len(block)<expected:
-                    left=deadline-time.monotonic()
-                    if left<=0:
-                        raise FIFOError(f'FIFO timeout: received {len(data)+len(block)} of {num_records*FIFO_RECORD_SIZE} bytes; reconnect required')
-                    original_timeout=self._ser.timeout
-                    self._ser.timeout=min(original_timeout if original_timeout is not None else left,left)
-                    try:
-                        chunk=self._ser.read(expected-len(block))
-                    finally:
-                        self._ser.timeout=original_timeout
-                    if chunk: block.extend(chunk)
-                    else: time.sleep(.02)
-                data.extend(block); remaining-=count
-        except Exception as exc:
-            # A pending FIFO reply cannot safely be mixed with another command.
-            self.disconnect()
-            if isinstance(exc, TransportError):
-                raise
-            raise TransportError(str(exc)) from exc
+        start = time.time()
+
+        while len(data) < expected and (time.time() - start) < timeout_s:
+            chunk = self._ser.read(expected - len(data))
+            if chunk:
+                data.extend(chunk)
+            else:
+                time.sleep(0.02)
 
         records = []
         for i in range(len(data) // FIFO_RECORD_SIZE):
@@ -377,7 +354,6 @@ class NanoVNA_V2:
 
         step_hz = (stop_hz - start_hz) // (points - 1) if points > 1 else 0
 
-        self._sweep_values_per_freq=0
         self.clear_fifo()
 
         self._write8(REG_SWEEP_START, start_hz)
@@ -388,7 +364,6 @@ class NanoVNA_V2:
         self._sweep_start = start_hz
         self._sweep_step = step_hz
         self._sweep_points = points
-        self._sweep_values_per_freq=values_per_freq
 
     # ── Acquisition ──────────────────────────────────────────────────
 
@@ -419,21 +394,26 @@ class NanoVNA_V2:
         )
 
     def acquire_single(self, start_hz: int, stop_hz: int, points: int,
-                       settle_s: float = 0.1, fifo_timeout_s: float = 10.0) -> SweepResult:
+                       settle_s: float = 0.1) -> SweepResult:
         """Acquire one sweep using already-configured parameters.
 
         Use this for repeated acquisitions at same frequency settings
         (e.g., repeatability test, averaging). Assumes configure_sweep()
         was already called.
 
-        Settle, clear stale FIFO once, then let READFIFO wait for fresh records.
-        Coverage validation remains at the bridge boundary; rotated complete
-        sweeps are valid and stay paired by index. No fixed cycle sleeps.
+        Uses double-clear strategy: first clear discards stale data,
+        wait for firmware to complete at least one full sweep cycle,
+        second clear discards that (potentially partial) sweep,
+        then read fresh complete sweep.
         """
         self._ensure_connected()
         time.sleep(settle_s)
+        # Double-clear: discard stale + partial sweep
         self.clear_fifo()
-        records = self._read_fifo(self._sweep_points,timeout_s=fifo_timeout_s)
+        time.sleep(0.3)   # wait for one full sweep cycle
+        self.clear_fifo()
+        time.sleep(0.2)   # wait for fresh complete sweep
+        records = self._read_fifo(self._sweep_points)
         return SweepResult(
             start_hz=self._sweep_start,
             step_hz=self._sweep_step,

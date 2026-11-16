@@ -88,8 +88,7 @@ def create_experiment_dir(test_name: str) -> Path:
     """
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     dirname = f"{test_name}_{ts}"
-    base_dir = Path(os.environ.get("ANTENNA_VALIDATION_DIR", DATA_DIR))
-    exp_dir = base_dir / dirname
+    exp_dir = DATA_DIR / dirname
     exp_dir.mkdir(parents=True, exist_ok=True)
     return exp_dir
 
