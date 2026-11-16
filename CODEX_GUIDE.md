@@ -1,5 +1,25 @@
 # Codex setup for antenna-v3
 
+## Physical encoder mapping and smooth profile — 2026-11-16
+
+Current installed firmware: `V4.0_HOLD_SMOOTH2`. With the present wiring,
+Pan/Az AS5600 is SDA21/SCL22 and Tilt AS5600 is SDA18/SCL19. This overrides
+the older encoder pin tables; motor STEP/DIR/EN remain unchanged.
+The operator observed physical Az motion for `PAN 2`, while SMOOTH1 reported
+the expected 11.25 motor degrees under RAW_TILT and zero under RAW_PAN.
+SMOOTH2 swaps only the encoder bus pins to match the physical axes.
+The authorized repeat measured Pan -11.07 motor degrees (11.25 expected in
+magnitude) and Tilt +0.09, with ten valid paired held snapshots. STOP/HOLD OFF
+completed and COM9 closed; no automatic return. Set manual ZERO again before
+scanning. This qualifies one Az +2-degree trial, not Tilt travel or a full scan.
+Raw evidence: `data/validation/positioner_no_move_20261116/`.
+The preceding manual Az observation had intermittent feedback under the old
+Tilt label; do not assume either sensor is qualified for long scans.
+Both axes now use 12000..6000 us eased intervals, 10 us STEP high, no catch-up
+bursts, and MATLAB timeouts covering the slower profile. Six native suites,
+29 selected MATLAB tests and the ESP32 build passed for the smooth profile;
+six native suites and build/upload passed after the encoder mapping change.
+
 ## Adjustable acceleration on COM5 — 2026-10-15
 
 The MATLAB GUI now offers **Gia tốc...** to set Pan/Tilt ramp lengths while

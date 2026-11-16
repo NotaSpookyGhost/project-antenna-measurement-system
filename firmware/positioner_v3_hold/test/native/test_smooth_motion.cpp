@@ -4,6 +4,9 @@
 
 int main() {
   setup();
+  // Confirmed physical wiring: the Az encoder is on 21/22, Tilt on 18/19.
+  assert(PIN_PAN_SDA == 21 && PIN_PAN_SCL == 22);
+  assert(PIN_TILT_SDA == 18 && PIN_TILT_SCL == 19);
   holdRequested = true;
   calibrationRequired = false;
   setDriversEnabled(true);

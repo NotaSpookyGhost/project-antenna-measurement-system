@@ -30,14 +30,17 @@ const int PIN_TILT_EN   = 14; // Active LOW
 #define REG_AGC            0x1A
 
 SensorBus I2C_Tilt(0);
-const int PIN_TILT_SDA = 21;
-const int PIN_TILT_SCL = 22;
+// Physical axis mapping verified 2026-11-16: PAN +2 moved the encoder on
+// GPIO21/22 by 11.25 motor degrees, with the operator observing Az motion.
+// Keep STEP/DIR/EN unchanged; assign each encoder bus to its physical axis.
+const int PIN_TILT_SDA = 18;
+const int PIN_TILT_SCL = 19;
 
-const char* FW_VERSION = "V4.0_HOLD_SMOOTH1";
+const char* FW_VERSION = "V4.0_HOLD_SMOOTH2";
 
 SensorBus I2C_Pan(1);
-const int PIN_PAN_SDA  = 18;
-const int PIN_PAN_SCL  = 19;
+const int PIN_PAN_SDA  = 21;
+const int PIN_PAN_SCL  = 22;
 
 // --- HẰNG SỐ ĐỘNG HỌC ---
 // Puly 16T:90T (5.625:1) | 1/8 vi bước (1600 xung/vòng) -> 25.0 bước / 1° anten
