@@ -33,7 +33,7 @@ SensorBus I2C_Tilt(0);
 const int PIN_TILT_SDA = 21;
 const int PIN_TILT_SCL = 22;
 
-const char* FW_VERSION = "V4.0_HOLD";
+const char* FW_VERSION = "V4.0_HOLD_SMOOTH1";
 
 SensorBus I2C_Pan(1);
 const int PIN_PAN_SDA  = 18;
@@ -42,11 +42,11 @@ const int PIN_PAN_SCL  = 19;
 // --- HẰNG SỐ ĐỘNG HỌC ---
 // Puly 16T:90T (5.625:1) | 1/8 vi bước (1600 xung/vòng) -> 25.0 bước / 1° anten
 const float STEPS_PER_DEG = 25.0f;
-const unsigned long PAN_CRUISE_DELAY_US = 5000; // 8 deg/s
-const unsigned long PAN_START_DELAY_US = 9000; // ~4.44 deg/s
+const unsigned long PAN_CRUISE_DELAY_US = 6000; // ~6.67 antenna deg/s
+const unsigned long PAN_START_DELAY_US = 12000; // ~3.33 antenna deg/s
 const long PAN_RAMP_STEPS = 150;
-const unsigned long TILT_CRUISE_DELAY_US = 2200; // ~18.18 deg/s
-const unsigned long TILT_START_DELAY_US = 5000;
+const unsigned long TILT_CRUISE_DELAY_US = 6000;
+const unsigned long TILT_START_DELAY_US = 12000;
 const long TILT_RAMP_STEPS = 100;
 const long PAN_RAMP_MIN = 100, PAN_RAMP_MAX = 600;
 const long TILT_RAMP_MIN = 75, TILT_RAMP_MAX = 300;
@@ -185,7 +185,11 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
 
   // Bật Driver (Active LOW)
   setDriversEnabled(true);
-  delay(10);
+  // Settle before the first STEP while keeping STOP and the lease responsive.
+  for (int ms = 0; ms < 200; ++ms) {
+    delay(1);
+    if (pollMotionStop()) { calibrationRequired = true; return false; }
+  }
 
   digitalWrite(PIN_PAN_DIR, stepsPan >= 0 ? HIGH : LOW);
   digitalWrite(PIN_TILT_DIR, stepsTilt >= 0 ? HIGH : LOW);
@@ -204,13 +208,14 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
   const unsigned long cruiseDelay = stepsPan != 0 ? PAN_CRUISE_DELAY_US : TILT_CRUISE_DELAY_US;
   const unsigned long startDelay = stepsPan != 0 ? PAN_START_DELAY_US : TILT_START_DELAY_US;
   const long rampLimit = stepsPan != 0 ? panRampSteps : tiltRampSteps;
-  unsigned long nextStepTime = micros();
 
   for (long i = 0; i < maxSteps; i++) {
     if (pollMotionStop()) { interrupted = true; break; }
     // Short moves never compress the acceleration slope below its configured limit.
     const long rampProgress = min(min(i, maxSteps - 1 - i), rampLimit);
-    const unsigned long pulseDelay = startDelay - (startDelay - cruiseDelay) * rampProgress / rampLimit;
+    const float rampFraction = static_cast<float>(rampProgress) / rampLimit;
+    const float eased = rampFraction * rampFraction * (3.0f - 2.0f * rampFraction);
+    const unsigned long pulseDelay = startDelay - lroundf((startDelay - cruiseDelay) * eased);
 
     bool stepP = false;
     bool stepT = false;
@@ -227,15 +232,18 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
       stepT = true;
     }
 
+    // Base each interval on the actual pulse, never catch up with a burst after
+    // a scheduler/serial delay. Both axes still share the Bresenham clock.
+    const unsigned long stepStarted = micros();
     if (stepP) digitalWrite(PIN_PAN_STEP, HIGH);
     if (stepT) digitalWrite(PIN_TILT_STEP, HIGH);
-    delayMicroseconds(6);
+    delayMicroseconds(10);
 
     if (stepP) digitalWrite(PIN_PAN_STEP, LOW);
     if (stepT) digitalWrite(PIN_TILT_STEP, LOW);
     if (stepP) completedPan++;
     if (stepT) completedTilt++;
-    nextStepTime += pulseDelay;
+    const unsigned long nextStepTime = stepStarted + pulseDelay;
     while (static_cast<int32_t>(micros() - nextStepTime) < 0) {
       if (pollMotionStop()) { interrupted = true; break; }
     }
@@ -275,11 +283,13 @@ void setup() {
 
   // Cấu hình chân Motor
   pinMode(PIN_PAN_STEP, OUTPUT);
+  digitalWrite(PIN_PAN_STEP, LOW);
   pinMode(PIN_PAN_DIR,  OUTPUT);
   pinMode(PIN_PAN_EN,   OUTPUT);
   digitalWrite(PIN_PAN_EN, HIGH); // Mặc định tắt driver
 
   pinMode(PIN_TILT_STEP, OUTPUT);
+  digitalWrite(PIN_TILT_STEP, LOW);
   pinMode(PIN_TILT_DIR,  OUTPUT);
   pinMode(PIN_TILT_EN,   OUTPUT);
   digitalWrite(PIN_TILT_EN, HIGH); // Mặc định tắt driver

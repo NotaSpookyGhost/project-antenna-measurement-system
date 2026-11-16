@@ -35,30 +35,30 @@ int main() {
   assert(gotoPosition(90,0));
   double seconds = (ticksUs-begin)/1e6;
   std::cout << "Pan 90 duration: " << seconds << " s\n" << std::flush;
-  assert(seconds > 11.9 && seconds < 12.1);
-  profile(PIN_PAN_STEP,2250,9000,5000,150);
+  assert(seconds > 14.6 && seconds < 15.0);
+  profile(PIN_PAN_STEP,2250,12000,6000,150);
   assert(risingEdgeTimes[PIN_TILT_STEP].empty());
   assert(currentPanDeg == 90 && holdRequested && driversEnabled);
 
   prepare(); begin = ticksUs;
   assert(gotoPosition(0,90));
   seconds = (ticksUs-begin)/1e6;
-  assert(seconds > 5.3 && seconds < 5.4);
-  profile(PIN_TILT_STEP,2250,5000,2200,100);
+  assert(seconds > 14.3 && seconds < 14.6);
+  profile(PIN_TILT_STEP,2250,12000,6000,100);
   assert(risingEdgeTimes[PIN_PAN_STEP].empty());
 
   prepare();
   assert(gotoPosition(10,20));
   assert(risingEdgeTimes[PIN_PAN_STEP].size() == 250);
   assert(risingEdgeTimes[PIN_TILT_STEP].size() == 500);
-  nearInterval(risingEdgeTimes[PIN_TILT_STEP][251]-risingEdgeTimes[PIN_TILT_STEP][250],5000);
+  nearInterval(risingEdgeTimes[PIN_TILT_STEP][251]-risingEdgeTimes[PIN_TILT_STEP][250],6000);
   assert(currentPanDeg == 10 && currentTiltDeg == 20);
 
   prepare(); begin = ticksUs;
   assert(gotoPosition(-5,0));
   seconds = (ticksUs-begin)/1e6;
   // A short move stays on the bounded ramp instead of jumping to cruise.
-  assert(seconds > 1.05 && seconds < 1.20);
+  assert(seconds > 1.6 && seconds < 1.9);
   assert(risingEdgeTimes[PIN_PAN_STEP].size() == 125);
   assert(pins[PIN_PAN_DIR] == LOW && currentPanDeg == -5);
   prepare(); begin = ticksUs;
@@ -77,7 +77,7 @@ int main() {
   heartbeatEveryUs = 5000000;
   nextHeartbeatAtUs = ticksUs + heartbeatEveryUs;
   assert(gotoPosition(360,0));
-  assert(ticksUs-begin > 45000000 && ticksUs-begin < 46000000);
+  assert(ticksUs-begin > 55000000 && ticksUs-begin < 56000000);
   assert(risingEdgeTimes[PIN_PAN_STEP].size() == 9000);
   assert(holdRequested && driversEnabled && releaseCount == releases);
   assert(Serial.output.find("ESP32-ANTENNA>") == std::string::npos);

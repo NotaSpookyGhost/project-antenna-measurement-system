@@ -628,12 +628,12 @@ classdef PositionerController < handle
 
     methods (Static)
         function timeout = moveTimeoutSec(axis, deltaDeg)
-            % Pan uses the slow profile; standalone Tilt retains its timing.
+            % Allow the conservative shared profile, including short eased ramps.
             switch upper(char(axis))
                 case {'AZ','PAN'}
-                    timeout = max(6.0, abs(deltaDeg) / 7.0 + 4.0);
+                    timeout = max(6.0, abs(deltaDeg) / 3.0 + 4.0);
                 case {'EL','TILT'}
-                    timeout = max(5.0, abs(deltaDeg) / 18.0 + 3.0);
+                    timeout = max(6.0, abs(deltaDeg) / 3.0 + 4.0);
                 otherwise
                     error('PositionerController:InvalidTarget', 'Unknown motion axis.');
             end

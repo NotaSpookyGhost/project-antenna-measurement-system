@@ -38,12 +38,12 @@ int main() {
   assert(gotoPosition(90, 0));
   const auto& pan = risingEdgeTimes[PIN_PAN_STEP];
   assert(pan.size() == 2250);
-  assert(pan[1] - pan[0] >= 9000 && pan[1] - pan[0] <= 9030);
-  assert(pan[101] - pan[100] >= 5000 && pan[101] - pan[100] <= 5030);
+  assert(pan[1] - pan[0] >= 12000 && pan[1] - pan[0] <= 12030);
+  assert(pan[101] - pan[100] >= 6000 && pan[101] - pan[100] <= 6030);
 
   assert(gotoPosition(90, 90));
   const auto& tilt = risingEdgeTimes[PIN_TILT_STEP];
   assert(tilt.size() == 2250);
-  assert(tilt[1] - tilt[0] >= 5000 && tilt[1] - tilt[0] <= 5030);
-  assert(tilt[76] - tilt[75] + 30 >= 2200 && tilt[76] - tilt[75] <= 2230);
+  assert(tilt[1] - tilt[0] >= 12000 && tilt[1] - tilt[0] <= 12030);
+  assert(tilt[76] - tilt[75] + 30 >= 6000 && tilt[76] - tilt[75] <= 6030);
 }

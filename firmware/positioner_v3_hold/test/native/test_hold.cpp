@@ -6,7 +6,11 @@ static std::string command(const char* line) {
   Serial.output.clear();
   Serial.input += line;
   Serial.input += '\n';
+  // Production MATLAB renews the lease during slow, long movements.
+  heartbeatEveryUs = 5000000;
+  nextHeartbeatAtUs = ticksUs + heartbeatEveryUs;
   loop();
+  heartbeatEveryUs = nextHeartbeatAtUs = 0;
   return Serial.output;
 }
 
@@ -88,7 +92,7 @@ int main() {
   failWhenEnabled = false;
   expect(command("PAN 2"), "DONE PAN:");
 
-  injectStopAtUs = ticksUs + 50000;
+  injectStopAtUs = ticksUs + 250000; // After the 200 ms driver settling period.
   stopInjected = false;
   expect(command("PAN 20"), "ABORTED PAN:");
   assert(stopInjected && currentPanDeg > 2.0f && currentPanDeg < 20.0f);

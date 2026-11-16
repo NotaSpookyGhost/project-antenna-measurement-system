@@ -26,6 +26,7 @@ inline int risingEdges[64] = {};
 inline std::vector<unsigned long long> risingEdgeTimes[64];
 inline unsigned long long heartbeatEveryUs = 0;
 inline unsigned long long nextHeartbeatAtUs = 0;
+inline unsigned long long nextStepHighDelayUs = 0; // Simulate a one-off CPU stall.
 
 inline void pinMode(int, int) {}
 inline void digitalWrite(int pin, int value) {
@@ -33,6 +34,10 @@ inline void digitalWrite(int pin, int value) {
     risingEdges[pin]++;
     risingEdgeTimes[pin].push_back(ticksUs);
     if (pin == 27 || pin == 14) disableTransitions[pin]++;
+    if ((pin == 25 || pin == 32) && nextStepHighDelayUs) {
+      ticksUs += nextStepHighDelayUs;
+      nextStepHighDelayUs = 0;
+    }
   }
   pins[pin] = value;
 }
