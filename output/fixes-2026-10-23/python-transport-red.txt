@@ -1,0 +1,90 @@
+test_cancel_retains_nontransport_configuration_error (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_nontransport_configuration_error) ... FAIL
+test_cancel_retains_transport_failure_during_configuration_or_read (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) ... 
+  test_cancel_retains_transport_failure_during_configuration_or_read (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) (phase='configuration') ... FAIL
+  test_cancel_retains_transport_failure_during_configuration_or_read (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) (phase='acquisition') ... FAIL
+test_configuration_failure_keeps_transport_code (python.tests.test_transport_regressions.TestTransportRegressions.test_configuration_failure_keeps_transport_code) ... FAIL
+test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) ... 
+  test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_single', stage='write') ... FAIL
+  test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_single', stage='reset') ... FAIL
+  test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_sweep', stage='write') ... FAIL
+  test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_sweep', stage='reset') ... FAIL
+
+======================================================================
+FAIL: test_cancel_retains_nontransport_configuration_error (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_nontransport_configuration_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 142, in test_cancel_retains_nontransport_configuration_error
+    self.assertEqual(result.get('error', {}).get('code'), 'INVALID_REQUEST')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'INVALID_REQUEST'
+
+======================================================================
+FAIL: test_cancel_retains_transport_failure_during_configuration_or_read (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) (phase='configuration')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 117, in test_cancel_retains_transport_failure_during_configuration_or_read
+    self.assertEqual(result.get('error', {}).get('code'), 'TRANSPORT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'TRANSPORT'
+
+======================================================================
+FAIL: test_cancel_retains_transport_failure_during_configuration_or_read (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) (phase='acquisition')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 117, in test_cancel_retains_transport_failure_during_configuration_or_read
+    self.assertEqual(result.get('error', {}).get('code'), 'TRANSPORT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'TRANSPORT'
+
+======================================================================
+FAIL: test_configuration_failure_keeps_transport_code (python.tests.test_transport_regressions.TestTransportRegressions.test_configuration_failure_keeps_transport_code)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 79, in test_configuration_failure_keeps_transport_code
+    self.assertEqual(result['error']['code'], 'TRANSPORT')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'INVALID_REQUEST' != 'TRANSPORT'
+- INVALID_REQUEST
++ TRANSPORT
+
+
+======================================================================
+FAIL: test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_single', stage='write')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 95, in test_fifo_clear_failure_disconnects_entire_acquisition
+    self.assertTrue(result['status'].startswith('ERROR:TRANSPORT:'), result)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'frequency_hz': [], 's11_real': [], 's11_imag': [], 's21_real': [], 's21_imag': [], 's11_db': [], 's21_db': [], 'points_requested': 0, 'points_received': 0, 'complete': False, 'status': 'ERROR:injected transport loss'}
+
+======================================================================
+FAIL: test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_single', stage='reset')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 95, in test_fifo_clear_failure_disconnects_entire_acquisition
+    self.assertTrue(result['status'].startswith('ERROR:TRANSPORT:'), result)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'frequency_hz': [], 's11_real': [], 's11_imag': [], 's21_real': [], 's21_imag': [], 's11_db': [], 's21_db': [], 'points_requested': 0, 'points_received': 0, 'complete': False, 'status': 'ERROR:injected transport loss'}
+
+======================================================================
+FAIL: test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_sweep', stage='write')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 95, in test_fifo_clear_failure_disconnects_entire_acquisition
+    self.assertTrue(result['status'].startswith('ERROR:TRANSPORT:'), result)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'frequency_hz': [], 's11_real': [], 's11_imag': [], 's21_real': [], 's21_imag': [], 's11_db': [], 's21_db': [], 'points_requested': 11, 'points_received': 0, 'complete': False, 'status': 'ERROR:injected transport loss'}
+
+======================================================================
+FAIL: test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) (operation='acquire_sweep', stage='reset')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\tests\test_transport_regressions.py", line 95, in test_fifo_clear_failure_disconnects_entire_acquisition
+    self.assertTrue(result['status'].startswith('ERROR:TRANSPORT:'), result)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'frequency_hz': [], 's11_real': [], 's11_imag': [], 's21_real': [], 's21_imag': [], 's11_db': [], 's21_db': [], 'points_requested': 11, 'points_received': 0, 'complete': False, 'status': 'ERROR:injected transport loss'}
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.859s
+
+FAILED (failures=8)

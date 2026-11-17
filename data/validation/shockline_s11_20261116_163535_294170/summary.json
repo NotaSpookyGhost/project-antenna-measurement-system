@@ -1,0 +1,21 @@
+{
+  "identity": "ANRITSU,MS46122B,2543302,V2025.4.3,V2.3.20",
+  "trace": "S11",
+  "points": 176,
+  "complex_values": 176,
+  "frequency_min_Hz": 1000875000.0,
+  "frequency_max_Hz": 8000000000.0,
+  "correction_enabled": "1",
+  "hold_final": "HOLD",
+  "nearest_2_4_GHz": {
+    "frequency_Hz": 2400700000.0,
+    "real": -0.1633469,
+    "imag": -0.4071105,
+    "dB": -7.157471513606538,
+    "phase_deg": -111.86237386904877
+  },
+  "magnitude_dB_min": -26.679711490471426,
+  "magnitude_dB_max": -0.9159710143867776,
+  "connection_closed": true,
+  "data_folder": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\data\\validation\\shockline_s11_20261116_163535_294170"
+}

@@ -1,0 +1,24 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Operation terminated by user during matlab.graphics.controls.HTMLCanvasPlugin/createCanvas
+
+
+In AntennaMeasurementApp/createUI (line 631)
+            obj.PolarAx = polaraxes('Parent', obj.PolarTab, 'Units', 'normalized', 'Position', [0.08, 0.08, 0.84, 0.84]);
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp (line 124)
+            obj.createUI();
+            ^^^^^^^^^^^^^^
+} 
+{Operation terminated by user during matlab.graphics.controls.HTMLCanvasPlugin/createCanvas
+
+
+In AntennaMeasurementApp/createUI (line 631)
+            obj.PolarAx = polaraxes('Parent', obj.PolarTab, 'Units', 'normalized', 'Position', [0.08, 0.08, 0.84, 0.84]);
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp (line 124)
+            obj.createUI();
+            ^^^^^^^^^^^^^^
+} 

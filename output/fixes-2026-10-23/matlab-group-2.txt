@@ -1,0 +1,32 @@
+Running TestVNAAnalysis
+..
+Done TestVNAAnalysis
+__________
+
+Running TestVNAPlotter
+.
+Done TestVNAPlotter
+__________
+
+Running TestVNAWorkbench
+..[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In TestScanVNACalibration.calibrate (line 70)
+In TestVNAWorkbench/averagesDoNotInvalidateMatchingProfile (line 33)]
+...[22:56:34] Antenna Measurement App initialized.
+[22:56:34] VNA: Controller changed; previous trace retains its recorded provenance
+[22:56:34] VNA: Measuring | actual stop 2405.000000000 MHz | NONE
+[22:56:34] VNA: STOPPING: waiting for current sweep to finish
+[22:56:34] VNA: Stopped
+.
+Done TestVNAWorkbench
+__________
+
+Running TestVNACalibrationDialog
+.C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\vna_calibration.py:96: UserWarning: only gave a single measurement orientation, error correction is partial without a tuple
+  result=engine.apply_cal(_network(f,s)).s
+..
+Done TestVNACalibrationDialog
+__________
+
+SOFTWARE_GROUP_PASS 2: 12/12 tests; no VNA timer leaks

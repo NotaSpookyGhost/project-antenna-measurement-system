@@ -1,0 +1,17 @@
+{
+  "released_before": {
+    "total": 30,
+    "pan_valid": 30,
+    "tilt_valid": 30
+  },
+  "held": {
+    "total": 100,
+    "pan_valid": 100,
+    "tilt_valid": 100
+  },
+  "released_after": {
+    "total": 30,
+    "pan_valid": 30,
+    "tilt_valid": 30
+  }
+}

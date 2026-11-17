@@ -1,0 +1,42 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Operation terminated by user during axis>isnumericAxes (line 521)
+
+
+In axis (line 190)
+                        if ~isnumericAxes(ax(j))
+                            ^^^^^^^^^^^^^^^^^^^^
+In VNAPlotter (line 26)
+            hold(obj.SmithAxes,'on'); axis(obj.SmithAxes,'equal');
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In VNAWorkbench (line 58)
+            obj.Plotter=VNAPlotter(panel);
+                        ^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp/createUI (line 747)
+            obj.VNAWorkbench=VNAWorkbench(obj.TabGroup,obj.VNA,@(message)obj.onVNAStatus(message));
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp (line 140)
+            obj.createUI();
+            ^^^^^^^^^^^^^^
+} 
+{Operation terminated by user during axis>isnumericAxes (line 521)
+
+
+In axis (line 190)
+                        if ~isnumericAxes(ax(j))
+                            ^^^^^^^^^^^^^^^^^^^^
+In VNAPlotter (line 26)
+            hold(obj.SmithAxes,'on'); axis(obj.SmithAxes,'equal');
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In VNAWorkbench (line 58)
+            obj.Plotter=VNAPlotter(panel);
+                        ^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp/createUI (line 747)
+            obj.VNAWorkbench=VNAWorkbench(obj.TabGroup,obj.VNA,@(message)obj.onVNAStatus(message));
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp (line 140)
+            obj.createUI();
+            ^^^^^^^^^^^^^^
+} 

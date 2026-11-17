@@ -1,0 +1,21 @@
+{
+  "points": 176,
+  "nearest_2_4GHz": {
+    "FrequencyHz": "2400700000",
+    "S11Real": "-0.1633469",
+    "S11Imag": "-0.4071105",
+    "S21Real": "0.002892245",
+    "S21Imag": "0.001395538",
+    "S11dB": "-7.15747151360654",
+    "S21dB": "-49.8663151340266"
+  },
+  "max_complex_s11_difference_from_previous_snapshot": 0.0,
+  "mat_exists": true,
+  "shockline_marker_2_4GHz_dB": -7.139,
+  "matlab_snapshot_interpolated_2_4GHz_dB": -7.139022234288493,
+  "new_sweep_triggered": false,
+  "motor_connected": false,
+  "final_app_connection": "ONLINE",
+  "final_vna_state": "HOLD",
+  "interactive_launch": "-nosplash -nodesktop -r; batch mode cannot show questdlg"
+}

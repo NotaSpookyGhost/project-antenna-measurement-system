@@ -1,0 +1,125 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[00:47:13] Antenna Measurement App initialized.
+[00:47:40] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[Warning: Python version 3.13 is not supported. See
+https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In VNAController/initPythonBridge (line 363)
+In VNAController (line 59)
+In AntennaMeasurementApp/handleVNAModeChange (line 1184)
+In AntennaMeasurementApp>@(~,~)obj.handleVNAModeChange() (line 476)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPopupMenuController/handleEvent (line 42)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+[00:47:50] VNA switched to Real hardware mode.
+[00:47:50] VNA: Controller changed; previous trace retains its recorded provenance
+[00:47:56] Connected to VNA on COM6 (Variant: 0x02)
+[00:47:56] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: Unable to connect to the serialport device at port 'COM9'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[00:47:56] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 serial port is not open.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 153.8° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[00:48:09] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[00:48:09] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 153.8°, Khóa Tilt: 0).
+[00:48:12] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:48:19] ❌ Lỗi Homing / Zero: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[00:48:28] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 160.8°, Tilt 109.2°.
+[Warning: ESP32 no longer confirms holding torque.] 
+[> In PositionerController/keepAlive (line 907)
+In PositionerController>@(~,~)obj.keepAlive() (line 884)
+In timer/timercb (line 90)
+In timer/start (line 67)
+In PositionerController/startKeepAlive (line 885)
+In PositionerController/lockAndZero (line 346)
+In AntennaMeasurementApp/homePositioner (line 1293)
+In AntennaMeasurementApp>@(~,~)obj.homePositioner() (line 524)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPushButtonController/handleEvent (line 29)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)
+In PositionerController/waitForPrompt (line 828)
+In PositionerController/lockAndZero (line 321)
+In AntennaMeasurementApp/homePositioner (line 1293)
+In AntennaMeasurementApp>@(~,~)obj.homePositioner() (line 524)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPushButtonController/handleEvent (line 29)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)
+In PositionerController/waitForPrompt (line 828)
+In PositionerController/lockAndZero (line 321)
+In AntennaMeasurementApp/homePositioner (line 1293)
+In AntennaMeasurementApp>@(~,~)obj.homePositioner() (line 524)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPushButtonController/handleEvent (line 29)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+[00:48:29] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 160.8°, Tilt 109.2°.
+[00:48:29] ❌ Lỗi Homing / Zero: ESP32 did not confirm lock and zero: PAN:  0.00 TILT:  0.00 RAW_PAN:160.84 (AGC: 41) RAW_TILT:109.16 (AGC:128) HOLD_CAP:1 HOLD:1 CAL_REQUIRED:0 SENSOR_CACHED:0 ENC_PAN_VALID:1 ENC_TILT_VALID:1 RELEASES:1 FW:V4.0_HOLD SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:150 RAMP_TILT:100
+ESP32-ANTENNA> PONG
+ESP32-ANTENNA>
+[00:48:33] ❌ Lỗi Homing / Zero: ESP32 did not confirm lock and zero: 
+[00:48:38] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 160.8°, Tilt 109.2°.
+[00:48:50] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:49:05] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 160.8°, Tilt 173.7°.
+[00:49:24] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:49:24] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[00:49:25] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_004925_915_0b57edbc-f6f1-4681-a92e-0515682e52eb.jsonl
+[00:49:26] 3D scan: 10 Tilt rows × 19 Pan points; preserve mechanical ZERO.
+[00:49:26] Tilt row 1/10: motor -90.0°, theta 0.0°.
+[00:49:32] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[00:50:55] Tilt row 2/10: motor -70.0°, theta 20.0°.
+[00:52:17] Pan về 0°: lệch -3.25° encoder (~0.578° anten).
+[00:52:18] Tilt row 3/10: motor -50.0°, theta 40.0°.
+[00:52:20] Pan về 0°: lệch -3.34° encoder (~0.594° anten).
+[00:53:42] Tilt row 4/10: motor -30.0°, theta 60.0°.
+[00:55:04] Pan về 0°: lệch -3.25° encoder (~0.578° anten).
+[00:55:05] Tilt row 5/10: motor -10.0°, theta 80.0°.
+[00:55:07] Pan về 0°: lệch -3.34° encoder (~0.594° anten).
+[00:56:28] Tilt row 6/10: motor 10.0°, theta 100.0°.
+[00:57:50] Pan về 0°: lệch -3.25° encoder (~0.578° anten).
+[00:57:51] Tilt row 7/10: motor 30.0°, theta 120.0°.
+[00:57:54] Pan về 0°: lệch -3.34° encoder (~0.594° anten).
+[00:59:14] Tilt row 8/10: motor 50.0°, theta 140.0°.
+[01:00:37] Pan về 0°: lệch -3.25° encoder (~0.578° anten).
+[01:00:38] Tilt row 9/10: motor 70.0°, theta 160.0°.
+[01:00:40] Pan về 0°: lệch -3.34° encoder (~0.594° anten).
+[01:02:00] Tilt row 10/10: motor 90.0°, theta 180.0°.
+[01:03:22] Pan về 0°: lệch -3.25° encoder (~0.578° anten).
+[01:03:23] 3D COMPLETED: 190/190 points retained.
+[Warning: ESP32 keepalive failed: Error flushing serial port input buffer.
+Incorrect function] 
+[> In PositionerController/keepAlive (line 913)
+In PositionerController>@(~,~)obj.keepAlive() (line 884)
+In timer/timercb (line 90)
+In AntennaMeasurementApp/updateFinalResults (line 902)
+In AntennaMeasurementApp/select3DSlice (line 1164)
+In AntennaMeasurementApp/updateFinalResults (line 828)
+In AntennaMeasurementApp/startScan (line 324)
+In AntennaMeasurementApp>@(~,~)obj.startScan() (line 587)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPushButtonController/handleEvent (line 29)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+Unable to detect connection to the serialport device. Ensure that the device is plugged in and create a new serialport object.
+[Warning: The following error was caught while executing 'VNAController' class destructor:
+Python process terminated unexpectedly. To restart the Python interpreter, first call "terminate(pyenv)" and then call a Python function.
+
+Error in VNAController/disconnect (line 145)
+                obj.PyBridge.disconnect();
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in VNAController/delete (line 67)
+                obj.disconnect();
+                ^^^^^^^^^^^^^^^^
+Error in AntennaMeasurementApp/delete (line 153)
+                delete(obj.VNA);
+                ^^^^^^^^^^^^^^^] 
+[> In AntennaMeasurementApp/delete (line 153)] 
+[Warning: Release on disconnect failed: Invalid operation. Object must be connected to the serial port.. The firmware watchdog will release after 30 s.] 
+[> In PositionerController/disconnect (line 257)
+In PositionerController/delete (line 108)
+In AntennaMeasurementApp/delete (line 156)] 

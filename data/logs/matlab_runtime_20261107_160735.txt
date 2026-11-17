@@ -1,0 +1,64 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[16:07:48] Antenna Measurement App initialized.
+[16:14:52] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[16:14:53] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[16:14:53] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[16:15:50] Scan loop finished (181/181 points, 57.69 s). Processing data...
+[16:15:51] Scan successfully completed! HPBW = 32.79°, SLL = -20.65 dB, Peak = 360.00°
+[16:17:49] 3D scan: 10 Tilt rows × 19 Pan points; preserve mechanical ZERO.
+[16:17:49] Tilt row 1/10: motor -90.0°, theta 0.0°.
+[16:18:00] Tilt row 2/10: motor -70.0°, theta 20.0°.
+[16:18:10] Tilt row 3/10: motor -50.0°, theta 40.0°.
+[16:18:19] Tilt row 4/10: motor -30.0°, theta 60.0°.
+[16:18:28] Tilt row 5/10: motor -10.0°, theta 80.0°.
+[16:18:36] Tilt row 6/10: motor 10.0°, theta 100.0°.
+[16:18:46] Tilt row 7/10: motor 30.0°, theta 120.0°.
+[16:18:54] Tilt row 8/10: motor 50.0°, theta 140.0°.
+[16:19:03] Tilt row 9/10: motor 70.0°, theta 160.0°.
+[16:19:12] Tilt row 10/10: motor 90.0°, theta 180.0°.
+[16:19:20] 3D COMPLETED: 190/190 points retained.
+[16:22:36] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[16:22:41] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[16:22:41] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[16:22:43] 3D scan: 37 Tilt rows × 19 Pan points; preserve mechanical ZERO.
+[16:22:43] Tilt row 1/37: motor -90.0°, theta 0.0°.
+[16:22:53] Tilt row 2/37: motor -85.0°, theta 5.0°.
+[16:23:03] Tilt row 3/37: motor -80.0°, theta 10.0°.
+[16:23:13] Tilt row 4/37: motor -75.0°, theta 15.0°.
+[16:23:23] Tilt row 5/37: motor -70.0°, theta 20.0°.
+[16:23:32] Tilt row 6/37: motor -65.0°, theta 25.0°.
+[16:23:42] Tilt row 7/37: motor -60.0°, theta 30.0°.
+[16:23:52] Tilt row 8/37: motor -55.0°, theta 35.0°.
+[16:24:01] Tilt row 9/37: motor -50.0°, theta 40.0°.
+[16:24:11] Tilt row 10/37: motor -45.0°, theta 45.0°.
+[16:24:20] Tilt row 11/37: motor -40.0°, theta 50.0°.
+[16:24:30] Tilt row 12/37: motor -35.0°, theta 55.0°.
+[16:24:39] Tilt row 13/37: motor -30.0°, theta 60.0°.
+[16:24:49] Tilt row 14/37: motor -25.0°, theta 65.0°.
+[16:24:58] Tilt row 15/37: motor -20.0°, theta 70.0°.
+[16:25:08] Tilt row 16/37: motor -15.0°, theta 75.0°.
+[16:25:18] Tilt row 17/37: motor -10.0°, theta 80.0°.
+[16:25:27] Tilt row 18/37: motor -5.0°, theta 85.0°.
+[16:25:37] Tilt row 19/37: motor 0.0°, theta 90.0°.
+[16:25:47] Tilt row 20/37: motor 5.0°, theta 95.0°.
+[16:25:56] Tilt row 21/37: motor 10.0°, theta 100.0°.
+[16:26:05] Tilt row 22/37: motor 15.0°, theta 105.0°.
+[16:26:15] Tilt row 23/37: motor 20.0°, theta 110.0°.
+[16:26:24] Tilt row 24/37: motor 25.0°, theta 115.0°.
+[16:26:34] Tilt row 25/37: motor 30.0°, theta 120.0°.
+[16:26:43] Tilt row 26/37: motor 35.0°, theta 125.0°.
+[16:26:52] Tilt row 27/37: motor 40.0°, theta 130.0°.
+[16:27:02] Tilt row 28/37: motor 45.0°, theta 135.0°.
+[16:27:11] Tilt row 29/37: motor 50.0°, theta 140.0°.
+[16:27:21] Tilt row 30/37: motor 55.0°, theta 145.0°.
+[16:27:30] Tilt row 31/37: motor 60.0°, theta 150.0°.
+[16:27:39] Tilt row 32/37: motor 65.0°, theta 155.0°.
+[16:27:49] Tilt row 33/37: motor 70.0°, theta 160.0°.
+[16:27:58] Tilt row 34/37: motor 75.0°, theta 165.0°.
+[16:28:08] Tilt row 35/37: motor 80.0°, theta 170.0°.
+[16:28:17] Tilt row 36/37: motor 85.0°, theta 175.0°.
+[16:28:27] Tilt row 37/37: motor 90.0°, theta 180.0°.
+[16:28:36] 3D COMPLETED: 703/703 points retained.

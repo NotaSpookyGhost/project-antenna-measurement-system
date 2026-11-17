@@ -1,0 +1,20 @@
+============================================================
+  AUTOMATIC ANTENNA MEASUREMENT SYSTEM — SCAN SUMMARY
+============================================================
+Date / Time:        16-Nov-2026 16:46:46
+Device:             SAA-2N (Port: MOCK_COM)
+Firmware:           See VNAIdentity for instrument firmware/version
+Positioner Mode:    Mock
+Scan Axis:          AZ
+Angle Range:        0.0° to 360.0° (Step: 5.00°, 73 points)
+Center Frequency:   2400.000 MHz
+Sweep Band:         2395.0 to 2405.0 MHz (11 points)
+Settle Time:        0.02 s
+Total Scan Time:    4.66 s (0.064 s/point)
+------------------------------------------------------------
+ANALYSIS METRICS (Center Freq: 2400.000 MHz):
+  Main Lobe Peak:   -15.01 dB at 360.00°
+  HPBW (-3 dB):     32.58° (Left: 343.70°, Right: 376.28°)
+  Side-Lobe Level:  -20.67 dB at 60.00°
+  Front-to-Back:    26.27 dB
+============================================================

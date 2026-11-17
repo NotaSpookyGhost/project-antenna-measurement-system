@@ -1,0 +1,52 @@
+[
+  {
+    "command": "*IDN?",
+    "raw_bytes": 43,
+    "payload_bytes": 42
+  },
+  {
+    "command": ":SENS1:HOLD:FUNC?",
+    "raw_bytes": 5,
+    "payload_bytes": 4
+  },
+  {
+    "command": ":CALC1:PAR1:DEF?",
+    "raw_bytes": 4,
+    "payload_bytes": 3
+  },
+  {
+    "command": ":CALC1:PAR:SEL?",
+    "raw_bytes": 2,
+    "payload_bytes": 1
+  },
+  {
+    "command": ":FORM:DATA?",
+    "raw_bytes": 4,
+    "payload_bytes": 3
+  },
+  {
+    "command": ":SENS1:SWE:POIN?",
+    "raw_bytes": 4,
+    "payload_bytes": 3
+  },
+  {
+    "command": ":SENS1:FREQ:DATA?",
+    "raw_bytes": 3531,
+    "payload_bytes": 3519
+  },
+  {
+    "command": ":CALC1:DATA:SDAT?",
+    "raw_bytes": 5291,
+    "payload_bytes": 5279
+  },
+  {
+    "command": ":SENS1:CORR:STAT?",
+    "raw_bytes": 2,
+    "payload_bytes": 1
+  },
+  {
+    "command": ":SENS1:HOLD:FUNC?",
+    "raw_bytes": 5,
+    "payload_bytes": 4
+  }
+]

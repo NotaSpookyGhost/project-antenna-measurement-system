@@ -1,0 +1,281 @@
+test_solve_apply_and_stable_error_envelopes (test_calibration_api.TestCalibrationAPI.test_solve_apply_and_stable_error_envelopes) ... ok
+test_nonideal_characterized_osl_uses_known_models (test_calibration_engine.TestCalibrationEngine.test_nonideal_characterized_osl_uses_known_models) ... ok
+test_rejects_missing_degenerate_nonfinite_and_wrong_grid (test_calibration_engine.TestCalibrationEngine.test_rejects_missing_degenerate_nonfinite_and_wrong_grid) ... ok
+test_runtime_engine_version_must_match_profile_adapter (test_calibration_engine.TestCalibrationEngine.test_runtime_engine_version_must_match_profile_adapter) ... ok
+test_sol_recovers_independent_truth_without_mutating_raw (test_calibration_engine.TestCalibrationEngine.test_sol_recovers_independent_truth_without_mutating_raw) ... ok
+test_cross_process_roundtrip_and_correction (test_calibration_profile.TestCalibrationProfile.test_cross_process_roundtrip_and_correction) ... C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\vna_calibration.py:96: UserWarning: only gave a single measurement orientation, error correction is partial without a tuple
+  result=engine.apply_cal(_network(f,s)).s
+ok
+test_failed_replace_preserves_old_file_and_cleans_temp (test_calibration_profile.TestCalibrationProfile.test_failed_replace_preserves_old_file_and_cleans_temp) ... ok
+test_hash_does_not_replace_recompute_verification (test_calibration_profile.TestCalibrationProfile.test_hash_does_not_replace_recompute_verification) ... ok
+test_oversize_and_nonstandard_json_reject (test_calibration_profile.TestCalibrationProfile.test_oversize_and_nonstandard_json_reject) ... ok
+test_strict_schema_engine_and_finite_data (test_calibration_profile.TestCalibrationProfile.test_strict_schema_engine_and_finite_data) ... ok
+test_forward_tr_recovers_independent_matched_receive_truth (test_calibration_tr.TestCalibrationTR.test_forward_tr_recovers_independent_matched_receive_truth) ... ok
+test_missing_and_zero_thru_reject (test_calibration_tr.TestCalibrationTR.test_missing_and_zero_thru_reject) ... ok
+test_s21_threshold_above (test_empirical_challenge.TestA_EmpiricalChallenge.test_s21_threshold_above)
+S21 = -9.9 dB (> -10.0 dB) must PASS. ... ok
+test_s21_threshold_below (test_empirical_challenge.TestA_EmpiricalChallenge.test_s21_threshold_below)
+S21 = -10.1 dB (< -10.0 dB) must FAIL. ... ok
+test_s21_threshold_exact_boundary (test_empirical_challenge.TestA_EmpiricalChallenge.test_s21_threshold_exact_boundary)
+S21 = -10.000 dB exact boundary must FAIL (strict inequality requirement). ... ok
+test_zero_magnitude_reading (test_empirical_challenge.TestA_EmpiricalChallenge.test_zero_magnitude_reading)
+S21 = 0 (ADC reading 0) returns -999.0 dB without division by zero. ... ok
+test_load_suppression_logic (test_empirical_challenge.TestB_EmpiricalChallenge.test_load_suppression_logic)
+Verify dual-criteria load suppression evaluation. ... ok
+test_phase_diff_branch_cut_orthogonal (test_empirical_challenge.TestB_EmpiricalChallenge.test_phase_diff_branch_cut_orthogonal)
+OPEN at +10 deg, SHORT at -170 deg. ... ok
+test_phase_diff_branch_cut_wrap (test_empirical_challenge.TestB_EmpiricalChallenge.test_phase_diff_branch_cut_wrap)
+OPEN at +179.9 deg, SHORT at -179.9 deg. ... ok
+test_phase_diff_exact_boundary (test_empirical_challenge.TestB_EmpiricalChallenge.test_phase_diff_exact_boundary)
+Phase difference exactly 90.0 deg fails strict > 90.0 deg. ... ok
+test_phase_diff_standard_opposing (test_empirical_challenge.TestB_EmpiricalChallenge.test_phase_diff_standard_opposing)
+OPEN at 0 deg, SHORT at 180 deg -> phase diff = 180 deg > 90 deg. ... ok
+test_clean_transitions_pass (test_empirical_challenge.TestCD_EmpiricalChallenge.test_clean_transitions_pass)
+Clean Disconnected (-70 dB) -> THRU (-1.5 dB) -> Disconnected (-70 dB). ... ok
+test_insufficient_jump_fails (test_empirical_challenge.TestCD_EmpiricalChallenge.test_insufficient_jump_fails)
+Jump delta only 15 dB (< 20 dB). Must FAIL. ... ok
+test_poor_isolation_state3_fails (test_empirical_challenge.TestCD_EmpiricalChallenge.test_poor_isolation_state3_fails)
+State 3 does not return below -30 dB (e.g. -25 dB). Must FAIL. ... ok
+test_stale_fifo_state2_fails (test_empirical_challenge.TestCD_EmpiricalChallenge.test_stale_fifo_state2_fails)
+Stale FIFO at State 2 (fails to detect THRU connection). ... ok
+test_stale_fifo_state3_fails (test_empirical_challenge.TestCD_EmpiricalChallenge.test_stale_fifo_state3_fails)
+Stale FIFO at State 3 (fails to detect cable disconnection). ... ok
+test_error_counter_sensitivity (test_empirical_challenge.TestE_EmpiricalChallenge.test_error_counter_sensitivity)
+Any error (timeouts, partial reads, freq index errors) must invalidate verdict. ... ok
+test_statistical_high_noise_fails (test_empirical_challenge.TestE_EmpiricalChallenge.test_statistical_high_noise_fails)
+100 samples with excessive noise (std >= 1.0 dB) must FAIL. ... ok
+test_statistical_stability_pass (test_empirical_challenge.TestE_EmpiricalChallenge.test_statistical_stability_pass)
+100 samples with low variance (std < 1.0 dB). ... ok
+test_empty_records_state1_no_index_error (test_empirical_challenge.TestFIFOFreshness_FailureModesAndSchema.test_empty_records_state1_no_index_error)
+Incomplete State 1 sweep (0 records) must NOT raise IndexError, must output FAIL verdict and create artifacts. ... ok
+test_freshness_master_raw_csv_schema_and_state_columns (test_empirical_challenge.TestFIFOFreshness_FailureModesAndSchema.test_freshness_master_raw_csv_schema_and_state_columns)
+Verify master raw.csv has 'state' and 'state_name' columns, 20 columns, and all state rows. ... ok
+test_partial_records_state2_no_index_error (test_empirical_challenge.TestFIFOFreshness_FailureModesAndSchema.test_partial_records_state2_no_index_error)
+Partial State 2 sweep (4 records < center_idx=5) must NOT raise IndexError. ... ok
+test_coherent_vector_averaging_vs_scalar_db (test_empirical_challenge.TestF_EmpiricalChallenge.test_coherent_vector_averaging_vs_scalar_db)
+Demonstrate that coherent complex averaging cancels out-of-phase noise ... ok
+test_noise_cancellation_orthogonal_phasors (test_empirical_challenge.TestF_EmpiricalChallenge.test_noise_cancellation_orthogonal_phasors)
+Four orthogonal noise vectors sum to 0 in complex plane. ... ok
+test_empty_records_open_no_index_error (test_empirical_challenge.TestS11Loads_FailureModesAndSchema.test_empty_records_open_no_index_error)
+Incomplete OPEN sweep (0 records) must NOT raise IndexError, must output FAIL verdict and create artifacts. ... ok
+test_loads_master_raw_csv_schema_and_standard_column (test_empirical_challenge.TestS11Loads_FailureModesAndSchema.test_loads_master_raw_csv_schema_and_standard_column)
+Verify master raw.csv has 'standard' column, 19 columns, and all standard rows. ... ok
+test_partial_records_short_no_index_error (test_empirical_challenge.TestS11Loads_FailureModesAndSchema.test_partial_records_short_no_index_error)
+Partial SHORT sweep (3 records < center_idx=5) must NOT raise IndexError. ... ok
+test_averaging_connection_failure (test_empirical_challenge.TestSerialConnectionResilience.test_averaging_connection_failure) ... ok
+test_fifo_freshness_connection_failure (test_empirical_challenge.TestSerialConnectionResilience.test_fifo_freshness_connection_failure) ... ok
+test_repeatability_connection_failure (test_empirical_challenge.TestSerialConnectionResilience.test_repeatability_connection_failure) ... ok
+test_s11_loads_connection_failure (test_empirical_challenge.TestSerialConnectionResilience.test_s11_loads_connection_failure) ... ok
+test_thru_connection_failure (test_empirical_challenge.TestSerialConnectionResilience.test_thru_connection_failure) ... ok
+test_empty_records_thru_artifacts_and_fail_verdict (test_empirical_challenge.TestThru_EmptySweepFailureMode.test_empty_records_thru_artifacts_and_fail_verdict)
+Empty sweep in test_thru must create artifacts and output FAIL verdict. ... ok
+
+============================================================
+  Test D — FIFO Freshness Validation (State Transitions)
+============================================================
+
+
+[CONNECT] Connecting to COM_INCOMPLETE...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_INCOMPLETE
+
+[1/3] State: DISCONNECTED
+       Instructions: Ensure Port 1 and Port 2 are OPEN (no cable attached).
+       Set state to 'DISCONNECTED', then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring State 1 (DISCONNECTED)...
+
+[DATA] State 1 Sweep:
+    #   Freq (MHz)    S11 dB    S21 dB
+    0     2395.000    -25.38     -1.28
+    1     2396.000    -25.38     -1.28
+    2     2397.000    -25.38     -1.28
+    3     2398.000    -25.38     -1.28
+    4     2399.000    -25.38     -1.28
+    5     2400.000    -25.38     -1.28
+    6     2401.000    -25.38     -1.28
+    7     2402.000    -25.38     -1.28
+    8     2403.000    -25.38     -1.28
+    9     2404.000    -25.38     -1.28
+   10     2405.000    -25.38     -1.28
+
+[2/3] State: THRU CONNECTED
+       Instructions: Connect Port 1 to Port 2 with the SMA cable.
+       Set state to 'THRU CONNECTED', then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring State 2 (THRU CONNECTED)...
+
+[DATA] State 2 Sweep:
+    #   Freq (MHz)    S11 dB    S21 dB
+
+[3/3] State: DISCONNECTED
+       Instructions: Disconnect the SMA cable (leave Port 1 & 2 open again).
+test_fifo_freshness_empty_sweep_no_index_error (test_r2_challenger.TestR2_IncompleteSweepProtection.test_fifo_freshness_empty_sweep_no_index_error) ... ok
+       Set state to 'DISCONNECTED', then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring State 3 (DISCONNECTED)...
+
+[DATA] State 3 Sweep:
+    #   Freq (MHz)    S11 dB    S21 dB
+    0     2395.000    -25.38     -1.28
+    1     2396.000    -25.38     -1.28
+    2     2397.000    -25.38     -1.28
+    3     2398.000    -25.38     -1.28
+    4     2399.000    -25.38     -1.28
+    5     2400.000    -25.38     -1.28
+    6     2401.000    -25.38     -1.28
+    7     2402.000    -25.38     -1.28
+    8     2403.000    -25.38     -1.28
+    9     2404.000    -25.38     -1.28
+   10     2405.000    -25.38     -1.28
+
+[ERROR] Incomplete sweep acquisition detected. Aborting analysis.
+  [ERROR] State 2 (THRU CONNECTED): received 0/11 records (complete=False).
+
+[LOG] Saving failure artifacts to: C:\Users\SPOOKY~1\AppData\Local\Temp\tmp243i8p2m\fifo_freshness_20261023_224453
+
+============================================================
+  VERDICT: [FAIL]
+============================================================
+[CLEANUP] Disconnected from COM_INCOMPLETE.
+
+============================================================
+  Test B — S11 Loads Validation (OPEN / SHORT / LOAD on Port 1)
+============================================================
+
+
+[CONNECT] Connecting to COM_INCOMPLETE...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_INCOMPLETE
+
+[1/3] Standard: OPEN
+       Instructions: Attach SMA OPEN calibration standard to Port 1.
+       Connect OPEN to Port 1, then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring OPEN standard sweep (2395.0 - 2405.0 MHz)...
+
+[DATA] OPEN S11 Results:
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    1     2396.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+
+[2/3] Standard: SHORT
+       Instructions: Attach SMA SHORT calibration standard to Port 1.
+       Connect SHORT to Port 1, then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring SHORT standard sweep (2395.0 - 2405.0 MHz)...
+
+[DATA] SHORT S11 Results:
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    1     2396.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    2     2397.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    3     2398.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    4     2399.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    5     2400.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    6     2401.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    7     2402.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    8     2403.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    9     2404.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+   10     2405.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+
+[3/3] Standard: 50-ohm LOAD
+       Instructions: Attach SMA 50-ohm LOAD calibration standard to Port 1.
+test_s11_loads_empty_sweep_no_index_error (test_r2_challenger.TestR2_IncompleteSweepProtection.test_s11_loads_empty_sweep_no_index_error) ... ok
+test_all_scripts_invalid_port_com99 (test_r2_challenger.TestR2_InvalidComPortHandling.test_all_scripts_invalid_port_com99) ... ok
+test_existing_validation_artifacts_schema_integrity (test_r2_challenger.TestR2_SchemaIntegrityAndComplexPrecision.test_existing_validation_artifacts_schema_integrity)
+Inspect all raw.csv files in projects/data/validation to verify column compliance. ... ok
+test_master_raw_csv_contains_all_18_standard_columns (test_r2_challenger.TestR2_SchemaIntegrityAndComplexPrecision.test_master_raw_csv_contains_all_18_standard_columns)
+In all 5 test scripts, raw.csv must contain all 18 standard columns in order. ... ok
+test_single_sweep_csv_exact_18_columns (test_r2_challenger.TestR2_SchemaIntegrityAndComplexPrecision.test_single_sweep_csv_exact_18_columns)
+test_helpers.save_sweep_csv must output exactly the 18 standard columns. ... ok
+test_thru_timeout_artifact_persistence (test_r2_challenger.TestR2_TimeoutArtifactPersistence.test_thru_timeout_artifact_persistence) ... ok
+test_validation_artifacts_can_be_redirected_outside_repo (test_runtime_hygiene.TestRuntimeHygiene.test_validation_artifacts_can_be_redirected_outside_repo) ... ok
+test_bridge_aligns_frequency_and_s_parameters_by_index (test_sweep_integrity.TestSweepIntegrity.test_bridge_aligns_frequency_and_s_parameters_by_index) ... ok
+test_bridge_rejects_duplicate_or_missing_frequency_index (test_sweep_integrity.TestSweepIntegrity.test_bridge_rejects_duplicate_or_missing_frequency_index) ... ok
+test_complete_requires_each_frequency_index_once (test_sweep_integrity.TestSweepIntegrity.test_complete_requires_each_frequency_index_once) ... ok
+test_cancel_retains_nontransport_configuration_error (test_transport_regressions.TestTransportRegressions.test_cancel_retains_nontransport_configuration_error) ... ok
+test_cancel_retains_transport_failure_during_configuration_or_read (test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) ... ok
+test_configuration_failure_keeps_transport_code (test_transport_regressions.TestTransportRegressions.test_configuration_failure_keeps_transport_code) ... ok
+test_fifo_clear_failure_disconnects_entire_acquisition (test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) ... ok
+test_actual_integer_grid (test_vna_contracts.TestVNAContracts.test_actual_integer_grid) ... ok
+test_bridge_never_marks_nonfinite_response_complete (test_vna_contracts.TestVNAContracts.test_bridge_never_marks_nonfinite_response_complete) ... ok
+test_invalid_raw_fails (test_vna_contracts.TestVNAContracts.test_invalid_raw_fails) ... ok
+test_rejects_fraction_bool_nonfinite_and_out_of_range (test_vna_contracts.TestVNAContracts.test_rejects_fraction_bool_nonfinite_and_out_of_range) ... ok
+test_zero_complex_is_valid_and_derived_fields_are_omitted (test_vna_contracts.TestVNAContracts.test_zero_complex_is_valid_and_derived_fields_are_omitted) ... ok
+test_zero_forward_reference_is_error_but_zero_response_is_valid (test_vna_contracts.TestVNAContracts.test_zero_forward_reference_is_error_but_zero_response_is_valid) ... ok
+test_bridge_hardware_calls_are_busy_before_worker_acquires_io (test_vna_jobs.TestVNAJobs.test_bridge_hardware_calls_are_busy_before_worker_acquires_io) ... ok
+test_cancel_busy_legacy_guard_and_no_late_publish (test_vna_jobs.TestVNAJobs.test_cancel_busy_legacy_guard_and_no_late_publish) ... ok
+test_cancel_returns_after_bounded_read_timeout (test_vna_jobs.TestVNAJobs.test_cancel_returns_after_bounded_read_timeout) ... ok
+test_complex_average_and_repeated_terminal_poll (test_vna_jobs.TestVNAJobs.test_complex_average_and_repeated_terminal_poll) ... ok
+test_legacy_lock_prevents_start_and_unknown_job_rejects (test_vna_jobs.TestVNAJobs.test_legacy_lock_prevents_start_and_unknown_job_rejects) ... ok
+test_poll_and_cancel_do_not_wait_for_worker_configuration (test_vna_jobs.TestVNAJobs.test_poll_and_cancel_do_not_wait_for_worker_configuration) ... ok
+test_transport_error_gets_stable_job_code (test_vna_jobs.TestVNAJobs.test_transport_error_gets_stable_job_code) ... ok
+test_wrong_grid_and_worker_failure_release_ownership (test_vna_jobs.TestVNAJobs.test_wrong_grid_and_worker_failure_release_ownership) ... ok
+test_characterized_kit_embeds_models_and_survives_source_removal (test_vna_kit.TestVNAKit.test_characterized_kit_embeds_models_and_survives_source_removal) ... ok
+test_grid_impedance_and_missing_file_reject_without_fallback (test_vna_kit.TestVNAKit.test_grid_impedance_and_missing_file_reject_without_fallback) ... ok
+test_live_sweep_discards_stale_bytes_without_fixed_cycle_waits (test_vna_performance.TestVNAPerformance.test_live_sweep_discards_stale_bytes_without_fixed_cycle_waits) ... ok
+test_repeated_actual_grid_does_not_restart_device_sweep (test_vna_performance.TestVNAPerformance.test_repeated_actual_grid_does_not_restart_device_sweep) ... ok
+test_replacement_connection_always_configures_its_device (test_vna_performance.TestVNAPerformance.test_replacement_connection_always_configures_its_device) ... ok
+test_bridge_preserves_transport_error_code (test_vna_transport.TestVNATransport.test_bridge_preserves_transport_error_code) ... ok
+test_configure_preserves_transport_error_code (test_vna_transport.TestVNATransport.test_configure_preserves_transport_error_code) ... ok
+test_connect_rolls_back_when_identity_read_fails (test_vna_transport.TestVNATransport.test_connect_rolls_back_when_identity_read_fails) ... ok
+test_fifo_timeout_closes_pending_reply_before_next_command (test_vna_transport.TestVNATransport.test_fifo_timeout_closes_pending_reply_before_next_command) ... ok
+test_fifo_uses_one_byte_count_and_chunks_above_255 (test_vna_transport.TestVNATransport.test_fifo_uses_one_byte_count_and_chunks_above_255) ... ok
+test_persistent_duplicate_indices_still_reject_after_bounded_retry (test_vna_transport.TestVNATransport.test_persistent_duplicate_indices_still_reject_after_bounded_retry) ... ok
+test_slow_invalid_sweep_is_not_retried (test_vna_transport.TestVNATransport.test_slow_invalid_sweep_is_not_retried) ... ok
+test_transitional_fifo_is_reacquired_as_a_whole_sweep (test_vna_transport.TestVNATransport.test_transitional_fifo_is_reacquired_as_a_whole_sweep) ... ok
+
+----------------------------------------------------------------------
+Ran 85 tests in 6.790s
+
+OK
+       Connect 50-ohm LOAD to Port 1, then press Enter to sweep...       (Continuing...)
+[SWEEP] Acquiring LOAD standard sweep (2395.0 - 2405.0 MHz)...
+
+[DATA] LOAD S11 Results:
+    #   Freq (MHz)    S11 dB   S11 phase    S21 dB   S21 phase      S11 re      S11 im      S21 re      S21 im
+    0     2395.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    1     2396.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    2     2397.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    3     2398.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    4     2399.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    5     2400.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    6     2401.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    7     2402.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    8     2403.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+    9     2404.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+   10     2405.000    -25.38       21.84°     -1.28      -10.01°    0.049979    0.020033    0.849930   -0.150006
+
+[ERROR] Incomplete sweep acquisition detected. Aborting analysis.
+  [ERROR] OPEN: received 2/11 records (complete=False).
+
+[LOG] Saving failure artifacts to: C:\Users\SPOOKY~1\AppData\Local\Temp\tmp243i8p2m\s11_loads_20261023_224453
+
+============================================================
+  VERDICT: [FAIL]
+============================================================
+[CLEANUP] Disconnected from COM_INCOMPLETE.
+
+============================================================
+  Test A — THRU Validation (Port 1 <-> Port 2)
+============================================================
+
+
+[CONNECT] Connecting to COM_TIMEOUT...
+  deviceVariant    = 0x02 ← V2 ✓
+  protocolVersion  = 0x01
+  hardwareRevision = 2
+  firmware         = 1.4
+  port             = COM_TIMEOUT
+
+[SWEEP] Acquiring sweep (2395.0 - 2405.0 MHz, 11 points)...
+
+[LOG] Saving experiment artifacts to: C:\Users\SPOOKY~1\AppData\Local\Temp\tmp243i8p2m\thru_20261023_224456
+[ERROR] No FIFO records received from device.
+
+============================================================
+  VERDICT: [FAIL]
+============================================================
+[CLEANUP] Disconnected from COM_TIMEOUT.

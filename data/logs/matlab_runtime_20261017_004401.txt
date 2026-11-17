@@ -1,0 +1,8 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[00:44:19] Antenna Measurement App initialized.
+[02:18:27] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[02:18:33] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[02:18:41] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: ESP32 did not return a valid POS response with Pan, Tilt and AS5600 encoder data.

@@ -1,0 +1,33 @@
+Running TestScanGeometry
+.......... ......
+Done TestScanGeometry
+__________
+
+============================================================
+  Unit Test: PatternAnalyzer (Antenna Metric Algorithms)
+============================================================
+
+[TEST 1] Normalization check...
+  ✓ PASS: Peak normalized exactly to 0.0 dB
+[TEST 2] Main lobe detection...
+  ✓ PASS: Found peak at angle 2 deg with value 0.00 dB
+[TEST 3] HPBW interpolation accuracy on known Gaussian beam...
+  Target HPBW: 40.00 deg | Calculated: 40.00 deg (Left: 70.00, Right: 110.00) | Error: 0.0000 deg
+  ✓ PASS: HPBW calculated within 0.1 deg of ground truth
+[TEST 4] SLL detection on synthetic patch pattern...
+  Synthetic beam: HPBW = 32.83 deg, SLL = -20.65 dB at angle -59.0 deg
+  ✓ PASS: SLL correctly identified at -20.65 dB outside main lobe
+[TEST 5] Front-to-Back Ratio...
+  Calculated FBR = 26.26 dB
+  ✓ PASS: FBR is 26.26 dB (> 15 dB threshold for directional pattern)
+[TEST 6] Gain substitution calculation...
+  ✓ PASS: DUT Gain calculated = 11.00 dBi (Matches 11.0 dBi)
+[TEST 7] Visualization generation & export...
+  ✓ PASS: Plot exported successfully to C:\Users\Spooky Laptop\AppData\Local\Temp\tpb32ff358_cd40_48bc_9878_ff1c744e33f7\test_pattern_analyzer_output.png
+
+============================================================
+  RESULT: 7 / 7 Tests Passed
+============================================================
+  ALL PATTERN ANALYZER TESTS PASSED!
+
+SURFACE_SECONDS=0.012554709

@@ -1,0 +1,10 @@
+AS5600 corrupted packet / missing magnet / fresh consensus / wrap PASS
+PASS test_as5600.cpp
+Firmware hold/release/manual ZERO/lease simulation PASS
+PASS test_hold.cpp
+I2C firmware / retired PWM commands cannot move or release motors PASS
+PASS test_i2c_firmware.cpp
+Pan 90 duration: 11.9641 s
+Axis timing, pulse counts, STOP and long-move heartbeat PASS
+PASS test_motion_timing.cpp
+PASS test_ramp.cpp

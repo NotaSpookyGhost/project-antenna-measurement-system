@@ -1,0 +1,17 @@
+{
+  "state": "FAIL",
+  "stages": [
+    "stationary_rf",
+    "async_stop",
+    "stationary_encoders",
+    "small_pan_tilt"
+  ],
+  "stop_latency_sec": 4.3290175,
+  "stationary_encoder_pairs": 30,
+  "rf_points_retained": 11,
+  "abort_reason": "EncoderUnavailable",
+  "error": {
+    "Id": "MATLAB:assertion:failed",
+    "Message": "Assertion failed."
+  }
+}

@@ -1,0 +1,63 @@
+Running TestVNAControllerSession
+[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In TestVNAControllerSession/checkTerminalTransport (line 56)
+In TestVNAControllerSession/cancelledTransportInvalidatesConnectionAndCalibration (line 4)]
+
+================================================================================
+Verification failed in TestVNAControllerSession/cancelledTransportInvalidatesConnectionAndCalibration.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The logical values are not equal.
+    
+    Actual Value:
+      logical
+    
+       1
+    Expected Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestVNAControllerSession.m (TestVNAControllerSession.checkTerminalTransport) at 79
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestVNAControllerSession.m (TestVNAControllerSession.cancelledTransportInvalidatesConnectionAndCalibration) at 4
+================================================================================
+
+================================================================================
+Verification failed in TestVNAControllerSession/cancelledTransportInvalidatesConnectionAndCalibration.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The character arrays are not equal.
+    
+    Actual char:
+        ACTIVE
+    Expected char:
+        STALE
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestVNAControllerSession.m (TestVNAControllerSession.checkTerminalTransport) at 80
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestVNAControllerSession.m (TestVNAControllerSession.cancelledTransportInvalidatesConnectionAndCalibration) at 4
+================================================================================
+.......
+Done TestVNAControllerSession
+__________
+
+Failure Summary:
+
+     Name                                                                            Failed  Incomplete  Reason(s)
+    =============================================================================================================================
+     TestVNAControllerSession/cancelledTransportInvalidatesConnectionAndCalibration    X                 Failed by verification.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

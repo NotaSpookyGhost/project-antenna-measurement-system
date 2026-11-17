@@ -1,0 +1,2 @@
+C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\validation\acceptance_encoder_20261023_230625
+{"released_before": {"total": 30, "pan_valid": 30, "tilt_valid": 0}, "held": {"total": 100, "pan_valid": 100, "tilt_valid": 0}, "released_after": {"total": 30, "pan_valid": 30, "tilt_valid": 0}}

@@ -1,0 +1,50 @@
+[
+  {
+    "command": ":CALC1:PAR1:DEF?",
+    "file": "trace_definition.txt",
+    "bytes": 4
+  },
+  {
+    "command": ":SENS1:HOLD:FUNC?",
+    "file": "hold_before.txt",
+    "bytes": 5
+  },
+  {
+    "command": ":FORM:DATA?",
+    "file": "transfer_format.txt",
+    "bytes": 4
+  },
+  {
+    "command": ":SENS1:HOLD:FUNC HOLD"
+  },
+  {
+    "command": ":SENS1:HOLD:FUNC?",
+    "file": "hold_after.txt",
+    "bytes": 5
+  },
+  {
+    "command": ":SENS1:SWE:POIN?",
+    "file": "point_count.txt",
+    "bytes": 4
+  },
+  {
+    "command": ":SENS1:FREQ:DATA?",
+    "file": "frequency_raw.txt",
+    "bytes": 31
+  },
+  {
+    "command": ":CALC1:DATA:SDAT?",
+    "file": "s11_complex_raw.txt",
+    "bytes": 20
+  },
+  {
+    "command": ":SENS1:CORR:STAT?",
+    "file": "correction_state.txt",
+    "bytes": 20
+  },
+  {
+    "command": ":SENS1:HOLD:FUNC?",
+    "file": "hold_final.txt",
+    "bytes": 20
+  }
+]

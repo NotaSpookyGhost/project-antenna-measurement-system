@@ -1,0 +1,82 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[00:44:13] Antenna Measurement App initialized.
+[00:44:56] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[00:45:04] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: Unable to connect to the serialport device at port 'COM5'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[00:45:05] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: ESP32 serial port is not open.
+[00:45:11] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: Unable to connect to the serialport device at port 'COM9'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 7.7° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[00:46:02] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[00:46:02] ✓ Đã kết nối Positioner trên COM5 (Góc AS5600: 7.7°, Khóa Tilt: 0).
+[00:46:13] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:48:13] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 240.3°, Tilt 225.3°.
+[00:48:35] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 100 bước (ít bước hơn = nhanh hơn).
+[00:49:31] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:49:31] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[Warning: ESP32 no longer confirms holding torque.] 
+[> In PositionerController/keepAlive (line 866)
+In PositionerController>@(~,~)obj.keepAlive() (line 844)
+In timer/timercb (line 90)
+In VNAController/claim (line 245)
+In AntennaMeasurementApp/startScan (line 226)
+In AntennaMeasurementApp>@(~,~)obj.startScan() (line 568)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPushButtonController/handleEvent (line 29)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+[00:50:09] ❌ Lỗi trong quá trình quét: Holding torque is unavailable.
+[00:50:10] VNA busy: stop before connecting or disconnecting.
+[00:50:28] VNA switched to Mock mode.
+[00:50:28] VNA: Controller changed; previous trace retains its recorded provenance
+[00:50:29] Connected to VNA on COM6 (Variant: 0x02)
+[00:50:31] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 240.4°, Tilt 225.3°.
+[00:50:37] ❌ Lỗi trong quá trình quét: Confirm reachable travel for this mechanical ZERO before a 3D scan.
+[00:50:41] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 240.4°, Tilt 225.3°.
+[00:50:45] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:50:45] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[00:50:49] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 100 bước (ít bước hơn = nhanh hơn).
+[00:53:24] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:53:24] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[00:53:26] 3D scan: 19 Tilt rows × 73 Pan points; preserve mechanical ZERO.
+[00:53:26] Tilt row 1/19: motor 0.0°, theta 0.0°.
+[00:55:46] Tilt row 2/19: motor 5.0°, theta 5.0°.
+[00:58:06] Tilt row 3/19: motor 10.0°, theta 10.0°.
+[01:00:25] Tilt row 4/19: motor 15.0°, theta 15.0°.
+[01:02:43] Tilt row 5/19: motor 20.0°, theta 20.0°.
+[01:05:03] Tilt row 6/19: motor 25.0°, theta 25.0°.
+[01:07:22] Tilt row 7/19: motor 30.0°, theta 30.0°.
+[01:09:41] Tilt row 8/19: motor 35.0°, theta 35.0°.
+[01:12:00] Tilt row 9/19: motor 40.0°, theta 40.0°.
+[01:14:19] Tilt row 10/19: motor 45.0°, theta 45.0°.
+[01:16:38] Tilt row 11/19: motor 50.0°, theta 50.0°.
+[01:18:57] Tilt row 12/19: motor 55.0°, theta 55.0°.
+[01:21:15] Tilt row 13/19: motor 60.0°, theta 60.0°.
+[01:23:34] Tilt row 14/19: motor 65.0°, theta 65.0°.
+[01:25:54] Tilt row 15/19: motor 70.0°, theta 70.0°.
+[01:28:13] Tilt row 16/19: motor 75.0°, theta 75.0°.
+[01:30:35] Tilt row 17/19: motor 80.0°, theta 80.0°.
+[01:32:57] Tilt row 18/19: motor 85.0°, theta 85.0°.
+[01:35:19] Tilt row 19/19: motor 90.0°, theta 90.0°.
+[01:37:41] 3D COMPLETED: 1387/1387 points retained.
+{Operation terminated by user during uiwait (line 81)
+
+
+In inputdlg (line 375)
+    uiwait(InputFig);
+    ^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp/openMotorRampDialog (line 900)
+            answer=inputdlg({'Pan: 100..600 bước ramp (ít hơn = tăng tốc nhanh hơn)', ...
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In AntennaMeasurementApp>@(~,~)obj.openMotorRampDialog() (line 561)
+                'Callback', @(~,~) obj.openMotorRampDialog());
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+Error using matlab.ui.internal.controller.uicontrol.UIControlController/triggerActionEvent (line 76)
+Interrupt while evaluating UIControl Callback.
+

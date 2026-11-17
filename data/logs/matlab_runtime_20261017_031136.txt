@@ -1,0 +1,11 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[03:12:00] Antenna Measurement App initialized.
+{Operation terminated by user during message.internal.executeCallback
+} 
+{Operation terminated by user during message.internal.executeCallback
+} 
+{Operation terminated by user during message.internal.executeCallback
+} 

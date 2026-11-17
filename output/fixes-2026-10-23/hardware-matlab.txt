@@ -1,0 +1,22 @@
+[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In VNAController/initPythonBridge (line 363)
+In VNAController (line 59)
+In test_acceptance_hardware (line 9)] 
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 241.8° | Tilt = 0.0° (TiltDisabled=0)
+Operator-authorized local test ZERO at current pose.
+[ORCHESTRATOR] Nhật ký motor tự lưu: data\validation\acceptance_system_20261023_160241_UTC\motor\motor_20261023_230331_081_a85ae64a-ed6b-4ef2-b963-0f02db677470.jsonl
+[ORCHESTRATOR] Starting scan: 0.0° to 360.0° (step 30.00°, 13 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch -0.09° encoder (~0.016° anten).
+[ORCHESTRATOR] AS5600 mất tín hiệu: dừng quét, giữ motor và các điểm đã đo.
+[ORCHESTRATOR] Scan loop finished (11/13 points, 55.83 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 11/13 điểm, dữ liệu một phần được giữ lại.
+{Error using assert
+Assertion failed.
+
+Error in test_acceptance_hardware (line 64)
+    assert(~result.PanScan.Metadata.Aborted&&result.PanScan.Metadata.CompletedPoints==13);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

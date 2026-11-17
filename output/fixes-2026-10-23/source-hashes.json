@@ -1,0 +1,37 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "310EA649B40968EF73153DED1C840F6F5F620042049C0C1CAE76EE4938DEBF9C",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\matlab\\app\\AntennaMeasurementApp.m"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "CA27E486F0C7A0209A47F1EBED85632B0FA1407BE0FD4B4865088C7CD0955DA6",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\matlab\\classes\\ScanGeometry.m"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "285F409B897B32BE1409C5B42BE72C53C277D85E1E23439F4D2987670F84FD70",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\matlab\\classes\\PatternAnalyzer.m"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "147928E061EF28B7B5C3DD1216595D91260B755792C50C22F12A99B78FDBA472",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\matlab\\classes\\MeasurementOrchestrator.m"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "A830997B0C8EBB2A7E8E6FDD827B6987FA1D9ECBAF7D5321FC3869616E19475F",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\matlab\\classes\\VNAController.m"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "22CC3FCA6BAA502B760825A737A0936F176888468D986F27ECA69C708C5D3D9E",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\python\\nanovna_bridge.py"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "201EA6122B42C2997711CEFB6CE6DC2EE377DF050DD295A72A59BA689CE58364",
+    "Path": "C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\python\\vna_jobs.py"
+  }
+]

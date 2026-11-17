@@ -1,0 +1,9 @@
+test_cancel_retains_nontransport_configuration_error (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_nontransport_configuration_error) ... ok
+test_cancel_retains_transport_failure_during_configuration_or_read (python.tests.test_transport_regressions.TestTransportRegressions.test_cancel_retains_transport_failure_during_configuration_or_read) ... ok
+test_configuration_failure_keeps_transport_code (python.tests.test_transport_regressions.TestTransportRegressions.test_configuration_failure_keeps_transport_code) ... ok
+test_fifo_clear_failure_disconnects_entire_acquisition (python.tests.test_transport_regressions.TestTransportRegressions.test_fifo_clear_failure_disconnects_entire_acquisition) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.831s
+
+OK

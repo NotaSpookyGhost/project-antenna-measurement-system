@@ -1,0 +1,64 @@
+Running TestPositionerLimits
+....
+Done TestPositionerLimits
+__________
+
+Running TestScan3D
+..........
+Done TestScan3D
+__________
+
+Running TestScan3DData
+...
+Done TestScan3DData
+__________
+
+Running TestScan3DGUI
+[22:58:46] Antenna Measurement App initialized.
+[22:58:46] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+.[22:58:47] Antenna Measurement App initialized.
+[22:58:47] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 75 bước (ít bước hơn = nhanh hơn).
+.[22:58:48] Antenna Measurement App initialized.
+[22:58:48] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:58:52] 3D scan: 10 Tilt rows × 10 Pan points; preserve mechanical ZERO.
+[22:58:52] Tilt row 1/10: motor 0.0°, theta 90.0°.
+[22:58:54] 3D scan stopped: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00.; preserving 1 points.
+[22:58:54] 3D ABORTED: 1/100 points retained.
+[22:58:55] ⚠️ Quét đã dừng: AS5600 AZ moved 7.21 deg; expected about 56.25 deg for PAN 10.00. (đã ghi nhận 1/100 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[22:59:01] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpb7066b24_d4b4_42ec_8cfe_d834775745bb\export_app_scan_20261023_155856_146_5254a3dc-5dad-4528-8c7b-fd7f8bd5f85c
+.[22:59:02] Antenna Measurement App initialized.
+[22:59:02] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:59:04] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:59:04] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[22:59:04] 3D COMPLETED: 3/3 points retained.
+[22:59:09] Exported 3D dataset to: C:\Users\Spooky Laptop\AppData\Local\Temp\tpc85bc316_f77e_4697_8f99_1adecb0b9742\export_app_scan_20261023_155906_123_3c912710-0dfd-4b5f-807b-a8d17f32fc90
+.[22:59:10] Antenna Measurement App initialized.
+[22:59:11] Antenna Measurement App initialized.
+.[22:59:12] Antenna Measurement App initialized.
+[22:59:12] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:59:13] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:59:13] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[22:59:14] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[22:59:15] 3D COMPLETED: 6/6 points retained.
+.[22:59:18] Antenna Measurement App initialized.
+[22:59:18] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:59:19] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:59:19] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[22:59:20] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[22:59:20] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[22:59:22] Đang dừng quét sau bước hiện tại...
+[22:59:22] 3D ABORTED: 3/6 points retained.
+[22:59:23] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 3/6 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[22:59:23] 3D scan: 2 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[22:59:23] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[22:59:24] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[22:59:25] 3D COMPLETED: 6/6 points retained.
+.[22:59:26] Antenna Measurement App initialized.
+[ORCHESTRATOR] 3D scan: 1 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 2/2 points retained.
+.
+Done TestScan3DGUI
+__________
+
+SOFTWARE_GROUP_PASS 4: 25/25 tests; no VNA timer leaks

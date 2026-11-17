@@ -1,0 +1,49 @@
+Running TestScanVNACalibration
+..[Warning: Python version 3.13 is not supported. See https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In TestScanVNACalibration.calibrate (line 70)
+In TestScanVNACalibration/trPartialUsesActualGridAndKeepsRaw (line 21)]
+[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\python\vna_calibration.py:96: UserWarning: only gave a single measurement orientation, error correction is partial without a tuple
+  result=engine.apply_cal(_network(f,s)).s
+[ORCHESTRATOR] RF scan stopped: Injected RF failure.; preserving 2 complete points.
+[ORCHESTRATOR] Scan loop finished (2/4 points, 0.44 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 2/4 điểm, dữ liệu một phần được giữ lại.
+.[ORCHESTRATOR] Starting scan: 0.0° to 20.0° (step 10.00°, 3 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] RF scan stopped: Injected RF failure.; preserving 1 complete points.
+[ORCHESTRATOR] Scan loop finished (1/3 points, 0.13 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 1/3 điểm, dữ liệu một phần được giữ lại.
+.[ORCHESTRATOR] 3D scan: 1 Tilt rows × 3 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/1: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] 3D COMPLETED: 3/3 points retained.
+.[22:57:32] Antenna Measurement App initialized.
+[22:57:32] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[22:57:32] Starting scan: 0.0° to 20.0° (step 10.00°, 3 points)
+[22:57:32] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[22:57:36] Đang dừng quét sau bước hiện tại...
+[22:57:36] Scan loop finished (1/3 points, 4.04 s). Processing data...
+[22:57:36] Scan đã dừng ở 1/3 điểm, dữ liệu một phần được giữ lại.
+[22:57:37] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 1/3 điểm). Dữ liệu được giữ để phân tích/xuất file.
+.
+Done TestScanVNACalibration
+__________
+
+Running TestVNADataManager
+..
+Done TestVNADataManager
+__________
+
+Running TestScanVNAData
+.[22:57:54] Antenna Measurement App initialized.
+..
+Done TestScanVNAData
+__________
+
+Running TestScanGeometry
+.......... ......
+Done TestScanGeometry
+__________
+
+SOFTWARE_GROUP_PASS 3: 27/27 tests; no VNA timer leaks

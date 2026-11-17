@@ -1,0 +1,23 @@
+[SYSTEM] Log console initialized. Ready.
+[00:23:01] Antenna Measurement App initialized.
+[00:23:15] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[00:23:21] VNA switched to Real hardware mode.
+[00:23:21] VNA: Controller changed; previous trace retains its recorded provenance
+[00:23:23] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: Unable to connect to the serialport device at port 'COM5'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[00:23:29] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: Unable to connect to the serialport device at port 'COM9'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[00:23:34] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: Unable to connect to the serialport device at port 'COM9'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[00:23:49] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[00:23:49] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: NaN°, Khóa Tilt: 0).
+[00:24:02] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan NaN°, Tilt NaN°.
+[00:24:02] AS5600 không đọc được khi đang giữ: ZERO theo dấu căn tay; góc quét theo số xung, chưa xác minh góc cơ khí.
+[00:24:05] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:24:07] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan NaN°, Tilt NaN°.
+[00:24:07] AS5600 không đọc được khi đang giữ: ZERO theo dấu căn tay; góc quét theo số xung, chưa xác minh góc cơ khí.
+[00:24:09] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan NaN°, Tilt NaN°.
+[00:24:09] AS5600 không đọc được khi đang giữ: ZERO theo dấu căn tay; góc quét theo số xung, chưa xác minh góc cơ khí.
+[00:24:21] ✓ Đã lưu file log thành công: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\system_log_20261016_002421.txt
+[00:24:25] ✓ Đã lưu file log thành công: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\system_log_20261016_002425.txt
+[00:24:31] 📡 [ESP32 STATUS] Pan = 0.00° (AS5600 J4: NaN°) | Tilt = 0.00° (AS5600 J3: NaN°) | Khóa Tilt: 0

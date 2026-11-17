@@ -1,0 +1,114 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[00:13:02] Antenna Measurement App initialized.
+[00:16:00] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 100 bước (ít bước hơn = nhanh hơn).
+[00:16:17] ⚠️ Positioner chưa kết nối! Đang tự động kết nối tới COM5...
+[00:16:17] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:16:17] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[00:16:20] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[00:16:20] Đang dừng quét sau bước hiện tại...
+[00:16:20] Scan loop finished (2/73 points, 3.15 s). Processing data...
+[00:16:20] Scan đã dừng ở 2/73 điểm, dữ liệu một phần được giữ lại.
+[00:16:21] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 2/73 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:16:23] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[Warning: Python version 3.13 is not supported. See
+https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In VNAController/initPythonBridge (line 363)
+In VNAController (line 59)
+In AntennaMeasurementApp/handleVNAModeChange (line 1184)
+In AntennaMeasurementApp>@(~,~)obj.handleVNAModeChange() (line 476)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPopupMenuController/handleEvent (line 42)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+[00:16:33] VNA switched to Real hardware mode.
+[00:16:33] VNA: Controller changed; previous trace retains its recorded provenance
+[00:16:39] Connected to VNA on COM6 (Variant: 0x02)
+[00:16:40] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: Unable to connect to the serialport device at port 'COM5'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[00:16:40] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: Unable to connect to the serialport device at port 'COM5'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 248.5° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[00:17:13] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[00:17:13] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 248.5°, Khóa Tilt: 0).
+[00:17:22] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:17:43] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 10.9°, Tilt 41.0°.
+[00:17:51] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:17:53] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 11.0°, Tilt 40.8°.
+[00:17:55] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:18:01] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 227.4°, Tilt 40.8°.
+[00:18:07] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:18:35] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 212.2°, Tilt 40.2°.
+[00:18:41] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:18:52] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 234.1°, Tilt 40.1°.
+[00:20:52] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:21:15] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 155.7°, Tilt 39.8°.
+[00:22:49] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_002249_684_6ad9bea3-8f84-451d-bfc0-d2ecf315285a.jsonl
+[00:22:49] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:22:50] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[00:22:50] Pan về 0°: lệch -1.32° encoder (~0.235° anten).
+[00:25:26] Scan loop finished (73/73 points, 156.55 s). Processing data...
+[00:25:26] Scan successfully completed! HPBW = 6.72°, SLL = -0.12 dB, Peak = 75.00°
+[00:28:10] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_002810_593_72b24a7d-7bc2-4912-aa21-bfd69ee8ff04.jsonl
+[00:28:10] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:28:10] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[00:28:57] Pan về 0°: lệch -1.49° encoder (~0.265° anten).
+[00:29:12] AS5600 mất tín hiệu: dừng quét, giữ motor và các điểm đã đo.
+[00:29:12] Scan loop finished (7/73 points, 61.39 s). Processing data...
+[00:29:12] Scan đã dừng ở 7/73 điểm, dữ liệu một phần được giữ lại.
+[00:29:13] ⚠️ Quét đã dừng: AS5600 mất phản hồi (đã ghi nhận 7/73 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:30:29] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_003029_385_e9ae1dc4-7bca-4e3c-bef1-982724905fbe.jsonl
+[00:30:29] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:30:29] ❌ Lỗi trong quá trình quét: Chưa có mốc ZERO hợp lệ. Căn hai trục rồi bấm Khóa + ZERO trước khi quét.
+[00:30:43] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:30:47] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_003047_187_c8a80480-88d0-4b84-9459-6bc773f6fb9b.jsonl
+[00:30:47] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:30:47] ❌ Lỗi trong quá trình quét: Motor is released for manual homing. Lock and ZERO both axes before scanning.
+[00:30:52] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 159.1°, Tilt 39.8°.
+[00:30:53] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_003053_601_120e2438-99de-4511-aa69-56a96888ff58.jsonl
+[00:30:53] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:30:53] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[00:30:54] Pan về 0°: lệch 0.09° encoder (~0.016° anten).
+[00:31:02] AS5600 mất tín hiệu: dừng quét, giữ motor và các điểm đã đo.
+[00:31:02] Scan loop finished (4/73 points, 8.98 s). Processing data...
+[00:31:03] Scan đã dừng ở 4/73 điểm, dữ liệu một phần được giữ lại.
+[00:31:04] ⚠️ Quét đã dừng: AS5600 mất phản hồi (đã ghi nhận 4/73 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:31:33] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:31:37] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_003137_101_9b2441b1-1111-48f9-9224-5cd700eb59d5.jsonl
+[00:31:37] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:31:37] ❌ Lỗi trong quá trình quét: Motor is released for manual homing. Lock and ZERO both axes before scanning.
+[00:31:42] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 147.4°, Tilt 39.8°.
+[00:31:43] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_003143_309_ec72495f-2e61-485b-824d-05d0db6c11d6.jsonl
+[00:31:43] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[00:31:43] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[00:31:44] Pan về 0°: lệch 0.09° encoder (~0.016° anten).
+[00:34:19] Scan loop finished (73/73 points, 155.70 s). Processing data...
+[00:34:19] Scan successfully completed! HPBW = 8.48°, SLL = -0.03 dB, Peak = 30.00°
+[00:39:25] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:39:25] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[00:39:31] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_003931_183_4e891210-e4f1-481f-b324-8e7009724130.jsonl
+[00:39:31] 3D scan: 37 Tilt rows × 73 Pan points; preserve mechanical ZERO.
+[00:39:31] Tilt row 1/37: motor -90.0°, theta 0.0°.
+[00:40:23] 3D scan stopped: ESP32 reports unavailable AS5600 feedback: Tilt. Check sensor power, wiring and magnet before ZERO or scanning.; preserving 0 points.
+[00:40:23] ⚠️ Quá trình quét đã bị hủy hoặc không đủ dữ liệu (cần >= 2 điểm).
+[00:41:01] ❌ Lỗi Homing / Zero: ESP32 reports unavailable AS5600 feedback: Tilt. Check sensor power, wiring and magnet before ZERO or scanning.
+[00:41:05] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[00:41:11] ❌ Lỗi Homing / Zero: ESP32 reports unavailable AS5600 feedback: Tilt. Check sensor power, wiring and magnet before ZERO or scanning.
+[00:41:30] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 164.5°, Tilt 251.1°.
+[00:41:38] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_004138_743_e9e5fbad-0602-480d-a71c-7db94c4226aa.jsonl
+[00:41:38] ❌ Lỗi trong quá trình quét: Confirm reachable travel for this mechanical ZERO before a 3D scan.
+[00:41:49] Gia tốc motor: Pan ramp 100 bước, Tilt ramp 100 bước (ít bước hơn = nhanh hơn).
+[00:41:54] Đã lưu cấu hình 3D / ZERO hình học; giữ nguyên mốc ZERO cơ khí.
+[00:41:54] Đã xác nhận hành trình theo ZERO cơ khí hiện tại.
+[00:41:56] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261024_004156_820_53596d34-ebf4-42dc-aac3-431431be1901.jsonl
+[00:41:57] 3D scan: 37 Tilt rows × 73 Pan points; preserve mechanical ZERO.
+[00:41:57] Tilt row 1/37: motor -90.0°, theta 0.0°.
+[00:42:03] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[00:43:38] 3D scan stopped: ESP32 reports unavailable AS5600 feedback: Tilt. Check sensor power, wiring and magnet before ZERO or scanning.; preserving 41 points.
+[00:43:39] 3D ABORTED: 41/2701 points retained.
+[00:43:40] ⚠️ Quét đã dừng: ESP32 reports unavailable AS5600 feedback: Tilt. Check sensor power, wiring and magnet before ZERO or scanning. (đã ghi nhận 41/2701 điểm). Dữ liệu được giữ để phân tích/xuất file.

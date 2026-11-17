@@ -7,6 +7,7 @@ classdef VNAController < handle
     % Supported Modes:
     %   'Real' — Uses Python bridge to connect to physical SAA-2N over USB CDC.
     %   'Mock' — Simulates SAA-2N responses (for development when hardware is disconnected).
+    %   'ShockLine' — Native TCP SCPI to the PC running Anritsu MS46122B software.
     %
     % Usage:
     %   vna = VNAController('Mode', 'Real');
@@ -16,16 +17,18 @@ classdef VNAController < handle
     %   vna.disconnect();
 
     properties (SetAccess = private)
-        Mode char = 'Real'           % 'Real' or 'Mock'
+        Mode char = 'Real'           % 'Real', 'Mock', or 'ShockLine'
         IsConnected logical = false
         Port char = ''
         DeviceIdentity struct = struct()
+        MeasurementMetadata struct = struct()
         StartHz double = 2395e6
         StopHz double = 2405e6
         Points int32 = 11
     end
 
     properties (Access = private)
+        ShockLine = []
         PyBridge = []
         MockCurrentAngle double = 0.0
         MockThetaDeg double = 90.0
@@ -38,7 +41,8 @@ classdef VNAController < handle
             p = inputParser;
             addParameter(p, 'Mode', 'Real', @(x) ischar(x) || isstring(x));
             parse(p, varargin{:});
-            obj.Mode = char(p.Results.Mode);
+            obj.Mode = validatestring(char(p.Results.Mode), {'Real','Mock','ShockLine'});
+            if strcmpi(obj.Mode,'ShockLine'), obj.ShockLine=ShockLineClient(); end
 
             if strcmpi(obj.Mode, 'Real')
                 obj.initPythonBridge();
@@ -54,6 +58,7 @@ classdef VNAController < handle
 
         function port = autoDetectPort(obj)
             % AUTODETECTPORT Automatically scan COM ports for SAA-2N
+            if strcmpi(obj.Mode,'ShockLine'), port='127.0.0.1:5001'; return; end
             if strcmpi(obj.Mode, 'Mock')
                 port = 'MOCK_COM';
                 return;
@@ -76,6 +81,16 @@ classdef VNAController < handle
                 end
             end
             obj.Port = char(port);
+            if strcmpi(obj.Mode,'ShockLine')
+                obj.ShockLine.connect(obj.Port);
+                obj.DeviceIdentity=obj.ShockLine.Identity;
+                obj.MeasurementMetadata=obj.ShockLine.Settings;
+                obj.StartHz=obj.ShockLine.Settings.StartHz;
+                obj.StopHz=obj.ShockLine.Settings.StopHz;
+                obj.Points=int32(obj.ShockLine.Settings.Points);
+                obj.IsConnected=true;
+                return;
+            end
 
             if strcmpi(obj.Mode, 'Mock')
                 obj.IsConnected = true;
@@ -107,6 +122,7 @@ classdef VNAController < handle
                 return;
             end
 
+            if strcmpi(obj.Mode,'ShockLine'), obj.ShockLine.disconnect(); end
             if strcmpi(obj.Mode, 'Real') && ~isempty(obj.PyBridge)
                 try
                     obj.PyBridge.disconnect();
@@ -126,6 +142,7 @@ classdef VNAController < handle
                 return;
             end
 
+            if strcmpi(obj.Mode,'ShockLine'), id=obj.ShockLine.Identity; return; end
             info_py = obj.PyBridge.identify();
             id = struct(...
                 'device_variant', int32(info_py{'device_variant'}), ...
@@ -143,6 +160,15 @@ classdef VNAController < handle
         function configureSweep(obj, startHz, stopHz, points)
             % CONFIGURESWEEP Program sweep parameters in VNA hardware
             obj.ensureConnected();
+            if strcmpi(obj.Mode,'ShockLine')
+                try
+                    obj.ShockLine.configureSweep(startHz,stopHz,points);
+                catch ME
+                    obj.IsConnected=obj.ShockLine.IsConnected; rethrow(ME);
+                end
+                obj.StartHz=double(startHz); obj.StopHz=double(stopHz); obj.Points=int32(points);
+                return;
+            end
             obj.StartHz = double(startHz);
             obj.StopHz = double(stopHz);
             obj.Points = int32(points);
@@ -172,6 +198,10 @@ classdef VNAController < handle
                 return;
             end
 
+            if strcmpi(obj.Mode,'ShockLine')
+                obj.configureSweep(obj.StartHz,obj.StopHz,obj.Points);
+                sweep=obj.acquireSingle(); return;
+            end
             py_res = obj.PyBridge.acquire_sweep(obj.StartHz, obj.StopHz, int32(obj.Points));
             sweep = obj.convertPythonSweepResult(py_res);
         end
@@ -185,6 +215,16 @@ classdef VNAController < handle
                 return;
             end
 
+            if strcmpi(obj.Mode,'ShockLine')
+                try
+                    sweep=obj.ShockLine.acquireSingle();
+                    obj.MeasurementMetadata=sweep.InstrumentMetadata;
+                    obj.MeasurementMetadata.AcquisitionSource=sweep.AcquisitionSource;
+                catch ME
+                    obj.IsConnected=obj.ShockLine.IsConnected; rethrow(ME);
+                end
+                return;
+            end
             py_res = obj.PyBridge.acquire_single();
             sweep = obj.convertPythonSweepResult(py_res);
         end
@@ -197,6 +237,49 @@ classdef VNAController < handle
             startHz = centerHz - spanHz / 2;
             stopHz  = centerHz + spanHz / 2;
             sweep = obj.acquireSweep(startHz, stopHz, points);
+        end
+
+        function sweep = readSnapshot(obj,allowHold)
+            obj.ensureConnected();
+            if nargin<2, allowHold=false; end
+            if ~strcmpi(obj.Mode,'ShockLine')
+                error('VNAController:SnapshotMode','Snapshot is available for ShockLine.');
+            end
+            try
+                if allowHold, obj.ShockLine.hold(); end
+                sweep=obj.ShockLine.snapshot();
+            catch ME
+                obj.IsConnected=obj.ShockLine.IsConnected; rethrow(ME);
+            end
+        end
+
+        function settings = readInstrumentSettings(obj)
+            obj.ensureConnected();
+            if ~strcmpi(obj.Mode,'ShockLine')
+                error('VNAController:SnapshotMode','Readback is available for ShockLine.');
+            end
+            try
+                settings=obj.ShockLine.readSettings();
+            catch ME
+                obj.IsConnected=obj.ShockLine.IsConnected; rethrow(ME);
+            end
+        end
+
+        function returnToLocal(obj,resumeSweep)
+            obj.ensureConnected();
+            if ~strcmpi(obj.Mode,'ShockLine')
+                error('VNAController:SnapshotMode','Local handoff is only available for ShockLine.');
+            end
+            try
+                obj.ShockLine.returnToLocal(resumeSweep);
+            catch ME
+                obj.IsConnected=obj.ShockLine.IsConnected; rethrow(ME);
+            end
+            obj.IsConnected=false;
+        end
+
+        function name = deviceName(obj)
+            if strcmpi(obj.Mode,'ShockLine'), name='MS46122B'; else, name='SAA-2N'; end
         end
 
         function setMockAngle(obj, angle_deg)
@@ -240,6 +323,7 @@ classdef VNAController < handle
         end
 
         function ensureConnected(obj)
+            if strcmpi(obj.Mode,'ShockLine') && ~obj.ShockLine.IsConnected, obj.IsConnected=false; end
             if ~obj.IsConnected
                 error('VNAController:NotConnected', 'NanoVNA is not connected. Call connect() first.');
             end

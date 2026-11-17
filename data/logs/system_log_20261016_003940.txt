@@ -1,0 +1,42 @@
+[SYSTEM] Log console initialized. Ready.
+[00:33:02] Antenna Measurement App initialized.
+[00:33:35] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[00:33:41] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[00:33:41] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 322.7°, Khóa Tilt: 0).
+[00:33:47] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 321.4°, Tilt 217.1°.
+[00:33:54] Connected to VNA on COM6 (Variant: 0x02)
+[00:33:54] VNA switched to Real hardware mode.
+[00:33:54] VNA: Controller changed; previous trace retains its recorded provenance
+[00:34:01] Connected to VNA on COM6 (Variant: 0x02)
+[00:34:24] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[00:34:25] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[00:34:43] Scan paused.
+[00:37:05] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[00:37:05] Đang dừng quét sau bước hiện tại...
+[00:37:05] Scan loop finished (10/181 points, 160.13 s). Processing data...
+[00:37:05] Scan đã dừng ở 10/181 điểm, dữ liệu một phần được giữ lại.
+[00:37:06] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 10/181 điểm). Dữ liệu được giữ để phân tích/xuất file.
+[00:37:28] VNA: Measuring | actual stop 2405.000000000 MHz | NONE
+[00:37:29] VNA: INVALID_SWEEP: ERROR:Incomplete VNA sweep: expected indices 0..100, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
+[00:37:40] VNA: Measuring | actual stop 2405.000000000 MHz | NONE
+[00:37:42] VNA: INVALID_SWEEP: ERROR:Incomplete VNA sweep: expected indices 0..100, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+[00:37:49] VNA: NONE | Connection changed; confirm RF path and Apply
+[00:38:19] VNA: NONE | Connection changed; confirm RF path and Apply
+[00:38:19] VNA: Measuring | actual stop 2404.999951000 MHz | NONE
+[00:38:21] VNA: INVALID_SWEEP: ERROR:Incomplete VNA sweep: expected indices 0..89, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+[00:38:23] VNA: Measuring | actual stop 2404.999951000 MHz | NONE
+[00:38:24] VNA: VNA:BUSY: Stop the active operation first.
+[00:38:29] VNA: INVALID_SWEEP: ERROR:Incomplete VNA sweep: expected indices 0..89, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74]
+[00:38:33] VNA: Measuring | actual stop 2404.999951000 MHz | NONE
+[00:38:37] VNA: INVALID_SWEEP: ERROR:Incomplete VNA sweep: expected indices 0..89, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80]
+[00:38:54] VNA: Measuring | actual stop 2404.999951000 MHz | NONE
+[00:38:58] VNA: INVALID_SWEEP: ERROR:Incomplete VNA sweep: expected indices 0..89, received [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80]
+[00:39:03] VNA: NONE | Connection changed; confirm RF path and Apply
+[00:39:07] VNA: VNA:INVALID_REQUEST: Use integer Hz, 2..401 points, 1..16 averages and a positive step.
+[00:39:11] VNA: VNA:INVALID_REQUEST: Use integer Hz, 2..401 points, 1..16 averages and a positive step.
+[00:39:14] VNA: NONE | Connection changed; confirm RF path and Apply
+[00:39:17] VNA: Measuring | actual stop 2999.999990000 MHz | NONE
+[00:39:19] VNA: MATLAB:catenate:dimensionMismatch: Dimensions of arrays being concatenated are not consistent.
+[00:39:22] VNA: Measuring | actual stop 2999.999990000 MHz | NONE
+[00:39:22] VNA: VNA:BUSY: Stop the active operation first.
+[00:39:24] VNA: MATLAB:catenate:dimensionMismatch: Dimensions of arrays being concatenated are not consistent.

@@ -1,0 +1,1 @@
+Operator reported removing a snagged Pan cable during the hardware run and requested a fresh rerun. Preserve this run as affected by the cable event; run hardware acceptance again after cleanup.

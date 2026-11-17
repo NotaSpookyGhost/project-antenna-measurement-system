@@ -1,5 +1,24 @@
 # Codex setup for antenna-v3
 
+## ShockLine MATLAB adapter — 2026-11-16
+
+Center/span precision fix: ShockLine Connect now formats MHz fields with 17
+significant digits. The backend snaps only floating-point noise at band edges
+(8 ULPs), keeps rejecting genuine out-of-band requests, and avoids reprogramming
+an unchanged calibrated sweep. Offline validation: 46 selected MATLAB tests passed;
+a fresh app's actual Connect callback passed against an ephemeral TCP fixture
+using 2151484924.62–2648910175.88 Hz, with zero triggers. Restarted app sessions
+load this fix; an already running MATLAB class instance retains its loaded code.
+Do not close a live motor session merely to refresh code without considering its
+holding/manual ZERO state.
+
+The current GUI includes **Anritsu ShockLine** at `127.0.0.1:5001`, static
+S11/S21 snapshot/fresh-sweep controls and MAT/CSV export. See
+`docs/shockline-matlab-usage.md` for confirmations, conservative band limits,
+corrected-data provenance and offline tests. The new app path has passed offline
+tests only; hardware acceptance requires separate user approval. Keep Mock motor
+and real motor explicit. The historical NanoVNA setup below remains applicable.
+
 ## Physical encoder mapping and smooth profile — 2026-11-16
 
 Current installed firmware: `V4.0_HOLD_SMOOTH2`. With the present wiring,

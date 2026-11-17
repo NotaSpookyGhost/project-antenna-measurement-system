@@ -1,0 +1,16 @@
+[SYSTEM] Log console initialized. Ready.
+[13:31:48] Antenna Measurement App initialized.
+[13:32:21] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[13:32:21] Positioner switched to Hardware (ESP32 on COM9) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[13:32:27] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: Unable to connect to the serialport device at port 'COM9'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[13:32:29] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 serial port is not open.
+[13:32:42] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:32:58] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 did not return a valid POS response with Pan, Tilt and AS5600 encoder data.
+[13:34:05] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 did not return a valid POS response with Pan, Tilt and AS5600 encoder data.
+[13:34:51] ✓ Đã lưu file log thành công: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\system_log_20261116_133451.txt
+[13:34:55] ⚠️ ESP32 chưa kết nối! Đang tự động kết nối...
+[13:34:58] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:35:06] ⚠️ ESP32 chưa kết nối! Đang tự động kết nối...
+[13:35:09] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:35:20] ⚠️ ESP32 chưa kết nối! Đang tự động kết nối...

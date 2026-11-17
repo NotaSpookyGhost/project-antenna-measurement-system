@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\fixes-2026-10-23\stationary_encoders.py", line 28, in <module>
+    for _ in range(count): send('POS',phase)
+                           ~~~~^^^^^^^^^^^^^
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\fixes-2026-10-23\stationary_encoders.py", line 20, in send
+    records.append(record); persist()
+                            ~~~~~~~^^
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\fixes-2026-10-23\stationary_encoders.py", line 10, in persist
+    (folder/'raw.json').write_text(json.dumps(records,indent=2),encoding='utf-8')
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Spooky Laptop\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py", line 555, in write_text
+    return PathBase.write_text(self, data, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Spooky Laptop\AppData\Local\Programs\Python\Python313\Lib\pathlib\_abc.py", line 651, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Spooky Laptop\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument: 'C:\\Users\\Spooky Laptop\\Documents\\ChatGPT\\antennamatlab\\data\\validation\\acceptance_encoder_20261023_230526\\raw.json'

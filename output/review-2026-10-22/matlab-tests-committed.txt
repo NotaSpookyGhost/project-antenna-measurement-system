@@ -1,0 +1,14 @@
+[Warning: Name is nonexistent or not a directory: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\review-2026-10-22\matlab\classes] 
+[> In path (line 109)
+In addpath (line 96)
+In repro_geometry (line 2)
+In run (line 112)] 
+{Unable to resolve the name 'ScanGeometry.defaults'.
+
+Error in repro_geometry (line 3)
+c=ScanGeometry.defaults();
+  ^^^^^^^^^^^^^^^^^^^^^^^
+Error in run (line 112)
+evalin('caller', strcat(scriptStem, ';'));
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

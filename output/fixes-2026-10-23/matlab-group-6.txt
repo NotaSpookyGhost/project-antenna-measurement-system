@@ -1,0 +1,191 @@
+Running TestPatternPartialPlot
+.....[23:01:32] Antenna Measurement App initialized.
+.[23:01:39] Antenna Measurement App initialized.
+.
+Done TestPatternPartialPlot
+__________
+
+Running TestMotorScanJournal
+......
+Done TestMotorScanJournal
+__________
+
+Running TestMotorJournalIntegration
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp69cea6f5_8597_4394_b31b_9e4d2de06726\motor_20261023_230147_612_c017f337-2c12-404b-bfc5-9cff06ab1e09.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.014° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.17 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp69cea6f5_8597_4394_b31b_9e4d2de06726\motor_20261023_230147_899_a94efa0e-5da8-4e8e-88a0-12c88134c45c.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch 0.01° encoder (~0.008° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.10 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp863dc1b3_3b50_4d08_86df_0d06a2220f0c\motor_20261023_230148_084_29a2ed09-82a4-4df4-ae10-47067dcc21bf.jsonl
+[ORCHESTRATOR] 3D scan: 2 Tilt rows × 2 Pan points; preserve mechanical ZERO.
+[ORCHESTRATOR] Tilt row 1/2: motor 0.0°, theta 90.0°.
+[ORCHESTRATOR] Pan về 0°: lệch -0.01° encoder (~0.012° anten).
+[ORCHESTRATOR] Tilt row 2/2: motor 10.0°, theta 100.0°.
+[ORCHESTRATOR] Pan về 0°: lệch -0.01° encoder (~0.008° anten).
+[ORCHESTRATOR] 3D COMPLETED: 4/4 points retained.
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp399e8940_7004_4ee1_93cd_c89bd33e4fc7\motor_20261023_230148_756_642435ec-0a35-468e-940f-9695f564d49f.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+..[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp6c762b84_da31_487d_9cf8_a0bffedb86bb\motor_20261023_230149_092_3041a650-5315-4bda-b15f-e5c7963a83cc.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261023_230149_268_c783eb24-8ca4-49c0-9817-a69fd9865009.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+.[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp4727e535_74ca_42d7_bdac_7281235ac1a1\motor_20261023_230149_333_4feafdc8-ba22-452f-b025-23011ca288df.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Pan về 0°: lệch -0.01° encoder (~0.013° anten).
+[ORCHESTRATOR] Scan loop finished (2/2 points, 0.09 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp4727e535_74ca_42d7_bdac_7281235ac1a1\motor_20261023_230149_471_dcb116d5-915a-401b-8b5d-711144ce63d6.jsonl
+[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp4727e535_74ca_42d7_bdac_7281235ac1a1\motor_20261023_230149_520_fc9ac3eb-7b56-433d-b093-ab2c413efc2b.jsonl
+..[ORCHESTRATOR] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\AppData\Local\Temp\tp455ef561_a832_4ff8_998f_85f60be8d668\motor_20261023_230149_659_f10b1f86-59c8-43f5-aa0d-5bca327b2248.jsonl
+[ORCHESTRATOR] Starting scan: 5.0° to 0.0° (step 5.00°, 2 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+.
+Done TestMotorJournalIntegration
+__________
+
+Running TestRuntimeHardening
+........[23:01:52] Antenna Measurement App initialized.
+.[23:01:56] Antenna Measurement App initialized.
+[23:01:58] Antenna Measurement App initialized.
+.
+Done TestRuntimeHardening
+__________
+
+============================================================
+  Unit Test: PatternAnalyzer (Antenna Metric Algorithms)
+============================================================
+
+[TEST 1] Normalization check...
+  ✓ PASS: Peak normalized exactly to 0.0 dB
+[TEST 2] Main lobe detection...
+  ✓ PASS: Found peak at angle 2 deg with value 0.00 dB
+[TEST 3] HPBW interpolation accuracy on known Gaussian beam...
+  Target HPBW: 40.00 deg | Calculated: 40.00 deg (Left: 70.00, Right: 110.00) | Error: 0.0000 deg
+  ✓ PASS: HPBW calculated within 0.1 deg of ground truth
+[TEST 4] SLL detection on synthetic patch pattern...
+  Synthetic beam: HPBW = 32.83 deg, SLL = -20.65 dB at angle -59.0 deg
+  ✓ PASS: SLL correctly identified at -20.65 dB outside main lobe
+[TEST 5] Front-to-Back Ratio...
+  Calculated FBR = 26.26 dB
+  ✓ PASS: FBR is 26.26 dB (> 15 dB threshold for directional pattern)
+[TEST 6] Gain substitution calculation...
+  ✓ PASS: DUT Gain calculated = 11.00 dBi (Matches 11.0 dBi)
+[TEST 7] Visualization generation & export...
+  ✓ PASS: Plot exported successfully to C:\Users\Spooky Laptop\AppData\Local\Temp\tpae82055c_53ac_446b_842f_bd460622bc25\test_pattern_analyzer_output.png
+
+============================================================
+  RESULT: 7 / 7 Tests Passed
+============================================================
+  ALL PATTERN ANALYZER TESTS PASSED!
+
+SOFTWARE_SCRIPT_PASS test_pattern_analyzer
+============================================================
+  End-to-End Test: Automated Scan Pipeline (Simulation)
+============================================================
+
+[1] Initializing VNA and Positioner controllers in Mock mode...
+  ✓ VNA connected (Mock variant: 0x02)
+  ✓ Positioner connected (Homed: 1)
+
+[2] Setting up MeasurementOrchestrator...
+
+[3] Executing automated 360° scan sequence...
+[ORCHESTRATOR] Starting scan: 0.0° to 360.0° (step 5.00°, 73 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+  --> [SCAN PROGRESS] Angle:   45.0° ( 10/ 73) | S21: -46.26 dB | Elapsed:  0.58 s
+  --> [SCAN PROGRESS] Angle:   95.0° ( 20/ 73) | S21: -54.57 dB | Elapsed:  1.19 s
+  --> [SCAN PROGRESS] Angle:  145.0° ( 30/ 73) | S21: -56.34 dB | Elapsed:  1.78 s
+  --> [SCAN PROGRESS] Angle:  195.0° ( 40/ 73) | S21: -43.44 dB | Elapsed:  2.35 s
+  --> [SCAN PROGRESS] Angle:  245.0° ( 50/ 73) | S21: -54.93 dB | Elapsed:  3.00 s
+  --> [SCAN PROGRESS] Angle:  295.0° ( 60/ 73) | S21: -36.41 dB | Elapsed:  3.60 s
+  --> [SCAN PROGRESS] Angle:  345.0° ( 70/ 73) | S21: -17.49 dB | Elapsed:  4.20 s
+  --> [SCAN PROGRESS] Angle:  360.0° ( 73/ 73) | S21: -15.00 dB | Elapsed:  4.35 s
+[ORCHESTRATOR] Scan loop finished (73/73 points, 4.35 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = 32.43°, SLL = -20.68 dB, Peak = 0.00°
+  ✓ Scan completed successfully! Acquired 73 angles.
+
+[4] Verifying computed pattern metrics...
+  Peak Angle    :   0.00°
+  Peak S21      : -14.99 dB
+  HPBW (-3 dB)  :  32.43° (Left: -16.22°, Right: 16.21°)
+  Side-Lobe Lvl : -20.68 dB (at 60.00°)
+  Front-to-Back :  26.27 dB
+  ✓ All metrics passed physical validity checks!
+
+[5] Generating Polar and Cartesian visualization figures...
+[6] Exporting full dataset via DataManager...
+  Destination directory: C:\Users\Spooky Laptop\AppData\Local\Temp\tp628f2141_8ae9_42fc_aff8_70aed6f5ed54\sim_azimuth_20261023_160209_973_d4eb41f2-1d1a-49ee-9f31-762921ad30c9
+  ✓ Saved MAT     : C:\Users\Spooky Laptop\AppData\Local\Temp\tp628f2141_8ae9_42fc_aff8_70aed6f5ed54\sim_azimuth_20261023_160209_973_d4eb41f2-1d1a-49ee-9f31-762921ad30c9\scan_data.mat
+  ✓ Saved CSV     : C:\Users\Spooky Laptop\AppData\Local\Temp\tp628f2141_8ae9_42fc_aff8_70aed6f5ed54\sim_azimuth_20261023_160209_973_d4eb41f2-1d1a-49ee-9f31-762921ad30c9\scan_pattern.csv
+  ✓ Saved JSON    : C:\Users\Spooky Laptop\AppData\Local\Temp\tp628f2141_8ae9_42fc_aff8_70aed6f5ed54\sim_azimuth_20261023_160209_973_d4eb41f2-1d1a-49ee-9f31-762921ad30c9\metadata.json
+  ✓ Saved Summary : C:\Users\Spooky Laptop\AppData\Local\Temp\tp628f2141_8ae9_42fc_aff8_70aed6f5ed54\sim_azimuth_20261023_160209_973_d4eb41f2-1d1a-49ee-9f31-762921ad30c9\summary.txt
+  ✓ Saved Plot    : C:\Users\Spooky Laptop\AppData\Local\Temp\tp628f2141_8ae9_42fc_aff8_70aed6f5ed54\sim_azimuth_20261023_160209_973_d4eb41f2-1d1a-49ee-9f31-762921ad30c9\radiation_pattern.png
+
+[7] Testing dataset reload & integrity...
+  ✓ Reloaded data matches original dataset with 100% precision!
+
+============================================================
+  ALL END-TO-END PIPELINE TESTS PASSED SUCCESSFULLY! ✅
+============================================================
+SOFTWARE_SCRIPT_PASS test_orchestrator_mock
+======================================================================
+  TEST SUITE: Scan Direction (CW/CCW) & Safe Abort Handling
+======================================================================
+
+[1] Testing MeasurementOrchestrator.buildAngleVector()...
+  ✓ CCW (0° -> 90°, step 10°): 10 points [0 ... 90]
+  ✓ CW (180° -> 0°, step 30°): 7 points [180 ... 0]
+  ✓ CW with negative step input normalized properly.
+  ✓ Start == Stop correctly rejected with error.
+
+[2] Testing Forward Scan (CCW) in Mock Mode...
+[ORCHESTRATOR] Starting scan: 0.0° to 30.0° (step 10.00°, 4 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (4/4 points, 0.22 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+  ✓ CCW Scan completed: 4 points, direction = CCW
+
+[3] Testing Reverse Scan (CW: 180° -> 0°) in Mock Mode...
+[ORCHESTRATOR] Starting scan: 180.0° to 0.0° (step 30.00°, 7 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[ORCHESTRATOR] Scan loop finished (7/7 points, 1.03 s). Processing data...
+[ORCHESTRATOR] Scan successfully completed! HPBW = NaN°, SLL = NaN dB, Peak = 0.00°
+  ✓ CW Scan completed: 7 points, direction = CW, angles = [180  150  120   90   60   30    0]
+
+[4] Testing Mid-scan Abort (STOP button simulation)...
+[ORCHESTRATOR] Starting scan: 0.0° to 180.0° (step 5.00°, 37 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+    [SIMULATED USER] Clicked STOP button at step 4 (Angle: 15.0°)
+[ORCHESTRATOR] Đang dừng quét sau bước hiện tại...
+[ORCHESTRATOR] Scan loop finished (4/37 points, 0.21 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 4/37 điểm, dữ liệu một phần được giữ lại.
+  ✓ Partial dataset safely preserved: 4 points retained, Aborted = 1
+
+[5] Testing Early Abort on step 1 (preserve its raw data)...
+[ORCHESTRATOR] Starting scan: 0.0° to 180.0° (step 5.00°, 37 points)
+[ORCHESTRATOR] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+    [SIMULATED USER] Clicked STOP button at step 1 (Angle: 0.0°)
+[ORCHESTRATOR] Đang dừng quét sau bước hiện tại...
+[ORCHESTRATOR] Scan loop finished (1/37 points, 0.11 s). Processing data...
+[ORCHESTRATOR] Scan đã dừng ở 1/37 điểm, dữ liệu một phần được giữ lại.
+  ✓ Early abort preserved one complete raw point and undefined beamwidth.
+
+[6] Testing Tilt Axis Lockout Protection...
+[ORCHESTRATOR] Starting scan: 0.0° to 180.0° (step 5.00°, 37 points)
+  ✓ Hardware safety lock confirmed: Tilt scan successfully blocked!
+
+======================================================================
+  ALL DIRECTION & ABORT TESTS PASSED SUCCESSFULLY! ✓
+======================================================================
+SOFTWARE_SCRIPT_PASS test_scan_direction_and_abort
+SOFTWARE_GROUP_PASS 6: 33/33 tests; no VNA timer leaks

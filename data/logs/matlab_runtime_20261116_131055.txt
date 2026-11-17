@@ -1,0 +1,61 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[13:11:32] Antenna Measurement App initialized.
+[Warning: Python version 3.13 is not supported. See
+https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In VNAController/initPythonBridge (line 363)
+In VNAController (line 59)
+In AntennaMeasurementApp/handleVNAModeChange (line 1184)
+In AntennaMeasurementApp>@(~,~)obj.handleVNAModeChange() (line 476)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPopupMenuController/handleEvent (line 42)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+[13:12:26] VNA switched to Real hardware mode.
+[13:12:26] VNA: Controller changed; previous trace retains its recorded provenance
+[13:12:26] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[13:12:26] VNA switched to Mock mode.
+[13:12:26] VNA: Controller changed; previous trace retains its recorded provenance
+[13:12:37] ❌ Lỗi kết nối Positioner trên COM5: Could not connect to ESP32 on COM5: Unable to connect to the serialport device at port 'COM5'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 81.4° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[13:13:00] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[13:13:00] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 81.4°, Khóa Tilt: 0).
+[13:13:00] Positioner đã ngắt kết nối.
+[Positioner] Khóa an toàn trục Tilt: BẬT (Chuyển động Tilt chưa được xác nhận).
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 81.4° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[13:13:04] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[13:13:04] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 81.4°, Khóa Tilt: 0).
+[13:13:11] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 81.3°, Tilt 247.2°.
+[13:13:27] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[Warning: ESP32 no longer confirms holding torque.] 
+[> In PositionerController/keepAlive (line 907)
+In PositionerController>@(~,~)obj.keepAlive() (line 884)
+In timer/timercb (line 90)] 
+[13:13:35] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 231.9°, Tilt 183.0°.
+[13:13:39] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:14:19] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 153.5°, Tilt 268.4°.
+[13:14:43] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:16:07] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 141.9°, Tilt 268.5°.
+[13:16:22] Positioner đã ngắt kết nối.
+[Positioner] Khóa an toàn trục Tilt: BẬT (Chuyển động Tilt chưa được xác nhận).
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 120.8° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[13:16:25] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[13:16:25] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 120.8°, Khóa Tilt: 0).
+[13:16:29] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 146.5°, Tilt 25.6°.
+[13:16:42] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:18:12] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 133.8°, Tilt 275.6°.
+[13:18:21] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:25:23] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 155.3°, Tilt 233.2°.
+[13:26:43] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:28:56] ❌ Lỗi Homing / Zero: ESP32 reports unavailable AS5600 feedback: Pan, Tilt. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:29:21] ❌ Lỗi Homing / Zero: ESP32 reports unavailable AS5600 feedback: Pan, Tilt. Check sensor power, wiring and magnet before ZERO or scanning.

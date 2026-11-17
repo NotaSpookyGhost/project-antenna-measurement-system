@@ -1,0 +1,60 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[Warning: This StackManager does not support the layer 'middle'.] 
+[> In matlab.graphics.shape.internal/ScribeStackManager/getLayer
+In matlab.graphics.internal.CanvasSetup.createScribeLayers
+In matlab.graphics.controls/HTMLCanvasPlugin/createCanvas
+In AntennaMeasurementApp/createUI (line 650)
+In AntennaMeasurementApp (line 140)] 
+[Warning: This StackManager does not support the layer 'overlay'.] 
+[> In matlab.graphics.shape.internal/ScribeStackManager/getLayer
+In matlab.graphics.internal.CanvasSetup.createScribeLayers
+In matlab.graphics.controls/HTMLCanvasPlugin/createCanvas
+In AntennaMeasurementApp/createUI (line 650)
+In AntennaMeasurementApp (line 140)] 
+Out of memory.
+[Warning: Update encountered failures.] 
+[Warning: Update encountered failures.] 
+[Warning: Update encountered failures.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 
+[Warning: Unrecognized method, property, or field 'ViewModel' for class 'handle'.] 

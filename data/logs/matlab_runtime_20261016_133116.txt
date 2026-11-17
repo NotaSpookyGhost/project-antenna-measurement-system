@@ -1,0 +1,14 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[13:31:34] Antenna Measurement App initialized.
+[13:32:20] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[13:32:35] Connected to VNA on COM6 (Variant: 0x02)
+[13:32:41] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[13:32:41] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:33:05] ⚠️ Đang gửi lệnh dừng quét (STOP)...
+[13:33:05] Đang dừng quét sau bước hiện tại...
+[13:33:06] Scan loop finished (65/181 points, 24.04 s). Processing data...
+[13:33:06] Scan đã dừng ở 65/181 điểm, dữ liệu một phần được giữ lại.
+[13:33:09] ⚠️ Quét đã dừng: yêu cầu STOP (đã ghi nhận 65/181 điểm). Dữ liệu được giữ để phân tích/xuất file.

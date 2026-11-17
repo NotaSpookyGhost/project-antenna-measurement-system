@@ -27,6 +27,12 @@ classdef AntennaMeasurementApp < handle
         VNAModeDropdown
         VNAPortEdit
         VNAConnectBtn
+        ShockLineModeBtn
+        RFBusy logical = false
+        RFSnapshotBtn
+        RFFreshBtn
+        RFSaveBtn
+        LastRFSweep struct = struct()
         VNALamp
 
         PosModeDropdown
@@ -134,9 +140,47 @@ classdef AntennaMeasurementApp < handle
             end
         end
 
+        function requestClose(obj)
+            if obj.Orchestrator.IsRunning || obj.RFBusy
+                errordlg('Stop the active measurement before closing the app.','Measurement running'); return;
+            end
+            if ~obj.confirmShockLineHandoff(), return; end
+            delete(obj);
+        end
+
+        function accepted = confirmShockLineHandoff(obj)
+            accepted=true;
+            if ~strcmpi(obj.VNA.Mode,'ShockLine') || ~obj.VNA.IsConnected, return; end
+            answer=questdlg(['Return control to ShockLine before disconnecting? ' ...
+                'Normal sweep resumes continuous RF measurement with the current settings. ' ...
+                'Keep HOLD returns local control without starting sweeps.'], ...
+                'Return ShockLine control','Normal sweep','Keep HOLD','Cancel','Normal sweep');
+            if isempty(answer) || strcmp(answer,'Cancel'), accepted=false; return; end
+            try
+                obj.VNA.returnToLocal(strcmp(answer,'Normal sweep'));
+                obj.log(['Sent RTL; socket closed. ShockLine: ' answer]);
+            catch ME
+                accepted=false;
+                obj.log(['ShockLine handoff failed: ' ME.message]);
+                errordlg([ME.message ' Local handoff is unconfirmed. Press Esc in ShockLine; check Sweep manually.'], ...
+                    'ShockLine handoff');
+            end
+            obj.updateConnectionStatus();
+        end
+
+        function toggleShockLineControl(obj)
+            if obj.Orchestrator.IsRunning || obj.RFBusy || ~strcmpi(obj.VNA.Mode,'ShockLine'), return; end
+            if obj.VNA.IsConnected
+                obj.confirmShockLineHandoff();
+            else
+                obj.toggleVNAConnect();
+            end
+            obj.updateConnectionStatus();
+        end
+
         function startScan(obj)
             % START SCAN CALLBACK
-            if obj.Orchestrator.IsRunning
+            if obj.Orchestrator.IsRunning || obj.RFBusy
                 return;
             end
 
@@ -188,6 +232,23 @@ classdef AntennaMeasurementApp < handle
             axis_idx = obj.AxisDropdown.Value;
             axis_choices = {'AZ', 'EL', '3D'};
             scan_axis = axis_choices{axis_idx};
+
+            if strcmpi(obj.VNA.Mode,'ShockLine')
+                if ~obj.VNA.IsConnected
+                    errordlg('Connect ShockLine before starting a scan.','VNA connection'); return;
+                end
+                if is3D
+                    plan=ScanGeometry.buildPlan(obj.Scan3DConfig); count=numel(plan.PanMotorDeg);
+                else
+                    count=floor(abs(stop_ang-start_ang)/step_ang)+1;
+                end
+                message=sprintf(['Scan %s: %d positions, one fresh sweep per position.\n' ...
+                    'VNA %.9g to %.9g MHz, %d points.\n' ...
+                    'Set band/points, HOLD and single triggers; positioner mode: %s.\n' ...
+                    'Motor movement follows declared scan geometry and manual ZERO. Continue?'], ...
+                    scan_axis,count,center_mhz-span_mhz/2,center_mhz+span_mhz/2,pts,obj.Positioner.Mode);
+                if ~strcmp(questdlg(message,'Approve complete scan','Proceed','Cancel','Cancel'),'Proceed'), return; end
+            end
 
             % Auto-connect Positioner if not connected
             if ~obj.Positioner.IsConnected
@@ -377,12 +438,12 @@ classdef AntennaMeasurementApp < handle
             posX = max((screen(3) - figW) / 2, 50);
             posY = max((screen(4) - figH) / 2, 50);
 
-            obj.Figure = figure('Name', 'Automatic Antenna Measurement System — NanoVNA SAA-2N', ...
+            obj.Figure = figure('Name', 'Automatic Antenna Measurement System — NanoVNA / Anritsu', ...
                                 'Position', [posX, posY, figW, figH], ...
                                 'NumberTitle', 'off', ...
                                 'MenuBar', 'none', ...
                                 'Color', [0.94 0.95 0.96], ...
-                                'CloseRequestFcn', @(~,~) delete(obj));
+                                'CloseRequestFcn', @(~,~) obj.requestClose());
 
             % ── Left Control Panel (x=10, w=360) ─────────────────────────
             ctrlPanel = uipanel(obj.Figure, 'Title', 'Control & Setup', ...
@@ -396,23 +457,23 @@ classdef AntennaMeasurementApp < handle
                       'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
 
             obj.VNAModeDropdown = uicontrol(ctrlPanel, 'Style', 'popupmenu', ...
-                                            'String', {'Mock (Simulated SAA-2N)', 'Real (USB COM6)'}, ...
+                                            'String', {'Mock (Simulated SAA-2N)', 'NanoVNA (USB)', 'Anritsu ShockLine'}, ...
                                             'Position', [120, 615, 160, 22], ...
                                             'Callback', @(~,~) obj.handleVNAModeChange());
 
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Port:', ...
                       'Position', [10, 585, 40, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
             obj.VNAPortEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', 'COM6', ...
-                                        'Position', [50, 585, 70, 22]);
+                                        'Position', [50, 585, 125, 22]);
 
             obj.VNAConnectBtn = uicontrol(ctrlPanel, 'Style', 'pushbutton', 'String', 'Connect', ...
-                                          'Position', [130, 585, 80, 24], ...
+                                          'Position', [180, 585, 65, 24], ...
                                           'BackgroundColor', [0.2 0.6 0.2], 'ForegroundColor', 'w', ...
                                           'FontWeight', 'bold', ...
                                           'Callback', @(~,~) obj.toggleVNAConnect());
 
             obj.VNALamp = uicontrol(ctrlPanel, 'Style', 'text', 'String', 'OFFLINE', ...
-                                    'Position', [220, 587, 80, 20], 'Enable', 'inactive', ...
+                                    'Position', [250, 587, 60, 20], 'Enable', 'inactive', ...
                                     'BackgroundColor', [0.8 0.8 0.8], 'FontWeight', 'bold');
 
             % 2. Positioner Connection Group
@@ -451,6 +512,10 @@ classdef AntennaMeasurementApp < handle
             % Divider line
             uicontrol(ctrlPanel, 'Style', 'text', 'String', repmat('-', 1, 55), ...
                       'Position', [10, 495, 340, 15], 'BackgroundColor', 'w');
+
+            obj.ShockLineModeBtn=uicontrol(ctrlPanel,'Style','pushbutton', ...
+                'Position',[10 493 335 23],'String','MATLAB đo: kết nối', ...
+                'Visible','off','Callback',@(~,~)obj.toggleShockLineControl());
 
             % 3. RF Frequency Parameters
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Center Freq (MHz):', ...
@@ -594,6 +659,19 @@ classdef AntennaMeasurementApp < handle
             title(obj.RFMonitorAx2, 'Input Reflection |S11| across Sweep Band', 'FontWeight', 'bold');
             xlabel(obj.RFMonitorAx2, 'Frequency (MHz)'); ylabel(obj.RFMonitorAx2, '|S11| (dB)');
             grid(obj.RFMonitorAx2, 'on');
+            % Leave room below the frequency label for the static-measurement controls.
+            obj.RFMonitorAx1.Position=[0.13 0.62 0.775 0.29];
+            obj.RFMonitorAx2.Position=[0.13 0.18 0.775 0.30];
+
+            obj.RFSnapshotBtn=uicontrol(obj.RFMonitorTab,'Style','pushbutton','Units','normalized', ...
+                'Position',[0.10 0.005 0.25 0.045],'String','Read snapshot (HOLD)', ...
+                'Callback',@(~,~)obj.measureRF(false));
+            obj.RFFreshBtn=uicontrol(obj.RFMonitorTab,'Style','pushbutton','Units','normalized', ...
+                'Position',[0.38 0.005 0.25 0.045],'String','Acquire new sweep', ...
+                'Callback',@(~,~)obj.measureRF(true));
+            obj.RFSaveBtn=uicontrol(obj.RFMonitorTab,'Style','pushbutton','Units','normalized', ...
+                'Position',[0.66 0.005 0.24 0.045],'String','Save MAT + CSV', ...
+                'Callback',@(~,~)obj.saveRF());
 
             % Tab 4: 3D Pattern
             obj.ThreeDTab = uitab(obj.TabGroup, 'Title', '3D Spherical Pattern');
@@ -875,7 +953,7 @@ classdef AntennaMeasurementApp < handle
         end
 
         function setScanInputsEnabled(obj,enabled)
-            controls=[obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
+            controls=[obj.ShockLineModeBtn obj.RFSnapshotBtn obj.RFFreshBtn obj.RFSaveBtn obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
                 obj.VNAPortEdit obj.PosPortEdit obj.VNAConnectBtn obj.PosConnectBtn ...
                 obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit obj.MotorRampBtn ...
                 obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown];
@@ -1015,17 +1093,78 @@ classdef AntennaMeasurementApp < handle
         end
 
         function handleVNAModeChange(obj)
-            val = obj.VNAModeDropdown.Value;
-            if val == 1
-                obj.VNA = VNAController('Mode', 'Mock');
-                obj.Orchestrator.VNA = obj.VNA;
-                obj.log('VNA switched to Mock mode.');
-            else
-                obj.VNA = VNAController('Mode', 'Real');
-                obj.Orchestrator.VNA = obj.VNA;
-                obj.log('VNA switched to Real hardware mode.');
+            if obj.Orchestrator.IsRunning || obj.RFBusy, return; end
+            if ~obj.confirmShockLineHandoff()
+                modes={'Mock','Real','ShockLine'};
+                obj.VNAModeDropdown.Value=find(strcmpi(modes,obj.VNA.Mode),1); return;
             end
+            obj.VNA.disconnect();
+            modes={'Mock','Real','ShockLine'};
+            obj.VNA=VNAController('Mode',modes{obj.VNAModeDropdown.Value});
+            obj.Orchestrator.VNA=obj.VNA;
+            if strcmpi(obj.VNA.Mode,'ShockLine')
+                obj.VNAPortEdit.String='127.0.0.1:5001';
+            else
+                obj.VNAPortEdit.String='COM6';
+            end
+            obj.log(['VNA mode: ' obj.VNA.Mode]);
             obj.updateConnectionStatus();
+        end
+
+        function measureRF(obj,fresh)
+            if obj.Orchestrator.IsRunning || obj.RFBusy, return; end
+            if ~strcmpi(obj.VNA.Mode,'ShockLine') || ~obj.VNA.IsConnected
+                errordlg('Select Anritsu ShockLine and Connect first.','RF measurement'); return;
+            end
+            if fresh
+                try
+                    settings=obj.VNA.readInstrumentSettings();
+                catch ME
+                    obj.updateConnectionStatus(); errordlg(ME.message,'VNA readback'); return;
+                end
+                message=sprintf(['Acquire one NEW sweep: %.9g to %.9g MHz, %d points.\n' ...
+                    'HOLD + single trigger; no motor movement. Leave HOLD afterward.'], ...
+                    settings.StartHz/1e6,settings.StopHz/1e6,settings.Points);
+            else
+                message=['Read existing S11/S21 snapshot; pause channel 1 in HOLD. ' ...
+                    'No new sweep, no motor movement. Leave HOLD afterward.'];
+            end
+            if ~strcmp(questdlg(message,'Approve VNA operation','Proceed','Cancel','Cancel'),'Proceed'), return; end
+            obj.RFBusy=true; obj.StartScanBtn.Enable='off';
+            obj.setScanInputsEnabled(false);
+            guard=onCleanup(@()obj.finishRF()); %#ok<NASGU>
+            try
+                if fresh, sweep=obj.VNA.acquireSingle(); else, sweep=obj.VNA.readSnapshot(true); end
+                obj.LastRFSweep=sweep;
+                plot(obj.RFMonitorAx1,sweep.FrequencyMHz,sweep.S21_dB,'b-'); grid(obj.RFMonitorAx1,'on');
+                plot(obj.RFMonitorAx2,sweep.FrequencyMHz,sweep.S11_dB,'r-'); grid(obj.RFMonitorAx2,'on');
+                title(obj.RFMonitorAx1,['S21 — ' sweep.AcquisitionSource]);
+                title(obj.RFMonitorAx2,'S11 (dB)');
+                obj.TabGroup.SelectedTab=obj.RFMonitorTab;
+                obj.log(sprintf('%s: %d points, correction=%d. ShockLine remains HOLD.', ...
+                    sweep.AcquisitionSource,sweep.PointsReceived,sweep.InstrumentMetadata.CorrectionEnabled));
+            catch ME
+                obj.log(['RF error: ' ME.message]); errordlg(ME.message,'RF measurement');
+            end
+        end
+
+        function finishRF(obj)
+            obj.RFBusy=false; obj.StartScanBtn.Enable='on';
+            obj.setScanInputsEnabled(true); obj.updateConnectionStatus();
+        end
+
+        function saveRF(obj)
+            if isempty(fieldnames(obj.LastRFSweep)), return; end
+            [name,folder]=uiputfile('*.mat','Save RF sweep and metadata');
+            if isequal(name,0), return; end
+            sweep=obj.LastRFSweep;
+            file=fullfile(folder,name); save(file,'sweep');
+            [~,stem]=fileparts(file);
+            values=table(sweep.FrequencyHz(:),real(sweep.S11(:)),imag(sweep.S11(:)), ...
+                real(sweep.S21(:)),imag(sweep.S21(:)),sweep.S11_dB(:),sweep.S21_dB(:), ...
+                'VariableNames',{'FrequencyHz','S11Real','S11Imag','S21Real','S21Imag','S11dB','S21dB'});
+            writetable(values,fullfile(folder,[stem '.csv']));
+            obj.log(['Saved RF sweep: ' file]);
         end
 
         function connectPositioner(obj, port)
@@ -1065,14 +1204,19 @@ classdef AntennaMeasurementApp < handle
         end
 
         function toggleVNAConnect(obj)
+            if obj.Orchestrator.IsRunning || obj.RFBusy, return; end
             if obj.VNA.IsConnected
+                if ~obj.confirmShockLineHandoff(), return; end
                 obj.VNA.disconnect();
                 obj.log('VNA disconnected.');
             else
                 port = strtrim(obj.VNAPortEdit.String);
                 try
                     obj.VNA.connect(port);
-                    obj.log(sprintf('Connected to VNA on %s (Variant: 0x%02X)', port, obj.VNA.DeviceIdentity.device_variant));
+                    obj.log(sprintf('Connected: %s at %s',obj.VNA.deviceName(),port));
+                    if strcmpi(obj.VNA.Mode,'ShockLine')
+                        obj.displayVNABand(obj.VNA.StartHz,obj.VNA.StopHz,obj.VNA.Points);
+                    end
                 catch ME
                     errordlg(sprintf('VNA connect error: %s', ME.message), 'Connection Error');
                     obj.log(sprintf('❌ VNA connect error: %s', ME.message));
@@ -1082,6 +1226,13 @@ classdef AntennaMeasurementApp < handle
                 end
             end
             obj.updateConnectionStatus();
+        end
+
+        function displayVNABand(obj,startHz,stopHz,points)
+            % Retain enough digits to reconstruct the calibrated instrument endpoints.
+            obj.CenterFreqEdit.String=num2str((startHz+stopHz)/2e6,17);
+            obj.SpanEdit.String=num2str((stopHz-startHz)/1e6,17);
+            obj.SweepPointsEdit.String=num2str(points);
         end
 
         function togglePosConnect(obj)
@@ -1171,6 +1322,22 @@ classdef AntennaMeasurementApp < handle
         end
 
         function updateConnectionStatus(obj)
+            if ~isempty(obj.ShockLineModeBtn) && isgraphics(obj.ShockLineModeBtn)
+                obj.ShockLineModeBtn.Visible='off';
+                if strcmpi(obj.VNA.Mode,'ShockLine')
+                    obj.ShockLineModeBtn.Visible='on';
+                    if obj.VNA.IsConnected
+                        obj.ShockLineModeBtn.String='ShockLine bình thường: trả quyền';
+                    else
+                        obj.ShockLineModeBtn.String='MATLAB đo: kết nối';
+                    end
+                    if obj.Orchestrator.IsRunning || obj.RFBusy
+                        obj.ShockLineModeBtn.Enable='off';
+                    else
+                        obj.ShockLineModeBtn.Enable='on';
+                    end
+                end
+            end
             if ~isempty(obj.ReleaseBtn) && isvalid(obj.ReleaseBtn)
                 if obj.Positioner.IsConnected && obj.Positioner.HoldingSupported && ...
                         obj.Positioner.HoldingActive && ~obj.Orchestrator.IsRunning

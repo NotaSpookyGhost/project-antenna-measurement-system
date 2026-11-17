@@ -1,0 +1,18 @@
+{
+  "state": "PASS",
+  "stages": [
+    "stationary_rf",
+    "async_stop",
+    "stationary_encoders",
+    "small_pan_tilt",
+    "pan_full_turn",
+    "small_3d"
+  ],
+  "stop_latency_sec": 4.3205356,
+  "stationary_encoder_pairs": 30,
+  "pan_points": 13,
+  "pan_aborted": false,
+  "scan3d_points": 6,
+  "scan3d_aborted": false,
+  "raw_data": "data\\validation\\acceptance_system_20261023_163312_UTC\\result.mat"
+}

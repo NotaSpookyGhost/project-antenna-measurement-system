@@ -1,0 +1,43 @@
+ M .serial_mcp/traces/trace.jsonl
+ M CODEX_GUIDE.md
+ M matlab/app/AntennaMeasurementApp.m
+ M matlab/classes/MeasurementOrchestrator.m
+ M matlab/classes/PatternAnalyzer.m
+ M matlab/classes/ScanGeometry.m
+ M matlab/classes/VNAController.m
+ M matlab/tests/TestPatternPartialPlot.m
+ M matlab/tests/TestScanGeometry.m
+ M matlab/tests/TestVNAControllerSession.m
+ M matlab/view_scan_dataset.m
+ M python/nanovna_bridge.py
+ M python/vna_jobs.py
+?? data/logs/matlab_runtime_20261016_121624.txt
+?? data/logs/matlab_runtime_20261016_121639.txt
+?? data/logs/matlab_runtime_20261016_133106.txt
+?? data/logs/matlab_runtime_20261016_133116.txt
+?? data/logs/matlab_runtime_20261017_004347.txt
+?? data/logs/matlab_runtime_20261017_004401.txt
+?? data/logs/matlab_runtime_20261017_021906.txt
+?? data/logs/matlab_runtime_20261017_031136.txt
+?? data/logs/matlab_runtime_20261017_031154.txt
+?? data/logs/system_log_20261016_002421.txt
+?? data/logs/system_log_20261016_002425.txt
+?? data/logs/system_log_20261016_002503.txt
+?? data/logs/system_log_20261016_003940.txt
+?? data/logs/system_log_20261017_051101.txt
+?? data/validation/acceptance_encoder_20261023_230526/
+?? data/validation/acceptance_encoder_20261023_230625/
+?? data/validation/acceptance_rf_20261023_225339/
+?? data/validation/acceptance_system_20261023_160241_UTC/
+?? data/validation/fifo_freshness_20261022_141829/
+?? data/validation/s11_loads_20261022_141829/
+?? data/validation/thru_20261022_141829/
+?? data/validation/thru_20261022_141834/
+?? docs/acceptance-fixes-2026-10-23.md
+?? docs/superpowers/plans/2026-10-23-acceptance-fixes.md
+?? matlab/tests/replay_pid25084.log
+?? matlab/tests/test_acceptance_hardware.m
+?? output/
+?? python/tests/controller_transport_fixture.py
+?? python/tests/test_transport_regressions.py
+?? tmp/

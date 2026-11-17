@@ -1,0 +1,59 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[12:16:46] Antenna Measurement App initialized.
+[Warning: Python version 3.13 is not supported. See
+https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/python-support.pdf.] 
+[> In vnaPythonBackend (line 15)
+In VNAController/initPythonBridge (line 342)
+In VNAController (line 59)
+In AntennaMeasurementApp/handleVNAModeChange (line 1096)
+In AntennaMeasurementApp>@(~,~)obj.handleVNAModeChange() (line 457)
+In matlab.ui.internal.controller.uicontrol/UIControlController/triggerActionEvent (line 76)
+In matlab.ui.internal.controller.uicontrol/UIControlPopupMenuController/handleEvent (line 42)
+In matlab.ui.internal.controller.uicontrol.UIControlController>@(varargin)obj.handleEvent(varargin{:}) (line 71)
+In viewmodel.internal.factory.ManagerFactoryProducer>@(src,event)callback(src,viewmodel.internal.factory.ManagerFactoryProducer.convertStructToEventData(event)) (line 76)] 
+[12:17:16] VNA switched to Real hardware mode.
+[12:17:16] VNA: Controller changed; previous trace retains its recorded provenance
+[12:17:17] Connected to VNA on COM6 (Variant: 0x02)
+[12:17:17] VNA disconnected.
+[12:17:19] Connected to VNA on COM6 (Variant: 0x02)
+[12:17:49] VNA: Measuring | actual stop 2405.000000000 MHz | NONE
+[12:17:49] VNA: STOPPING: waiting for current sweep to finish
+[12:17:49] VNA: VNA:BUSY: Stop VNA before changing sweep.
+[12:17:49] VNA: VNA:BUSY: Stop the active operation first.
+[12:17:49] VNA: VNA:BUSY: Stop the active operation first.
+[12:17:49] VNA: VNA:BUSY: Stop the active operation first.
+[12:17:49] VNA: VNA:BUSY: Stop the active operation first.
+[12:17:51] VNA: Stopped
+[12:18:05] VNA: NONE | Connection changed; confirm RF path and Apply
+[12:18:13] VNA: Measuring | actual stop 2000.000000000 MHz | NONE
+[12:18:27] VNA: VNA:BUSY: Stop VNA before changing RF path.
+[12:18:28] VNA: VNA:BUSY: Stop VNA before changing RF path.
+[12:18:32] VNA: Stopped
+[12:18:32] VNA: STOPPING: waiting for current sweep to finish
+[12:20:15] VNA: NONE | RF path changed
+[12:20:19] VNA: NONE | RF path changed
+[12:20:21] VNA: Measuring | actual stop 2000.000000000 MHz | NONE
+[12:20:28] VNA: Stopped
+[12:20:28] VNA: STOPPING: waiting for current sweep to finish
+[12:20:35] VNA: VNA:INVALID_REQUEST: Use integer Hz, 2..401 points, 1..16 averages and a positive step.
+[12:20:39] VNA: NONE | RF path changed
+[12:20:41] VNA: Measuring | actual stop 2500.000000000 MHz | NONE
+[12:20:51] VNA: VNA:BUSY: Stop the active operation first.
+[12:20:52] VNA: Stopped
+[12:20:52] VNA: STOPPING: waiting for current sweep to finish
+[12:20:59] VNA: NONE | RF path changed
+[12:20:59] VNA: Measuring | actual stop 2499.999721000 MHz | NONE
+[12:21:10] VNA: VNA:BUSY: Stop the active operation first.
+[12:21:11] VNA: STOPPING: waiting for current sweep to finish
+[12:21:12] VNA: Stopped
+[12:21:13] VNA: Measuring | actual stop 2499.999721000 MHz | NONE
+[12:21:18] VNA: Single sweep complete
+[12:21:42] VNA: NONE | RF path changed
+[12:21:42] VNA: Measuring | actual stop 2500.000000000 MHz | NONE
+[12:21:47] VNA: STOPPING: waiting for current sweep to finish
+[12:21:48] VNA: Stopped
+[12:22:38] VNA: NONE | RF cable changed; collect new standards or restore the recorded path
+[12:22:53] VNA: NONE | RF cable changed; collect new standards or restore the recorded path

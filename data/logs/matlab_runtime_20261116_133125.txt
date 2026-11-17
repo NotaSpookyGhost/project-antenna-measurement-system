@@ -1,0 +1,131 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[13:31:48] Antenna Measurement App initialized.
+[13:32:21] Positioner MÔ PHỎNG: không mở COM và không điều khiển motor thật.
+[13:32:21] Positioner switched to Hardware (ESP32 on COM9) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[13:32:27] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: Unable to connect to the serialport device at port 'COM9'. Verify that a device is connected to the port, the port is not in use, and all serialport input arguments and parameter values are supported by the device.
+See <a href="matlab: helpview('matlab', 'serialport_connectError')">related documentation</a> for troubleshooting steps.
+[13:32:29] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 serial port is not open.
+[13:32:42] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:32:58] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 did not return a valid POS response with Pan, Tilt and AS5600 encoder data.
+[13:34:05] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 did not return a valid POS response with Pan, Tilt and AS5600 encoder data.
+[13:34:51] ✓ Đã lưu file log thành công: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\system_log_20261116_133451.txt
+[13:34:55] ⚠️ ESP32 chưa kết nối! Đang tự động kết nối...
+[13:34:58] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:35:06] ⚠️ ESP32 chưa kết nối! Đang tự động kết nối...
+[13:35:09] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:35:20] ⚠️ ESP32 chưa kết nối! Đang tự động kết nối...
+[13:35:22] ✓ Đã lưu file log thành công: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\system_log_20261116_133522.txt
+[13:35:26] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[13:41:08] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 196.6° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[13:41:45] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[13:41:45] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 196.6°, Khóa Tilt: 0).
+[13:41:57] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 196.6°, Tilt 247.3°.
+[13:42:32] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 142.2°, Tilt 247.3°.
+[13:42:35] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 133.6°, Tilt 247.3°.
+[13:42:51] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 162.6°, Tilt 247.3°.
+[13:42:59] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:43:00] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 199.5°, Tilt 276.1°.
+[13:46:41] Positioner đã ngắt kết nối.
+[Positioner] Khóa an toàn trục Tilt: BẬT (Chuyển động Tilt chưa được xác nhận).
+[13:46:44] ❌ Lỗi kết nối Positioner trên COM9: Could not connect to ESP32 on COM9: ESP32 reports unavailable AS5600 feedback: Pan. Check sensor power, wiring and magnet before ZERO or scanning.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 152.2° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[13:46:59] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[13:46:59] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 152.2°, Khóa Tilt: 0).
+[13:48:17] Positioner đã ngắt kết nối.
+[Positioner] Khóa an toàn trục Tilt: BẬT (Chuyển động Tilt chưa được xác nhận).
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 117.3° | Tilt = 0.0° (TiltDisabled=1)
+[13:48:25] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 117.3°, Khóa Tilt: 1).
+[13:48:32] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:48:34] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 113.5°, Tilt 18.5°.
+[13:48:40] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_134840_896_2a39e505-a553-458d-80e2-967b11610c96.jsonl
+[13:48:40] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[13:48:41] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:48:41] ⚠️ Pan về 0° lệch 14.07° encoder (~2.501° anten); giữ nguyên ZERO gốc.
+[13:48:42] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.00 deg; expected about 11.25 deg for PAN 2.00.
+[13:48:54] Positioner đã ngắt kết nối.
+[Warning: ESP32 keepalive failed: Dot indexing is not supported for variables of this type.] 
+[> In PositionerController/keepAlive (line 913)
+In PositionerController>@(~,~)obj.keepAlive() (line 884)
+In timer/timercb (line 90)] 
+[13:48:56] VNA disconnected.
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 127.6° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[13:49:00] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[13:49:00] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 127.6°, Khóa Tilt: 0).
+[13:49:27] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 127.6°, Tilt 18.5°.
+[13:49:38] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_134938_331_57b59b82-3251-4707-ba6d-9367badb8778.jsonl
+[13:49:38] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[13:49:38] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:49:38] Pan về 0°: lệch 0.17° encoder (~0.030° anten).
+[13:49:39] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.26 deg; expected about 11.25 deg for PAN 2.00.
+[13:49:44] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:49:46] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 141.9°, Tilt 356.9°.
+[13:49:53] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_134953_620_a63c0e36-73e2-4178-ab6d-8c569ed44586.jsonl
+[13:49:53] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[13:49:53] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[13:49:54] ⚠️ Pan về 0° lệch 14.15° encoder (~2.516° anten); giữ nguyên ZERO gốc.
+[13:49:55] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.09 deg; expected about 11.25 deg for PAN 2.00.
+[13:50:00] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 156.0°, Tilt 334.3°.
+[13:50:01] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[13:59:55] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 154.9°, Tilt 241.4°.
+[13:59:59] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_135959_722_51baf2e6-9ba2-484b-aac2-10686a4648af.jsonl
+[13:59:59] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[13:59:59] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[14:00:00] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[14:00:01] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 1.06 deg; expected about 11.25 deg for PAN 2.00.
+[14:00:06] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[14:00:13] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 141.1°, Tilt 291.3°.
+[14:00:16] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_140016_430_fd7e3e03-acd1-44a4-ba5f-e57354301d3b.jsonl
+[14:00:16] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[14:00:16] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[14:00:16] ⚠️ Pan về 0° lệch 6.86° encoder (~1.220° anten); giữ nguyên ZERO gốc.
+[14:00:17] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.53 deg; expected about 11.25 deg for PAN 2.00.
+[14:00:20] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[14:02:02] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 41.7°, Tilt 290.9°.
+[14:02:04] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_140204_181_72c4f3a3-f720-451b-a8dc-3f80df82ab4c.jsonl
+[14:02:04] Starting scan: 0.0° to 360.0° (step 2.00°, 181 points)
+[14:02:04] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[14:02:04] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[14:02:05] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.00 deg; expected about 11.25 deg for PAN 2.00.
+[14:02:13] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[14:02:22] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_140222_641_82a581e8-154e-4fe4-9db8-e66d43aceedf.jsonl
+[14:02:22] Starting scan: 0.0° to 360.0° (step 20.00°, 19 points)
+[14:02:22] ❌ Lỗi trong quá trình quét: Motor is released for manual homing. Lock and ZERO both axes before scanning.
+[14:02:26] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 41.6°, Tilt 18.5°.
+[14:02:27] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_140227_308_27eb847d-5184-4470-b607-b5e249530928.jsonl
+[14:02:27] Starting scan: 0.0° to 360.0° (step 20.00°, 19 points)
+[14:02:27] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[14:02:27] Pan về 0°: lệch 0.00° encoder (~0.000° anten).
+[14:02:32] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.00 deg; expected about 112.50 deg for PAN 20.00.
+[14:02:34] Motor Pan/Tilt đã nhả. Xoay tay tới mốc mong muốn rồi bấm Khóa + ZERO.
+[14:03:26] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 41.6°, Tilt 296.3°.
+[14:03:35] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_140335_222_92a8986d-cac9-46d8-9727-3d452bc37887.jsonl
+[14:03:35] Starting scan: 0.0° to 360.0° (step 20.00°, 19 points)
+[14:03:35] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[14:03:35] ⚠️ Pan về 0° lệch 114.08° encoder (~20.281° anten); giữ nguyên ZERO gốc.
+[14:03:40] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.08 deg; expected about 112.50 deg for PAN 20.00.
+[14:03:45] Positioner đã ngắt kết nối.
+[14:03:46] VNA disconnected.
+[Positioner] Khóa an toàn trục Tilt: BẬT (Chuyển động Tilt chưa được xác nhận).
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM9 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 155.6° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[14:07:21] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[14:07:21] ✓ Đã kết nối Positioner trên COM9 (Góc AS5600: 155.6°, Khóa Tilt: 0).
+[14:07:22] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 155.6°, Tilt 281.9°.
+[14:07:24] Nhật ký motor tự lưu: C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\data\logs\motor\motor_20261116_140724_619_3ee6b180-1e96-4bb3-8bd4-3a83ab220e10.jsonl
+[14:07:24] Starting scan: 0.0° to 360.0° (step 20.00°, 19 points)
+[14:07:24] Giữ nguyên mốc ZERO; quay tới góc bắt đầu theo mốc đã đặt.
+[14:07:25] Pan về 0°: lệch 0.08° encoder (~0.014° anten).
+[14:07:29] ❌ Lỗi trong quá trình quét: AS5600 AZ moved 0.00 deg; expected about 112.50 deg for PAN 20.00.
+[14:07:40] Positioner đã ngắt kết nối.

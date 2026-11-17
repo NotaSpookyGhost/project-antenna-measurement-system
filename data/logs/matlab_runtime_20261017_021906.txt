@@ -1,0 +1,13 @@
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[02:19:23] Antenna Measurement App initialized.
+[02:20:12] Positioner switched to Hardware (ESP32 on COM5) [Khóa Tilt: BẬT đến khi kiểm tra đạt].
+[Positioner] Đã kết nối thành công ESP32 trên cổng COM5 (115200 baud).
+[Positioner] Trạng thái: Pan = 0.0°, AS5600 Pan = 32.4° | Tilt = 0.0° (TiltDisabled=1)
+[Positioner] Khóa an toàn trục Tilt: TẮT (Trục Tilt đã sẵn sàng hoạt động).
+[02:20:16] Đã nhận cả hai encoder; cho phép Pan/Tilt trong giới hạn firmware báo về.
+[02:20:16] ✓ Đã kết nối Positioner trên COM5 (Góc AS5600: 32.4°, Khóa Tilt: 0).
+[02:20:20] ✓ Đã gửi lệnh khóa motor và ZERO cả Pan/Tilt. AS5600 Pan 29.4°, Tilt 229.8°.
+[02:20:22] Connected to VNA on COM6 (Variant: 0x02)

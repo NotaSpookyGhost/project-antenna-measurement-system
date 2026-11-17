@@ -240,3 +240,297 @@
 {"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-14T13:12:58.358764+00:00"}
 {"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-14T14:39:07.992882+00:00"}
 {"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-14T14:39:07.993139+00:00"}
+{"event": "tool_call_start", "tool": "serial.list_ports", "args": {}, "connection_id": null, "ts": "2026-10-15T17:22:44.718415+00:00"}
+{"event": "tool_call_end", "tool": "serial.list_ports", "ok": true, "error_code": null, "duration_ms": 76.2, "connection_id": null, "ts": "2026-10-15T17:22:44.795554+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-15T17:22:44.828348+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.1, "connection_id": null, "ts": "2026-10-15T17:22:44.828568+00:00"}
+{"event": "tool_call_start", "tool": "serial.open", "args": {"port": "COM9", "baudrate": 115200, "timeout_ms": 300, "write_timeout_ms": 300, "newline": "\n"}, "connection_id": null, "ts": "2026-10-15T17:23:27.338624+00:00"}
+{"event": "tool_call_end", "tool": "serial.open", "ok": true, "error_code": null, "duration_ms": 22.3, "connection_id": null, "ts": "2026-10-15T17:23:27.361181+00:00"}
+{"event": "tool_call_start", "tool": "serial.spec.list", "args": {}, "connection_id": null, "ts": "2026-10-15T17:23:31.976056+00:00"}
+{"event": "tool_call_end", "tool": "serial.spec.list", "ok": true, "error_code": null, "duration_ms": 4.8, "connection_id": null, "ts": "2026-10-15T17:23:31.980991+00:00"}
+{"event": "tool_call_start", "tool": "serial.plugin.list", "args": {}, "connection_id": null, "ts": "2026-10-15T17:23:32.006597+00:00"}
+{"event": "tool_call_end", "tool": "serial.plugin.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-15T17:23:32.006838+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "sea12ab8f", "nbytes": 4096, "timeout_ms": 400}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:32.050680+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 403.7, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:32.454484+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "sea12ab8f", "append_newline": true}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:32.497531+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:32.498419+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "sea12ab8f", "nbytes": 4096, "timeout_ms": 800}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:32.520760+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 22.6, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:32.543596+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "sea12ab8f", "nbytes": 4096, "timeout_ms": 1000}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:37.078533+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:37.079088+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "sea12ab8f", "append_newline": true}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:49.829168+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": false, "error_code": "io_error", "duration_ms": 0.5, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:49.829914+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "sea12ab8f", "nbytes": 4096, "timeout_ms": 1000}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:49.853254+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 1000.9, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:50.854234+00:00"}
+{"event": "tool_call_start", "tool": "serial.list_ports", "args": {}, "connection_id": null, "ts": "2026-10-15T17:23:55.711926+00:00"}
+{"event": "tool_call_end", "tool": "serial.list_ports", "ok": true, "error_code": null, "duration_ms": 6.2, "connection_id": null, "ts": "2026-10-15T17:23:55.718241+00:00"}
+{"event": "tool_call_start", "tool": "serial.close", "args": {"connection_id": "sea12ab8f"}, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:55.744599+00:00"}
+{"event": "tool_call_end", "tool": "serial.close", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "sea12ab8f", "ts": "2026-10-15T17:23:55.745020+00:00"}
+{"event": "tool_call_start", "tool": "serial.open", "args": {"port": "COM9", "baudrate": 115200, "timeout_ms": 300, "write_timeout_ms": 500, "newline": "\n"}, "connection_id": null, "ts": "2026-10-15T17:26:23.164023+00:00"}
+{"event": "tool_call_end", "tool": "serial.open", "ok": true, "error_code": null, "duration_ms": 14.3, "connection_id": null, "ts": "2026-10-15T17:26:23.178412+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 300}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:28.032714+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 311.0, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:28.343856+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:28.368722+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:28.369347+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 400}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:28.390065+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:28.390694+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:42.783788+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:42.784576+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:43.017996+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:43.018452+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:43.042971+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:43.043855+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:43.183260+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:43.183711+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:47.719693+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:47.720451+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:47.955690+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:47.956071+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:47.999195+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:47.999793+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:48.136166+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:48.136617+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:52.671839+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:52.672689+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:52.900032+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:52.900544+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:52.923462+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:52.924321+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:53.066597+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:53.067113+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.600629+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.601573+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.827483+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.827975+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.851856+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.852677+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.983098+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:26:57.983633+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.512890+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.513538+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.748635+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.749328+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.771970+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.772639+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.916451+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:02.917119+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.451155+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.452034+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.699062+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.699510+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.722580+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.723508+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.849512+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:07.849990+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.381750+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.382511+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.616055+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.616485+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.641125+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.641820+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.781742+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:12.782322+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.316602+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.317408+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.548759+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.549276+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.571237+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.572018+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.698448+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:17.698920+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8b0991e2", "append_newline": true}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:22.231601+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 1.0, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:22.232721+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8b0991e2", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:22.463921+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:22.464635+00:00"}
+{"event": "tool_call_start", "tool": "serial.close", "args": {"connection_id": "s8b0991e2"}, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:22.487268+00:00"}
+{"event": "tool_call_end", "tool": "serial.close", "ok": true, "error_code": null, "duration_ms": 54.2, "connection_id": "s8b0991e2", "ts": "2026-10-15T17:27:22.541622+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-15T17:28:35.142561+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-15T17:28:35.142862+00:00"}
+{"event": "tool_call_start", "tool": "serial.open", "args": {"port": "COM9", "baudrate": 115200, "timeout_ms": 300, "write_timeout_ms": 500, "newline": "\n"}, "connection_id": null, "ts": "2026-10-15T17:29:05.219436+00:00"}
+{"event": "tool_call_end", "tool": "serial.open", "ok": true, "error_code": null, "duration_ms": 14.3, "connection_id": null, "ts": "2026-10-15T17:29:05.233862+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 200}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:17.696389+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 213.3, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:17.909977+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:17.947833+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:17.948910+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:18.189271+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:18.189946+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:18.214083+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 1.0, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:18.215221+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:18.403555+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:18.404209+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:29.911188+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 1.0, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:29.912408+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:30.235088+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:30.235740+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:30.269996+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:30.270680+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:30.407157+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:30.407883+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:34.959656+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 1.0, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:34.960845+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:35.208184+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:35.208943+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:35.240875+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:35.241931+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:35.373367+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 1.0, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:35.374614+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:39.909855+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:39.910852+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:40.142710+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:40.143428+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:40.171467+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:40.172390+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:40.311896+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:40.312640+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:44.871868+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:44.872677+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:45.097446+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 3.9, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:45.101538+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:45.132528+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:45.133407+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:45.270992+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:45.271594+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:49.813808+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:49.814823+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:50.055800+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:50.056664+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:50.084655+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:50.085670+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:50.223631+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:50.224534+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:54.756871+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:54.757748+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:54.989178+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:54.989730+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:55.028971+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:55.029812+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:55.172766+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:55.173498+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:59.706170+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:59.706912+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:59.938936+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:59.939492+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:59.961245+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:29:59.961951+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:00.088528+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:00.088982+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:04.625497+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:04.626366+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:04.852810+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:04.853329+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:04.879722+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:04.880530+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:05.004990+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:05.005618+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s8624168e", "append_newline": true}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:09.538917+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:09.539739+00:00"}
+{"event": "tool_call_start", "tool": "serial.read", "args": {"connection_id": "s8624168e", "nbytes": 4096, "timeout_ms": 500}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:09.772490+00:00"}
+{"event": "tool_call_end", "tool": "serial.read", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:09.773140+00:00"}
+{"event": "tool_call_start", "tool": "serial.close", "args": {"connection_id": "s8624168e"}, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:09.795518+00:00"}
+{"event": "tool_call_end", "tool": "serial.close", "ok": true, "error_code": null, "duration_ms": 53.4, "connection_id": "s8624168e", "ts": "2026-10-15T17:30:09.849036+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-15T17:32:26.583618+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-15T17:32:26.583736+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-16T22:16:45.918832+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.9, "connection_id": null, "ts": "2026-10-16T22:16:45.920907+00:00"}
+{"event": "tool_call_start", "tool": "serial.list_ports", "args": {}, "connection_id": null, "ts": "2026-10-16T22:16:45.957538+00:00"}
+{"event": "tool_call_end", "tool": "serial.list_ports", "ok": true, "error_code": null, "duration_ms": 33.2, "connection_id": null, "ts": "2026-10-16T22:16:45.990852+00:00"}
+{"event": "tool_call_start", "tool": "serial.list_ports", "args": {}, "connection_id": null, "ts": "2026-10-16T22:17:23.318959+00:00"}
+{"event": "tool_call_end", "tool": "serial.list_ports", "ok": true, "error_code": null, "duration_ms": 5.7, "connection_id": null, "ts": "2026-10-16T22:17:23.325170+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-16T22:17:23.353684+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-16T22:17:23.353932+00:00"}
+{"event": "tool_call_start", "tool": "serial.spec.list", "args": {}, "connection_id": null, "ts": "2026-10-16T22:17:23.375837+00:00"}
+{"event": "tool_call_end", "tool": "serial.spec.list", "ok": true, "error_code": null, "duration_ms": 12.4, "connection_id": null, "ts": "2026-10-16T22:17:23.388393+00:00"}
+{"event": "tool_call_start", "tool": "serial.plugin.list", "args": {}, "connection_id": null, "ts": "2026-10-16T22:17:23.412362+00:00"}
+{"event": "tool_call_end", "tool": "serial.plugin.list", "ok": true, "error_code": null, "duration_ms": 1.0, "connection_id": null, "ts": "2026-10-16T22:17:23.413687+00:00"}
+{"event": "tool_call_start", "tool": "serial.open", "args": {"port": "COM5", "baudrate": 115200, "newline": "\n", "timeout_ms": 250, "write_timeout_ms": 1000}, "connection_id": null, "ts": "2026-10-16T22:17:26.261612+00:00"}
+{"event": "tool_call_end", "tool": "serial.open", "ok": true, "error_code": null, "duration_ms": 24.8, "connection_id": null, "ts": "2026-10-16T22:17:26.286586+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 1500, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:30.882700+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 1516.7, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:32.399428+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:37.938091+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 1.8, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:37.940044+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:37.962798+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 44.3, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:38.007224+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.614283+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.615149+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.641762+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.642328+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.664320+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.665270+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.690859+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 40.7, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:17:46.733239+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.363265+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.364061+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.389794+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.390369+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.432645+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.8, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.433575+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.462623+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 38.4, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:08.501263+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.530719+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.531434+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.557753+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.558193+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.583971+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.585073+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.607069+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 45.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:13.652825+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.695660+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.9, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.696772+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.722470+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.722969+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.745755+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.746538+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.772419+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 42.0, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:18.814505+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.839296+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.840068+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.863774+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.864309+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.886960+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.887702+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.914542+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 41.0, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:23.955619+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:28.978587+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:28.979303+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:29.003908+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:29.004520+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:29.028272+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:29.029014+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:29.072688+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 24.2, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:29.097101+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.161172+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.161812+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.184720+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.185597+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.208797+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.209416+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.232270+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 44.8, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:34.277264+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.331537+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.332280+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.353886+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.3, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.354306+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.377436+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.378024+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.400364+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 45.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:39.445947+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.481196+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.7, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.482024+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.510250+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.510749+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.531664+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.532346+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.556955+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 43.5, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.600532+00:00"}
+{"event": "tool_call_start", "tool": "serial.write", "args": {"connection_id": "s2d7af04a", "append_newline": true}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.627179+00:00"}
+{"event": "tool_call_end", "tool": "serial.write", "ok": true, "error_code": null, "duration_ms": 0.6, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.627906+00:00"}
+{"event": "tool_call_start", "tool": "serial.read_until", "args": {"connection_id": "s2d7af04a", "delimiter": "ESP32-ANTENNA>", "timeout_ms": 2000, "max_bytes": 5000}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.653649+00:00"}
+{"event": "tool_call_end", "tool": "serial.read_until", "ok": true, "error_code": null, "duration_ms": 0.4, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.654175+00:00"}
+{"event": "tool_call_start", "tool": "serial.close", "args": {"connection_id": "s2d7af04a"}, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.674908+00:00"}
+{"event": "tool_call_end", "tool": "serial.close", "ok": true, "error_code": null, "duration_ms": 232.9, "connection_id": "s2d7af04a", "ts": "2026-10-16T22:18:44.907942+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-10-16T22:20:04.585861+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-10-16T22:20:04.586086+00:00"}
+{"event": "tool_call_start", "tool": "serial.connections.list", "args": {}, "connection_id": null, "ts": "2026-11-16T06:24:14.849235+00:00"}
+{"event": "tool_call_end", "tool": "serial.connections.list", "ok": true, "error_code": null, "duration_ms": 0.0, "connection_id": null, "ts": "2026-11-16T06:24:14.849875+00:00"}
+{"event": "tool_call_start", "tool": "serial.list_ports", "args": {}, "connection_id": null, "ts": "2026-11-16T06:24:15.223439+00:00"}
+{"event": "tool_call_end", "tool": "serial.list_ports", "ok": true, "error_code": null, "duration_ms": 74.1, "connection_id": null, "ts": "2026-11-16T06:24:15.297849+00:00"}

@@ -1,0 +1,59 @@
+Reviewed commit: aeb1b9f67805d2004c694f63e8a835b0003a8112
+SOURCE_MATCH python/nanovna_bridge.py fa524a14cdfc9cb7fcee708a5a0726c9d309ee60
+SOURCE_MATCH python/nanovna_v2.py 2ad54bb1f751fb39cd40d53c6202fa145d98f873
+SOURCE_MATCH python/vna_jobs.py 061246489b397282a65978c161ed72ae2b5a6a69
+SOURCE_MATCH matlab/classes/VNAController.m becdaf09bd7a471b96997bed42ab4ae9eff69445
+SOURCE_MATCH CODEX_GUIDE.md 5c1792bd19d97029f26e5e19cdbe66a269dc8a93
+CANCEL_TRANSPORT {'job_id': 'c0b309a8-5ad0-4cd5-b5f1-305b35d590f8', 'generation': 1, 'state': 'CANCELLED'} driver_connected= False
+test_cancel_does_not_hide_concurrent_transport_loss (__main__.TransportContractRegression.test_cancel_does_not_hide_concurrent_transport_loss) ... FAIL
+CONFIGURATION {'job_id': 'ce505f4a-50b5-4fae-83f1-f4352bf64f82', 'generation': 1, 'state': 'FAILED', 'error': {'code': 'INVALID_REQUEST', 'message': 'ERROR:TRANSPORT:injected serial write failure during FIFO clear'}} driver_connected= False
+test_configuration_failure_keeps_transport_code (__main__.TransportContractRegression.test_configuration_failure_keeps_transport_code) ... FAIL
+FIFO_CLEAR {'job_id': 'ab72d4bc-c5b1-4eb5-8d1c-43803521e1a4', 'generation': 1, 'state': 'FAILED', 'error': {'code': 'INVALID_SWEEP', 'message': 'ERROR:injected serial write failure during FIFO clear'}} driver_connected= True
+test_fifo_clear_serial_exception_disconnects_and_keeps_transport_code (__main__.TransportContractRegression.test_fifo_clear_serial_exception_disconnects_and_keeps_transport_code) ... FAIL
+
+======================================================================
+FAIL: test_cancel_does_not_hide_concurrent_transport_loss (__main__.TransportContractRegression.test_cancel_does_not_hide_concurrent_transport_loss)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\review-2026-10-22\repro_transport.py", line 116, in test_cancel_does_not_hide_concurrent_transport_loss
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        result.get("error", {}).get("code"), "TRANSPORT",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "terminal cancellation must still report transport loss to invalidate MATLAB's connection",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: None != 'TRANSPORT' : terminal cancellation must still report transport loss to invalidate MATLAB's connection
+
+======================================================================
+FAIL: test_configuration_failure_keeps_transport_code (__main__.TransportContractRegression.test_configuration_failure_keeps_transport_code)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\review-2026-10-22\repro_transport.py", line 88, in test_configuration_failure_keeps_transport_code
+    self.assertEqual(result["error"]["code"], "TRANSPORT")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'INVALID_REQUEST' != 'TRANSPORT'
+- INVALID_REQUEST
++ TRANSPORT
+
+
+======================================================================
+FAIL: test_fifo_clear_serial_exception_disconnects_and_keeps_transport_code (__main__.TransportContractRegression.test_fifo_clear_serial_exception_disconnects_and_keeps_transport_code)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\output\review-2026-10-22\repro_transport.py", line 96, in test_fifo_clear_serial_exception_disconnects_and_keeps_transport_code
+    self.assertTrue(
+    ~~~~~~~~~~~~~~~^
+        result.get("error", {}).get("code") == "TRANSPORT" and not vna.connected,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "serial write failure must disconnect and reach MATLAB as TRANSPORT",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: False is not true : serial write failure must disconnect and reach MATLAB as TRANSPORT
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.335s
+
+FAILED (failures=3)

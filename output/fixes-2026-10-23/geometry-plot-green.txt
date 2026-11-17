@@ -1,0 +1,18 @@
+Running TestPatternPartialPlot
+.....[22:54:49] Antenna Measurement App initialized.
+.[22:54:56] Antenna Measurement App initialized.
+.
+Done TestPatternPartialPlot
+__________
+
+                                      Name                                       Passed    Failed    Incomplete    Duration      Details   
+    _________________________________________________________________________    ______    ______    __________    ________    ____________
+
+    {'TestPatternPartialPlot/singleAngleHasVisibleMarkerAndIncreasingLimits'}    true      false       false        4.5882     {1×1 struct}
+    {'TestPatternPartialPlot/repeatedAngleHasIncreasingLimits'              }    true      false       false       0.22843     {1×1 struct}
+    {'TestPatternPartialPlot/descendingScanKeepsMeasuredExtent'             }    true      false       false       0.23651     {1×1 struct}
+    {'TestPatternPartialPlot/suppliedSectorAnalysisKeepsEndpointUnlabelled' }    true      false       false       0.27878     {1×1 struct}
+    {'TestPatternPartialPlot/suppliedCircularAnalysisRetainsSidelobeLabel'  }    true      false       false       0.46116     {1×1 struct}
+    {'TestPatternPartialPlot/finalSectorAndStoppedTurnDoNotInventSidelobe'  }    true      false       false        7.3487     {1×1 struct}
+    {'TestPatternPartialPlot/finalPanSliceUsesItsOwnSectorAnalysis'         }    true      false       false         4.177     {1×1 struct}
+

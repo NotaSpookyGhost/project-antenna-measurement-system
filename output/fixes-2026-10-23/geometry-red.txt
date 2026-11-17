@@ -1,0 +1,312 @@
+Running TestScanGeometry
+........
+================================================================================
+Verification failed in TestScanGeometry/northAndSouthPoolTheirOwnAmplitudes.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> The error was not within absolute tolerance.
+    --> Failure table:
+            Index         Actual              Expected               Error           RelativeError      AbsoluteTolerance
+            _____    _________________    _________________    _________________    ________________    _________________
+                                                                                                                         
+              1      -9.86262598359596    -4.66987977348084    -5.19274621011512    1.11196571689137          1e-10      
+              2      -9.86262598359596    -4.66987977348084    -5.19274621011512    1.11196571689137          1e-10      
+              3      -9.86262598359596    -4.66987977348084    -5.19274621011512    1.11196571689137          1e-10      
+    
+    Actual Value:
+      -9.862625983595962  -9.862625983595962  -9.862625983595962
+    Expected Value:
+      -4.669879773480837  -4.669879773480837  -4.669879773480837
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.northAndSouthPoolTheirOwnAmplitudes) at 89
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/northAndSouthPoolTheirOwnAmplitudes.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> The error was not within absolute tolerance.
+    --> Failure table:
+            Index         Actual              Expected              Error            RelativeError       AbsoluteTolerance
+            _____    _________________    _________________    ________________    __________________    _________________
+                                                                                                                          
+              1      -9.86262598359596    -24.6698797734808    14.8072537898849    -0.600215887788886          1e-10      
+              2      -9.86262598359596    -24.6698797734808    14.8072537898849    -0.600215887788886          1e-10      
+              3      -9.86262598359596    -24.6698797734808    14.8072537898849    -0.600215887788886          1e-10      
+    
+    Actual Value:
+      -9.862625983595962  -9.862625983595962  -9.862625983595962
+    Expected Value:
+     -24.669879773480837 -24.669879773480837 -24.669879773480837
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.northAndSouthPoolTheirOwnAmplitudes) at 90
+================================================================================
+.
+================================================================================
+Verification failed in TestScanGeometry/unmeasuredPoleRemainsMissing.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyTrue failed.
+    --> The value must evaluate to "true".
+    
+    Actual Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.unmeasuredPoleRemainsMissing) at 101
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/unmeasuredPoleRemainsMissing.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyTrue failed.
+    --> The value must evaluate to "true".
+    
+    Actual Value:
+      logical
+    
+       0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.unmeasuredPoleRemainsMissing) at 101
+================================================================================
+. 
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN        -10        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+       -10
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 110
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN         0         NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+         0
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 111
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN        -10        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+       -10
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 110
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN        359        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+       359
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 111
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN        -10        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+       -10
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 110
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN         17        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+        17
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 111
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN        -10        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+       -10
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 110
+================================================================================
+
+================================================================================
+Verification failed in TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint.
+    ---------------------
+    Framework Diagnostic:
+    ---------------------
+    verifyEqual failed.
+    --> The numeric values are not equal using "isequaln".
+    --> Failure table:
+            Actual    Expected    Error    RelativeError
+            ______    ________    _____    _____________
+                                                        
+             NaN        376        NaN          NaN     
+    
+    Actual Value:
+       NaN
+    Expected Value:
+       376
+    ------------------
+    Stack Information:
+    ------------------
+    In C:\Users\Spooky Laptop\Documents\ChatGPT\antennamatlab\matlab\tests\TestScanGeometry.m (TestScanGeometry.circularSidelobeAtUnduplicatedEndpoint) at 111
+================================================================================
+..
+================================================================================
+Error occurred in TestScanGeometry/explicitSectorDoesNotWrapNearlyFullTurn and it did not run to completion.
+    ---------
+    Error ID:
+    ---------
+    'MATLAB:TooManyInputs'
+    --------------
+    Error Details:
+    --------------
+    Error using PatternAnalyzer.calculateSLL
+    Too many input arguments.
+    
+    Error in TestScanGeometry/explicitSectorDoesNotWrapNearlyFullTurn (line 127)
+                [sll,angle]=PatternAnalyzer.calculateSLL(a,y,10,false);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+================================================================================
+....
+Done TestScanGeometry
+__________
+
+Failure Summary:
+
+     Name                                                      Failed  Incomplete  Reason(s)
+    =======================================================================================================
+     TestScanGeometry/northAndSouthPoolTheirOwnAmplitudes        X                 Failed by verification.
+    -------------------------------------------------------------------------------------------------------
+     TestScanGeometry/unmeasuredPoleRemainsMissing               X                 Failed by verification.
+    -------------------------------------------------------------------------------------------------------
+     TestScanGeometry/circularSidelobeAtUnduplicatedEndpoint     X                 Failed by verification.
+    -------------------------------------------------------------------------------------------------------
+     TestScanGeometry/explicitSectorDoesNotWrapNearlyFullTurn    X         X       Errored.
+{Error using assert
+At least one test failed in the test session.
+
+Error in matlab.unittest.internal.BaseTestResult/assertSuccess (line 126)
+             assert(~any([resultArray.Failed]),message('MATLAB:unittest:TestResult:UnsuccessfulRun'));
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

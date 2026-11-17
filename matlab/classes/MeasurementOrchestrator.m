@@ -169,6 +169,7 @@ classdef MeasurementOrchestrator < handle
             measured_angles = zeros(1, N_angles);
             encoder_angles = zeros(1, N_angles);
             frequencies_hz = linspace(start_freq, stop_freq, N_freqs);
+            committedInstrumentMetadata=struct();
 
             obj.setState('SCANNING');
             notify(obj, 'ScanStarted');
@@ -235,7 +236,21 @@ classdef MeasurementOrchestrator < handle
                     % Step D: Acquire fresh sweep from VNA
                     sweep = obj.VNA.acquireSingle();
 
-                    % Step E: Store raw complex records
+                    if obj.CancelRequested, aborted=true; break; end
+                    if numel(sweep.FrequencyHz)~=N_freqs || numel(sweep.S11)~=N_freqs || ...
+                            numel(sweep.S21)~=N_freqs || any(~isfinite(sweep.FrequencyHz)) || ...
+                            any(diff(sweep.FrequencyHz)<=0) || any(~isfinite(sweep.S11)) || any(~isfinite(sweep.S21))
+                        error('MeasurementOrchestrator:InvalidSweep','Incomplete or invalid VNA sweep.');
+                    end
+                    actualGrid=reshape(sweep.FrequencyHz,1,[]);
+                    if nDone>0 && ~isequal(actualGrid,frequencies_hz)
+                        error('MeasurementOrchestrator:InvalidSweep','VNA frequency grid changed during scan.');
+                    end
+                    nextMetadata=MeasurementOrchestrator.validateInstrumentProvenance(sweep,committedInstrumentMetadata);
+                    frequencies_hz=actualGrid;
+                    committedInstrumentMetadata=nextMetadata;
+
+                    % Step E: Store instrument complex records
                     s11_matrix(i, :) = sweep.S11;
                     s21_matrix(i, :) = sweep.S21;
                     nDone = i;
@@ -268,6 +283,9 @@ classdef MeasurementOrchestrator < handle
                 elseif obj.CancelRequested && strcmp(ME.identifier, 'PositionerController:Aborted')
                     % STOP interrupts serial waits; process the completed rows below.
                     aborted = true;
+                elseif strcmpi(obj.VNA.Mode,'ShockLine')
+                    aborted=true; abortReason=ME.identifier;
+                    obj.logStatus(['VNA scan stopped: ' ME.message]);
                 else
                     rethrow(ME);
                 end
@@ -285,7 +303,7 @@ classdef MeasurementOrchestrator < handle
                 encoder_angles = encoder_angles(keep);
             end
 
-            if aborted && nDone < 2
+            if aborted && (nDone==0 || (nDone<2 && ~strcmpi(obj.VNA.Mode,'ShockLine')))
                 obj.setState('ABORTED');
                 obj.logStatus('Scan dừng, chưa đủ dữ liệu (cần >= 2 điểm).');
                 notify(obj, 'ScanAborted');
@@ -306,10 +324,12 @@ classdef MeasurementOrchestrator < handle
             peak_angle = NaN; peak_val = NaN; hpbw = NaN; th_left = NaN; th_right = NaN;
             sll = NaN; sll_angle = NaN; fbr = NaN;
             try
+                if nDone>=2
                 [peak_angle, peak_val] = PatternAnalyzer.findMainLobe(angles, s21_center_raw_db);
                 [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles, s21_normalized_db);
                 [sll, sll_angle] = PatternAnalyzer.calculateSLL(angles, s21_normalized_db, hpbw);
                 fbr = PatternAnalyzer.calculateFBR(angles, s21_normalized_db);
+                end
             catch MEa
                 obj.logStatus(sprintf('Cảnh báo phân tích búp sóng: %s', MEa.message));
             end
@@ -332,7 +352,9 @@ classdef MeasurementOrchestrator < handle
             end
 
             metadata = struct(...
-                'Device', 'SAA-2N', ...
+                'Device', obj.VNA.deviceName(), ...
+                'VNAIdentity',obj.VNA.DeviceIdentity, ...
+                'InstrumentMetadata',committedInstrumentMetadata, ...
                 'VNAPort', obj.VNA.Port, ...
                 'VNAMode', obj.VNA.Mode, ...
                 'PositionerMode', obj.Positioner.Mode, ...
@@ -354,7 +376,7 @@ classdef MeasurementOrchestrator < handle
                 'SweepPoints', obj.SweepPoints, ...
                 'SettleTimeSec', obj.SettleTimeSec, ...
                 'TotalTimeSec', total_time_sec, ...
-                'Firmware', 'DiSlord v1.4.02 FPU', ...
+                'Firmware', 'See VNAIdentity for instrument firmware/version', ...
                 'Timestamp', char(datetime('now', 'Format', 'yyyy-MM-dd HH:mm:ss')));
 
             scanData = struct(...
@@ -412,6 +434,23 @@ classdef MeasurementOrchestrator < handle
     end
 
     methods (Static)
+        function metadata = validateInstrumentProvenance(sweep,previous)
+            metadata=previous;
+            if ~isfield(sweep,'InstrumentMetadata'), return; end
+            if ~isfield(sweep,'AcquisitionSource') || ~strcmp(sweep.AcquisitionSource,'FreshSingleSweep')
+                error('MeasurementOrchestrator:StaleSweep','A scan requires a fresh completed sweep.');
+            end
+            current=sweep.InstrumentMetadata;
+            if isempty(fieldnames(previous)), metadata=current; return; end
+            before=previous; after=current;
+            if isfield(before,'Timestamp'), before=rmfield(before,'Timestamp'); end
+            if isfield(after,'Timestamp'), after=rmfield(after,'Timestamp'); end
+            if ~isequal(before,after)
+                error('MeasurementOrchestrator:InstrumentStateChanged', ...
+                    'Instrument identity, correction or IF bandwidth changed; preserving committed points.');
+            end
+        end
+
         function angles = buildAngleVector(startDeg, stopDeg, stepDeg)
             % BUILDANGLEVECTOR Angle list for a scan. Decreasing pan angles are CW.
             stepDeg = abs(double(stepDeg));
@@ -493,6 +532,7 @@ classdef MeasurementOrchestrator < handle
             panMeasured = nan(1,n); tiltMeasured = panMeasured;
             panEncoder = panMeasured; tiltEncoder = panMeasured; elapsed = panMeasured;
             frequencies = linspace(startHz,stopHz,nf);
+            committedInstrumentMetadata=struct();
             [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
             obj.TotalSteps = int32(n); obj.CurrentIndex = 0; obj.Progress = 0;
             obj.setState('SCANNING'); notify(obj,'ScanStarted');
@@ -526,12 +566,14 @@ classdef MeasurementOrchestrator < handle
                     if obj.CancelRequested, aborted = true; break; end
                     if numel(sweep.S11)~=nf || numel(sweep.S21)~=nf || ...
                             any(~isfinite(sweep.S11)) || any(~isfinite(sweep.S21)) || ...
-                            numel(sweep.FrequencyHz)~=nf || any(~isfinite(sweep.FrequencyHz))
+                            numel(sweep.FrequencyHz)~=nf || any(~isfinite(sweep.FrequencyHz)) || any(diff(sweep.FrequencyHz)<=0)
                         error('MeasurementOrchestrator:InvalidSweep','VNA returned an incomplete or invalid sweep.');
                     end
                     if done>0 && ~isequal(reshape(sweep.FrequencyHz,1,[]),frequencies)
                         error('MeasurementOrchestrator:InvalidSweep','VNA frequency grid changed during the scan.');
                     end
+                    nextMetadata=MeasurementOrchestrator.validateInstrumentProvenance(sweep,committedInstrumentMetadata);
+                    committedInstrumentMetadata=nextMetadata;
                     frequencies = reshape(sweep.FrequencyHz,1,[]);
                     [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
                     s11(i,:) = sweep.S11; s21(i,:) = sweep.S21;
@@ -569,7 +611,8 @@ classdef MeasurementOrchestrator < handle
             rawDB = 20*log10(max(abs(s21(:,centerIndex)),1e-12)).';
             [peakDB,peakIndex] = max(rawDB);
             metadata = struct('SchemaVersion',2,'ScanAxis','3D','Scan3DConfig',cfg, ...
-                'Device','SAA-2N','VNAMode',obj.VNA.Mode,'VNAPort',obj.VNA.Port, ...
+                'Device',obj.VNA.deviceName(),'VNAIdentity',obj.VNA.DeviceIdentity, ...
+                'InstrumentMetadata',committedInstrumentMetadata,'VNAMode',obj.VNA.Mode,'VNAPort',obj.VNA.Port, ...
                 'PositionerMode',obj.Positioner.Mode,'PositionerPort',obj.Positioner.Port, ...
                 'AngleSource','Commanded positioner angles; encoder on motor shaft', ...
                 'EncoderLocation','Motor shaft, modulo 360 deg; reduction 90/16', ...
