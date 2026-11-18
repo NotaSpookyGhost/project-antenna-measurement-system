@@ -75,6 +75,13 @@ classdef TestScan3DGUI < matlab.unittest.TestCase
             tc.verifyEqual(d.Metadata.CompletedPoints,6);
             tc.verifyEqual(tc.App.TabGroup.SelectedTab,tc.App.ThreeDTab);
             tc.verifyNotEmpty(findobj(tc.App.ThreeDAx,'Type','surface'));
+            points=findobj(tc.App.ThreeDAx,'Type','scatter');
+            tc.verifyEqual(points.CData,d.SelectedS21_dB(:));
+            line=findobj(tc.App.CartAx,'Type','line');
+            row=find(d.RowIndex==max(d.RowIndex));
+            [pan,order]=sort(d.PanAngles(row));
+            tc.verifyEqual(line.XData,pan);
+            tc.verifyEqual(line.YData,d.SelectedS21_dB(row(order)));
             tc.verifyTrue(contains(tc.App.PeakAngleLabel.String,'P'));
             c.PanAtZeroDeg=90; tc.App.configureScan3D(c);
             tc.App.updateFinalResults(d);

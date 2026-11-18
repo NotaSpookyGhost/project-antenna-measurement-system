@@ -1,6 +1,7 @@
 classdef ShockLineClient < handle
     % Channel-1 ShockLine adapter. Connect is queries only; snapshot never triggers.
     properties (SetAccess = private)
+        TransmissionParameter char = 'S21'
         IsConnected logical = false
         Identity struct = struct()
         Settings struct = struct()
@@ -8,7 +9,7 @@ classdef ShockLineClient < handle
     properties (Access = private)
         IO
         TraceS11 double
-        TraceS21 double
+        TraceTransmission double
         AllowedBand double
     end
     methods
@@ -39,21 +40,40 @@ classdef ShockLineClient < handle
                     'CorrectionEnabled',logical(obj.scalar(':SENS1:CORR:STAT?')), ...
                     'Hold',strtrim(obj.IO.query(':SENS1:HOLD:FUNC?')));
                 obj.AllowedBand=[obj.Settings.StartHz obj.Settings.StopHz];
-                obj.TraceS11=[]; obj.TraceS21=[];
+                obj.TraceS11=[]; obj.TraceTransmission=[];
                 count=obj.scalar(':CALC1:PAR:COUN?');
                 validateattributes(count,{'double'},{'integer','>=',1,'<=',16});
                 for trace=1:count
                     definition=strtrim(obj.IO.query(sprintf(':CALC1:PAR%d:DEF?',trace)));
                     if strcmp(definition,'S11'), obj.TraceS11=trace; end
-                    if strcmp(definition,'S21'), obj.TraceS21=trace; end
+                    if strcmp(definition,obj.TransmissionParameter), obj.TraceTransmission=trace; end
                 end
-                if isempty(obj.TraceS11) || isempty(obj.TraceS21)
-                    error('ShockLine:MissingTrace','Configure S11 and S21 traces in ShockLine, then reconnect.');
+                if isempty(obj.TraceS11) || isempty(obj.TraceTransmission)
+                    error('ShockLine:MissingTrace','Configure S11 and %s traces in ShockLine, then reconnect.',obj.TransmissionParameter);
                 end
                 obj.IsConnected=true;
             catch ME
                 obj.disconnect(); rethrow(ME);
             end
+        end
+        function setTransmissionParameter(obj,parameter)
+            parameter=validatestring(upper(char(parameter)),{'S21','S12'});
+            if strcmp(parameter,obj.TransmissionParameter), return; end
+            if obj.IsConnected
+                selected=[];
+                count=obj.scalar(':CALC1:PAR:COUN?');
+                validateattributes(count,{'double'},{'integer','>=',1,'<=',16});
+                for trace=1:count
+                    if strcmp(strtrim(obj.IO.query(sprintf(':CALC1:PAR%d:DEF?',trace))),parameter)
+                        selected=trace;
+                    end
+                end
+                if isempty(selected)
+                    error('ShockLine:MissingTrace','Configure a %s trace in ShockLine before selecting it.',parameter);
+                end
+                obj.TraceTransmission=selected;
+            end
+            obj.TransmissionParameter=parameter;
         end
         function disconnect(obj)
             if ~isempty(obj.IO), obj.IO.close(); end
@@ -151,7 +171,7 @@ classdef ShockLineClient < handle
                 % Revalidate trace definitions and transfer format against GUI edits.
                 if ~strcmp(strtrim(obj.IO.query(':FORM:DATA?')),'ASC') || ...
                         ~strcmp(strtrim(obj.IO.query(sprintf(':CALC1:PAR%d:DEF?',obj.TraceS11))),'S11') || ...
-                        ~strcmp(strtrim(obj.IO.query(sprintf(':CALC1:PAR%d:DEF?',obj.TraceS21))),'S21')
+                        ~strcmp(strtrim(obj.IO.query(sprintf(':CALC1:PAR%d:DEF?',obj.TraceTransmission))),obj.TransmissionParameter)
                     error('ShockLine:Configuration','Trace or transfer format changed; reconnect.');
                 end
                 n=obj.scalar(':SENS1:SWE:POIN?');
@@ -160,7 +180,7 @@ classdef ShockLineClient < handle
                 bandwidthBefore=obj.scalar(':SENS1:BAND?');
                 f=obj.numbers(':SENS1:FREQ:DATA?');
                 a=obj.numbers(sprintf(':CALC1:PAR%d:DATA:SDAT?',obj.TraceS11));
-                b=obj.numbers(sprintf(':CALC1:PAR%d:DATA:SDAT?',obj.TraceS21));
+                b=obj.numbers(sprintf(':CALC1:PAR%d:DATA:SDAT?',obj.TraceTransmission));
                 if numel(f)~=n || numel(a)~=2*n || numel(b)~=2*n || any(diff(f)<=0)
                     error('ShockLine:InvalidData','Incomplete sweep or invalid frequency grid.');
                 end
@@ -172,13 +192,15 @@ classdef ShockLineClient < handle
                         ~strcmp(strtrim(obj.IO.query(':SENS1:HOLD:FUNC?')),'HOLD')
                     error('ShockLine:Configuration','Instrument state changed during acquisition.');
                 end
+                meta.TransmissionParameter=obj.TransmissionParameter;
                 meta.Timestamp=char(datetime('now','Format','yyyy-MM-dd HH:mm:ss.SSS'));
+                parameter=obj.TransmissionParameter;
                 s11=complex(a(1:2:end),a(2:2:end)); s21=complex(b(1:2:end),b(2:2:end));
-                sweep=struct('FrequencyHz',f,'FrequencyMHz',f/1e6,'S11',s11,'S21',s21, ...
-                    'S11_dB',20*log10(abs(s11)),'S21_dB',20*log10(abs(s21)), ...
-                    'S11_PhaseDeg',rad2deg(angle(s11)),'S21_PhaseDeg',rad2deg(angle(s21)), ...
+                sweep=struct('FrequencyHz',f,'FrequencyMHz',f/1e6,'S11',s11,parameter,s21, ...
+                    'S11_dB',20*log10(abs(s11)),[parameter '_dB'],20*log10(abs(s21)), ...
+                    'S11_PhaseDeg',rad2deg(angle(s11)),[parameter '_PhaseDeg'],rad2deg(angle(s21)), ...
                     'PointsReceived',int32(n),'Complete',true,'AcquisitionSource','Snapshot', ...
-                    'InstrumentMetadata',meta);
+                    'InstrumentMetadata',meta,'TransmissionParameter',parameter);
                 obj.Settings.CorrectionEnabled=logical(correction); obj.Settings.Hold='HOLD';
             catch ME
                 if ~strcmp(ME.identifier,'ShockLine:NeedsHold'), obj.disconnect(); end

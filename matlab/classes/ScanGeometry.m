@@ -49,7 +49,9 @@ classdef ScanGeometry
                 'PhiDeg',c.PanAtZeroDeg+c.PanSign*pan(column));
         end
 
-        function s = surface(d)
+        function s = surface(d, levelField)
+            % Select measured or relative levels explicitly for visualization.
+            if nargin < 2, levelField = ['Normalized' VNAController.parameterOf(d) '_dB']; end
             c = d.Metadata.Scan3DConfig;
             p = ScanGeometry.buildPlan(c);
             theta = unique(c.TiltAtZeroDeg+c.TiltSign*p.TiltVector);
@@ -64,7 +66,7 @@ classdef ScanGeometry
                 atPole = abs(sind(theta(row)))<1e-8;
                 for column = 1:numel(phi)
                     mask = atTheta & (abs(samplePhi-mod(phi(column),360))<1e-8 | atPole);
-                    values = 10.^(d.NormalizedS21_dB(mask)/20);
+                    values = 10.^(d.(levelField)(mask)/20);
                     values = values(isfinite(values));
                     if ~isempty(values), amplitude(row,column) = mean(values); end
                 end
@@ -80,24 +82,25 @@ classdef ScanGeometry
         end
 
         function d = slice(scanData,row)
+            parameter=VNAController.parameterOf(scanData);
             keep = find(scanData.RowIndex==row);
             [~,order] = sort(scanData.PanAngles(keep)); keep = keep(order);
             d = scanData;
             d.Angles = scanData.PanAngles(keep);
             d.MeasuredAngles = scanData.MeasuredPanAngles(keep);
             d.EncoderAngles = scanData.PanEncoderAngles(keep);
-            d.S11 = scanData.S11(keep,:); d.S21 = scanData.S21(keep,:);
-            d.SelectedS21_dB = scanData.SelectedS21_dB(keep);
-            d.SelectedS21_PhaseDeg = scanData.SelectedS21_PhaseDeg(keep);
-            d.NormalizedS21_dB = PatternAnalyzer.normalize(d.SelectedS21_dB);
+            d.S11 = scanData.S11(keep,:); d.(parameter) = scanData.(parameter)(keep,:);
+            d.(['Selected' parameter '_dB']) = scanData.(['Selected' parameter '_dB'])(keep);
+            d.(['Selected' parameter '_PhaseDeg']) = scanData.(['Selected' parameter '_PhaseDeg'])(keep);
+            d.(['Normalized' parameter '_dB']) = PatternAnalyzer.normalize(d.(['Selected' parameter '_dB']));
             an = struct('PeakAngle_deg',NaN,'PeakVal_dB',NaN,'HPBW_deg',NaN, ...
                 'ThetaLeft_deg',NaN,'ThetaRight_deg',NaN,'SLL_dB',NaN,'SLLAngle_deg',NaN,'FBR_dB',NaN);
             if ~isempty(keep)
-                [an.PeakAngle_deg,an.PeakVal_dB] = PatternAnalyzer.findMainLobe(d.Angles,d.SelectedS21_dB);
+                [an.PeakAngle_deg,an.PeakVal_dB] = PatternAnalyzer.findMainLobe(d.Angles,d.(['Selected' parameter '_dB']));
                 if numel(keep)>=3
-                    [an.HPBW_deg,an.ThetaLeft_deg,an.ThetaRight_deg] = PatternAnalyzer.calculateHPBW(d.Angles,d.NormalizedS21_dB);
-                    [an.SLL_dB,an.SLLAngle_deg] = PatternAnalyzer.calculateSLL(d.Angles,d.NormalizedS21_dB,an.HPBW_deg);
-                    an.FBR_dB = PatternAnalyzer.calculateFBR(d.Angles,d.NormalizedS21_dB);
+                    [an.HPBW_deg,an.ThetaLeft_deg,an.ThetaRight_deg] = PatternAnalyzer.calculateHPBW(d.Angles,d.(['Normalized' parameter '_dB']));
+                    [an.SLL_dB,an.SLLAngle_deg] = PatternAnalyzer.calculateSLL(d.Angles,d.(['Normalized' parameter '_dB']),an.HPBW_deg);
+                    an.FBR_dB = PatternAnalyzer.calculateFBR(d.Angles,d.(['Normalized' parameter '_dB']));
                 end
             end
             d.Analysis = an;

@@ -3,10 +3,11 @@
 ## Sử dụng
 
 Giữ ShockLine chạy và kết nối USB với MS46122B. Trong ShockLine, kênh 1 cần
-trace S11 và S21 và numeric transfer dạng ASCII. App không tạo lại trace,
+trace S11 và thông số truyền đã chọn (S21 hoặc S12), numeric transfer dạng ASCII. App không tạo lại trace,
 preset, thay công suất hoặc thực hiện calibration.
 
-Mở app như CODEX_GUIDE.md, chọn **Anritsu ShockLine**, nhập
+Mở app như CODEX_GUIDE.md, chọn **Anritsu ShockLine**, chọn **Transmission**:
+**S21: 1 → 2** hoặc **S12: 2 → 1**, nhập
 `127.0.0.1:5001`, rồi **Connect**. Connect chỉ gửi truy vấn nhận dạng,
 cấu hình và trạng thái; không trigger hoặc tự dừng quét. Địa chỉ có thể đổi
 nếu cổng server của ShockLine đã được cấu hình khác.
@@ -19,16 +20,24 @@ Bản sửa có hiệu lực với phiên app mở mới; không cần chỉnh t
 mỗi lần kết nối. Kiểm thử offline gồm band thực đã gây lỗi, chặn yêu cầu vượt
 biên 1 Hz, và fresh app Connect qua TCP giả lập; không dùng VNA hoặc motor thật.
 
-Trong tab **Live RF S11/S21 Monitor**:
+S21 phát Port 1, thu Port 2; S12 phát Port 2, thu Port 1. Nếu cả hai trace đã có,
+có thể đổi lựa chọn khi không đo; app chỉ truy vấn tìm trace, không tự tạo lại.
+Thiếu trace được chọn sẽ báo lỗi và giữ lựa chọn trước đó. Lựa chọn bị khóa
+khi quét hoặc đang đọc RF. Đồ thị và MAT/CSV ghi đúng S21 hoặc S12; dữ liệu
+S12 được lưu ở trường `S12`, không ghi dưới tên S21. Lượt so sánh anten tham
+chiếu phải dùng cùng chiều đo và cấu hình. Phần S12 đã kiểm tra offline,
+chưa nghiệm thu trên phần cứng thật.
+
+Trong tab **Live RF Monitor**:
 
 - **Read snapshot (HOLD)**: sau xác nhận, đưa kênh 1 sang HOLD và đọc dữ liệu
   hiện có; không tạo lượt quét mới. Không nối hoặc điều khiển motor.
 - **Acquire new sweep**: đọc và hiển thị band/số điểm thực để xác nhận, sau đó
-  HOLD và single trigger, đợi parser kết thúc sweep rồi đọc S11/S21.
+  HOLD và single trigger, đợi parser kết thúc sweep rồi đọc S11 và S21/S12 đã chọn.
   Không thay band, points, IFBW hoặc power trong thao tác đo tĩnh này.
 - **Save MAT + CSV**: MAT có dữ liệu phức, frequency vector, model/serial/version,
   correction flag, IFBW, timestamp và nguồn snapshot/fresh. CSV chứa complex
-  S11/S21 và dB; giữ file MAT đi kèm để giữ metadata.
+  S11 và S21/S12 đã chọn, cùng dB; giữ file MAT đi kèm để giữ metadata.
 
 Sau đo app để HOLD; HOLD không được coi là bảo đảm RF đã tắt.
 Nút **ShockLine bình thường: trả quyền** bàn giao lại máy. Khi đang ngắt kết nối,

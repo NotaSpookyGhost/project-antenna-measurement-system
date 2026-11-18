@@ -1,5 +1,39 @@
 # Codex setup for antenna-v3
 
+## Transmission direction selection — 2026-11-17
+
+The RF settings include **Transmission: S21 / S12**, with port directions
+shown in the choices. S21 transmits from Port 1 and receives at Port 2;
+S12 transmits from Port 2 and receives at Port 1. Select before scanning;
+the control is locked during scans and static RF acquisition. Mock supports
+both directions. NanoVNA USB remains S21-only and rejects S12 before any
+connection or motion; its dropdown is disabled.
+
+For ShockLine, configure S11 plus the selected transmission trace on channel 1
+before connecting. Selection discovers existing traces using queries only;
+it never redefines traces or changes calibration. Selecting a missing trace
+fails while retaining the previous valid selection. MAT datasets contain
+`Metadata.TransmissionParameter` and actual `S21`/`S12` fields; CSV headers,
+plots and static RF exports use the selected parameter. Old datasets without
+direction metadata continue to be interpreted as S21. Use the same direction
+and measurement setup for DUT and reference-antenna comparisons.
+
+Offline regression: `TestTransmissionSelection` covers both trace directions,
+missing-trace rejection, fresh/snapshot reads, NanoVNA rejection, Mock 2D/3D
+scans, plot labels, export round trips and partial scans. S12 has not been
+accepted against physical hardware.
+
+## Measured S21 plots — 2026-11-17
+
+Live, completed, loaded and exported GUI plots now use `SelectedS21_dB`
+at the original scan angles, without subtracting the peak or clipping weak
+points to a fixed -40 dB floor. The measured S21 levels are retained for
+later reference-antenna comparison; these plots do not calculate gain.
+Measured 3D uses |S21| as radius and S21 dB as color. A 2D scan displays
+only its sampled angular cut, without an assumed elevation pattern.
+`NormalizedS21_dB` remains a derived field for legacy datasets and beam
+metrics; raw complex S21 and the existing MAT/CSV schema are preserved.
+
 ## ShockLine MATLAB adapter — 2026-11-16
 
 Center/span precision fix: ShockLine Connect now formats MHz fields with 17

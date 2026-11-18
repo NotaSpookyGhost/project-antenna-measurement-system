@@ -24,6 +24,8 @@ classdef AntennaMeasurementApp < handle
         Orchestrator MeasurementOrchestrator
 
         % UI Components - Inputs
+        TransmissionDropdown
+        TransmissionMetricLabel
         VNAModeDropdown
         VNAPortEdit
         VNAConnectBtn
@@ -182,6 +184,13 @@ classdef AntennaMeasurementApp < handle
             % START SCAN CALLBACK
             if obj.Orchestrator.IsRunning || obj.RFBusy
                 return;
+            end
+
+            choices={'S21','S12'};
+            try
+                obj.VNA.setTransmissionParameter(choices{obj.TransmissionDropdown.Value});
+            catch ME
+                obj.log(ME.message); errordlg(ME.message,'Transmission'); return;
             end
 
             % Read UI Parameters
@@ -373,6 +382,7 @@ classdef AntennaMeasurementApp < handle
         end
 
         function exp_dir = exportCurrentData(obj,base_dir)
+            parameter=VNAController.parameterOf(obj.LastScanData);
             if isempty(fieldnames(obj.LastScanData))
                 errordlg('No scan data available to export. Run a scan first.', 'Export Error');
                 return;
@@ -386,29 +396,28 @@ classdef AntennaMeasurementApp < handle
             figureCleanup=onCleanup(@() close(fig_export));
             if strcmpi(obj.LastScanData.Metadata.ScanAxis,'3D')
                 ax = axes('Parent',fig_export);
-                mesh = ScanGeometry.surface(obj.LastScanData);
+                mesh = ScanGeometry.surface(obj.LastScanData,['Selected' parameter '_dB']);
                 if all(size(mesh.Z)>=2) && nnz(isfinite(mesh.Z))>=4
                     surf(ax,mesh.X,mesh.Y,mesh.Z,mesh.RelativeDB,'EdgeColor','none');
                 end
                 hold(ax,'on');
-                radius = 10.^(obj.LastScanData.NormalizedS21_dB/20);
+                radius = 10.^(obj.LastScanData.(['Selected' parameter '_dB'])/20);
                 scatter3(ax,radius.*sind(obj.LastScanData.ThetaDeg).*cosd(obj.LastScanData.PhiDeg), ...
                     radius.*sind(obj.LastScanData.ThetaDeg).*sind(obj.LastScanData.PhiDeg), ...
-                    radius.*cosd(obj.LastScanData.ThetaDeg),12,obj.LastScanData.NormalizedS21_dB(:),'filled');
-                axis(ax,'equal'); view(ax,45,30); colorbar(ax); grid(ax,'on');
-                title(ax,'Measured 3D — radius: relative amplitude; color: relative S21 (dB)');
+                    radius.*cosd(obj.LastScanData.ThetaDeg),12,obj.LastScanData.(['Selected' parameter '_dB'])(:),'filled');
+                axis(ax,'equal'); view(ax,45,30); cb=colorbar(ax); cb.Label.String=[parameter ' (dB)']; grid(ax,'on');
+                title(ax,['Measured 3D — radius: |' parameter '|; color: ' parameter ' (dB)']);
                 DataManager.saveScanDataset(exp_dir,obj.LastScanData,fig_export);
                 obj.log(sprintf('Exported 3D dataset to: %s',exp_dir));
                 if nargout==0, msgbox(sprintf('Dataset exported to:\n%s',exp_dir),'Export Success'); end
                 return;
             end
             ax1 = subplot(1, 2, 1, polaraxes);
-            PatternAnalyzer.plotPolar(ax1, obj.LastScanData.Angles, obj.LastScanData.NormalizedS21_dB, ...
-                sprintf('Polar Pattern — %.3f GHz', obj.LastScanData.SelectedFreqHz/1e6));
+            PatternAnalyzer.plotPolar(ax1, obj.LastScanData.Angles, obj.LastScanData.(['Selected' parameter '_dB']), ...
+                sprintf('%s (dB) — %.3f MHz',parameter, obj.LastScanData.SelectedFreqHz/1e6),[],parameter);
             ax2 = subplot(1, 2, 2);
-            PatternAnalyzer.plotCartesian(ax2, obj.LastScanData.Angles, obj.LastScanData.NormalizedS21_dB, ...
-                sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', ...
-                        obj.LastScanData.Analysis.HPBW_deg, obj.LastScanData.Analysis.SLL_dB));
+            PatternAnalyzer.plotCartesian(ax2, obj.LastScanData.Angles, obj.LastScanData.(['Selected' parameter '_dB']), ...
+                ['Measured ' parameter ' vs Angle'],[],parameter);
             DataManager.saveScanDataset(exp_dir, obj.LastScanData, fig_export);
 
             msgbox(sprintf('Dataset successfully exported to:\n%s', exp_dir), 'Export Success');
@@ -432,6 +441,7 @@ classdef AntennaMeasurementApp < handle
 
     methods
         function createUI(obj)
+            parameter=obj.VNA.TransmissionParameter;
             % Build complete GUI window
             figW = 1200; figH = 780;
             screen = get(0, 'ScreenSize');
@@ -533,6 +543,13 @@ classdef AntennaMeasurementApp < handle
             obj.SweepPointsEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', '11', ...
                                             'Position', [140, 410, 80, 22]);
 
+            uicontrol(ctrlPanel,'Style','text','String','Transmission:', ...
+                'Position',[235 470 110 20],'HorizontalAlignment','left','BackgroundColor','w');
+            obj.TransmissionDropdown=uicontrol(ctrlPanel,'Style','popupmenu', ...
+                'String',{'S21: 1 -> 2','S12: 2 -> 1'},'Position',[235 440 110 24], ...
+                'TooltipString','S21: Port 1 transmits, Port 2 receives. S12: Port 2 transmits, Port 1 receives.', ...
+                'Callback',@(~,~)obj.handleTransmissionChange());
+
             % 4. Angular Scan Parameters
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Scan Axis:', ...
                       'Position', [10, 375, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
@@ -614,7 +631,7 @@ classdef AntennaMeasurementApp < handle
                                      'Position', [130, 34, 190, 18], 'HorizontalAlignment', 'left', ...
                                      'FontWeight', 'bold', 'BackgroundColor', [0.96 0.98 1.0]);
 
-            uicontrol(metricCard, 'Style', 'text', 'String', 'Max S21 Transmission:', ...
+            obj.TransmissionMetricLabel=uicontrol(metricCard, 'Style', 'text', 'String', 'Max S21 Transmission:', ...
                       'Position', [10, 12, 120, 18], 'HorizontalAlignment', 'left', 'BackgroundColor', [0.96 0.98 1.0]);
             obj.PeakS21Label = uicontrol(metricCard, 'Style', 'text', 'String', '--', ...
                                          'Position', [130, 12, 190, 18], 'HorizontalAlignment', 'left', ...
@@ -643,13 +660,13 @@ classdef AntennaMeasurementApp < handle
             % Tab 2: Cartesian Pattern
             obj.CartTab = uitab(obj.TabGroup, 'Title', '2D Cartesian Pattern');
             obj.CartAx = axes('Parent', obj.CartTab, 'Units', 'normalized', 'Position', [0.10, 0.12, 0.84, 0.80]);
-            title(obj.CartAx, 'Radiation Pattern (Cartesian: Angle vs Relative dB)', 'FontWeight', 'bold');
+            title(obj.CartAx, 'Measured S21 vs Angle', 'FontWeight', 'bold');
             xlabel(obj.CartAx, 'Angle (deg)');
-            ylabel(obj.CartAx, 'Relative Transmission (dB)');
+            ylabel(obj.CartAx, [parameter ' (dB)']);
             grid(obj.CartAx, 'on');
 
             % Tab 3: Live RF S11 / S21 Frequency Monitor
-            obj.RFMonitorTab = uitab(obj.TabGroup, 'Title', 'Live RF S11/S21 Monitor');
+            obj.RFMonitorTab = uitab(obj.TabGroup, 'Title', 'Live RF Monitor');
             obj.RFMonitorAx1 = subplot(2, 1, 1, 'Parent', obj.RFMonitorTab);
             title(obj.RFMonitorAx1, 'Forward Transmission |S21| across Sweep Band', 'FontWeight', 'bold');
             xlabel(obj.RFMonitorAx1, 'Frequency (MHz)'); ylabel(obj.RFMonitorAx1, '|S21| (dB)');
@@ -736,6 +753,7 @@ classdef AntennaMeasurementApp < handle
         end
 
         function handleStepProgress(obj, info)
+            parameter=VNAController.parameterOf(info);
             % Live real-time update on every step
             is3D = isfield(info,'TiltAngle');
             if is3D
@@ -745,45 +763,26 @@ classdef AntennaMeasurementApp < handle
                 end
             end
             obj.LiveAngles(end+1) = info.CommandedAngle;
-            obj.LiveS21_dB(end+1) = info.S21_dB_Center;
+            obj.LiveS21_dB(end+1) = info.([parameter '_dB_Center']);
 
-            norm_s21 = PatternAnalyzer.normalize(obj.LiveS21_dB);
-
-            % Update Polar plot
-            theta_rad = deg2rad(obj.LiveAngles);
-            r = max(norm_s21, -40.0);
-            cla(obj.PolarAx);
-            hold(obj.PolarAx, 'on');
-            polarplot(obj.PolarAx, theta_rad, r, 'b.-', 'LineWidth', 1.5, 'MarkerSize', 8);
-            obj.PolarAx.RLim = [-40, 0];
-            obj.PolarAx.ThetaZeroLocation = 'top';
-            obj.PolarAx.ThetaDir = 'clockwise';
-            title(obj.PolarAx, sprintf('Live Polar Pattern — Angle: %.1f° (%d/%d)', ...
-                  info.CommandedAngle, info.Index, info.Total), 'FontWeight', 'bold');
-
-            % Update Cartesian plot
-            cla(obj.CartAx);
-            hold(obj.CartAx, 'on');
-            yline(obj.CartAx, -3.0, 'r--', 'LineWidth', 1.0);
-            plot(obj.CartAx, obj.LiveAngles, norm_s21, 'b.-', 'LineWidth', 1.5, 'MarkerSize', 8);
-            grid(obj.CartAx, 'on');
-            title(obj.CartAx, sprintf('Live Cartesian Pattern — Step %d/%d', info.Index, info.Total), 'FontWeight', 'bold');
-            xlabel(obj.CartAx, 'Angle (deg)');
-            ylabel(obj.CartAx, 'Normalized Transmission (dB)');
+            PatternAnalyzer.plotPolar(obj.PolarAx, obj.LiveAngles, obj.LiveS21_dB, ...
+                sprintf(['Live ' parameter ' (dB) — Angle: %.1f° (%d/%d)'], info.CommandedAngle, info.Index, info.Total),[],parameter);
+            PatternAnalyzer.plotCartesian(obj.CartAx, obj.LiveAngles, obj.LiveS21_dB, ...
+                sprintf(['Live ' parameter ' — Step %d/%d'], info.Index, info.Total),[],parameter);
 
             % Update Status and Progress
             obj.updateProgress(info.Progress * 100);
             if is3D
-                obj.StatusLabel.String = sprintf('3D hàng %d/%d | motor P %.1f° T %.1f° | θ %.1f° φ %.1f° | S21 %.2f dB', ...
-                    info.RowIndex,info.TotalRows,info.PanAngle,info.TiltAngle,info.ThetaDeg,mod(info.PhiDeg,360),info.S21_dB_Center);
-                title(obj.PolarAx,sprintf('Pan slice — Tilt motor %.1f°, theta %.1f°',info.TiltAngle,info.ThetaDeg));
-                title(obj.CartAx,sprintf('Pan slice — Tilt motor %.1f°, theta %.1f°',info.TiltAngle,info.ThetaDeg));
+                obj.StatusLabel.String = sprintf(['3D hàng %d/%d | motor P %.1f° T %.1f° | θ %.1f° φ %.1f° | ' parameter ' %.2f dB'], ...
+                    info.RowIndex,info.TotalRows,info.PanAngle,info.TiltAngle,info.ThetaDeg,mod(info.PhiDeg,360),info.([parameter '_dB_Center']));
+                title(obj.PolarAx,sprintf(['Pan ' parameter ' slice — Tilt motor %.1f°, theta %.1f°'],info.TiltAngle,info.ThetaDeg));
+                title(obj.CartAx,sprintf(['Pan ' parameter ' slice — Tilt motor %.1f°, theta %.1f°'],info.TiltAngle,info.ThetaDeg));
             elseif isfield(info, 'EncoderAngle') && ~isnan(info.EncoderAngle)
-                obj.StatusLabel.String = sprintf('Góc lệnh %.1f° (AS5600 đuôi motor: %.1f°) | S21: %.2f dB | %.1f s', ...
-                                                 info.CommandedAngle, info.EncoderAngle, info.S21_dB_Center, info.ElapsedSec);
+                obj.StatusLabel.String = sprintf(['Góc lệnh %.1f° (AS5600 đuôi motor: %.1f°) | ' parameter ': %.2f dB | %.1f s'], ...
+                                                 info.CommandedAngle, info.EncoderAngle, info.([parameter '_dB_Center']), info.ElapsedSec);
             else
-                obj.StatusLabel.String = sprintf('Góc lệnh %.1f° | AS5600 mất tín hiệu — chưa xác minh góc | S21: %.2f dB | %.1f s', ...
-                                                 info.CommandedAngle, info.S21_dB_Center, info.ElapsedSec);
+                obj.StatusLabel.String = sprintf(['Góc lệnh %.1f° | AS5600 mất tín hiệu — chưa xác minh góc | ' parameter ': %.2f dB | %.1f s'], ...
+                                                 info.CommandedAngle, info.([parameter '_dB_Center']), info.ElapsedSec);
             end
             drawnow limitrate;
         end
@@ -794,6 +793,8 @@ classdef AntennaMeasurementApp < handle
             if isempty(scanData) || ~isstruct(scanData) || ~isfield(scanData, 'Analysis')
                 return;
             end
+            parameter=VNAController.parameterOf(scanData);
+            obj.TransmissionMetricLabel.String=['Max ' parameter ' Transmission:'];
             if strcmpi(scanData.Metadata.ScanAxis,'3D')
                 obj.LastScanData=scanData;
                 rows = unique(scanData.RowIndex,'stable');
@@ -804,7 +805,7 @@ classdef AntennaMeasurementApp < handle
                 end
                 obj.SliceDropdown.String=labels; obj.SliceDropdown.Value=numel(rows); obj.SliceDropdown.Enable='on';
                 obj.select3DSlice(numel(rows)); obj.plotMeasured3D(scanData);
-                obj.StatusLabel.String=sprintf('3D: %d/%d điểm | đỉnh θ %.1f° φ %.1f° | S21 %.2f dB', ...
+                obj.StatusLabel.String=sprintf(['3D: %d/%d điểm | đỉnh θ %.1f° φ %.1f° | ' parameter ' %.2f dB'], ...
                     scanData.Metadata.CompletedPoints,scanData.Metadata.TotalAngles, ...
                     scanData.Analysis.PeakTheta_deg,scanData.Analysis.PeakPhi_deg,scanData.Analysis.PeakVal_dB);
                 drawnow; return;
@@ -843,22 +844,22 @@ classdef AntennaMeasurementApp < handle
             end
 
             % Final Polar Plot with markers
-            PatternAnalyzer.plotPolar(obj.PolarAx, scanData.Angles, scanData.NormalizedS21_dB, ...
-                sprintf('Radiation Pattern — %.3f MHz', scanData.SelectedFreqHz/1e6));
+            PatternAnalyzer.plotPolar(obj.PolarAx, scanData.Angles, scanData.(['Selected' parameter '_dB']), ...
+                sprintf('%s (dB) — %.3f MHz',parameter, scanData.SelectedFreqHz/1e6),[],parameter);
 
             % Final Cartesian Plot with markers
-            PatternAnalyzer.plotCartesian(obj.CartAx, scanData.Angles, scanData.NormalizedS21_dB, ...
-                sprintf('Cartesian Pattern (HPBW: %.1f°, SLL: %.1f dB)', an.HPBW_deg, an.SLL_dB));
+            PatternAnalyzer.plotCartesian(obj.CartAx, scanData.Angles, scanData.(['Selected' parameter '_dB']), ...
+                ['Measured ' parameter ' vs Angle'],[],parameter);
 
             % Plot RF sweep monitor at peak angle
-            if isfield(scanData, 'SelectedS21_dB') && ~isempty(scanData.SelectedS21_dB) && size(scanData.S21, 1) > 0
-                [~, peak_idx] = max(scanData.SelectedS21_dB);
+            if isfield(scanData, ['Selected' parameter '_dB']) && ~isempty(scanData.(['Selected' parameter '_dB'])) && size(scanData.(parameter), 1) > 0
+                [~, peak_idx] = max(scanData.(['Selected' parameter '_dB']));
                 freq_mhz = scanData.FrequenciesHz / 1e6;
                 cla(obj.RFMonitorAx1);
-                plot(obj.RFMonitorAx1, freq_mhz, 20*log10(abs(scanData.S21(peak_idx, :))), 'b-o', 'LineWidth', 1.5);
+                plot(obj.RFMonitorAx1, freq_mhz, 20*log10(abs(scanData.(parameter)(peak_idx, :))), 'b-o', 'LineWidth', 1.5);
                 grid(obj.RFMonitorAx1, 'on');
-                title(obj.RFMonitorAx1, sprintf('|S21| Trace across Band at Peak Angle (%.1f°)', scanData.Angles(peak_idx)));
-                xlabel(obj.RFMonitorAx1, 'Frequency (MHz)'); ylabel(obj.RFMonitorAx1, 'S21 (dB)');
+                title(obj.RFMonitorAx1, sprintf(['|' parameter '| Trace across Band at Peak Angle (%.1f°)'], scanData.Angles(peak_idx)));
+                xlabel(obj.RFMonitorAx1, 'Frequency (MHz)'); ylabel(obj.RFMonitorAx1, [parameter ' (dB)']);
 
                 cla(obj.RFMonitorAx2);
                 plot(obj.RFMonitorAx2, freq_mhz, 20*log10(abs(scanData.S11(peak_idx, :))), 'r-o', 'LineWidth', 1.5);
@@ -869,35 +870,21 @@ classdef AntennaMeasurementApp < handle
 
             % 3D Surface (requires at least 3 points)
             if render3D && length(scanData.Angles) >= 3
-                obj.plot3DSurface(scanData.Angles, scanData.NormalizedS21_dB);
+                obj.plot3DSurface(scanData.Angles, scanData.(['Selected' parameter '_dB']),parameter);
             end
             drawnow;
         end
 
-        function plot3DSurface(obj, angles_deg, s21_rel_db)
-            % Plot 3D Toroidal/Spherical radiation pattern
+        function plot3DSurface(obj, angles_deg, s21_db, parameter)
+            if nargin<4, parameter='S21'; end
+            % A 2D scan supplies only one measured angular cut, not elevation data.
             cla(obj.ThreeDAx);
-            if length(angles_deg) < 3 || isempty(s21_rel_db)
-                return;
-            end
-            phi = deg2rad(angles_deg);
-            theta = deg2rad(linspace(-90, 90, 30));
-            [THETA, PHI] = meshgrid(theta, phi);
-
-            % Approximate elevation rolloff cos(theta)
-            r_db = repmat(s21_rel_db(:), 1, length(theta)) + 20*log10(max(cos(THETA), 0.05));
-            r_db = max(r_db, -35.0);
-            R = r_db - min(r_db(:)) + 5.0; % Positive radius for 3D sphere
-
-            [X, Y, Z] = sph2cart(PHI, THETA, R);
-            surf(obj.ThreeDAx, X, Y, Z, r_db, 'EdgeColor', 'none');
-            axis(obj.ThreeDAx, 'equal'); grid(obj.ThreeDAx, 'on');
-            view(obj.ThreeDAx, 45, 30);
-            colormap(obj.ThreeDAx, 'jet');
-            cb = colorbar(obj.ThreeDAx);
-            cb.Label.String = 'Relative S21 (dB)';
-            title(obj.ThreeDAx, '3D Radiation Pattern Model', 'FontWeight', 'bold');
-            title(obj.ThreeDAx, '3D estimate from a 2D slice — assumed elevation model', 'FontWeight', 'bold');
+            scatter3(obj.ThreeDAx,cosd(angles_deg),sind(angles_deg),zeros(size(angles_deg)), ...
+                20,s21_db(:),'filled');
+            axis(obj.ThreeDAx,'equal'); grid(obj.ThreeDAx,'on'); view(obj.ThreeDAx,45,30);
+            cb=colorbar(obj.ThreeDAx); cb.Label.String=[parameter ' (dB)'];
+            clim(obj.ThreeDAx,PatternAnalyzer.measuredDBLimits(s21_db));
+            title(obj.ThreeDAx,['2D scan — sampled angles only; color: ' parameter ' (dB)']);
         end
 
         function configureMotorRamp(obj,pan,tilt)
@@ -953,12 +940,13 @@ classdef AntennaMeasurementApp < handle
         end
 
         function setScanInputsEnabled(obj,enabled)
-            controls=[obj.ShockLineModeBtn obj.RFSnapshotBtn obj.RFFreshBtn obj.RFSaveBtn obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
+            controls=[obj.TransmissionDropdown obj.ShockLineModeBtn obj.RFSnapshotBtn obj.RFFreshBtn obj.RFSaveBtn obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
                 obj.VNAPortEdit obj.PosPortEdit obj.VNAConnectBtn obj.PosConnectBtn ...
                 obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit obj.MotorRampBtn ...
                 obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown];
             value='off'; if enabled, value='on'; end
             set(controls,'Enable',value);
+            if strcmpi(obj.VNA.Mode,'Real'), obj.TransmissionDropdown.Enable='off'; end
             if enabled && (isempty(fieldnames(obj.LastScanData)) || ...
                     ~strcmpi(obj.LastScanData.Metadata.ScanAxis,'3D'))
                 obj.SliceDropdown.Enable='off';
@@ -1040,45 +1028,48 @@ classdef AntennaMeasurementApp < handle
         end
 
         function recordLive3D(obj,info)
+            parameter=VNAController.parameterOf(info);
             if isempty(fieldnames(obj.Live3DData))
                 obj.Live3DData=struct('Metadata',struct('Scan3DConfig',obj.Orchestrator.Scan3DConfig, ...
-                    'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode), ...
+                    'TransmissionParameter',parameter,'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode), ...
                     'PanAngles',[],'TiltAngles',[],'ThetaDeg',[],'PhiDeg',[], ...
-                    'RowIndex',[],'SelectedS21_dB',[],'NormalizedS21_dB',[]);
+                    'RowIndex',[],['Selected' parameter '_dB'],[],['Normalized' parameter '_dB'],[]);
             end
             d=obj.Live3DData;
             d.PanAngles(end+1)=info.PanAngle; d.TiltAngles(end+1)=info.TiltAngle;
             d.ThetaDeg(end+1)=info.ThetaDeg; d.PhiDeg(end+1)=info.PhiDeg;
-            d.RowIndex(end+1)=info.RowIndex; d.SelectedS21_dB(end+1)=info.S21_dB_Center;
-            d.NormalizedS21_dB=PatternAnalyzer.normalize(d.SelectedS21_dB);
+            d.RowIndex(end+1)=info.RowIndex; d.(['Selected' parameter '_dB'])(end+1)=info.([parameter '_dB_Center']);
+            d.(['Normalized' parameter '_dB'])=PatternAnalyzer.normalize(d.(['Selected' parameter '_dB']));
             obj.Live3DData=d; obj.plotMeasured3D(d);
         end
 
         function plotMeasured3D(obj,d)
-            mesh=ScanGeometry.surface(d); cla(obj.ThreeDAx); hold(obj.ThreeDAx,'on');
+            parameter=VNAController.parameterOf(d);
+            mesh=ScanGeometry.surface(d,['Selected' parameter '_dB']); cla(obj.ThreeDAx); hold(obj.ThreeDAx,'on');
             if numel(unique(d.RowIndex))>=2 && size(mesh.X,2)>=2 && nnz(isfinite(mesh.X))>=4
                 surf(obj.ThreeDAx,mesh.X,mesh.Y,mesh.Z,mesh.RelativeDB,'EdgeColor','none');
             end
-            radius=10.^(d.NormalizedS21_dB/20);
+            radius=10.^(d.(['Selected' parameter '_dB'])/20);
             scatter3(obj.ThreeDAx,radius.*sind(d.ThetaDeg).*cosd(d.PhiDeg), ...
                 radius.*sind(d.ThetaDeg).*sind(d.PhiDeg),radius.*cosd(d.ThetaDeg), ...
-                15,d.NormalizedS21_dB(:),'filled');
+                15,d.(['Selected' parameter '_dB'])(:),'filled');
             hold(obj.ThreeDAx,'off'); axis(obj.ThreeDAx,'equal'); grid(obj.ThreeDAx,'on'); view(obj.ThreeDAx,45,30);
             xlabel(obj.ThreeDAx,'X'); ylabel(obj.ThreeDAx,'Y'); zlabel(obj.ThreeDAx,'Z');
-            colormap(obj.ThreeDAx,'parula'); clim(obj.ThreeDAx,[-40 0]);
+            colormap(obj.ThreeDAx,'parula'); clim(obj.ThreeDAx,PatternAnalyzer.measuredDBLimits(d.(['Selected' parameter '_dB'])));
             if isfield(d.Metadata,'ScanAxis')
-                cb=colorbar(obj.ThreeDAx); cb.Label.String='Relative S21 (dB), global peak';
+                cb=colorbar(obj.ThreeDAx); cb.Label.String=[parameter ' (dB)'];
             end
             c=d.Metadata.Scan3DConfig;
             source='Measured 3D';
             if isfield(d.Metadata,'VNAMode') && (strcmpi(d.Metadata.VNAMode,'Mock') || strcmpi(d.Metadata.PositionerMode,'Mock'))
                 source='Mock 3D';
             end
-            title(obj.ThreeDAx,sprintf('%s — theta ZERO %.1f°, phi ZERO %.1f°\nRadius: relative amplitude; %d sampled points', ...
-                source,c.TiltAtZeroDeg,c.PanAtZeroDeg,numel(d.PanAngles)));
+            title(obj.ThreeDAx,sprintf('%s — theta ZERO %.1f°, phi ZERO %.1f°\nRadius: |%s|; color: %s (dB); %d sampled points', ...
+                source,c.TiltAtZeroDeg,c.PanAtZeroDeg,parameter,parameter,numel(d.PanAngles)));
         end
 
         function select3DSlice(obj,index)
+            parameter=VNAController.parameterOf(obj.LastScanData);
             if isempty(fieldnames(obj.LastScanData)) || ~strcmpi(obj.LastScanData.Metadata.ScanAxis,'3D'), return; end
             d=obj.LastScanData; rows=unique(d.RowIndex,'stable');
             if index<1 || index>numel(rows), return; end
@@ -1086,10 +1077,29 @@ classdef AntennaMeasurementApp < handle
             slice=ScanGeometry.slice(d,rows(index)); slice.Metadata.ScanAxis='AZ';
             obj.updateFinalResults(slice,false);
             point=find(d.RowIndex==rows(index),1);
-            description=sprintf('Pan slice — Tilt motor %.1f°, theta %.1f°',d.TiltAngles(point),d.ThetaDeg(point));
+            description=sprintf(['Pan ' parameter ' slice — Tilt motor %.1f°, theta %.1f°'],d.TiltAngles(point),d.ThetaDeg(point));
             title(obj.PolarAx,description); title(obj.CartAx,description);
             obj.PeakAngleLabel.String=sprintf('P %.1f° / T %.1f°',d.Analysis.PeakPan_deg,d.Analysis.PeakTilt_deg);
             obj.PeakS21Label.String=sprintf('%.2f dB (3D peak)',d.Analysis.PeakVal_dB);
+        end
+
+        function selectTransmissionParameter(obj,parameter)
+            if obj.Orchestrator.IsRunning || obj.RFBusy
+                error('AntennaMeasurementApp:ScanRunning','Stop acquisition before changing S21/S12.');
+            end
+            obj.VNA.setTransmissionParameter(parameter);
+            obj.TransmissionDropdown.Value=1+strcmp(obj.VNA.TransmissionParameter,'S12');
+            obj.log(['Transmission: ' obj.VNA.TransmissionParameter]);
+        end
+
+        function handleTransmissionChange(obj)
+            choices={'S21','S12'};
+            try
+                obj.selectTransmissionParameter(choices{obj.TransmissionDropdown.Value});
+            catch ME
+                obj.TransmissionDropdown.Value=1+strcmp(obj.VNA.TransmissionParameter,'S12');
+                obj.log(ME.message); errordlg(ME.message,'Transmission');
+            end
         end
 
         function handleVNAModeChange(obj)
@@ -1102,6 +1112,9 @@ classdef AntennaMeasurementApp < handle
             modes={'Mock','Real','ShockLine'};
             obj.VNA=VNAController('Mode',modes{obj.VNAModeDropdown.Value});
             obj.Orchestrator.VNA=obj.VNA;
+            obj.TransmissionDropdown.Value=1;
+            obj.TransmissionDropdown.Enable='on';
+            if strcmpi(obj.VNA.Mode,'Real'), obj.TransmissionDropdown.Enable='off'; end
             if strcmpi(obj.VNA.Mode,'ShockLine')
                 obj.VNAPortEdit.String='127.0.0.1:5001';
             else
@@ -1126,7 +1139,7 @@ classdef AntennaMeasurementApp < handle
                     'HOLD + single trigger; no motor movement. Leave HOLD afterward.'], ...
                     settings.StartHz/1e6,settings.StopHz/1e6,settings.Points);
             else
-                message=['Read existing S11/S21 snapshot; pause channel 1 in HOLD. ' ...
+                message=['Read existing S11/' obj.VNA.TransmissionParameter ' snapshot; pause channel 1 in HOLD. ' ...
                     'No new sweep, no motor movement. Leave HOLD afterward.'];
             end
             if ~strcmp(questdlg(message,'Approve VNA operation','Proceed','Cancel','Cancel'),'Proceed'), return; end
@@ -1136,9 +1149,11 @@ classdef AntennaMeasurementApp < handle
             try
                 if fresh, sweep=obj.VNA.acquireSingle(); else, sweep=obj.VNA.readSnapshot(true); end
                 obj.LastRFSweep=sweep;
-                plot(obj.RFMonitorAx1,sweep.FrequencyMHz,sweep.S21_dB,'b-'); grid(obj.RFMonitorAx1,'on');
+                parameter=VNAController.parameterOf(sweep);
+                plot(obj.RFMonitorAx1,sweep.FrequencyMHz,sweep.([parameter '_dB']),'b-'); grid(obj.RFMonitorAx1,'on');
                 plot(obj.RFMonitorAx2,sweep.FrequencyMHz,sweep.S11_dB,'r-'); grid(obj.RFMonitorAx2,'on');
-                title(obj.RFMonitorAx1,['S21 — ' sweep.AcquisitionSource]);
+                ylabel(obj.RFMonitorAx1,[parameter ' (dB)']);
+                title(obj.RFMonitorAx1,[parameter ' — ' sweep.AcquisitionSource]);
                 title(obj.RFMonitorAx2,'S11 (dB)');
                 obj.TabGroup.SelectedTab=obj.RFMonitorTab;
                 obj.log(sprintf('%s: %d points, correction=%d. ShockLine remains HOLD.', ...
@@ -1154,6 +1169,7 @@ classdef AntennaMeasurementApp < handle
         end
 
         function saveRF(obj)
+            parameter=VNAController.parameterOf(obj.LastRFSweep);
             if isempty(fieldnames(obj.LastRFSweep)), return; end
             [name,folder]=uiputfile('*.mat','Save RF sweep and metadata');
             if isequal(name,0), return; end
@@ -1161,8 +1177,8 @@ classdef AntennaMeasurementApp < handle
             file=fullfile(folder,name); save(file,'sweep');
             [~,stem]=fileparts(file);
             values=table(sweep.FrequencyHz(:),real(sweep.S11(:)),imag(sweep.S11(:)), ...
-                real(sweep.S21(:)),imag(sweep.S21(:)),sweep.S11_dB(:),sweep.S21_dB(:), ...
-                'VariableNames',{'FrequencyHz','S11Real','S11Imag','S21Real','S21Imag','S11dB','S21dB'});
+                real(sweep.(parameter)(:)),imag(sweep.(parameter)(:)),sweep.S11_dB(:),sweep.([parameter '_dB'])(:), ...
+                'VariableNames',{'FrequencyHz','S11Real','S11Imag',[parameter 'Real'],[parameter 'Imag'],'S11dB',[parameter 'dB']});
             writetable(values,fullfile(folder,[stem '.csv']));
             obj.log(['Saved RF sweep: ' file]);
         end

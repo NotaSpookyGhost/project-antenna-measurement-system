@@ -17,6 +17,7 @@ classdef VNAController < handle
     %   vna.disconnect();
 
     properties (SetAccess = private)
+        TransmissionParameter char = 'S21'
         Mode char = 'Real'           % 'Real', 'Mock', or 'ShockLine'
         IsConnected logical = false
         Port char = ''
@@ -47,6 +48,16 @@ classdef VNAController < handle
             if strcmpi(obj.Mode, 'Real')
                 obj.initPythonBridge();
             end
+        end
+
+        function setTransmissionParameter(obj, parameter)
+            parameter=validatestring(upper(char(parameter)),{'S21','S12'});
+            if strcmpi(obj.Mode,'Real') && strcmp(parameter,'S12')
+                error('VNAController:UnsupportedTransmission', ...
+                    'NanoVNA SAA-2N chỉ hỗ trợ S21; S12 cần VNA có nguồn phát tại Port 2.');
+            end
+            if strcmpi(obj.Mode,'ShockLine'), obj.ShockLine.setTransmissionParameter(parameter); end
+            obj.TransmissionParameter=parameter;
         end
 
         function delete(obj)
@@ -296,6 +307,19 @@ classdef VNAController < handle
         end
     end
 
+    methods (Static)
+        function parameter = parameterOf(data)
+            % Old datasets without a declared direction contain S21.
+            parameter='S21';
+            if isfield(data,'TransmissionParameter')
+                parameter=data.TransmissionParameter;
+            elseif isfield(data,'Metadata') && isfield(data.Metadata,'TransmissionParameter')
+                parameter=data.Metadata.TransmissionParameter;
+            end
+            parameter=validatestring(upper(char(parameter)),{'S21','S12'});
+        end
+    end
+
     methods (Access = private)
         function initPythonBridge(obj)
             % INITPYTHONBRIDGE Initialize Python environment and import bridge
@@ -399,6 +423,12 @@ classdef VNAController < handle
                 'S21_PhaseDeg', rad2deg(s21_phase), ...
                 'PointsReceived', int32(points), ...
                 'Complete', true);
+            sweep.TransmissionParameter=obj.TransmissionParameter;
+            if strcmp(obj.TransmissionParameter,'S12')
+                sweep.S12=sweep.S21; sweep.S12_dB=sweep.S21_dB;
+                sweep.S12_PhaseDeg=sweep.S21_PhaseDeg;
+                sweep=rmfield(sweep,{'S21','S21_dB','S21_PhaseDeg'});
+            end
         end
     end
 end

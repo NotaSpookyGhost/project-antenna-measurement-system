@@ -23,6 +23,7 @@ classdef DataManager
         end
 
         function files = saveScanDataset(exp_dir, scanData, figHandle)
+            parameter=VNAController.parameterOf(scanData);
             % SAVESCANDATASET Save full measurement dataset (MAT, CSV, JSON, TXT, PNG)
             %
             % Inputs:
@@ -33,11 +34,11 @@ classdef DataManager
             %       .MeasuredAngles: 1D array of AS5600 feedback angles (deg)
             %       .FrequenciesHz: 1D array of sweep frequencies
             %       .S11: 2D complex matrix [N_angles x N_freqs]
-            %       .S21: 2D complex matrix [N_angles x N_freqs]
+            %       .S21 or .S12: selected transmission, complex [N_angles x N_freqs]
             %       .SelectedFreqHz: Target analysis frequency (e.g. 2.4e9)
-            %       .SelectedS21_dB: 1D array of S21 at target frequency
-            %       .SelectedS21_PhaseDeg: 1D array of S21 phase
-            %       .NormalizedS21_dB: 1D array normalized to peak = 0 dB
+            %       .SelectedS21_dB / .SelectedS12_dB: transmission at target frequency
+            %       .SelectedS21_PhaseDeg / .SelectedS12_PhaseDeg: phase
+            %       .NormalizedS21_dB / .NormalizedS12_dB: derived relative levels
             %       .Analysis: Struct of calculated metrics (HPBW, SLL, Peak, FBR)
             %   figHandle: (Optional) Handle to MATLAB Figure to export as PNG
 
@@ -60,7 +61,8 @@ classdef DataManager
             % 2. Save CSV containing raw complex data at target frequency
             csv_path = fullfile(exp_dir, 'scan_pattern.csv');
             fid = fopen(csv_path, 'w');
-            fprintf(fid, 'angle_idx,commanded_angle_deg,measured_angle_deg,freq_hz,s11_real,s11_imag,s11_mag,s11_db,s11_phase_deg,s21_real,s21_imag,s21_mag,s21_db,s21_rel_db,s21_phase_deg\n');
+            fprintf(fid, '%s', strrep('angle_idx,commanded_angle_deg,measured_angle_deg,freq_hz,s11_real,s11_imag,s11_mag,s11_db,s11_phase_deg,s21_real,s21_imag,s21_mag,s21_db,s21_rel_db,s21_phase_deg', 's21', lower(parameter)));
+            fprintf(fid,'\n');
 
             % Find index corresponding to SelectedFreqHz
             [~, freq_idx] = min(abs(scanData.FrequenciesHz - scanData.SelectedFreqHz));
@@ -72,13 +74,13 @@ classdef DataManager
                 f_hz = scanData.FrequenciesHz(freq_idx);
 
                 s11_val = scanData.S11(i, freq_idx);
-                s21_val = scanData.S21(i, freq_idx);
+                s21_val = scanData.(parameter)(i, freq_idx);
 
                 s11_m = abs(s11_val);
                 s21_m = abs(s21_val);
                 s11_db = 20 * log10(max(s11_m, 1e-12));
                 s21_db = 20 * log10(max(s21_m, 1e-12));
-                s21_rel = scanData.NormalizedS21_dB(i);
+                s21_rel = scanData.(['Normalized' parameter '_dB'])(i);
 
                 s11_ph = rad2deg(angle(s11_val));
                 s21_ph = rad2deg(angle(s21_val));
@@ -109,6 +111,7 @@ classdef DataManager
             fprintf(fid, 'Device:             %s (Port: %s)\n', scanData.Metadata.Device, scanData.Metadata.VNAPort);
             fprintf(fid, 'Firmware:           %s\n', scanData.Metadata.Firmware);
             fprintf(fid, 'Positioner Mode:    %s\n', scanData.Metadata.PositionerMode);
+            fprintf(fid,'Transmission:       %s\n',parameter);
             fprintf(fid, 'Scan Axis:          %s\n', scanData.Metadata.ScanAxis);
             fprintf(fid, 'Angle Range:        %.1f° to %.1f° (Step: %.2f°, %d points)\n', ...
                     min(scanData.Angles), max(scanData.Angles), scanData.Metadata.AngleStepDeg, N);
@@ -157,6 +160,7 @@ classdef DataManager
         end
 
         function files = saveScan3DDataset(exp_dir,scanData,figHandle)
+            parameter=VNAController.parameterOf(scanData);
             if nargin<3, figHandle = []; end
             if ~exist(exp_dir,'dir'), mkdir(exp_dir); end
             files = struct('mat',fullfile(exp_dir,'scan_data.mat'), ...
@@ -164,7 +168,7 @@ classdef DataManager
                 'json',fullfile(exp_dir,'metadata.json'),'summary',fullfile(exp_dir,'summary.txt'));
             save(files.mat,'scanData','-v7.3');
             [~,f] = min(abs(scanData.FrequenciesHz-scanData.SelectedFreqHz));
-            a = scanData.S11(:,f); b = scanData.S21(:,f);
+            a = scanData.S11(:,f); b = scanData.(parameter)(:,f);
             n = numel(scanData.PanAngles);
             values = [(1:n).',scanData.RowIndex.',scanData.ColumnIndex.', ...
                 scanData.PanAngles.',scanData.TiltAngles.',scanData.ThetaDeg.',scanData.PhiDeg.', ...
@@ -173,13 +177,14 @@ classdef DataManager
                 isfinite(scanData.PanEncoderAngles).',isfinite(scanData.TiltEncoderAngles).', ...
                 scanData.ElapsedSec.',repmat(scanData.FrequenciesHz(f),n,1), ...
                 real(a),imag(a),abs(a),20*log10(max(abs(a),1e-12)),rad2deg(angle(a)), ...
-                real(b),imag(b),abs(b),scanData.SelectedS21_dB.', ...
-                scanData.NormalizedS21_dB.',scanData.SelectedS21_PhaseDeg.'];
+                real(b),imag(b),abs(b),scanData.(['Selected' parameter '_dB']).', ...
+                scanData.(['Normalized' parameter '_dB']).',scanData.(['Selected' parameter '_PhaseDeg']).'];
             names = {'point_idx','tilt_row','pan_column','pan_motor_deg','tilt_motor_deg', ...
                 'theta_deg','phi_deg','pan_reported_deg','tilt_reported_deg', ...
                 'pan_encoder_deg','tilt_encoder_deg','pan_encoder_valid','tilt_encoder_valid', ...
                 'elapsed_s','freq_hz','s11_real','s11_imag','s11_mag','s11_db','s11_phase_deg', ...
                 's21_real','s21_imag','s21_mag','s21_db','s21_rel_db','s21_phase_deg'};
+            names=strrep(names,'s21',lower(parameter));
             writetable(array2table(values,'VariableNames',names),files.csv);
             fid = fopen(files.json,'w');
             if fid<0, error('DataManager:FileOpen','Cannot open metadata output.'); end
@@ -190,7 +195,7 @@ classdef DataManager
             if fid<0, error('DataManager:FileOpen','Cannot open summary output.'); end
             cleanup = onCleanup(@() fclose(fid));
             c = scanData.Metadata.Scan3DConfig; an = scanData.Analysis;
-            fprintf(fid,'3D Pan x Tilt — measured scan\n');
+            fprintf(fid,'3D Pan x Tilt — measured scan (%s)\n',parameter);
             fprintf(fid,'Timestamp: %s\n',scanData.Metadata.Timestamp);
             fprintf(fid,'Completed: %d/%d; aborted=%d; reason=%s\n',n,scanData.Metadata.TotalAngles,scanData.Metadata.Aborted,scanData.Metadata.AbortReason);
             fprintf(fid,'Pan motor: %.3f..%.3f step %.3f deg; Tilt motor: %.3f..%.3f step %.3f deg\n',c.PanStartDeg,c.PanStopDeg,c.PanStepDeg,c.TiltStartDeg,c.TiltStopDeg,c.TiltStepDeg);

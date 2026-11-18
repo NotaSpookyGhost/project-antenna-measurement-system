@@ -287,107 +287,48 @@ classdef PatternAnalyzer
             s21_rel_db = min(pattern_db, 0.0);
         end
 
-        function h_lines = plotPolar(ax, angles_deg, s21_rel_db, title_str, dynamic_range_db)
-            % PLOTPOLAR Plot 2D polar radiation pattern with standard antenna conventions.
-            %
-            % Dynamic range defaults to 40 dB (inner = -40 dB, outer rim = 0 dB).
-
-            if isempty(angles_deg) || isempty(s21_rel_db)
-                h_lines = [];
-                return;
-            end
-
-            if nargin < 4 || isempty(title_str), title_str = 'Radiation Pattern (2D Polar)'; end
-            if nargin < 5 || isempty(dynamic_range_db), dynamic_range_db = 40.0; end
-
-            s21_rel_db = PatternAnalyzer.normalize(s21_rel_db);
-            r = max(s21_rel_db, -dynamic_range_db);
-
-            theta_rad = deg2rad(angles_deg);
-
-            % Use polaraxes if available
-            if isempty(ax)
-                figure('Name', title_str, 'Color', 'w');
-                ax = polaraxes();
-            end
-
-            cla(ax);
-            hold(ax, 'on');
-
-            % Plot pattern
-            h_main = polarplot(ax, theta_rad, r, 'b-', 'LineWidth', 2.0);
-
-            % Annotate HPBW and peak
-            [peak_angle, ~] = PatternAnalyzer.findMainLobe(angles_deg, s21_rel_db);
-            [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles_deg, s21_rel_db);
-
-            h_peak = polarplot(ax, deg2rad(peak_angle), 0, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 6);
-
-            if ~isnan(hpbw) && ~isnan(th_left) && ~isnan(th_right)
-                h_l = polarplot(ax, [deg2rad(th_left), deg2rad(th_left)], [-dynamic_range_db, -3], 'r--', 'LineWidth', 1.2);
-                h_r = polarplot(ax, [deg2rad(th_right), deg2rad(th_right)], [-dynamic_range_db, -3], 'r--', 'LineWidth', 1.2);
-            end
-
-            ax.RLim = [-dynamic_range_db, 0];
-            ax.ThetaZeroLocation = 'top';
-            ax.ThetaDir = 'clockwise';
-            title(ax, title_str, 'FontWeight', 'bold');
-
-            h_lines = h_main;
+        function limits = measuredDBLimits(s21_db, minimum_span_db)
+            % Include every measured level; never subtract the measured peak.
+            if nargin < 2, minimum_span_db = 40; end
+            values = s21_db(isfinite(s21_db));
+            if isempty(values), limits = [-minimum_span_db 0]; return; end
+            upper = 5 * ceil((max(values) + 1) / 5);
+            lower = min(5 * floor((min(values) - 1) / 5), upper - minimum_span_db);
+            limits = [lower upper];
         end
 
-        function h_plot = plotCartesian(ax, angles_deg, s21_rel_db, title_str, dynamic_range_db)
-            % PLOTCARTESIAN Plot 2D Cartesian pattern (Angle vs Relative dB).
-
-            if isempty(angles_deg) || isempty(s21_rel_db)
-                h_plot = [];
-                return;
-            end
-
-            if nargin < 4 || isempty(title_str), title_str = 'Radiation Pattern (Cartesian)'; end
-            if nargin < 5 || isempty(dynamic_range_db), dynamic_range_db = 40.0; end
-
-            s21_rel_db = PatternAnalyzer.normalize(s21_rel_db);
-
+        function h_lines = plotPolar(ax, angles_deg, s21_db, title_str, dynamic_range_db, parameter)
+            if nargin<6, parameter='S21'; end
+            % Plot measured S21 at its original angles and dB levels.
+            if isempty(angles_deg) || isempty(s21_db), h_lines = []; return; end
+            if nargin < 4 || isempty(title_str), title_str = ['Measured ' parameter ' (2D Polar, dB)']; end
+            if nargin < 5 || isempty(dynamic_range_db), dynamic_range_db = 40; end
             if isempty(ax)
-                figure('Name', title_str, 'Color', 'w');
-                ax = gca();
+                figure('Name', title_str, 'Color', 'w'); ax = polaraxes();
             end
-
             cla(ax);
-            hold(ax, 'on');
+            h_lines = polarplot(ax, deg2rad(angles_deg), s21_db, 'b.-', 'LineWidth', 1.8);
+            ax.RLim = PatternAnalyzer.measuredDBLimits(s21_db, dynamic_range_db);
+            ax.ThetaZeroLocation = 'top'; ax.ThetaDir = 'clockwise';
+            title(ax, title_str, 'FontWeight', 'bold');
+        end
 
-            % -3 dB reference line
-            yline(ax, -3.0, 'r--', 'LineWidth', 1.2, 'Label', '-3 dB (HPBW threshold)');
-
-            % Pattern curve
-            h_plot = plot(ax, angles_deg, s21_rel_db, 'b-', 'LineWidth', 1.8);
-
-            % Annotations
-            [hpbw, th_l, th_r] = PatternAnalyzer.calculateHPBW(angles_deg, s21_rel_db);
-            [sll, sll_th] = PatternAnalyzer.calculateSLL(angles_deg, s21_rel_db, hpbw);
-
-            if ~isnan(th_l) && ~isnan(th_r)
-                plot(ax, [th_l, th_r], [-3, -3], 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 5);
+        function h_plot = plotCartesian(ax, angles_deg, s21_db, title_str, dynamic_range_db, parameter)
+            if nargin<6, parameter='S21'; end
+            % Plot measured S21 without peak normalization or gain conversion.
+            if isempty(angles_deg) || isempty(s21_db), h_plot = []; return; end
+            if nargin < 4 || isempty(title_str), title_str = ['Measured ' parameter ' vs Angle']; end
+            if nargin < 5 || isempty(dynamic_range_db), dynamic_range_db = 40; end
+            if isempty(ax)
+                figure('Name', title_str, 'Color', 'w'); ax = gca();
             end
-            if ~isnan(sll) && ~isnan(sll_th)
-                plot(ax, sll_th, sll, 'ms', 'MarkerFaceColor', 'm', 'MarkerSize', 6);
-                text(ax, sll_th, sll + 1.5, sprintf('SLL: %.1f dB', sll), 'Color', 'm', 'FontWeight', 'bold');
-            end
-
-            grid(ax, 'on');
-            xlabel(ax, 'Angle (deg)');
-            ylabel(ax, 'Relative Transmission (dB)');
-            ylim(ax, [-dynamic_range_db, 2]);
+            cla(ax);
+            h_plot = plot(ax, angles_deg, s21_db, 'b.-', 'LineWidth', 1.8);
+            grid(ax, 'on'); xlabel(ax, 'Angle (deg)'); ylabel(ax, [parameter ' (dB)']);
+            ylim(ax, PatternAnalyzer.measuredDBLimits(s21_db, dynamic_range_db));
             angleLimits = [min(angles_deg), max(angles_deg)];
-            if angleLimits(1) == angleLimits(2)
-                % A stopped scan or a one-point Pan slice still has valid data.
-                angleLimits = angleLimits + [-1, 1];
-                h_plot.Marker = 'o';
-            end
-            xlim(ax, angleLimits);
-            title(ax, title_str, 'FontWeight', 'bold');
+            if angleLimits(1) == angleLimits(2), angleLimits = angleLimits + [-1 1]; end
+            xlim(ax, angleLimits); title(ax, title_str, 'FontWeight', 'bold');
         end
-
     end
 end
