@@ -1,7 +1,11 @@
 #include <Arduino.h>
+#include <atomic>
 #include "as5600_sample.h"
 #ifdef ARDUINO_ARCH_ESP32
 #include "as5600_bus.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <freertos/semphr.h>
 using SensorBus = AS5600Bus;
 #else
 #include <Wire.h> // Native test transport; exercises the same sample validator.
@@ -36,7 +40,7 @@ SensorBus I2C_Tilt(0);
 const int PIN_TILT_SDA = 18;
 const int PIN_TILT_SCL = 19;
 
-const char* FW_VERSION = "V4.0_HOLD_SMOOTH2";
+const char* FW_VERSION = "V4.0_HOLD_FREE360";
 
 SensorBus I2C_Pan(1);
 const int PIN_PAN_SDA  = 21;
@@ -131,8 +135,8 @@ SensorSnapshot readSensors(uint32_t requestId) {
 }
 
 void refreshSensors() {
-  // GPIO reads have fixed retry limits and no driver waits. Read on the command
-  // core, after motion has finished; there can be no late snapshot during motion.
+  // Bounded GPIO reads also run between pulses for continuous-scan telemetry.
+  // The pulse clock is based on actual edges and never catches up with bursts.
   const SensorSnapshot result = readSensors(0);
   cachedPanSensorDeg = result.pan;
   cachedTiltSensorDeg = result.tilt;
@@ -140,20 +144,81 @@ void refreshSensors() {
   cachedTiltAGC = result.tiltAGC;
 }
 
-void printPosition() {
+bool continuousPan = false;
+unsigned long scanSequence = 0;
+std::atomic<bool> continuousSensorFault{false};
+std::atomic<float> continuousPanPosition{0};
+std::atomic<float> continuousTiltPosition{0};
+
+bool printPositionAt(float pan, float tilt) {
   refreshSensors();
-  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:%s SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-180 TILT_MAX:180 RAMP_CAP:1 RAMP_PAN:%ld RAMP_TILT:%ld\n",
-                currentPanDeg, currentTiltDeg, cachedPanSensorDeg, cachedPanAGC,
+  Serial.printf("PAN:%6.2f TILT:%6.2f RAW_PAN:%6.2f (AGC:%3d) RAW_TILT:%6.2f (AGC:%3d) HOLD_CAP:1 HOLD:%d CAL_REQUIRED:%d SENSOR_CACHED:0 ENC_PAN_VALID:%d ENC_TILT_VALID:%d RELEASES:%lu FW:%s SCAN3D_CAP:1 PAN_MIN:-360 PAN_MAX:360 TILT_MIN:-360 TILT_MAX:360 FREE360_CAP:1 RAMP_CAP:1 RAMP_PAN:%ld RAMP_TILT:%ld\n",
+                pan, tilt, cachedPanSensorDeg, cachedPanAGC,
                 cachedTiltSensorDeg, cachedTiltAGC, holdRequested,
                 calibrationRequired, cachedPanSensorDeg >= 0, cachedTiltSensorDeg >= 0, releaseCount,FW_VERSION,
                 panRampSteps, tiltRampSteps);
+  return cachedPanSensorDeg >= 0 && cachedTiltSensorDeg >= 0;
 }
+
+void printPosition() {
+  printPositionAt(currentPanDeg, currentTiltDeg);
+  Serial.println("CONT_PAN_CAP:1 CONT_TILT_CAP:1");
+}
+
+bool printScanPosition(float pan, float tilt) {
+  Serial.printf("SCAN %lu %lu ", ++scanSequence, millis());
+  return printPositionAt(pan, tilt);
+}
+
+#ifdef ARDUINO_ARCH_ESP32
+TaskHandle_t scanTelemetryTask = nullptr;
+SemaphoreHandle_t scanTelemetryDone = nullptr;
+
+void scanTelemetryWorker(void*) {
+  TickType_t lastSample = xTaskGetTickCount();
+  const TickType_t period = pdMS_TO_TICKS(100);
+  while (true) {
+    const TickType_t elapsed = xTaskGetTickCount() - lastSample;
+    if (ulTaskNotifyTake(pdTRUE,elapsed < period ? period - elapsed : 0) != 0) break;
+    lastSample = xTaskGetTickCount();
+    if (!printScanPosition(continuousPanPosition.load(),continuousTiltPosition.load())) {
+      continuousSensorFault.store(true);
+      ulTaskNotifyTake(pdTRUE,portMAX_DELAY);
+      break;
+    }
+  }
+  xSemaphoreGive(scanTelemetryDone);
+  vTaskDelete(nullptr);
+}
+
+bool startScanTelemetry() {
+  scanTelemetryDone = xSemaphoreCreateBinary();
+  if (!scanTelemetryDone) return false;
+  if (xTaskCreatePinnedToCore(scanTelemetryWorker,"scan-encoder",4096,nullptr,1,
+                             &scanTelemetryTask,0) != pdPASS) {
+    vSemaphoreDelete(scanTelemetryDone);
+    scanTelemetryDone = nullptr;
+    return false;
+  }
+  return true;
+}
+
+void stopScanTelemetry() {
+  // Join before accessing the I2C buses or UART from the command task again.
+  xTaskNotifyGive(scanTelemetryTask);
+  xSemaphoreTake(scanTelemetryDone,portMAX_DELAY);
+  vSemaphoreDelete(scanTelemetryDone);
+  scanTelemetryTask = nullptr;
+  scanTelemetryDone = nullptr;
+}
+#endif
 
 // Accumulate complete lines without Stream's blocking timeout in the pulse loop.
 char motionLine[64];
 size_t motionLineLength = 0;
 bool motionLineOverflow = false;
 bool pollMotionStop() {
+  if (continuousPan && continuousSensorFault.load()) return true;
   while (Serial.available()) {
     char c = static_cast<char>(Serial.read());
     if (c == '\n') {
@@ -211,9 +276,31 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
   const unsigned long cruiseDelay = stepsPan != 0 ? PAN_CRUISE_DELAY_US : TILT_CRUISE_DELAY_US;
   const unsigned long startDelay = stepsPan != 0 ? PAN_START_DELAY_US : TILT_START_DELAY_US;
   const long rampLimit = stepsPan != 0 ? panRampSteps : tiltRampSteps;
+  unsigned long lastScanPosition = millis();
+  continuousPanPosition.store(currentPanDeg);
+  continuousTiltPosition.store(currentTiltDeg);
+  if (continuousPan && !printScanPosition(currentPanDeg,currentTiltDeg)) {
+    calibrationRequired = true;
+    return false;
+  }
+#ifdef ARDUINO_ARCH_ESP32
+  if (continuousPan && !startScanTelemetry()) {
+    Serial.println("ERR: CONTINUOUS_TELEMETRY_TASK");
+    calibrationRequired = true;
+    return false;
+  }
+#endif
 
   for (long i = 0; i < maxSteps; i++) {
     if (pollMotionStop()) { interrupted = true; break; }
+#ifndef ARDUINO_ARCH_ESP32
+    // The native transport is synchronous; ESP32 reads and transmits on core 0.
+    if (continuousPan && millis() - lastScanPosition >= 100) {
+      if (!printScanPosition(continuousPanPosition.load(),continuousTiltPosition.load())) { interrupted = true; break; }
+      lastScanPosition = millis();
+      if (pollMotionStop()) { interrupted = true; break; }
+    }
+#endif
     // Short moves never compress the acceleration slope below its configured limit.
     const long rampProgress = min(min(i, maxSteps - 1 - i), rampLimit);
     const float rampFraction = static_cast<float>(rampProgress) / rampLimit;
@@ -246,6 +333,10 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
     if (stepT) digitalWrite(PIN_TILT_STEP, LOW);
     if (stepP) completedPan++;
     if (stepT) completedTilt++;
+    if (continuousPan) {
+      continuousPanPosition.store(currentPanDeg + (stepsPan >= 0 ? 1 : -1) * completedPan / STEPS_PER_DEG);
+      continuousTiltPosition.store(currentTiltDeg + (stepsTilt >= 0 ? 1 : -1) * completedTilt / STEPS_PER_DEG);
+    }
     const unsigned long nextStepTime = stepStarted + pulseDelay;
     while (static_cast<int32_t>(micros() - nextStepTime) < 0) {
       if (pollMotionStop()) { interrupted = true; break; }
@@ -253,18 +344,22 @@ bool stepDualMotors(long stepsPan, long stepsTilt) {
     if (interrupted) break;
   }
 
+#ifdef ARDUINO_ARCH_ESP32
+  if (continuousPan) stopScanTelemetry();
+#endif
   // EN stays LOW through settle, POS reads, STOP, and the next movement.
   delay(100);
 
   currentPanDeg += (stepsPan >= 0 ? 1.0f : -1.0f) * completedPan / STEPS_PER_DEG;
   currentTiltDeg += (stepsTilt >= 0 ? 1.0f : -1.0f) * completedTilt / STEPS_PER_DEG;
+  if (continuousPan && !printScanPosition(currentPanDeg,currentTiltDeg)) interrupted = true;
   if (interrupted) calibrationRequired = true;
   return !interrupted;
 }
 
 bool gotoPosition(float targetPan, float targetTilt) {
-  if (!isfinite(targetPan) || !isfinite(targetTilt) || abs(targetPan) > 360.0f || abs(targetTilt) > 180.0f) {
-    Serial.println("ERR: ANGLE_RANGE; PAN -360..360 TILT -180..180");
+  if (!isfinite(targetPan) || !isfinite(targetTilt) || abs(targetPan) > 360.0f || abs(targetTilt) > 360.0f) {
+    Serial.println("ERR: ANGLE_RANGE; PAN -360..360 TILT -360..360");
     return false;
   }
 
@@ -401,6 +496,22 @@ void loop() {
       gotoPosition(p, t);
     } else {
       Serial.println("ERR: INVALID_GOTO");
+    }
+  }
+  else if (cmd.startsWith("PANSCAN ") || cmd.startsWith("TILTSCAN ")) {
+    const bool tiltScan = cmd.startsWith("TILTSCAN ");
+    float target = 0;
+    char extra = 0;
+    if (sscanf(cmd.c_str() + (tiltScan ? 9 : 8), "%f %c", &target, &extra) != 1 ||
+        !isfinite(target) || !holdRequested || calibrationRequired) {
+      Serial.println("ERR: PANSCAN_REQUIRES_TARGET_HOLD_ZERO");
+    } else {
+      scanSequence = 0;
+      continuousSensorFault.store(false);
+      continuousPan = true;
+      if (tiltScan) gotoPosition(currentPanDeg,target);
+      else gotoPosition(target,currentTiltDeg);
+      continuousPan = false;
     }
   }
   else if (cmd.startsWith("PAN ")) {
