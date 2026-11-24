@@ -68,6 +68,7 @@ classdef DataManager
 
             for i = 1:N
                 cmd_th = scanData.Angles(i);
+                if isfield(scanData,'CommandedAngles'), cmd_th=scanData.CommandedAngles(i); end
                 meas_th = scanData.MeasuredAngles(i);
                 f_hz = scanData.FrequenciesHz(freq_idx);
 
@@ -90,6 +91,14 @@ classdef DataManager
             end
             fclose(fid);
             files.csv = csv_path;
+            if isfield(scanData,'SweepStartAngleDeg')
+                exported=readtable(csv_path);
+                exported.sweep_start_angle_deg=scanData.SweepStartAngleDeg(:);
+                exported.sweep_end_angle_deg=scanData.SweepEndAngleDeg(:);
+                exported.sweep_start_s=scanData.SweepStartSec(:);
+                exported.sweep_end_s=scanData.SweepEndSec(:);
+                writetable(exported,csv_path);
+            end
 
             % 3. Save config / metadata as JSON
             json_path = fullfile(exp_dir, 'metadata.json');
@@ -180,7 +189,16 @@ classdef DataManager
                 'pan_encoder_deg','tilt_encoder_deg','pan_encoder_valid','tilt_encoder_valid', ...
                 'elapsed_s','freq_hz','s11_real','s11_imag','s11_mag','s11_db','s11_phase_deg', ...
                 's21_real','s21_imag','s21_mag','s21_db','s21_rel_db','s21_phase_deg'};
-            writetable(array2table(values,'VariableNames',names),files.csv);
+            tableData=array2table(values,'VariableNames',names);
+            if isfield(scanData,'SweepStartPanDeg')
+                tableData.sweep_start_pan_deg=scanData.SweepStartPanDeg(:);
+                tableData.sweep_end_pan_deg=scanData.SweepEndPanDeg(:);
+                tableData.sweep_start_s=scanData.SweepStartSec(:);
+                tableData.sweep_end_s=scanData.SweepEndSec(:);
+                tableData.encoder_start_device_ms=scanData.EncoderStartTimeMs(:);
+                tableData.encoder_end_device_ms=scanData.EncoderEndTimeMs(:);
+            end
+            writetable(tableData,files.csv);
             fid = fopen(files.json,'w');
             if fid<0, error('DataManager:FileOpen','Cannot open metadata output.'); end
             cleanup = onCleanup(@() fclose(fid));
@@ -198,7 +216,16 @@ classdef DataManager
             fprintf(fid,'Relative travel: Pan %.3f..%.3f; Tilt %.3f..%.3f deg\n',c.TravelPanDeg(1),c.TravelPanDeg(2),c.TravelTiltDeg(1),c.TravelTiltDeg(2));
             fprintf(fid,'Global peak: %.3f dB at motor Pan %.3f Tilt %.3f; theta %.3f phi %.3f deg\n',an.PeakVal_dB,an.PeakPan_deg,an.PeakTilt_deg,an.PeakTheta_deg,an.PeakPhi_deg);
             fprintf(fid,'Frequency: %.3f MHz; %d sweep points; duration %.3f s\n',scanData.SelectedFreqHz/1e6,numel(scanData.FrequenciesHz),scanData.Metadata.TotalTimeSec);
-            fprintf(fid,'Position angles are reported step counts; encoders measure the motor shafts.\nNormalization uses the peak of all completed points, not individual rows.\n');
+            if isfield(scanData.Metadata,'AcquisitionMode') && strcmp(scanData.Metadata.AcquisitionMode,'Continuous')
+                fprintf(fid,'Continuous PanAngles identify display-grid bins; measured angles are encoder sweep midpoints.\n');
+                if isfield(scanData.Metadata,'MaxMeasuredGapDeg')
+                    fprintf(fid,'Maximum measured gap: %.3f deg; maximum sweep span: %.3f deg.\n', ...
+                        scanData.Metadata.MaxMeasuredGapDeg,scanData.Metadata.MaxSweepAngularSpanDeg);
+                end
+            else
+                fprintf(fid,'Position angles are reported step counts; encoders measure the motor shafts.\n');
+            end
+            fprintf(fid,'Normalization uses the peak of all completed points, not individual rows.\n');
             clear cleanup;
             if ~isempty(figHandle) && isgraphics(figHandle)
                 files.plot = fullfile(exp_dir,'radiation_pattern.png');

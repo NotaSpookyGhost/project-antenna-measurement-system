@@ -26,6 +26,7 @@ classdef MeasurementOrchestrator < handle
         StepAngleDeg double = 2.0
         Axis char = 'AZ'                   % 'AZ' or 'EL'
         Scan3DConfig struct = ScanGeometry.defaults()
+        AcquisitionMode char = 'Stepwise'
 
         CenterFreqHz double = 2.4e9
         SpanHz double = 10e6
@@ -89,6 +90,10 @@ classdef MeasurementOrchestrator < handle
 
         function scanData = startScan(obj)
             % STARTSCAN Execute the automated scan sequence
+            if strcmpi(obj.AcquisitionMode,'Continuous')
+                if strcmpi(obj.Axis,'PAN'), obj.Axis='AZ'; end
+                if strcmpi(obj.Axis,'TILT'), obj.Axis='EL'; end
+            end
             if strcmpi(obj.Axis,'3D')
                 scanData = obj.startScan3D();
                 return;
@@ -96,10 +101,15 @@ classdef MeasurementOrchestrator < handle
             if obj.IsRunning
                 error('MeasurementOrchestrator:AlreadyRunning', 'A scan is already in progress.');
             end
+            continuous=strcmp(validatestring(obj.AcquisitionMode,{'Stepwise','Continuous'}),'Continuous');
+            if continuous && ~ismember(obj.VNA.Mode,{'ShockLine','Mock'})
+                error('MeasurementOrchestrator:ContinuousMode','Continuous acquisition requires ShockLine.');
+            end
 
             % Calculate angles (Start > Stop => CCW / descending)
             angles = MeasurementOrchestrator.buildAngleVector( ...
                 obj.StartAngleDeg, obj.StopAngleDeg, obj.StepAngleDeg);
+            requestedAngles=angles;
 
             obj.TotalSteps = int32(length(angles));
             obj.CurrentIndex = 0;
@@ -125,6 +135,8 @@ classdef MeasurementOrchestrator < handle
                 error('MeasurementOrchestrator:HoldLost', ...
                     'Holding torque is unavailable. Reconnect and calibrate before scanning.');
             end
+            % Reject the complete range before any RF setup or motor movement.
+            obj.Positioner.validateTargets(obj.Axis,angles);
             if ~obj.VNA.IsConnected
                 obj.VNA.connect();
             end
@@ -146,6 +158,14 @@ classdef MeasurementOrchestrator < handle
                     'Chưa có mốc ZERO hợp lệ. Căn hai trục rồi bấm Khóa + ZERO trước khi quét.');
             end
             [~, initialEncoder] = obj.Positioner.getPositionSnapshot(obj.Axis, true);
+            if continuous
+                obj.readBothAxes();
+                if (strcmpi(obj.Axis,'EL') && ~obj.Positioner.ContinuousTiltSupported) || ...
+                        (~strcmpi(obj.Axis,'EL') && ~obj.Positioner.ContinuousPanSupported)
+                    error('PositionerController:ContinuousUnsupported','Upload continuous-axis firmware before scanning.');
+                end
+                obj.Positioner.validateTargets(obj.Axis,angles);
+            end
             if ~isfinite(initialEncoder) || initialEncoder < 0
                 obj.setState('ABORTED');
                 error('MeasurementOrchestrator:EncoderUnavailable', ...
@@ -168,6 +188,8 @@ classdef MeasurementOrchestrator < handle
             s21_matrix = complex(zeros(N_angles, N_freqs));
             measured_angles = zeros(1, N_angles);
             encoder_angles = zeros(1, N_angles);
+            sweepStartAngle=nan(1,N_angles); sweepEndAngle=sweepStartAngle;
+            sweepStartTime=sweepStartAngle; sweepEndTime=sweepStartAngle;
             frequencies_hz = linspace(start_freq, stop_freq, N_freqs);
             committedInstrumentMetadata=struct();
 
@@ -179,6 +201,7 @@ classdef MeasurementOrchestrator < handle
             nDone = 0;
             aborted = false;
             abortReason = '';
+            resolutionLimited=false;
             try
                 for i = 1:N_angles
                     drawnow limitrate;   % let STOP / Pause callbacks run
@@ -197,19 +220,41 @@ classdef MeasurementOrchestrator < handle
                         break;
                     end
 
-                    target_th = angles(i);
+                    target_th = requestedAngles(i);
+                    atEndBefore=false;
                     obj.CurrentIndex = int32(i);
                     obj.Progress = double(i) / double(N_angles);
 
                     % Step A: Move Positioner
-                    obj.Positioner.moveTo(obj.Axis, target_th);
+                    if continuous && i>1
+                        direction=sign(obj.StopAngleDeg-obj.StartAngleDeg);
+                        pose=obj.Positioner.pollContinuousPan();
+                        actual=obj.axisPoseAngle(pose);
+                        target_th=obj.continuousSampleTarget(actual,target_th,obj.StartAngleDeg,obj.StopAngleDeg,obj.StepAngleDeg);
+                        while direction*(actual-target_th)<0 && obj.Positioner.IsMoving
+                            drawnow limitrate;
+                            if obj.CancelRequested, break; end
+                            pause(0.01); pose=obj.Positioner.pollContinuousPan(); actual=obj.axisPoseAngle(pose);
+                        end
+                        angles(i)=target_th;
+                        atEndBefore=~obj.Positioner.IsMoving;
+                        obj.Progress=min(1,abs((actual-obj.StartAngleDeg)/(obj.StopAngleDeg-obj.StartAngleDeg)));
+                    else
+                        obj.Positioner.moveTo(obj.Axis, target_th);
+                    end
                     if obj.CancelRequested
                         aborted = true;
                         break;
                     end
 
                     % Logical output angle and motor-shaft telemetry from one snapshot.
-                    [actual_th, actual_enc] = obj.Positioner.getPositionSnapshot(obj.Axis, false);
+                    if continuous && i>1
+                        actual_th=obj.axisPoseAngle(pose);
+                        actual_enc=pose.PanEncoderDeg;
+                        if strcmpi(obj.Axis,'EL'), actual_enc=pose.TiltEncoderDeg; end
+                    else
+                        [actual_th, actual_enc] = obj.Positioner.getPositionSnapshot(obj.Axis, false);
+                    end
                     if ~isfinite(actual_enc) || actual_enc < 0
                         aborted = true;
                         abortReason = 'EncoderUnavailable';
@@ -225,7 +270,7 @@ classdef MeasurementOrchestrator < handle
                     end
 
                     % Step C: Mechanical Settle Delay
-                    if obj.SettleTimeSec > 0
+                    if obj.SettleTimeSec > 0 && (~continuous || i==1)
                         pause(obj.SettleTimeSec);
                     end
                     if obj.CancelRequested
@@ -234,7 +279,26 @@ classdef MeasurementOrchestrator < handle
                     end
 
                     % Step D: Acquire fresh sweep from VNA
-                    sweep = obj.VNA.acquireSingle();
+                    sweepStartAngle(i)=actual_th; sweepStartTime(i)=toc(scan_tic);
+                    if continuous && i>1
+                        sweep=obj.VNA.acquireMovingSweep(@()obj.continuousPose(scan_tic));
+                        sweepStartAngle(i)=obj.axisPoseAngle(sweep.MotionBefore);
+                        sweepEndAngle(i)=obj.axisPoseAngle(sweep.MotionAfter);
+                        sweepStartTime(i)=sweep.MotionBefore.ElapsedSec;
+                        sweepEndTime(i)=sweep.MotionAfter.ElapsedSec;
+                        measured_angles(i)=(sweepStartAngle(i)+sweepEndAngle(i))/2;
+                        span=abs(sweepEndAngle(i)-sweepStartAngle(i));
+                        span=max(span,abs(measured_angles(i)-measured_angles(i-1)));
+                        resolutionLimited=obj.reportContinuousSpacing(resolutionLimited,span,obj.StepAngleDeg);
+                        actual_th=measured_angles(i);
+                        encoder_angles(i)=sweep.MotionAfter.PanEncoderDeg;
+                        if strcmpi(obj.Axis,'EL'), encoder_angles(i)=sweep.MotionAfter.TiltEncoderDeg; end
+                        actual_enc=encoder_angles(i);
+                        if i==N_angles || atEndBefore, obj.Positioner.endContinuousPan(false); end
+                    else
+                        sweep=obj.VNA.acquireSingle();
+                        sweepEndAngle(i)=actual_th; sweepEndTime(i)=toc(scan_tic);
+                    end
 
                     if obj.CancelRequested, aborted=true; break; end
                     if numel(sweep.FrequencyHz)~=N_freqs || numel(sweep.S11)~=N_freqs || ...
@@ -274,6 +338,10 @@ classdef MeasurementOrchestrator < handle
                     end
 
                     notify(obj, 'StepProgress');
+                    if continuous && i==1 && ~obj.CancelRequested
+                        obj.Positioner.beginContinuousAxis(obj.Axis,obj.StopAngleDeg);
+                    end
+                    if continuous && atEndBefore, break; end
                 end
             catch ME
                 if strcmp(ME.identifier, 'PositionerController:EncoderUnavailable')
@@ -283,12 +351,24 @@ classdef MeasurementOrchestrator < handle
                 elseif obj.CancelRequested && strcmp(ME.identifier, 'PositionerController:Aborted')
                     % STOP interrupts serial waits; process the completed rows below.
                     aborted = true;
-                elseif strcmpi(obj.VNA.Mode,'ShockLine')
+                elseif strcmpi(obj.VNA.Mode,'ShockLine') || continuous
                     aborted=true; abortReason=ME.identifier;
                     obj.logStatus(['VNA scan stopped: ' ME.message]);
                 else
                     rethrow(ME);
                 end
+            end
+            if continuous
+                try
+                    obj.Positioner.endContinuousPan();
+                catch ME
+                    aborted=true; abortReason=ME.identifier;
+                    obj.logStatus(['Continuous motion cleanup: ' ME.message]);
+                end
+            end
+            if obj.CancelRequested
+                aborted=true;
+                if isempty(abortReason), abortReason='UserStop'; end
             end
 
             total_time_sec = toc(scan_tic);
@@ -322,13 +402,14 @@ classdef MeasurementOrchestrator < handle
             s21_normalized_db = PatternAnalyzer.normalize(s21_center_raw_db);
 
             peak_angle = NaN; peak_val = NaN; hpbw = NaN; th_left = NaN; th_right = NaN;
+            analysisAngles=angles; if continuous, analysisAngles=measured_angles; end
             sll = NaN; sll_angle = NaN; fbr = NaN;
             try
                 if nDone>=2
-                [peak_angle, peak_val] = PatternAnalyzer.findMainLobe(angles, s21_center_raw_db);
-                [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(angles, s21_normalized_db);
-                [sll, sll_angle] = PatternAnalyzer.calculateSLL(angles, s21_normalized_db, hpbw);
-                fbr = PatternAnalyzer.calculateFBR(angles, s21_normalized_db);
+                [peak_angle, peak_val] = PatternAnalyzer.findMainLobe(analysisAngles, s21_center_raw_db);
+                [hpbw, th_left, th_right] = PatternAnalyzer.calculateHPBW(analysisAngles, s21_normalized_db);
+                [sll, sll_angle] = PatternAnalyzer.calculateSLL(analysisAngles, s21_normalized_db, hpbw);
+                fbr = PatternAnalyzer.calculateFBR(analysisAngles, s21_normalized_db);
                 end
             catch MEa
                 obj.logStatus(sprintf('Cảnh báo phân tích búp sóng: %s', MEa.message));
@@ -393,6 +474,21 @@ classdef MeasurementOrchestrator < handle
                 'SelectedS21_PhaseDeg', s21_center_phase, ...
                 'NormalizedS21_dB', s21_normalized_db, ...
                 'Analysis', analysis);
+            if continuous
+                scanData.Metadata.AcquisitionMode='Continuous';
+                scanData.Metadata.ResolutionLimited=resolutionLimited;
+                scanData.Metadata.RequestedTotalAngles=N_angles;
+                scanData.Metadata.MaxMeasuredGapDeg=max([0 abs(diff(measured_angles))]);
+                scanData.Metadata.MaxSweepAngularSpanDeg=max(abs(sweepEndAngle(1:nDone)-sweepStartAngle(1:nDone)));
+                scanData.Metadata.MotionStopConfirmed=~obj.Positioner.IsMoving;
+                scanData.Metadata.AngleSource='Moving-axis encoder sweep midpoint relative to scan start';
+                scanData.CommandedAngles=angles;
+                scanData.Angles=measured_angles;
+                scanData.SweepStartAngleDeg=sweepStartAngle(1:nDone);
+                scanData.SweepEndAngleDeg=sweepEndAngle(1:nDone);
+                scanData.SweepStartSec=sweepStartTime(1:nDone);
+                scanData.SweepEndSec=sweepEndTime(1:nDone);
+            end
 
             obj.LastScanData = scanData;
             if aborted
@@ -401,6 +497,7 @@ classdef MeasurementOrchestrator < handle
                 notify(obj, 'ScanAborted');
             else
                 obj.setState('COMPLETED');
+                obj.Progress=1;
                 obj.logStatus(sprintf('Scan successfully completed! HPBW = %.2f°, SLL = %.2f dB, Peak = %.2f°', ...
                               hpbw, sll, peak_angle));
                 notify(obj, 'ScanCompleted');
@@ -408,6 +505,9 @@ classdef MeasurementOrchestrator < handle
         end
 
         function pauseScan(obj)
+            if strcmpi(obj.AcquisitionMode,'Continuous') && obj.IsRunning
+                obj.logStatus('Quét liên tục: dùng STOP để dừng motor.'); return;
+            end
             if obj.IsRunning && ~obj.IsPaused
                 obj.IsPaused = true;
                 obj.setState('PAUSED');
@@ -482,6 +582,11 @@ classdef MeasurementOrchestrator < handle
             % Validate the entire plan BEFORE moving either motor.
             cfg = obj.Scan3DConfig;
             plan = ScanGeometry.buildPlan(cfg);
+            mode=validatestring(obj.AcquisitionMode,{'Stepwise','Continuous'});
+            continuous=strcmp(mode,'Continuous');
+            if continuous && (~ismember(obj.VNA.Mode,{'ShockLine','Mock'}) || numel(plan.PanVector)<2)
+                error('MeasurementOrchestrator:ContinuousMode','Continuous 3D requires ShockLine and distinct Pan endpoints.');
+            end
             obj.CancelRequested = false; obj.IsPaused = false; obj.IsRunning = true;
             obj.TotalSteps = int32(numel(plan.PanMotorDeg)); obj.CurrentIndex=0; obj.Progress=0;
             cleanup = onCleanup(@() obj.resetRunning());
@@ -499,13 +604,16 @@ classdef MeasurementOrchestrator < handle
             end
             if strcmpi(obj.Positioner.Mode,'Mock')
                 obj.Positioner.setTravelLimits(cfg.TravelPanDeg,cfg.TravelTiltDeg);
-            elseif ~obj.Positioner.TravelConfirmed || ...
+            elseif ~obj.Positioner.FreeRotationSupported && (~obj.Positioner.TravelConfirmed || ...
                     ~isequal(cfg.TravelPanDeg,obj.Positioner.TravelPanDeg) || ...
-                    ~isequal(cfg.TravelTiltDeg,obj.Positioner.TravelTiltDeg)
+                    ~isequal(cfg.TravelTiltDeg,obj.Positioner.TravelTiltDeg))
                 error('MeasurementOrchestrator:TravelUnconfirmed','Confirm reachable travel for this mechanical ZERO before a 3D scan.');
             end
             obj.Positioner.validateTargets('AZ',plan.PanVector);
             obj.Positioner.validateTargets('EL',plan.TiltVector);
+            if continuous && ~obj.Positioner.ContinuousPanSupported
+                error('PositionerController:ContinuousUnsupported','Upload continuous-scan firmware before starting a continuous 3D scan.');
+            end
             obj.readBothAxes();
             if obj.CancelRequested
                 data=[]; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
@@ -531,6 +639,9 @@ classdef MeasurementOrchestrator < handle
             s11 = complex(nan(n,nf)); s21 = s11;
             panMeasured = nan(1,n); tiltMeasured = panMeasured;
             panEncoder = panMeasured; tiltEncoder = panMeasured; elapsed = panMeasured;
+            sweepStartPan=panMeasured; sweepEndPan=panMeasured;
+            sweepStartSec=panMeasured; sweepEndSec=panMeasured;
+            encoderStartMs=panMeasured; encoderEndMs=panMeasured;
             frequencies = linspace(startHz,stopHz,nf);
             committedInstrumentMetadata=struct();
             [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
@@ -538,30 +649,85 @@ classdef MeasurementOrchestrator < handle
             obj.setState('SCANNING'); notify(obj,'ScanStarted');
             obj.logStatus(sprintf('3D scan: %d Tilt rows × %d Pan points; preserve mechanical ZERO.',numel(plan.TiltVector),numel(plan.PanVector)));
             done = 0; aborted = false; reason = ''; abortMessage = ''; scanClock = tic;
+            sampled=false(1,n); completedContinuousRow=0; resolutionLimited=false;
             try
                 previousRow = 0;
                 for i = 1:n
                     if ~obj.awaitScan3D(), aborted = true; break; end
+                    if continuous && plan.RowIndex(i)==completedContinuousRow, continue; end
+                    atEndBefore=false;
                     if plan.RowIndex(i)~=previousRow
                         obj.logStatus(sprintf('Tilt row %d/%d: motor %.1f°, theta %.1f°.',plan.RowIndex(i),numel(plan.TiltVector),plan.TiltMotorDeg(i),plan.ThetaDeg(i)));
                         obj.Positioner.moveTo('EL',plan.TiltMotorDeg(i));
                         if ~obj.awaitScan3D(), aborted = true; break; end
                         obj.readBothAxes();
                         previousRow = plan.RowIndex(i);
+                        if continuous
+                            obj.Positioner.moveTo('AZ',plan.PanMotorDeg(i));
+                        end
                     end
-                    obj.Positioner.moveTo('AZ',plan.PanMotorDeg(i));
+                    rowPoints=find(plan.RowIndex==plan.RowIndex(i));
+                    if continuous && i~=rowPoints(1)
+                        direction=sign(plan.PanMotorDeg(rowPoints(end))-plan.PanMotorDeg(rowPoints(1)));
+                        pose=obj.Positioner.pollContinuousPan();
+                        target=obj.continuousSampleTarget(pose.PanDeg,plan.PanMotorDeg(i), ...
+                            plan.PanMotorDeg(rowPoints(1)),plan.PanMotorDeg(rowPoints(end)),cfg.PanStepDeg);
+                        while direction*(pose.PanDeg-target)<0 && obj.Positioner.IsMoving
+                            if ~obj.awaitScan3D(), break; end
+                            pause(0.01); pose=obj.Positioner.pollContinuousPan();
+                        end
+                        atEndBefore=~obj.Positioner.IsMoving;
+                    elseif ~continuous
+                        obj.Positioner.moveTo('AZ',plan.PanMotorDeg(i));
+                    end
                     if ~obj.awaitScan3D(), aborted = true; break; end
                     settling = tic;
-                    while toc(settling)<obj.SettleTimeSec
+                    while (~continuous || i==rowPoints(1)) && toc(settling)<obj.SettleTimeSec
                         if ~obj.awaitScan3D(), break; end
                         pause(min(0.05,max(0,obj.SettleTimeSec-toc(settling))));
                     end
                     if ~obj.awaitScan3D(), aborted = true; break; end
-                    [panMeasured(i),tiltMeasured(i),panEncoder(i),tiltEncoder(i)] = obj.readBothAxes();
-                    if strcmpi(obj.VNA.Mode,'Mock')
-                        obj.VNA.setMockOrientation(plan.PhiDeg(i),plan.ThetaDeg(i));
+                    if continuous && i~=rowPoints(1)
+                        before=obj.Positioner.pollContinuousPan();
+                        panMeasured(i)=before.PanDeg; tiltMeasured(i)=before.TiltDeg;
+                        panEncoder(i)=before.PanEncoderDeg; tiltEncoder(i)=before.TiltEncoderDeg;
+                    else
+                        [panMeasured(i),tiltMeasured(i),panEncoder(i),tiltEncoder(i)] = obj.readBothAxes();
                     end
-                    sweep = obj.VNA.acquireSingle();
+                    sweepStartPan(i)=panMeasured(i); sweepStartSec(i)=toc(scanClock);
+                    if strcmpi(obj.VNA.Mode,'Mock')
+                        if continuous
+                            obj.VNA.setMockOrientation(cfg.PanAtZeroDeg+cfg.PanSign*panMeasured(i), ...
+                                cfg.TiltAtZeroDeg+cfg.TiltSign*tiltMeasured(i));
+                        else
+                            obj.VNA.setMockOrientation(plan.PhiDeg(i),plan.ThetaDeg(i));
+                        end
+                    end
+                    if continuous && i~=rowPoints(1)
+                        sweep=obj.VNA.acquireMovingSweep(@()obj.continuousPose(scanClock));
+                    else
+                        sweep=obj.VNA.acquireSingle();
+                    end
+                    sweepEndSec(i)=toc(scanClock); sweepEndPan(i)=sweepStartPan(i);
+                    if continuous && i~=rowPoints(1) && ~obj.CancelRequested
+                        before=sweep.MotionBefore; after=sweep.MotionAfter;
+                        sweepStartPan(i)=before.PanDeg;
+                        sweepEndPan(i)=after.PanDeg;
+                        sweepStartSec(i)=before.ElapsedSec; sweepEndSec(i)=after.ElapsedSec;
+                        encoderStartMs(i)=before.DeviceTimeMs; encoderEndMs(i)=after.DeviceTimeMs;
+                        panMeasured(i)=(sweepStartPan(i)+sweepEndPan(i))/2;
+                        panEncoder(i)=after.PanEncoderDeg;
+                        spacing=abs(sweepEndPan(i)-sweepStartPan(i));
+                        previous=find(sampled & plan.RowIndex==plan.RowIndex(i),1,'last');
+                        if ~isempty(previous), spacing=max(spacing,abs(panMeasured(i)-panMeasured(previous))); end
+                        resolutionLimited=obj.reportContinuousSpacing(resolutionLimited,spacing,cfg.PanStepDeg);
+                        if i==rowPoints(end) || atEndBefore
+                            obj.Positioner.endContinuousPan(false);
+                            completedContinuousRow=plan.RowIndex(i);
+                        end
+                        [~,column]=min(abs(plan.PanVector-panMeasured(i)));
+                        plan.ColumnIndex(i)=column; plan.PanMotorDeg(i)=plan.PanVector(column);
+                    end
                     % STOP while acquiring may discard this uncommitted point.
                     if obj.CancelRequested, aborted = true; break; end
                     if numel(sweep.S11)~=nf || numel(sweep.S21)~=nf || ...
@@ -577,21 +743,34 @@ classdef MeasurementOrchestrator < handle
                     frequencies = reshape(sweep.FrequencyHz,1,[]);
                     [~,centerIndex] = min(abs(frequencies-obj.CenterFreqHz));
                     s11(i,:) = sweep.S11; s21(i,:) = sweep.S21;
-                    done = i; elapsed(i) = toc(scanClock);
-                    obj.CurrentIndex = int32(i); obj.Progress = i/n;
+                    sampled(i)=true; done=done+1; elapsed(i) = toc(scanClock);
+                    obj.CurrentIndex = int32(done); obj.Progress = i/n;
+                    if continuous
+                        extent=abs(cfg.PanStopDeg-cfg.PanStartDeg);
+                        fraction=min(1,abs(panMeasured(i)-plan.PanMotorDeg(rowPoints(1)))/extent);
+                        obj.Progress=(plan.RowIndex(i)-1+fraction)/numel(plan.TiltVector);
+                    end
                     if ~isempty(obj.StepCallback)
-                        info = struct('Index',i,'Total',n,'CommandedAngle',plan.PanMotorDeg(i), ...
+                        callbackTheta=plan.ThetaDeg(i); callbackPhi=plan.PhiDeg(i);
+                        if continuous
+                            callbackTheta=cfg.TiltAtZeroDeg+cfg.TiltSign*tiltMeasured(i);
+                            callbackPhi=cfg.PanAtZeroDeg+cfg.PanSign*panMeasured(i);
+                        end
+                        info = struct('Index',done,'Total',n,'CommandedAngle',plan.PanMotorDeg(i), ...
                             'MeasuredAngle',panMeasured(i),'EncoderAngle',panEncoder(i), ...
                             'PanAngle',plan.PanMotorDeg(i),'TiltAngle',plan.TiltMotorDeg(i), ...
                             'MeasuredPanAngle',panMeasured(i),'MeasuredTiltAngle',tiltMeasured(i), ...
-                            'TiltEncoderAngle',tiltEncoder(i),'ThetaDeg',plan.ThetaDeg(i), ...
-                            'PhiDeg',plan.PhiDeg(i),'RowIndex',plan.RowIndex(i), ...
+                            'TiltEncoderAngle',tiltEncoder(i),'ThetaDeg',callbackTheta, ...
+                            'PhiDeg',callbackPhi,'RowIndex',plan.RowIndex(i), ...
                             'ColumnIndex',plan.ColumnIndex(i),'TotalRows',numel(plan.TiltVector), ...
                             'S21_dB_Center',20*log10(max(abs(sweep.S21(centerIndex)),1e-12)), ...
                             'Progress',obj.Progress,'ElapsedSec',elapsed(i));
                         obj.StepCallback(info);
                     end
                     notify(obj,'StepProgress');
+                    if continuous && i==rowPoints(1) && ~obj.CancelRequested
+                        obj.Positioner.beginContinuousPan(plan.PanMotorDeg(rowPoints(end)));
+                    end
                 end
             catch ME
                 aborted = true;
@@ -603,14 +782,24 @@ classdef MeasurementOrchestrator < handle
                 end
                 obj.logStatus(sprintf('3D scan stopped: %s; preserving %d points.',ME.message,done));
             end
+            if continuous
+                try
+                    obj.Positioner.endContinuousPan();
+                catch ME
+                    aborted=true; reason=ME.identifier; abortMessage=ME.message;
+                    obj.logStatus(['Continuous motion cleanup: ' ME.message]);
+                end
+            end
             if obj.CancelRequested, aborted = true; if isempty(reason), reason = 'UserStop'; end; end
             if done==0
                 data = []; obj.setState('ABORTED'); notify(obj,'ScanAborted'); return;
             end
-            keep = 1:done; s11 = s11(keep,:); s21 = s21(keep,:);
+            keep = find(sampled); s11 = s11(keep,:); s21 = s21(keep,:);
             rawDB = 20*log10(max(abs(s21(:,centerIndex)),1e-12)).';
             [peakDB,peakIndex] = max(rawDB);
+            peakSample=keep(peakIndex);
             metadata = struct('SchemaVersion',2,'ScanAxis','3D','Scan3DConfig',cfg, ...
+                'AcquisitionMode',mode,'MotionStopConfirmed',~obj.Positioner.IsMoving, ...
                 'Device',obj.VNA.deviceName(),'VNAIdentity',obj.VNA.DeviceIdentity, ...
                 'InstrumentMetadata',committedInstrumentMetadata,'VNAMode',obj.VNA.Mode,'VNAPort',obj.VNA.Port, ...
                 'PositionerMode',obj.Positioner.Mode,'PositionerPort',obj.Positioner.Port, ...
@@ -623,9 +812,9 @@ classdef MeasurementOrchestrator < handle
                 'SettleTimeSec',obj.SettleTimeSec,'TotalTimeSec',toc(scanClock), ...
                 'AngleStepDeg',cfg.PanStepDeg,'Firmware','Positioner capability reported over POS', ...
                 'Timestamp',char(datetime('now','Format','yyyy-MM-dd HH:mm:ss')));
-            analysis = struct('PeakVal_dB',peakDB,'PeakPan_deg',plan.PanMotorDeg(peakIndex), ...
-                'PeakTilt_deg',plan.TiltMotorDeg(peakIndex),'PeakTheta_deg',plan.ThetaDeg(peakIndex), ...
-                'PeakPhi_deg',mod(plan.PhiDeg(peakIndex),360));
+            analysis = struct('PeakVal_dB',peakDB,'PeakPan_deg',plan.PanMotorDeg(peakSample), ...
+                'PeakTilt_deg',plan.TiltMotorDeg(peakSample),'PeakTheta_deg',plan.ThetaDeg(peakSample), ...
+                'PeakPhi_deg',mod(plan.PhiDeg(peakSample),360));
             data = struct('Metadata',metadata,'Analysis',analysis,'Angles',plan.PanMotorDeg(keep), ...
                 'PanAngles',plan.PanMotorDeg(keep),'TiltAngles',plan.TiltMotorDeg(keep), ...
                 'ThetaDeg',plan.ThetaDeg(keep),'PhiDeg',plan.PhiDeg(keep), ...
@@ -639,10 +828,31 @@ classdef MeasurementOrchestrator < handle
                 'S11',s11,'S21',s21,'SelectedS21_dB',rawDB, ...
                 'SelectedS21_PhaseDeg',rad2deg(angle(s21(:,centerIndex))).', ...
                 'NormalizedS21_dB',PatternAnalyzer.normalize(rawDB));
+            if continuous
+                metadata.AngleSource='Pan motor-shaft encoder unwrapped relative to row start; sweep midpoint';
+                metadata.EncoderPolarity='Inferred from commanded direction and initial encoder displacement';
+                metadata.ResolutionLimited=resolutionLimited;
+                metadata.RequestedTotalAngles=n;
+                gaps=abs(diff(panMeasured(keep)));
+                sameRow=diff(plan.RowIndex(keep))==0;
+                metadata.MaxMeasuredGapDeg=max([0 gaps(sameRow)]);
+                metadata.MaxSweepAngularSpanDeg=max(abs(sweepEndPan(keep)-sweepStartPan(keep)));
+                metadata.AngleTiming='Sampled brackets around trigger/completion acknowledgement; approximately 100 ms telemetry plus TCP latency';
+                data.Metadata=metadata;
+                data.SweepStartPanDeg=sweepStartPan(keep); data.SweepEndPanDeg=sweepEndPan(keep);
+                data.SweepStartSec=sweepStartSec(keep); data.SweepEndSec=sweepEndSec(keep);
+                data.EncoderStartTimeMs=encoderStartMs(keep); data.EncoderEndTimeMs=encoderEndMs(keep);
+                data.PhiDeg=cfg.PanAtZeroDeg+cfg.PanSign*data.MeasuredPanAngles;
+                data.ThetaDeg=cfg.TiltAtZeroDeg+cfg.TiltSign*data.MeasuredTiltAngles;
+                data.PhiWrappedDeg=mod(data.PhiDeg,360);
+                data.Analysis.PeakPan_deg=data.MeasuredPanAngles(peakIndex);
+                data.Analysis.PeakPhi_deg=data.PhiWrappedDeg(peakIndex);
+            end
             obj.LastScanData = data;
             if aborted
                 obj.setState('ABORTED'); notify(obj,'ScanAborted');
             else
+                obj.Progress=1;
                 obj.setState('COMPLETED'); notify(obj,'ScanCompleted');
             end
             obj.logStatus(sprintf('3D %s: %d/%d points retained.',obj.State,done,n));
@@ -652,6 +862,37 @@ classdef MeasurementOrchestrator < handle
             drawnow limitrate;
             while obj.IsPaused && ~obj.CancelRequested, pause(0.05); end
             ready = ~obj.CancelRequested;
+        end
+
+        function pose=continuousPose(obj,scanClock)
+            if obj.CancelRequested
+                error('PositionerController:Aborted','Continuous scan was stopped.');
+            end
+            pose=obj.Positioner.pollContinuousPan();
+            pose.ElapsedSec=toc(scanClock);
+        end
+
+        function angle=axisPoseAngle(obj,pose)
+            angle=pose.PanDeg;
+            if strcmpi(obj.Axis,'EL'), angle=pose.TiltDeg; end
+        end
+
+        function target=continuousSampleTarget(~,actual,nominal,first,last,step)
+            direction=sign(last-first); step=abs(step);
+            target=nominal;
+            if direction*(actual-nominal)>0
+                distance=ceil(max(0,direction*(actual-first))/step)*step;
+                target=first+direction*min(abs(last-first),distance);
+            end
+        end
+
+        function limited=reportContinuousSpacing(obj,limited,spacing,step)
+            if spacing>abs(step)*1.1
+                if ~limited
+                    obj.logStatus(sprintf('Quét liên tục: VNA chậm hơn lưới %.2f°; lưu góc encoder thực. Mẫu sẽ thưa hơn bước đã chọn.',abs(step)));
+                end
+                limited=true;
+            end
         end
 
         function [pan,tilt,panEncoder,tiltEncoder] = readBothAxes(obj)

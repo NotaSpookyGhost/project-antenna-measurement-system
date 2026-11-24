@@ -64,6 +64,13 @@ classdef ScanGeometry
                 atPole = abs(sind(theta(row)))<1e-8;
                 for column = 1:numel(phi)
                     mask = atTheta & (abs(samplePhi-mod(phi(column),360))<1e-8 | atPole);
+                    if isfield(d.Metadata,'AcquisitionMode') && strcmp(d.Metadata.AcquisitionMode,'Continuous')
+                        % Continuous samples retain their planned bins and actual encoder angles.
+                        plannedTheta=c.TiltAtZeroDeg+c.TiltSign*d.TiltAngles;
+                        plannedPhi=mod(c.PanAtZeroDeg+c.PanSign*d.PanAngles,360);
+                        mask=abs(plannedTheta-theta(row))<1e-8 & ...
+                            (abs(plannedPhi-mod(phi(column),360))<1e-8 | atPole);
+                    end
                     values = 10.^(d.NormalizedS21_dB(mask)/20);
                     values = values(isfinite(values));
                     if ~isempty(values), amplitude(row,column) = mean(values); end
@@ -81,10 +88,17 @@ classdef ScanGeometry
 
         function d = slice(scanData,row)
             keep = find(scanData.RowIndex==row);
-            [~,order] = sort(scanData.PanAngles(keep)); keep = keep(order);
+            sortAngles=scanData.PanAngles;
+            if isfield(scanData.Metadata,'AcquisitionMode') && strcmp(scanData.Metadata.AcquisitionMode,'Continuous')
+                sortAngles=scanData.MeasuredPanAngles;
+            end
+            [~,order] = sort(sortAngles(keep)); keep = keep(order);
             d = scanData;
             d.Angles = scanData.PanAngles(keep);
             d.MeasuredAngles = scanData.MeasuredPanAngles(keep);
+            if isfield(scanData.Metadata,'AcquisitionMode') && strcmp(scanData.Metadata.AcquisitionMode,'Continuous')
+                d.Angles=d.MeasuredAngles;
+            end
             d.EncoderAngles = scanData.PanEncoderAngles(keep);
             d.S11 = scanData.S11(keep,:); d.S21 = scanData.S21(keep,:);
             d.SelectedS21_dB = scanData.SelectedS21_dB(keep);

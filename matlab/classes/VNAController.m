@@ -239,6 +239,25 @@ classdef VNAController < handle
             sweep = obj.acquireSweep(startHz, stopHz, points);
         end
 
+        function sweep = acquireMovingSweep(obj,positionCallback)
+            obj.ensureConnected();
+            if strcmpi(obj.Mode,'Mock')
+                before=positionCallback();
+                sweep=obj.acquireSingle();
+                sweep.MotionAfter=positionCallback(); sweep.MotionBefore=before;
+            elseif strcmpi(obj.Mode,'ShockLine')
+                try
+                    sweep=obj.ShockLine.acquireSingle(positionCallback);
+                    obj.MeasurementMetadata=sweep.InstrumentMetadata;
+                    obj.MeasurementMetadata.AcquisitionSource=sweep.AcquisitionSource;
+                catch ME
+                    obj.IsConnected=obj.ShockLine.IsConnected; rethrow(ME);
+                end
+            else
+                error('VNAController:ContinuousMode','Moving acquisition requires ShockLine.');
+            end
+        end
+
         function sweep = readSnapshot(obj,allowHold)
             obj.ensureConnected();
             if nargin<2, allowHold=false; end

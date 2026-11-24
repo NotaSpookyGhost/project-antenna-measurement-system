@@ -1,5 +1,17 @@
 classdef TestShockLine < matlab.unittest.TestCase
     methods (Test)
+        function movingAnglesAreCapturedBeforeTraceDownloads(t)
+            [client,wire]=TestShockLine.instrument();
+            wire.Replies('*OPC?')=sprintf('1\n');
+            client.connect('unused:59999');
+            sweep=client.acquireSingle(@()struct('CommandCount',numel(wire.Commands)));
+            first=sweep.MotionBefore.CommandCount;
+            last=sweep.MotionAfter.CommandCount;
+            t.verifyEqual(wire.Commands{first+1},':TRIG:SING');
+            t.verifyEqual(wire.Commands{last},'*OPC?');
+            traces=find(contains(string(wire.Commands),':DATA:SDAT?'));
+            t.verifyTrue(all(traces>last));
+        end
         function centerSpanRoundtripDoesNotRejectCalibratedEdge(t)
             [client,wire]=TestShockLine.instrument();
             wire.Replies(':SENS1:FREQ:STAR?')=sprintf('54045403.39804339\n');

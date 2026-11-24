@@ -131,13 +131,22 @@ classdef ShockLineClient < handle
                 obj.disconnect(); rethrow(ME);
             end
         end
-        function sweep = acquireSingle(obj)
+        function sweep = acquireSingle(obj,positionCallback)
             obj.hold();
             try
+                moving=nargin>1 && ~isempty(positionCallback);
+                if moving, before=positionCallback(); end
                 % The documented single-trigger command blocks the parser until sweep end.
                 obj.IO.send(':TRIG:SING');
+                if moving
+                    if obj.scalar('*OPC?')~=1
+                        error('ShockLine:SweepIncomplete','VNA did not confirm sweep completion.');
+                    end
+                    after=positionCallback();
+                end
                 sweep=obj.snapshot();
                 sweep.AcquisitionSource='FreshSingleSweep';
+                if moving, sweep.MotionBefore=before; sweep.MotionAfter=after; end
             catch ME
                 obj.disconnect(); rethrow(ME);
             end

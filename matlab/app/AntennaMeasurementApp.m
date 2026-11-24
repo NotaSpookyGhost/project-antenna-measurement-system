@@ -28,6 +28,7 @@ classdef AntennaMeasurementApp < handle
         VNAPortEdit
         VNAConnectBtn
         ShockLineModeBtn
+        ScanModeDropdown
         RFBusy logical = false
         RFSnapshotBtn
         RFFreshBtn
@@ -242,11 +243,15 @@ classdef AntennaMeasurementApp < handle
                 else
                     count=floor(abs(stop_ang-start_ang)/step_ang)+1;
                 end
-                message=sprintf(['Scan %s: %d positions, one fresh sweep per position.\n' ...
+                acquisition='Dừng đo từng điểm';
+                if obj.ScanModeDropdown.Value==2
+                    acquisition='Quét liên tục trục đã chọn, đo RF trong lúc quay';
+                end
+                message=sprintf(['%s\nScan %s: %d positions, one fresh sweep per position.\n' ...
                     'VNA %.9g to %.9g MHz, %d points.\n' ...
                     'Set band/points, HOLD and single triggers; positioner mode: %s.\n' ...
                     'Motor movement follows declared scan geometry and manual ZERO. Continue?'], ...
-                    scan_axis,count,center_mhz-span_mhz/2,center_mhz+span_mhz/2,pts,obj.Positioner.Mode);
+                    acquisition,scan_axis,count,center_mhz-span_mhz/2,center_mhz+span_mhz/2,pts,obj.Positioner.Mode);
                 if ~strcmp(questdlg(message,'Approve complete scan','Proceed','Cancel','Cancel'),'Proceed'), return; end
             end
 
@@ -283,6 +288,10 @@ classdef AntennaMeasurementApp < handle
                                                center_mhz * 1e6, span_mhz * 1e6, pts);
             obj.Orchestrator.Axis = scan_axis;
             obj.Orchestrator.Scan3DConfig = obj.Scan3DConfig;
+            obj.Orchestrator.AcquisitionMode='Stepwise';
+            if strcmpi(obj.VNA.Mode,'ShockLine') && obj.ScanModeDropdown.Value==2
+                obj.Orchestrator.AcquisitionMode='Continuous';
+            end
             obj.Orchestrator.SettleTimeSec = settle_s;
 
             % Set up Real-time Step Callback
@@ -304,6 +313,7 @@ classdef AntennaMeasurementApp < handle
             % Update UI State
             obj.StartScanBtn.Enable = 'off';
             obj.PauseBtn.Enable = 'on';
+            if strcmp(obj.Orchestrator.AcquisitionMode,'Continuous'), obj.PauseBtn.Enable='off'; end
             obj.PauseBtn.String = 'Pause';
             obj.StopBtn.Enable = 'on';
             obj.StopBtn.String = 'STOP';
@@ -532,6 +542,10 @@ classdef AntennaMeasurementApp < handle
                       'Position', [10, 410, 120, 20], 'HorizontalAlignment', 'left', 'BackgroundColor', 'w');
             obj.SweepPointsEdit = uicontrol(ctrlPanel, 'Style', 'edit', 'String', '11', ...
                                             'Position', [140, 410, 80, 22]);
+            obj.ScanModeDropdown=uicontrol(ctrlPanel,'Style','popupmenu', ...
+                'Position',[225 408 125 25],'String',{'Dừng đo từng điểm','Quét liên tục'}, ...
+                'Visible','off','Value',1, ...
+                'TooltipString','MS46122B: quay liên tục trục AZ hoặc Tilt; 3D quay Pan theo từng hàng Tilt.');
 
             % 4. Angular Scan Parameters
             uicontrol(ctrlPanel, 'Style', 'text', 'String', 'Scan Axis:', ...
@@ -744,7 +758,9 @@ classdef AntennaMeasurementApp < handle
                     obj.LiveAngles=[]; obj.LiveS21_dB=[]; obj.LiveTiltRow=info.RowIndex;
                 end
             end
-            obj.LiveAngles(end+1) = info.CommandedAngle;
+            angle=info.CommandedAngle;
+            if strcmp(obj.Orchestrator.AcquisitionMode,'Continuous'), angle=info.MeasuredAngle; end
+            obj.LiveAngles(end+1) = angle;
             obj.LiveS21_dB(end+1) = info.S21_dB_Center;
 
             norm_s21 = PatternAnalyzer.normalize(obj.LiveS21_dB);
@@ -941,6 +957,10 @@ classdef AntennaMeasurementApp < handle
 
         function handleScanAxisChange(obj)
             if isempty(obj.AxisDropdown) || ~isgraphics(obj.AxisDropdown), return; end
+            obj.ScanModeDropdown.Visible='off';
+            if strcmpi(obj.VNA.Mode,'ShockLine')
+                obj.ScanModeDropdown.Visible='on';
+            end
             c=obj.Scan3DConfig; p=ScanGeometry.buildPlan(c);
             obj.Scan3DPreviewLabel.String=sprintf('3D: %d hàng Tilt × %d Pan = %d điểm\nZERO hình học: Tilt %.1f°, Pan %.1f°; đổi tại 3D / ZERO', ...
                 numel(p.TiltVector),numel(p.PanVector),numel(p.PanMotorDeg),c.TiltAtZeroDeg,c.PanAtZeroDeg);
@@ -953,7 +973,7 @@ classdef AntennaMeasurementApp < handle
         end
 
         function setScanInputsEnabled(obj,enabled)
-            controls=[obj.ShockLineModeBtn obj.RFSnapshotBtn obj.RFFreshBtn obj.RFSaveBtn obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
+            controls=[obj.ScanModeDropdown obj.ShockLineModeBtn obj.RFSnapshotBtn obj.RFFreshBtn obj.RFSaveBtn obj.Scan3DSettingsBtn obj.AxisDropdown obj.VNAModeDropdown obj.PosModeDropdown ...
                 obj.VNAPortEdit obj.PosPortEdit obj.VNAConnectBtn obj.PosConnectBtn ...
                 obj.CenterFreqEdit obj.SpanEdit obj.SweepPointsEdit obj.SettleTimeEdit obj.MotorRampBtn ...
                 obj.StartAngleEdit obj.StopAngleEdit obj.StepAngleEdit obj.SliceDropdown];
@@ -1042,7 +1062,8 @@ classdef AntennaMeasurementApp < handle
         function recordLive3D(obj,info)
             if isempty(fieldnames(obj.Live3DData))
                 obj.Live3DData=struct('Metadata',struct('Scan3DConfig',obj.Orchestrator.Scan3DConfig, ...
-                    'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode), ...
+                    'VNAMode',obj.VNA.Mode,'PositionerMode',obj.Positioner.Mode, ...
+                    'AcquisitionMode',obj.Orchestrator.AcquisitionMode), ...
                     'PanAngles',[],'TiltAngles',[],'ThetaDeg',[],'PhiDeg',[], ...
                     'RowIndex',[],'SelectedS21_dB',[],'NormalizedS21_dB',[]);
             end
@@ -1109,6 +1130,7 @@ classdef AntennaMeasurementApp < handle
             end
             obj.log(['VNA mode: ' obj.VNA.Mode]);
             obj.updateConnectionStatus();
+            obj.handleScanAxisChange();
         end
 
         function measureRF(obj,fresh)
