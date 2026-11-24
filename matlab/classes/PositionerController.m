@@ -47,6 +47,7 @@ classdef PositionerController < handle
         TravelPanDeg double = [0 360]
         TravelTiltDeg double = [-5 95]
         TravelConfirmed logical = false
+        FreeRotationSupported logical = false % Firmware allows either axis +/-360 without declared travel.
 
         % Motion parameters
         AzimuthDeg double = 0.0        % Current Azimuth / Pan angle (deg)
@@ -65,14 +66,26 @@ classdef PositionerController < handle
         RampConfigSupported logical = false
         PanRampSteps double = 150
         TiltRampSteps double = 100
+        ContinuousPanSupported logical = false
+        ContinuousTiltSupported logical = false
     end
 
     properties (Access = private)
         SerialObj = []
+        SerialFactory
         GearRatio double = 90.0 / 16.0 % 5.625 (16:90 GT2)
         AbortRequested logical = false
         CommandInFlight logical = false
         KeepAliveTimer = []
+        ContinuousActive logical = false
+        ContinuousBuffer char = ''
+        ContinuousClock
+        ContinuousTarget double
+        ContinuousStart double
+        ContinuousPose struct = struct()
+        ContinuousTracker
+        ContinuousHeartbeat double = 0
+        ContinuousAxis char = 'AZ'
     end
 
     events
@@ -90,6 +103,7 @@ classdef PositionerController < handle
             addParameter(p, 'BaudRate', 115200, @isnumeric);
             addParameter(p, 'SettleTime', 0.2, @isnumeric);
             addParameter(p, 'TiltDisabled', true, @islogical);
+            addParameter(p, 'SerialFactory', [], @(x)isempty(x)||isa(x,'function_handle'));
             parse(p, varargin{:});
 
             obj.Mode = char(p.Results.Mode);
@@ -97,6 +111,7 @@ classdef PositionerController < handle
             obj.BaudRate = p.Results.BaudRate;
             obj.SettleTimeSec = p.Results.SettleTime;
             obj.TiltDisabled = p.Results.TiltDisabled;
+            obj.SerialFactory=p.Results.SerialFactory;
             obj.RampConfigSupported = strcmpi(obj.Mode,'Mock');
         end
 
@@ -165,7 +180,7 @@ classdef PositionerController < handle
             else
                 error('PositionerController:InvalidTarget','Unknown positioner axis.');
             end
-            limits=obj.effectiveTravelLimits(axis,cap,travel,obj.TravelConfirmed,strcmpi(obj.Mode,'Hardware'));
+            limits=obj.effectiveTravelLimits(axis,cap,travel,obj.TravelConfirmed,strcmpi(obj.Mode,'Hardware'),obj.FreeRotationSupported);
             if isempty(angles) || ~isnumeric(angles) || any(~isfinite(angles(:))) || ...
                     any(angles(:)<limits(1) | angles(:)>limits(2))
                 error('PositionerController:AngleOutOfRange','Targets must be inside %.1f..%.1f deg.',limits(1),limits(2));
@@ -179,6 +194,8 @@ classdef PositionerController < handle
             end
 
             if strcmpi(obj.Mode, 'Mock')
+                obj.ContinuousPanSupported=true;
+                obj.ContinuousTiltSupported=true;
                 obj.Scan3DSupported=true; obj.PanLimitsDeg=[-360 360]; obj.TiltLimitsDeg=[-180 180];
                 obj.TravelConfirmed=false;
                 obj.IsConnected = true;
@@ -195,8 +212,12 @@ classdef PositionerController < handle
 
             % Hardware mode via MATLAB serialport
             try
-                obj.SerialObj = serialport(obj.Port, obj.BaudRate, 'Timeout', obj.Timeout);
-                pause(1.5); % Wait for ESP32 boot & banner initialization
+                if isempty(obj.SerialFactory)
+                    obj.SerialObj = serialport(obj.Port, obj.BaudRate, 'Timeout', obj.Timeout);
+                    pause(1.5); % Wait for ESP32 boot & banner initialization
+                else
+                    obj.SerialObj=obj.SerialFactory();
+                end
                 
                 % Consume boot log from buffer
                 obj.readAvailable();
@@ -258,6 +279,9 @@ classdef PositionerController < handle
             obj.ManualHomingActive = false;
             obj.HoldingSupported = false;
             obj.IsHomed = false;
+            obj.ContinuousActive=false;
+            obj.ContinuousPanSupported=false;
+            obj.ContinuousTiltSupported=false;
             obj.RampConfigSupported = strcmpi(obj.Mode,'Mock');
         end
 
@@ -589,6 +613,151 @@ classdef PositionerController < handle
             end
         end
 
+        function beginContinuousPan(obj,target)
+            obj.beginContinuousAxis('AZ',target);
+        end
+
+        function beginContinuousAxis(obj,axis,target)
+            obj.ensureConnected();
+            axis=validatestring(upper(char(axis)),{'AZ','EL','PAN','TILT'});
+            if strcmp(axis,'PAN'), axis='AZ'; end
+            if strcmp(axis,'TILT'), axis='EL'; end
+            obj.validateTargets(axis,target);
+            isTilt=strcmp(axis,'EL');
+            if (isTilt && ~obj.ContinuousTiltSupported) || (~isTilt && ~obj.ContinuousPanSupported)
+                error('PositionerController:ContinuousUnsupported', ...
+                    'Upload the continuous-scan firmware before selecting continuous motion.');
+            end
+            if isTilt && obj.TiltDisabled
+                error('MeasurementOrchestrator:TiltDisabled','Enable verified Tilt before continuous motion.');
+            end
+            if obj.IsMoving || obj.CommandInFlight || ~obj.IsHomed || ~obj.HoldingActive
+                error('PositionerController:ContinuousNotReady','Continuous motion requires idle, HOLD and manual ZERO.');
+            end
+            start=obj.AzimuthDeg; fixedEncoder=obj.ElevationEncoderDeg; command='PANSCAN';
+            if isTilt
+                start=obj.ElevationDeg; fixedEncoder=obj.AzimuthEncoderDeg; command='TILTSCAN';
+            end
+            if abs(target-start)<0.04
+                error('PositionerController:ContinuousRange','A continuous Pan row needs distinct endpoints.');
+            end
+            obj.ContinuousAxis=axis; obj.ContinuousStart=start; obj.ContinuousTarget=target;
+            obj.ContinuousTracker=ContinuousPanTracker(obj.AzimuthDeg,obj.ElevationDeg,fixedEncoder,obj.GearRatio,axis);
+            obj.ContinuousPose=struct(); obj.ContinuousBuffer='';
+            obj.ContinuousClock=tic; obj.ContinuousHeartbeat=0;
+            obj.AbortRequested=false;
+            if strcmpi(obj.Mode,'Hardware'), obj.sendCommand(sprintf('%s %.2f',command,target)); end
+            obj.IsMoving=true; obj.ContinuousActive=true;
+        end
+
+        function pose=pollContinuousPan(obj)
+            if ~obj.ContinuousActive
+                error('PositionerController:ContinuousInactive','No continuous Pan transaction.');
+            end
+            if strcmpi(obj.Mode,'Mock')
+                distance=obj.ContinuousTarget-obj.ContinuousStart;
+                progress=min(abs(distance),toc(obj.ContinuousClock)*obj.SpeedDegPerSec);
+                if strcmp(obj.ContinuousAxis,'AZ')
+                    obj.AzimuthDeg=obj.ContinuousStart+sign(distance)*progress;
+                    obj.AzimuthEncoderDeg=mod(180+obj.AzimuthDeg*obj.GearRatio,360);
+                else
+                    obj.ElevationDeg=obj.ContinuousStart+sign(distance)*progress;
+                    obj.ElevationEncoderDeg=mod(180+obj.ElevationDeg*obj.GearRatio,360);
+                end
+                obj.IsMoving=progress<abs(distance) && ~obj.AbortRequested;
+                pose=struct('PanDeg',obj.AzimuthDeg,'TiltDeg',obj.ElevationDeg, ...
+                    'PanEncoderDeg',obj.AzimuthEncoderDeg,'TiltEncoderDeg',obj.ElevationEncoderDeg, ...
+                    'DeviceTimeMs',toc(obj.ContinuousClock)*1000);
+                obj.ContinuousPose=pose; return;
+            end
+            started=tic; received=false;
+            while obj.IsMoving && (~received || isempty(fieldnames(obj.ContinuousPose)) || obj.SerialObj.NumBytesAvailable>0)
+                elapsed=toc(obj.ContinuousClock);
+                if elapsed-obj.ContinuousHeartbeat>=5
+                    writeline(obj.SerialObj,'KEEPALIVE'); obj.ContinuousHeartbeat=elapsed;
+                end
+                if elapsed>obj.moveTimeoutSec(obj.ContinuousAxis,abs(obj.ContinuousTarget-obj.ContinuousStart))
+                    obj.requestAbort();
+                    error('PositionerController:MoveTimeout','Continuous Pan completion was not confirmed.');
+                end
+                obj.ContinuousBuffer=[obj.ContinuousBuffer char(obj.readAvailable())];
+                newlineAt=find(obj.ContinuousBuffer==newline,1);
+                while ~isempty(newlineAt)
+                    line=obj.ContinuousBuffer(1:newlineAt);
+                    obj.ContinuousBuffer=obj.ContinuousBuffer(newlineAt+1:end);
+                    frame=regexp(line,'^SCAN (\d+) (\d+) (.*)','tokens','once');
+                    if ~isempty(frame)
+                        p=obj.decodePositionResponse(frame{3});
+                        obj.ContinuousPose=obj.ContinuousTracker.update(str2double(frame{1}), ...
+                            p.PanDeg,p.TiltDeg,p.PanEncoderDeg,p.TiltEncoderDeg);
+                        obj.ContinuousPose.DeviceTimeMs=str2double(frame{2});
+                        received=true;
+                        if ~contains(line,'HOLD:1') || contains(line,'CAL_REQUIRED:1')
+                            error('PositionerController:HoldLost','Continuous motion lost HOLD or mechanical ZERO.');
+                        end
+                    end
+                    if contains(line,'ABORTED') || contains(line,'ERR:')
+                        obj.IsHomed=false;
+                        obj.AbortRequested=true;
+                    end
+                    if contains(line,'ESP32-ANTENNA>')
+                        obj.IsMoving=false; obj.finishCommand();
+                    end
+                    newlineAt=find(obj.ContinuousBuffer==newline,1);
+                end
+                if contains(obj.ContinuousBuffer,'ESP32-ANTENNA>')
+                    obj.IsMoving=false; obj.finishCommand(); obj.ContinuousBuffer='';
+                end
+                if toc(started)>1 && ~received && obj.IsMoving
+                    error('PositionerController:EncoderUnavailable','No fresh continuous encoder telemetry for one second.');
+                end
+                if ~received && obj.IsMoving, pause(0.01); end
+            end
+            if obj.AbortRequested
+                obj.IsHomed=false;
+                error('PositionerController:Aborted','Continuous Pan stopped; set manual ZERO again.');
+            end
+            if isempty(fieldnames(obj.ContinuousPose))
+                error('PositionerController:EncoderUnavailable','Continuous Pan returned no encoder samples.');
+            end
+            pose=obj.ContinuousPose;
+            obj.AzimuthDeg=pose.PanDeg; obj.ElevationDeg=pose.TiltDeg;
+            obj.AzimuthEncoderDeg=pose.PanEncoderDeg; obj.ElevationEncoderDeg=pose.TiltEncoderDeg;
+        end
+
+        function endContinuousPan(obj,stopMotion)
+            if nargin<2, stopMotion=true; end
+            if ~obj.ContinuousActive, return; end
+            stopping=obj.IsMoving && stopMotion;
+            if stopping, obj.requestAbort(); end
+            if strcmpi(obj.Mode,'Hardware')
+                if stopping
+                    % Drain the command even if its encoder frames caused the scan fault.
+                    try
+                        obj.waitForPrompt(3);
+                    catch ME
+                        if ~strcmp(ME.identifier,'PositionerController:Aborted'), rethrow(ME); end
+                    end
+                    obj.IsMoving=false;
+                end
+                deadline=tic;
+                while obj.IsMoving && toc(deadline)<3
+                    try
+                        obj.pollContinuousPan();
+                    catch ME
+                        if ~strcmp(ME.identifier,'PositionerController:Aborted'), rethrow(ME); end
+                    end
+                end
+                if obj.IsMoving
+                    error('PositionerController:AbortUnconfirmed','Continuous STOP completion is unconfirmed.');
+                end
+                obj.finishCommand();
+                obj.queryPositionInternal();
+            end
+            obj.ContinuousActive=false; obj.ContinuousTracker=[];
+            obj.AbortRequested=false;
+        end
+
         function requestAbort(obj)
             % REQUESTABORT Signals the positioner to cancel current motion wait
             waiting = obj.IsMoving || obj.CommandInFlight;
@@ -639,8 +808,9 @@ classdef PositionerController < handle
             end
         end
 
-        function limits=effectiveTravelLimits(axis,capability,travel,confirmed,isHardware)
+        function limits=effectiveTravelLimits(axis,capability,travel,confirmed,isHardware,freeRotation)
             limits=capability;
+            if nargin>=6 && freeRotation, return; end
             if confirmed
                 limits=[max(limits(1),travel(1)) min(limits(2),travel(2))];
             elseif isHardware
@@ -697,11 +867,12 @@ classdef PositionerController < handle
                     error('PositionerController:InvalidPositionResponse','Incomplete 3D travel capabilities.');
                 end
                 b=str2double(bounds);
-                if any(~isfinite(b)) || b(1)>b(2) || b(3)>b(4) || b(1)<-360 || b(2)>360 || b(3)<-180 || b(4)>180
+                if any(~isfinite(b)) || b(1)>b(2) || b(3)>b(4) || b(1)<-360 || b(2)>360 || b(3)<-360 || b(4)>360
                     error('PositionerController:InvalidPositionResponse','Invalid 3D travel capabilities.');
                 end
                 position.PanLimitsDeg=b(1:2); position.TiltLimitsDeg=b(3:4);
             end
+            position.FreeRotationSupported = contains(resp,'FREE360_CAP:1');
             position.EncoderTelemetrySupported = contains(resp, 'ENC_PAN_VALID:') && ...
                 contains(resp, 'ENC_TILT_VALID:');
             if position.EncoderTelemetrySupported
@@ -796,6 +967,9 @@ classdef PositionerController < handle
             end
             position = PositionerController.decodePositionResponse(resp);
             obj.Scan3DSupported=position.Scan3DSupported;
+            obj.FreeRotationSupported=position.FreeRotationSupported;
+            obj.ContinuousPanSupported=contains(resp,'CONT_PAN_CAP:1');
+            obj.ContinuousTiltSupported=contains(resp,'CONT_TILT_CAP:1');
             obj.RampConfigSupported=position.RampConfigSupported;
             if position.RampConfigSupported
                 obj.PanRampSteps=position.PanRampSteps;
