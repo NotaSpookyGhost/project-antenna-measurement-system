@@ -64,6 +64,71 @@ nhánh Keep HOLD cần chủ động đặt HOLD từ CONT; nhánh này có regr
 
 ## Scan anten
 
+### Chọn cách quét AZ, Tilt và 3D
+
+Bản `V4.0_HOLD_CONTINUOUS_AXES` đã được nạp và kiểm tra hash trên ESP32 COM4
+ngày 2026-11-20. Truy vấn POS xác nhận cả hai capability, cả hai encoder hợp
+lệ, HOLD=0 và CAL_REQUIRED=1. Bản sao flash 4 MB trước khi nạp được lưu tại
+`../setup-logs/esp32-COM4-before-axes-20261120.bin`. Kiểm tra sau nạp dùng POS,
+chưa chạy quét RF khi bàn xoay chuyển động.
+
+Chọn **Anritsu ShockLine**, rồi chọn **Azimuth (AZ)**, **Elevation (EL)** hoặc
+**3D Pan × Tilt**. Menu bên cạnh **Points** có
+hai lựa chọn **Dừng đo từng điểm** và **Quét liên tục**. Mặc định là dừng từng
+điểm. AZ/EL dùng Start, Stop, Angle Step của màn hình chính. Thông số 3D
+và hành trình được đặt trong **3D / ZERO**.
+
+Ở chế độ AZ hoặc EL liên tục, app đo tại góc đầu rồi quay trục đã chọn suốt
+lượt quét và lấy mẫu khi đang quay. Trục còn lại giữ nguyên góc. CSV/MAT
+lưu góc lệnh, góc đo và góc đầu/cuối sweep. Chế độ 3D đo điểm đầu hàng khi
+bàn xoay đã ổn định, sau đó cho
+Pan quay tới cuối hàng bằng một lệnh. Các sweep S11/S21 mới được thu trong
+lúc Pan đang quay. Tilt đổi giữa các hàng. Cấu hình Pan luân phiên vẫn áp dụng.
+Mỗi sweep tần số được kích riêng để đọc S11/S21 cùng một sweep hoàn chỉnh.
+
+Firmware `firmware/positioner_v3_hold` phiên bản `V4.0_HOLD_CONTINUOUS_AXES` cần
+được nạp vào ESP32. Firmware trả capability `CONT_PAN_CAP:1`, `CONT_TILT_CAP:1`
+và telemetry encoder hai trục mỗi khoảng 100 ms khi chạy `PANSCAN` hoặc
+`TILTSCAN`. Sau khi nạp, kết nối
+lại, đặt **Khóa + ZERO** và xác nhận hành trình cơ khí trong **3D / ZERO**.
+App kiểm tra capability trước khi bắt đầu hàng quét liên tục.
+PlatformIO được pin ở Espressif32 7.1.3 theo môi trường build đã kiểm tra.
+Từ root `clonetest`, build bằng `pio run -d firmware/positioner_v3_hold`.
+Khi đã kết nối ESP32, nạp bằng `pio run -d firmware/positioner_v3_hold -t upload --upload-port COMx`,
+thay `COMx` bằng cổng thực tế của bàn xoay.
+
+CSV và MAT lưu góc Pan encoder đầu/cuối mỗi sweep, thời gian bắt đầu/kết thúc
+và góc giữa sweep. Góc Pan được giải cuộn encoder phía motor theo tỉ số
+90/16, neo tại góc đầu hàng. Chiều encoder được suy ra từ chuyển động đầu
+hàng. `PanAngles` và `ColumnIndex` giữ lưới dự định, còn `MeasuredPanAngles`
+và `PhiDeg` mô tả vị trí gán cho sweep. Đồ thị mặt 3D gom mẫu vào ô lưới dự
+định, và lát cắt dùng góc đo thực.
+
+Luồng encoder/I2C/UART chạy trên tác vụ core 0, trong khi core 1 tạo STEP.
+Góc RF được chốt trước trigger và sau phản hồi `*OPC?`, trước khi tải trace.
+Khoảng góc này còn bao gồm độ trễ đồng bộ TCP và độ phân giải telemetry
+100 ms. Mỗi sweep tần số chứa nhiều thời điểm đo RF trong khoảng góc đó.
+Các cột `encoder_start_device_ms` và `encoder_end_device_ms` giữ thời gian
+uptime ESP32 của mẫu encoder. Đồng hồ này độc lập với thời gian host của
+sweep, và để trống tại điểm đứng yên đầu hàng. Trong Mock, đồng hồ encoder
+tính tương đối từ đầu hàng.
+
+Một sweep RF có thể phủ một khoảng góc khi anten quay. Bước góc là khoảng
+lấy mẫu mong muốn. Khi VNA chậm hơn nhịp này, app tiếp tục quét, bỏ qua các
+mốc đã đi qua và lưu góc encoder thực cùng góc đầu/cuối mỗi sweep. App báo
+mẫu thưa hơn bước đã chọn và ghi `ResolutionLimited` trong metadata. Điểm
+cuối mỗi lượt được đo một lần, các ô lưới chưa có dữ liệu giữ trống.
+Nếu cần đo tại từng góc đứng yên cách nhau đúng bước đã nhập, chọn
+**Dừng đo từng điểm**. Giảm thời gian sweep trên VNA cũng giúp tăng mật độ mẫu.
+STOP dừng Pan và giữ motor. Sau khi ngắt chuyển động cần đặt lại ZERO.
+Trong chế độ liên tục, dùng STOP để dừng lượt quét. Pause dành cho chế độ
+dừng từng điểm.
+
+Kiểm thử phần mềm gồm `matlab/tests/TestContinuousScan.m` và native test
+`firmware/positioner_v3_hold/test/native/test_continuous.cpp`. Chế độ này cần
+được kiểm tra trên bàn xoay và MS46122B thực tế để xác định độ chính xác góc
+và thời gian sweep phù hợp với cấu hình RF đang dùng.
+
 Đặt center/span/points và geometry như trước, xác nhận toàn bộ lượt scan trước
 khi app kết nối motor hoặc cấu hình VNA. Chế độ motor Mock vẫn là mô phỏng góc,
 không được dùng kết quả đó làm búp sóng anten đo thật. Scan thật cần mechanical

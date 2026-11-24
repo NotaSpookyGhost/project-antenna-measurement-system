@@ -1,0 +1,24 @@
+{
+  "version": "V4.0_HOLD_FREE360",
+  "packaged_date": "2026-11-24",
+  "board": "esp32doit-devkit-v1",
+  "chip": "esp32",
+  "flash_size": "4MB",
+  "flash_mode": "dio",
+  "flash_frequency": "40m",
+  "merged_flash_offset": "0x0",
+  "application_flash_offset": "0x10000",
+  "source_sha256": "6042342e439a1cf8ff4877a9e4eb745ffbe097c815b920ca7bbcf983862a5c13",
+  "files": [
+    {
+      "file": "firmware.bin",
+      "size": 305104,
+      "sha256": "65e51a299253ed01695f04dd9fa8942a210e4409a107bb7d62795a2775859a33"
+    },
+    {
+      "file": "esp32-free360-merged.bin",
+      "size": 370640,
+      "sha256": "12f84f466b6403a8c137eeeb435507d13b9d44566140c27218ee9d8b1827daa5"
+    }
+  ]
+}
